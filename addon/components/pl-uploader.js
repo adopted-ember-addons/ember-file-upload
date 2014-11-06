@@ -1,5 +1,4 @@
 import Ember from "ember";
-import ENV from "../config/environment";
 
 var get = Ember.get;
 var set = Ember.set;
@@ -106,8 +105,8 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
           context:             get(this, 'data'),
           browse_button:       get(this, 'for'),
           url:                 get(this, 'action'),
-          flash_swf_url:       ENV.PLUPLOAD_BASE_URL + 'Moxie.swf',
-          silverlight_xap_url: ENV.PLUPLOAD_BASE_URL + 'Moxie.xap',
+          flash_swf_url:       this.BASE_URL + 'Moxie.swf',
+          silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
           filters: {},
           multipart_params: {},
           headers: {
