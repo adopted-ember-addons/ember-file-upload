@@ -12,11 +12,69 @@ For example:
 {{/pl-uploader}}
 ```
 
+## Integration
+
+If your application isn't being served from the root, you will need to change BASE_URL in your application config.
+
+The addon emits events when files are queued, uploaded, and failure. You may configure these per component by setting `onQueued`, `onUpload`, and `onError`. These actions default to `fileQueued`, `fileUploaded`, and `fileUploadFailed`.
+
+To handle these events, simply implement the action on the route of your choosing. Since these events may be triggered in *any* route, it is recommended that you put these actions on a root route (eg. ApplicationRoute).
+
+```javascript
+import Ember from "ember";
+
+var get = Ember.get;
+var set = Ember.set;
+
+var ApplicationRoute = Ember.Route.extend({
+
+  actions: {
+    fileQueued: function (evt) {
+      var context = evt.context;
+      var store = this.store;
+      var file = evt.file;
+
+      var document = store.createRecord('document', {
+        filename: get(file, 'name'),
+        filesize: get(file, 'file.size')
+      });
+
+      // Setting the file on the record allows observation
+      // of file upload progress on the file
+      set(document, 'file', file);
+
+      set(file, 'promise', document.save());
+    },
+
+    fileUploaded: function (evt) {
+      var file = evt.file;
+      get(file, 'promise').then(function (document) {
+        set(document, 'remoteUrl', evt.headers.Location);
+        return document.save();
+      }).then(function (document) {
+        set(document, 'file', null);
+      });
+    },
+
+    fileUploadFailed: function (evt) {
+      var file = evt.file;
+      get(file, 'promise').then(function (document) {
+        set(document, 'file', null);
+        document.deleteRecord();
+        return document.save();
+      });
+    }
+  }
+
+});
+
+export default ApplicationRoute;
+```
+
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+* `npm install --save-dev ember-plupload`
+* `ember g ember-plupload`
 
 ## Running
 
