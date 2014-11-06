@@ -1,0 +1,7 @@
+.pl-uploader {
+  position: relative;
+}
+
+.drag-over * {
+  pointer-events: none;
+}
