@@ -87,9 +87,7 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
     }
   },
 
-  dropTargetId: function () {
-    return get(this, 'elementId');
-  }.property('elementId'),
+  dropTargetId: reads('elementId'),
 
   attachUploader: function () {
     if (get(this, 'action') == null || get(this, '_manager')) {
@@ -114,7 +112,7 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
           }
         };
 
-    if (isDragAndDropSupported) {
+    if (get(this, 'isDragAndDropSupported')) {
       config.drop_element = get(this, 'dropTargetId');
     }
     config.container = get(this, 'elementId');
