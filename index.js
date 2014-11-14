@@ -12,5 +12,7 @@ module.exports = {
     app.import('bower_components/plupload/js/Moxie.xap', {
       destDir: 'assets'
     });
+
+    app.import('vendor/styles/ember-plupload.css');
   }
 };
