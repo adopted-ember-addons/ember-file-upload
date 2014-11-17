@@ -20,9 +20,9 @@ The `{{pl-uploader}}` component exposes a variety of parameters available to plu
 | Attribute       | Definition
 |-----------------|------------------|
 | `action`        | the URL to send the upload request to
-| `extensions`    | a space separated list of extensions to allow users to pick from
+| `extensions`    | a space-separated list of extensions to allow users to pick from
 | `params`        | multipart params to send along with the upload
-| `max-file-size` | the max size of the file to allow users to upload
+| `max-file-size` | the maximum size of the file to allow users to upload
 | `no-duplicates` | disallow duplicated files (determined by matching the file's name and size)
 | `chunk-size`    | the chunk size to split the file into when sending to the server
 
