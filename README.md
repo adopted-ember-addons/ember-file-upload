@@ -20,6 +20,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | Attribute       | Definition
 |-----------------|------------------|
 | `action`        | the URL to send the upload request to
+| `for`           | the ID of the browse button
 | `extensions`    | a space-separated list of allowed file extensions
 | `params`        | multipart params to send along with the upload
 | `max-file-size` | the maximum size of file uploads
