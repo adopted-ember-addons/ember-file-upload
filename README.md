@@ -12,11 +12,26 @@ For example:
 {{/pl-uploader}}
 ```
 
+## Configuration
+
+The `{{pl-uploader}}` component exposes a variety of parameters available to plupload itself. The public fields are:
+
+
+| Attribute       | Definition
+|-----------------|------------------|
+| `action`        | the URL to send the upload request to
+| `extensions`    | a space separated list of extensions to allow users to pick from
+| `params`        | multipart params to send along with the upload
+| `max-file-size` | the max size of the file to allow users to upload
+| `no-duplicates` | disallow duplicated files (determined by matching the file's name and size)
+| `chunk-size`    | the chunk size to split the file into when sending to the server
+
+
 ## Integration
 
-If your application isn't being served from the root, you will need to change BASE_URL in your application config.
+If your application doesn't use an assets folder, or serves assets from a different domain, you will need to add a PLUPLOAD_BASE_URL to your configuration file.
 
-The addon emits events when files are queued, uploaded, and failure. You may configure these per component by setting `onQueued`, `onUpload`, and `onError`. These actions default to `fileQueued`, `fileUploaded`, and `fileUploadFailed`.
+The addon emits events when files are queued, uploaded, and failure. You may configure these per component by setting `when-queued`, `when-uploaded`, and `when-failed`. These actions default to `fileQueued`, `fileUploaded`, and `fileUploadFailed`.
 
 To handle these events, simply implement the action on the route of your choosing. Since these events may be triggered in *any* route, it is recommended that you put these actions on a root route (eg. ApplicationRoute).
 

@@ -1,5 +1,7 @@
+/* globals plupload */
 import Ember from "ember";
 import File from "./file";
+import trim from "./trim";
 
 var get = Ember.get;
 var set = Ember.set;
@@ -143,8 +145,8 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
   fileUploaded: function (uploader, file, response) {
     var results = response;
 
-    if ($.trim(results.response)) {
-      results = $.parseJSON(results.response);
+    if (trim(results.response)) {
+      results = JSON.parse(results.response);
     }
 
     // NOTE: Plupload calls UploadProgress upon triggering FileUploaded,
@@ -158,7 +160,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
 
       var headers = response.responseHeaders.split('\n').without('').reduce(function (headers, header) {
         var parts = header.split(/^([A-Za-z_-]*:)/);
-        headers[parts[1].slice(0, -1)] = $.trim(parts[2]);
+        headers[parts[1].slice(0, -1)] = trim(parts[2]);
         return headers;
       }, {});
 

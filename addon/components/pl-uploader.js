@@ -1,4 +1,5 @@
 import Ember from "ember";
+import trim from "../system/trim";
 
 var get = Ember.get;
 var set = Ember.set;
@@ -7,7 +8,11 @@ var assert = Ember.assert;
 var merge = Ember.merge;
 var isDragAndDropSupported;
 var slice = Array.prototype.slice;
+
 var reads = Ember.computed.reads;
+var alias = Ember.computed.alias;
+
+var w = Ember.String.w;
 
 var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
@@ -19,18 +24,14 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
   name: null,
 
+  'when-queued': alias('onQueued'),
   onQueued: 'fileQueued',
 
+  'when-uploaded': alias('onUpload'),
   onUpload: 'fileUploaded',
 
+  'when-failed': alias('onError'),
   onError:  'fileUploadFailed',
-
-  isDragAndDropSupported: function () {
-    if (isDragAndDropSupported == null) {
-      isDragAndDropSupported = 'draggable' in document.createElement('span');
-    }
-    return isDragAndDropSupported;
-  }.property(),
 
   /**
     A cascading list of runtimes to fallback on to
@@ -46,16 +47,27 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
   params: null,
 
-  hasDragData: bool('dragData'),
-
-  /**
-    The maxiumum file size to handle.
-
-    @property maxSize
-    @type Number
-    @default null
-   */
+  "max-file-size": alias('maximumFileSize'),
   maxiumumFileSize: null,
+
+  "no-duplicates": alias('preventDuplicates'),
+  preventDuplicates: null,
+
+  "max-retries": alias('maxRetries'),
+  maxRetries: 0,
+
+  "chunk-size": alias('chunkSize'),
+  chunkSize: 0,
+
+
+  isDragAndDropSupported: function () {
+    if (isDragAndDropSupported == null) {
+      isDragAndDropSupported = 'draggable' in document.createElement('span');
+    }
+    return isDragAndDropSupported;
+  }.property(),
+
+  hasDragData: bool('dragData'),
 
   queued: reads('_manager.length'),
 
@@ -73,8 +85,8 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
     var extensions = get(this, 'extensions');
     if (extensions) {
-      if (extensions.w) {
-        extensions = extensions.w();
+      if (typeof extensions === 'string') {
+        extensions = w(extensions);
       }
 
       set(this, 'extensions', extensions.map(function (ext) {
@@ -94,23 +106,23 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
       return;
     }
 
-    var manager = get(this, 'fileUploadManager'),
-        config  = {
-          on_queued:           get(this, 'onQueued'),
-          on_upload:           get(this, 'onUpload'),
-          on_error:            get(this, 'onError'),
-          runtimes:            get(this, 'runtimes').join(','),
-          context:             get(this, 'data'),
-          browse_button:       get(this, 'for'),
-          url:                 get(this, 'action'),
-          flash_swf_url:       this.BASE_URL + 'Moxie.swf',
-          silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
-          filters: {},
-          multipart_params: {},
-          headers: {
-            Accept: 'application/json,text/javascript'
-          }
-        };
+    var manager = get(this, 'fileUploadManager');
+    var config  = {
+      on_queued:           get(this, 'onQueued'),
+      on_upload:           get(this, 'onUpload'),
+      on_error:            get(this, 'onError'),
+      runtimes:            get(this, 'runtimes').join(','),
+      context:             get(this, 'data'),
+      browse_button:       get(this, 'for'),
+      url:                 get(this, 'action'),
+      flash_swf_url:       this.BASE_URL + 'Moxie.swf',
+      silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
+      filters: {},
+      multipart_params: {},
+      headers: {
+        Accept: 'application/json,text/javascript'
+      }
+    };
 
     if (get(this, 'isDragAndDropSupported')) {
       config.drop_element = get(this, 'dropTargetId');
@@ -123,6 +135,11 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
     if (get(this, 'maximumFileSize')) {
       config.filters.max_file_size = get(this, 'maximumFileSize');
     }
+    if (get(this, 'preventDuplicates')) {
+      config.filters.preventDuplicates = true;
+    }
+    config.max_retries = get(this, 'maxRetries');
+    config.chunk_size = get(this, 'chunkSize');
 
     merge(config.multipart_params, get(this, 'params'));
     set(this, '_manager', manager.find(get(this, 'name'), config));
@@ -167,7 +184,7 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
     // Validate
     if (extensions.length) {
       return slice.call(get(data, 'items') || []).every(function (item) {
-        var fileType = $.trim(item.type).toLowerCase();
+        var fileType = trim(item.type).toLowerCase();
         return extensions.any(function (ext) {
           return (new RegExp(ext + '$')).test(fileType);
         });
