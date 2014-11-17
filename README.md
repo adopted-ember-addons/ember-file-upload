@@ -14,7 +14,7 @@ For example:
 
 ## Configuration
 
-The `{{pl-uploader}}` component exposes a variety of parameters available to plupload itself. The public fields are:
+The `{{pl-uploader}}` component exposes a variety of parameters for configuring plupload:
 
 
 | Attribute       | Definition
@@ -23,7 +23,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters available to plu
 | `extensions`    | a space-separated list of extensions to allow users to pick from
 | `params`        | multipart params to send along with the upload
 | `max-file-size` | the maximum size of the file to allow users to upload
-| `no-duplicates` | disallow duplicated files (determined by matching the file's name and size)
+| `no-duplicates` | disallow duplicate files (determined by matching the file's name and size)
 | `chunk-size`    | the chunk size to split the file into when sending to the server
 
 
