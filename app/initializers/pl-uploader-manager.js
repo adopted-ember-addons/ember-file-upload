@@ -9,6 +9,6 @@ export default {
     app.inject('route',      'uploader', 'app:file-upload-manager');
     app.inject('app:file-upload-manager', 'router', 'router:main');
 
-    app.inject('component:pl-uploader', 'fileUploadManager', 'app:file-upload-manager');
+    app.inject('component', 'fileUploadManager', 'app:file-upload-manager');
   }
 };
