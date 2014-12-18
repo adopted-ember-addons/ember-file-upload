@@ -112,7 +112,6 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
       on_upload:           get(this, 'onUpload'),
       on_error:            get(this, 'onError'),
       runtimes:            get(this, 'runtimes').join(','),
-      context:             get(this, 'data'),
       browse_button:       get(this, 'for'),
       url:                 get(this, 'action'),
       flash_swf_url:       this.BASE_URL + 'Moxie.swf',
@@ -142,7 +141,9 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
     config.chunk_size = get(this, 'chunkSize');
 
     merge(config.multipart_params, get(this, 'params'));
-    set(this, '_manager', manager.find(get(this, 'name'), config));
+    var bucket = manager.find(get(this, 'name'), this, config);
+
+    set(this, '_manager', bucket);
     this._queued = get(this, '_manager.length');
   }.observes('action').on('didInsertElement'),
 

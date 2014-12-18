@@ -23,13 +23,13 @@ var FileUploadManager = Ember.Object.extend(/** @scope FileUploadManager.prototy
     @param {String} name The name of the uploader to find
     @param {Object} [config] The configuration to use for the uploader
    */
-  find: function (name, config) {
+  find: function (name, component, config) {
     var uploader;
 
     if (get(this, 'uploaders').has(name)) {
       uploader = get(this, 'uploaders').get(name);
       if (config != null) {
-        uploader.makeQueue(config);
+        uploader.makeQueue(component, config);
       }
     } else {
       uploader = FileBucket.create({
@@ -41,7 +41,7 @@ var FileUploadManager = Ember.Object.extend(/** @scope FileUploadManager.prototy
         target: get(this, 'router')
       });
       get(this, 'uploaders').set(name, uploader);
-      uploader.makeQueue(config);
+      uploader.makeQueue(component, config);
     }
     return uploader;
   }

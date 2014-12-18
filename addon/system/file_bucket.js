@@ -25,7 +25,8 @@ var fileWasAdded = function (file) {
       actionContext: {
         name: get(self, 'name'),
         file: file,
-        context: get(self, 'contexts').get(get(file, 'uploader'))
+        context: get(self, 'components').get(get(file, 'uploader'))
+                                        .get('data')
       }
     });
   });
@@ -53,14 +54,11 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     set(this, 'orphanedQueues', []);
 
     set(this, 'content', []);
-    set(this, 'contexts', Ember.Map.create());
+    set(this, 'components', Ember.Map.create());
     this._super();
   },
 
-  makeQueue: function (config) {
-    var context = config.context;
-    delete config.context;
-
+  makeQueue: function (component, config) {
     var uploader = new plupload.Uploader(config);
 
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));
@@ -72,7 +70,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     uploader.bind('Error',          bind(this, '_onError'));
 
     get(this, 'queues').pushObject(uploader);
-    get(this, 'contexts').set(uploader, context);
+    get(this, 'components').set(uploader, component);
 
     uploader.init();
   },
@@ -95,7 +93,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     get(this, 'queues').invoke('unbindAll');
     set(this, 'content', []);
     set(this, 'queues', null);
-    set(this, 'contexts', null);
+    set(this, 'components', null);
   },
 
   progress: function () {
@@ -173,7 +171,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
             response: results,
             headers: headers,
             file: file,
-            context: get(this, 'contexts').get(uploader)
+            context: get(this, 'components').get(uploader).get('data')
           }
         });
       });
@@ -190,7 +188,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
           code: response.status,
           name: get(this, 'name'),
           response: results,
-          context: get(this, 'contexts').get(uploader)
+          context: get(this, 'components').get(uploader).get('data')
         }
       });
     }
@@ -198,7 +196,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
 
   garbageCollectUploader: function (uploader) {
     get(this, 'queues').removeObject(uploader);
-    get(this, 'contexts').remove(uploader);
+    get(this, 'components').remove(uploader);
     get(this, 'orphanedQueues').removeObject(uploader);
     this.filterProperty('uploader', uploader).invoke('destroy');
     uploader.unbindAll();
