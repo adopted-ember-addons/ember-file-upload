@@ -2,13 +2,13 @@
 
 {{pl-uploader}} is an ember component that provides an API for [Plupload](http://www.plupload.com/). Uploads are long lived in the application, and will happen in the background if the user leaves the page where they're uploading files.
 
-To use the uploader, you must provide a name (for proper queueing and bundling of resources), an upload URL, optional parameters, and data.
+To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
 For example:
 ```handlebars
-{{#pl-uploader action="https://my-bucket.s3.amazonaws.com:443/" params=myAWSCredentials data=dataToBePassedToActionHandler for="my-browse-button"}}
-  <h4>Upload documents</h4>
-  <a id="my-browse-button">Add Files</a>
+{{#pl-uploader action="https://my-bucket.s3.amazonaws.com:443/" multipart-params=myAWSCredentials for="my-browse-button" when-queued="uploadAvatar"}}
+  <h4>Upload avatar</h4>
+  <a id="my-browse-button">Add Avatar</a>
 {{/pl-uploader}}
 ```
 
@@ -17,80 +17,57 @@ For example:
 The `{{pl-uploader}}` component exposes a variety of parameters for configuring plupload:
 
 
-| Attribute       | Definition
-|-----------------|------------------|
-| `action`        | the URL to send the upload request to
-| `for`           | the ID of the browse button
-| `extensions`    | a space-separated list of allowed file extensions
-| `params`        | multipart params to send along with the upload
-| `max-file-size` | the maximum size of file uploads
-| `no-duplicates` | disallow duplicate files (determined by matching the file's name and size)
-| `chunk-size`    | the chunk size to split the file into when sending to the server
+| Attribute           | Definition
+|---------------------|------------------|
+| `action`            | the URL to send the upload request to
+| `for`               | the ID of the browse button
+| `extensions`        | a space-separated list of allowed file extensions
+| `multipart-params`  | multipart params to send along with the upload
+| `max-file-size`     | the maximum size of file uploads
+| `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
+| `chunk-size`        | the chunk size to split the file into when sending to the server
 
 
 ## Integration
 
 If your application doesn't use an assets folder, or serves assets from a different domain, you will need to add a PLUPLOAD_BASE_URL to your configuration file.
 
-The addon emits events when files are queued, uploaded, and failure. You may configure these per component by setting `when-queued`, `when-uploaded`, and `when-failed`. These actions default to `fileQueued`, `fileUploaded`, and `fileUploadFailed`.
-
-To handle these events, simply implement the action on the route of your choosing. Since these events may be triggered in *any* route, it is recommended that you put these actions on a root route (eg. ApplicationRoute).
+The addon emits an event when a file is queued for upload. You may trigger the upload by calling the `upload` function on the file, which returns a promise that is resolved when the file has finished uploading and is rejected if the file couldn't be uploaded.
 
 ```javascript
 import Ember from "ember";
 
-var get = Ember.get;
-var set = Ember.set;
+const get = Ember.get;
+const set = Ember.set;
 
-var ApplicationRoute = Ember.Route.extend({
+export default Ember.Route.extend({
 
   actions: {
-    fileQueued: function (evt) {
-      var context = evt.context;
-      var store = this.store;
-      var file = evt.file;
-
-      var document = store.createRecord('document', {
+    uploadAvatar: function (file) {
+      var user = this.modelFor('user');
+      var avatar = this.store.createRecord('avatar', {
         filename: get(file, 'name'),
-        filesize: get(file, 'file.size')
+        filesize: get(file, 'size'),
+        file: file
       });
 
-      // Setting the file on the record allows observation
-      // of file upload progress on the file
-      set(document, 'file', file);
-
-      set(file, 'promise', document.save());
-    },
-
-    fileUploaded: function (evt) {
-      var file = evt.file;
-      get(file, 'promise').then(function (document) {
-        set(document, 'remoteUrl', evt.headers.Location);
-        return document.save();
-      }).then(function (document) {
-        set(document, 'file', null);
-      });
-    },
-
-    fileUploadFailed: function (evt) {
-      var file = evt.file;
-      get(file, 'promise').then(function (document) {
-        set(document, 'file', null);
-        document.deleteRecord();
-        return document.save();
+      file.upload().then(function (response) {
+        set(avatar, 'remoteUrl', response.headers.Location);
+        return avatar.save();
+      }, function () {
+        avatar.rollback();
+      }).finally(function () {
+        set(avatar, 'file', null);
       });
     }
   }
 
 });
-
-export default ApplicationRoute;
 ```
 
 ## Installation
 
-* `npm install --save-dev ember-plupload`
-* `ember g ember-plupload`
+* `ember install:addon ember-plupload`
 
 ## Running
 

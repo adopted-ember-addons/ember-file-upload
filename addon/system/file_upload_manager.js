@@ -34,10 +34,7 @@ var FileUploadManager = Ember.Object.extend(/** @scope FileUploadManager.prototy
     } else {
       uploader = FileBucket.create({
         name: name,
-        context: config.context,
         onQueued: config.on_queued,
-        onUpload: config.on_upload,
-        onError: config.on_error,
         target: get(this, 'router')
       });
       get(this, 'uploaders').set(name, uploader);

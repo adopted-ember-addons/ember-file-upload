@@ -27,12 +27,6 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
   'when-queued': alias('onQueued'),
   onQueued: 'fileQueued',
 
-  'when-uploaded': alias('onUpload'),
-  onUpload: 'fileUploaded',
-
-  'when-failed': alias('onError'),
-  onError:  'fileUploadFailed',
-
   /**
     A cascading list of runtimes to fallback on to
     for uploading files with.
@@ -45,6 +39,7 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
   extensions: [],
 
+  "multipart-params": alias('params'),
   params: null,
 
   "max-file-size": alias('maximumFileSize'),
@@ -69,15 +64,15 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
 
   hasDragData: bool('dragData'),
 
-  queued: reads('_manager.length'),
+  queued: reads('fileBucket.length'),
 
-  areAnyFilesUploading: reads('_manager.isUploading'),
+  areAnyFilesUploading: reads('fileBucket.isUploading'),
 
   shouldShowPrompt: function () {
     return !(get(this, 'hasDragData') || get(this, 'areAnyFilesUploading'));
   }.property('hasDragData', 'areAnyFilesUploading'),
 
-  progress: reads('_manager.progress'),
+  progress: reads('fileBucket.progress'),
 
   init: function () {
     this._super();
@@ -102,15 +97,13 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
   dropTargetId: reads('elementId'),
 
   attachUploader: function () {
-    if (get(this, 'action') == null || get(this, '_manager')) {
+    if (get(this, 'action') == null || get(this, 'fileBucket')) {
       return;
     }
 
     var manager = get(this, 'fileUploadManager');
     var config  = {
       on_queued:           get(this, 'onQueued'),
-      on_upload:           get(this, 'onUpload'),
-      on_error:            get(this, 'onError'),
       runtimes:            get(this, 'runtimes').join(','),
       browse_button:       get(this, 'for'),
       url:                 get(this, 'action'),
@@ -143,20 +136,16 @@ var PlUploader = Ember.Component.extend(/** @scope PlUploader */{
     merge(config.multipart_params, get(this, 'params'));
     var bucket = manager.find(get(this, 'name'), this, config);
 
-    set(this, '_manager', bucket);
-    this._queued = get(this, '_manager.length');
+    set(this, 'fileBucket', bucket);
+    this._queued = get(this, 'fileBucket.length');
   }.observes('action').on('didInsertElement'),
 
   willDestroyElement: function () {
-    var manager = get(this, '_manager');
-    if (manager) {
-      manager.orphan();
-      set(this, '_manager', null);
+    var bucket = get(this, 'fileBucket');
+    if (bucket) {
+      bucket.orphan(this);
+      set(this, 'fileBucket', null);
     }
-  },
-
-  destroy: function () {
-    this._stylesheet = null;
   },
 
   dragEnter: function (evt) {

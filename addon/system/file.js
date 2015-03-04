@@ -3,6 +3,10 @@ import Ember from "ember";
 var get = Ember.get;
 var reads = Ember.computed.reads;
 
+var later = Ember.run.later;
+
+var RSVP = Ember.RSVP;
+
 /**
   A representation of a single file being uploaded
   by the `FileUploadManager`.
@@ -11,7 +15,7 @@ var reads = Ember.computed.reads;
   @class File
   @extends Ember.Object
  */
-var File = Ember.Object.extend(/** @scope File.prototype */{
+export default Ember.Object.extend(/** @scope File.prototype */{
 
   /**
     The unique ID of the file.
@@ -28,6 +32,14 @@ var File = Ember.Object.extend(/** @scope File.prototype */{
     @type String
    */
   name: reads('file.name'),
+
+  /**
+    The size of the file in bytes
+
+    @property size
+    @type Number
+   */
+  size: reads('file.size'),
 
   /**
     The current upload progress of the file,
@@ -49,13 +61,13 @@ var File = Ember.Object.extend(/** @scope File.prototype */{
     get(this, 'uploader').removeFile(get(this, 'file'));
   },
 
-  deferred: null,
+  upload: function () {
+    var uploader = get(this, 'uploader');
+    this._deferred = RSVP.defer();
 
-  then: function (fulfill, reject) {
-    return get(this, 'deferred.promise')
-               .then(fulfill, reject);
+    // Start uploading the files
+    later(uploader, 'start', 100);
+
+    return this._deferred.promise;
   }
-
 });
-
-export default File;

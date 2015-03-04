@@ -6,30 +6,12 @@ import trim from "./trim";
 var get = Ember.get;
 var set = Ember.set;
 var bool = Ember.computed.bool;
-var run = Ember.run;
-var later = Ember.run.later;
 var bind = Ember.run.bind;
 
 var summation = function (target, key) {
   return target.reduce(function (E, obj) {
     return E + get(obj, key);
   }, 0);
-};
-
-var fileWasAdded = function (file) {
-  var self = this;
-  return run(function () {
-    self.triggerAction({
-      target: get(self, 'target'),
-      action: get(self, 'onQueued'),
-      actionContext: {
-        name: get(self, 'name'),
-        file: file,
-        context: get(self, 'components').get(get(file, 'uploader'))
-                                        .get('data')
-      }
-    });
-  });
 };
 
 /**
@@ -43,8 +25,6 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
 
   name: null,
 
-  onUpload: null,
-
   isUploading: bool('length'),
 
   queues: null,
@@ -54,7 +34,6 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     set(this, 'orphanedQueues', []);
 
     set(this, 'content', []);
-    set(this, 'components', Ember.Map.create());
     this._super();
   },
 
@@ -67,10 +46,9 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     uploader.bind('UploadProgress', bind(this, 'progressDidChange'));
     uploader.bind('FileUploaded',   bind(this, 'fileUploaded'));
     uploader.bind('UploadComplete', bind(this, 'uploadComplete'));
-    uploader.bind('Error',          bind(this, '_onError'));
+    uploader.bind('Error',          bind(this, 'onError'));
 
     get(this, 'queues').pushObject(uploader);
-    get(this, 'components').set(uploader, component);
 
     uploader.init();
   },
@@ -80,9 +58,13 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     we garbage collect the queues.
    */
   orphan: function () {
-    var queue = get(this, 'queues.lastObject');
+    var orphans = get(this, 'orphanedQueues');
+    var activeQueues = get(this, 'queues').filter(function (queue) {
+      return orphans.indexOf(queue) === -1;
+    });
+    var queue = get(activeQueues, 'lastObject');
     if (get(queue, 'total.queued') > 0) {
-      get(this, 'orphanedQueues').pushObject(queue);
+      orphans.pushObject(queue);
     } else {
       this.garbageCollectUploader(queue);
     }
@@ -93,7 +75,6 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     get(this, 'queues').invoke('unbindAll');
     set(this, 'content', []);
     set(this, 'queues', null);
-    set(this, 'components', null);
   },
 
   progress: function () {
@@ -109,17 +90,22 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     for (var i = 0, len = files.length; i < len; i++) {
       var file = File.create({
         uploader: uploader,
-        file: files[i],
-        deferred: Ember.RSVP.defer()
+        file: files[i]
       });
 
       this.pushObject(file);
-
-      fileWasAdded.call(this, file);
+      this.triggerAction({
+        target: get(this, 'target'),
+        action: get(this, 'onQueued'),
+        actionContext: [
+          file,
+          {
+            name: get(this, 'name'),
+            uploader: uploader
+          }
+        ]
+      });
     }
-
-    // Start uploading the files
-    later(uploader, 'start', 100);
   },
 
   filesRemoved: function (uploader, files) {
@@ -141,62 +127,50 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
   },
 
   fileUploaded: function (uploader, file, response) {
-    var results = response;
+    var body = trim(response.response);
+    var headers = response.responseHeaders.split('\n').without('').reduce(function (headers, header) {
+      var parts = header.split(/^([A-Za-z_-]*:)/);
+      headers[parts[1].slice(0, -1)] = trim(parts[2]);
+      return headers;
+    }, {});
 
-    if (trim(results.response)) {
-      results = JSON.parse(results.response);
+    // Parse body according to the Content-Type received by the server
+    switch (headers['Content-Type']) {
+    case 'text/html':
+      body = Ember.$.parseHTML(body);
+      break;
+    case 'text/xml':
+      body = Ember.$.parseXML(body);
+      break;
+    case 'application/json':
+    case 'application/javascript':
+      body = Ember.$.parseJSON(body);
+      break;
+    }
+
+    var results = {
+      status: response.status,
+      body: body,
+      headers: headers
+    };
+
+    file = this.findProperty('id', file.id);
+    if (file) {
+      this.removeObject(file);
     }
 
     // NOTE: Plupload calls UploadProgress upon triggering FileUploaded,
     //       so we don't need to trigger a progress event
     if (response.status === 204 ||
         response.status === 200) {
-      file = this.findProperty('id', file.id);
-      if (file) {
-        this.removeObject(file);
-      }
-
-      var headers = response.responseHeaders.split('\n').without('').reduce(function (headers, header) {
-        var parts = header.split(/^([A-Za-z_-]*:)/);
-        headers[parts[1].slice(0, -1)] = trim(parts[2]);
-        return headers;
-      }, {});
-
-      run(this, function () {
-        this.triggerAction({
-          target: get(this, 'target'),
-          action: get(this, 'onUpload'),
-          actionContext: {
-            name: get(this, 'name'),
-            response: results,
-            headers: headers,
-            file: file,
-            context: get(this, 'components').get(uploader).get('data')
-          }
-        });
-      });
+      file._deferred.resolve(results);
     } else {
-      file = this.findProperty('id', file.id);
-      if (file) {
-        this.removeObject(file);
-      }
-
-      this.triggerAction({
-        target: get(this, 'target'),
-        action: get(this, 'onError'),
-        actionContext: {
-          code: response.status,
-          name: get(this, 'name'),
-          response: results,
-          context: get(this, 'components').get(uploader).get('data')
-        }
-      });
+      file._deferred.reject(results);
     }
   },
 
   garbageCollectUploader: function (uploader) {
     get(this, 'queues').removeObject(uploader);
-    get(this, 'components').remove(uploader);
     get(this, 'orphanedQueues').removeObject(uploader);
     this.filterProperty('uploader', uploader).invoke('destroy');
     uploader.unbindAll();
@@ -209,7 +183,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     }
   },
 
-  _onError: function (uploader, error) {
+  onError: function (uploader, error) {
     if (error.file) {
       var file = this.findProperty('id', error.file.id);
       set(file, 'error', error.file);
