@@ -69,7 +69,7 @@ export default Ember.Component.extend({
       filters: {},
       multipart_params: get(this, 'multipart-params') || {},
       headers: {
-        Accept: get(this, 'accept')
+        Accept: get(this, 'accept').join(',')
       }
     };
 
