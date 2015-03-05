@@ -118,7 +118,7 @@ export default Ember.Component.extend({
       };
 
       keys(handlers).forEach(function (key) {
-        Ember.$(document).on(key, dropzoneId, handlers[key]);
+        Ember.$(document).on(key, '#' + dropzoneId, handlers[key]);
       });
     }
   }.on('didInsertElement'),
@@ -128,7 +128,7 @@ export default Ember.Component.extend({
     if (dropzoneId) {
       var handlers = this.eventHandlers;
       keys(handlers).forEach(function (key) {
-        Ember.$(document).off(key, dropzoneId, handlers[key]);
+        Ember.$(document).off(key, '#' + dropzoneId, handlers[key]);
       });
       this.eventHandlers = null;
     }
