@@ -23,7 +23,9 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 |---------------------|------------------|
 | `action`            | the URL to send the upload request to
 | `for`               | the ID of the browse button
+| `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
 | `extensions`        | a space-separated list of allowed file extensions
+| `accepts`           | a space-separated list of accepted content types that the server can respond with
 | `multipart-params`  | multipart params to send along with the upload
 | `max-file-size`     | the maximum size of file uploads
 | `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
