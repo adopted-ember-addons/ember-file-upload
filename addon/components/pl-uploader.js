@@ -9,7 +9,7 @@ var keys = Ember.keys;
 var bind = Ember.run.bind;
 
 var isDragAndDropSupported = (function () {
-  var supported = false;
+  var supported = null;
   return function () {
     if (supported == null) {
       supported = 'draggable' in document.createElement('span');
@@ -155,6 +155,8 @@ export default Ember.Component.extend({
   }.observes('fileBucket.length'),
 
   setDragDataValidity: function () {
+    if (!isDragAndDropSupported()) { return; }
+
     var data       = get(this, 'dragData');
     var extensions = get(this, 'extensions');
     var isValid    = true;
