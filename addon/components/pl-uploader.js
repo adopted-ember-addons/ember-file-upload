@@ -60,7 +60,7 @@ export default Ember.Component.extend({
   attachUploader: function () {
     var manager = get(this, 'fileUploadManager');
     var config  = {
-      on_queued:           get(this, 'onQueued'),
+      on_queued:           get(this, 'when-queued'),
       runtimes:            get(this, 'runtimes').join(','),
       browse_button:       get(this, 'for'),
       url:                 get(this, 'action'),
