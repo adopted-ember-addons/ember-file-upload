@@ -6,9 +6,11 @@ To use the uploader, you must provide a name (for proper queueing and bundling o
 
 For example:
 ```handlebars
-{{#pl-uploader action="https://my-bucket.s3.amazonaws.com:443/" multipart-params=myAWSCredentials for="my-browse-button" when-queued="uploadAvatar"}}
-  <h4>Upload avatar</h4>
-  <a id="my-browse-button">Add Avatar</a>
+{{#pl-uploader action="https://my-bucket.s3.amazonaws.com:443/" multipart-params=myAWSCredentials for="my-browse-button" when-queued="uploadAvatar" as |files features|}}
+  <div class="avatar-penny" id={{features.drag-and-drop.dropzone-id}}>
+    {{yield}}
+  </div>
+  <a id="my-browse-button">Upload Avatar</a>
 {{/pl-uploader}}
 ```
 

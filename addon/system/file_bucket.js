@@ -25,7 +25,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
 
   name: null,
 
-  isUploading: bool('length'),
+  uploading: bool('length'),
 
   queues: null,
 
