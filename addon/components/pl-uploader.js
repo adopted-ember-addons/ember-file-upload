@@ -5,7 +5,6 @@ import w from "../computed/w";
 var get = Ember.get;
 var set = Ember.set;
 
-var generateGuid = Ember.generateGuid;
 var isDragAndDropSupported = (function () {
   var supported = false;
   return function () {
@@ -49,9 +48,8 @@ export default Ember.Component.extend({
 
     if (isDragAndDropSupported()) {
       features['drag-and-drop'] = {
-        'dropzone-id': generateGuid(),
-        'drag-data': null,
-        'is-drag-data-valid': true
+        'dropzone-id': 'dropzone-for-' + get(this, 'elementId'),
+        'drag-data': null
       };
     }
     return features;
@@ -108,7 +106,7 @@ export default Ember.Component.extend({
     }
   }.on('willDestroyElement'),
 
-  dragData: alias('features.drag-and-drop.drag-data'),
+  dragData: null,
   dragEnter: function (evt) {
     this._dragEnters++;
     set(this, 'dragData', get(evt, 'originalEvent.dataTransfer'));
@@ -142,6 +140,11 @@ export default Ember.Component.extend({
         });
       });
     }
-    set(this, 'features.drag-and-drop', 'is-drag-data-valid', isValid);
+
+    if (data) {
+      set(this, 'features.drag-and-drop.drag-data', { valid: isValid });
+    } else {
+      set(this, 'features.drag-and-drop.drag-data', null);
+    }
   }.observes('dragData').on('init')
 });
