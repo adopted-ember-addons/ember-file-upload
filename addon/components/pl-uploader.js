@@ -4,6 +4,9 @@ import w from "../computed/w";
 
 var get = Ember.get;
 var set = Ember.set;
+var keys = Ember.keys;
+
+var bind = Ember.run.bind;
 
 var isDragAndDropSupported = (function () {
   var supported = false;
@@ -16,7 +19,6 @@ var isDragAndDropSupported = (function () {
 }());
 
 var slice = Array.prototype.slice;
-var alias = Ember.computed.alias;
 
 export default Ember.Component.extend({
   classNames: ['pl-uploader'],
@@ -106,13 +108,39 @@ export default Ember.Component.extend({
     }
   }.on('willDestroyElement'),
 
+
+  setupDragListeners: function () {
+    var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
+    if (dropzoneId) {
+      var handlers = this.eventHandlers = {
+        dragenter: bind(this, 'enteredDropzone'),
+        dragleave: bind(this, 'leftDropzone')
+      };
+
+      keys(handlers).forEach(function (key) {
+        Ember.$(document).on(key, dropzoneId, handlers[key]);
+      });
+    }
+  }.on('didInsertElement'),
+
+  teardownDragListeners: function () {
+    var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
+    if (dropzoneId) {
+      var handlers = this.eventHandlers;
+      keys(handlers).forEach(function (key) {
+        Ember.$(document).off(key, dropzoneId, handlers[key]);
+      });
+      this.eventHandlers = null;
+    }
+  }.on('willDestroyElement'),
+
   dragData: null,
-  dragEnter: function (evt) {
+  enteredDropzone: function (evt) {
     this._dragEnters++;
     set(this, 'dragData', get(evt, 'originalEvent.dataTransfer'));
   },
 
-  dragLeave: function () {
+  leftDropzone: function () {
     this._dragEnters--;
     if (this._dragEnters === 0) {
       set(this, 'dragData', null);
