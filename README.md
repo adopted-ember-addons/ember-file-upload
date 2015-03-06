@@ -1,6 +1,6 @@
 # {{pl-uploader}} [![Build Status](https://travis-ci.org/paddle8/ember-plupload.svg)](https://travis-ci.org/paddle8/ember-plupload) [![Code Climate](https://codeclimate.com/github/paddle8/ember-plupload/badges/gpa.svg)](https://codeclimate.com/github/paddle8/ember-plupload)
 
-{{pl-uploader}} is an ember component that provides an API for [Plupload](http://www.plupload.com/). Uploads are long lived in the application, and will happen in the background if the user leaves the page where they're uploading files.
+{{pl-uploader}} is an ember component that provides an API for [Plupload](http://www.plupload.com/). Uploads are persistent accross routes in your application (they continue in the background).
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
@@ -16,7 +16,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | `for`               | the ID of the browse button
 | `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
 | `extensions`        | a space-separated list of allowed file extensions
-| `accepts`           | a space-separated list of accepted content types that the server can respond with
+| `accept`            | a space-separated list of accepted content types that the server can respond with
 | `multipart-params`  | multipart params to send along with the upload
 | `max-file-size`     | the maximum size of file uploads
 | `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
