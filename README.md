@@ -4,16 +4,6 @@
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
-For example:
-```handlebars
-{{#pl-uploader action="https://my-bucket.s3.amazonaws.com:443/" multipart-params=myAWSCredentials for="my-browse-button" when-queued="uploadAvatar" as |files features|}}
-  <div class="avatar-penny" id={{features.drag-and-drop.dropzone-id}}>
-    {{yield}}
-  </div>
-  <a id="my-browse-button">Upload Avatar</a>
-{{/pl-uploader}}
-```
-
 ## Configuration
 
 The `{{pl-uploader}}` component exposes a variety of parameters for configuring plupload:
@@ -32,6 +22,38 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | `chunk-size`        | the chunk size to split the file into when sending to the server
 
 
+## Recipes
+
+The cleanest approach to configure uploaders is to create a component that encapsulates the configuration on the uploader component. Using the uploader as a container, you can provide a clean API for an uploader.
+
+For example, creating an image uploader that uploads images to your API server would look like:
+
+```handlebars
+{{#pl-uploader extensions="jpg jpeg png gif" action="/api/images/upload" for="upload-image" when-queued="uploadImage" as |files features|}}
+  <div class="dropzone" id={{features.drag-and-drop.dropzone-id}}>
+    {{#with features.drag-and-drop.drag-data as |dragData|}}
+      {{#if dragData}}
+        {{#if dragData.valid}}
+          Drop to upload
+        {{else}}
+          Invalid
+        {{/if}}
+      {{else if files.length}}
+        Uploading {{files.length}} files. ({{files.progress}}%)
+      {{else}}
+        <h4>Upload Images</h4>
+        <p>
+          {{#if features.drag-and-drop}}
+            Drag and drop images onto this area to upload them or
+          {{/if}}
+          <a id="my-browse-button">Add an Image.</a>
+        </p>
+      {{/if}}
+    {{/with}}
+  </div>
+{{/pl-uploader}}
+```
+
 ## Integration
 
 If your application doesn't use an assets folder, or serves assets from a different domain, you will need to add a PLUPLOAD_BASE_URL to your configuration file.
@@ -47,25 +69,22 @@ const set = Ember.set;
 export default Ember.Route.extend({
 
   actions: {
-    uploadAvatar: function (file) {
-      var user = this.modelFor('user');
-      var avatar = this.store.createRecord('avatar', {
+    uploadImage: function (file) {
+      var product = this.modelFor('product');
+      var image = this.store.createRecord('image', {
+        product: product,
         filename: get(file, 'name'),
-        filesize: get(file, 'size'),
-        file: file
+        filesize: get(file, 'size')
       });
 
       file.upload().then(function (response) {
-        set(avatar, 'remoteUrl', response.headers.Location);
-        return avatar.save();
+        set(image, 'url', response.headers.Location);
+        return image.save();
       }, function () {
-        avatar.rollback();
-      }).finally(function () {
-        set(avatar, 'file', null);
+        image.rollback();
       });
     }
   }
-
 });
 ```
 
