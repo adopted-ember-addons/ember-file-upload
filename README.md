@@ -46,7 +46,7 @@ For example, creating an image uploader that uploads images to your API server w
           {{#if features.drag-and-drop}}
             Drag and drop images onto this area to upload them or
           {{/if}}
-          <a id="my-browse-button">Add an Image.</a>
+          <a id="upload-image">Add an Image.</a>
         </p>
       {{/if}}
     {{/with}}
