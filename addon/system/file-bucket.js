@@ -21,7 +21,7 @@ var summation = function (target, key) {
   @extend Ember.ArrayProxy
   @extend Ember.TargetActionSupport
  */
-var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope FileBucket.prototype */{
+export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
 
   name: null,
 
@@ -51,6 +51,7 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     get(this, 'queues').pushObject(uploader);
 
     uploader.init();
+    return uploader;
   },
 
   /**
@@ -192,5 +193,3 @@ var FileBucket = Ember.ArrayProxy.extend(Ember.TargetActionSupport, /** @scope F
     }
   }
 });
-
-export default FileBucket;

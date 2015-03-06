@@ -15,7 +15,7 @@ var RSVP = Ember.RSVP;
   @class File
   @extends Ember.Object
  */
-export default Ember.Object.extend(/** @scope File.prototype */{
+export default Ember.Object.extend({
 
   /**
     The unique ID of the file.

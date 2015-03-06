@@ -1,10 +1,10 @@
 import Ember from "ember";
-import FileBucket from "./file_bucket";
+import FileBucket from "./file-bucket";
 
 var get = Ember.get;
 var set = Ember.set;
 
-var FileUploadManager = Ember.Object.extend(/** @scope FileUploadManager.prototype */{
+export default Ember.Object.extend({
 
   /**
     @private
@@ -43,5 +43,3 @@ var FileUploadManager = Ember.Object.extend(/** @scope FileUploadManager.prototy
     return uploader;
   }
 });
-
-export default FileUploadManager;
