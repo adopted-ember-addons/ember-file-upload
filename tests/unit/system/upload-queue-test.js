@@ -1,6 +1,6 @@
 /* global plupload */
 import Ember from 'ember';
-import FileBucket from 'ember-plupload/system/file-bucket';
+import UploadQueue from 'ember-plupload/system/upload-queue';
 import MockUploader from '../../helpers/mock-uploader';
 import {
   module,
@@ -11,7 +11,7 @@ var get = Ember.get;
 var bind = Ember.run.bind;
 var originalPlupload;
 
-module('FileBucket', {
+module('UploadQueue', {
   beforeEach: function () {
     originalPlupload = plupload.Uploader;
     plupload.Uploader = MockUploader;
@@ -22,54 +22,54 @@ module('FileBucket', {
 });
 
 test('manages the lifecycle of uploaders (nothing queued)', function (assert) {
-  var bucket = FileBucket.create();
-  assert.equal(get(bucket, 'length'), 0);
+  var queue = UploadQueue.create();
+  assert.equal(get(queue, 'length'), 0);
 
-  var uploader = bucket.makeQueue();
-  assert.equal(get(bucket, 'queues.length'), 1);
+  var uploader = queue.configure();
+  assert.equal(get(queue, 'queues.length'), 1);
 
-  bucket.orphan();
-  assert.equal(get(bucket, 'queues.length'), 0);
+  queue.orphan();
+  assert.equal(get(queue, 'queues.length'), 0);
   assert.ok(uploader.unbound);
 });
 
 test('manages the lifecycle of uploaders (with queued items)', function (assert) {
-  var bucket = FileBucket.create();
-  assert.equal(get(bucket, 'length'), 0);
+  var queue = UploadQueue.create();
+  assert.equal(get(queue, 'length'), 0);
 
-  var uploader = bucket.makeQueue();
-  assert.equal(get(bucket, 'queues.length'), 1);
+  var uploader = queue.configure();
+  assert.equal(get(queue, 'queues.length'), 1);
   uploader.total.queued = 1;
 
-  bucket.orphan();
-  assert.equal(get(bucket, 'queues.length'), 1);
+  queue.orphan();
+  assert.equal(get(queue, 'queues.length'), 1);
   uploader.UploadComplete(uploader);
-  assert.equal(get(bucket, 'queues.length'), 0);
+  assert.equal(get(queue, 'queues.length'), 0);
   assert.ok(uploader.unbound);
 });
 
 test('multiple uploaders can be handled simultaneously', function (assert) {
-  var bucket = FileBucket.create();
-  var uploader = bucket.makeQueue();
+  var queue = UploadQueue.create();
+  var uploader = queue.configure();
   uploader.total.queued = 1;
-  assert.equal(get(bucket, 'queues.length'), 1);
-  bucket.orphan();
+  assert.equal(get(queue, 'queues.length'), 1);
+  queue.orphan();
 
-  var uploader2 = bucket.makeQueue();
+  var uploader2 = queue.configure();
   uploader2.total.queued = 1;
-  assert.equal(get(bucket, 'queues.length'), 2);
-  bucket.orphan();
+  assert.equal(get(queue, 'queues.length'), 2);
+  queue.orphan();
 
   uploader2.UploadComplete(uploader2);
-  assert.equal(get(bucket, 'queues.length'), 1);
+  assert.equal(get(queue, 'queues.length'), 1);
   uploader.UploadComplete(uploader);
-  assert.equal(get(bucket, 'queues.length'), 0);
+  assert.equal(get(queue, 'queues.length'), 0);
 });
 
 test('the progress property is computed from the totals of each uploader', function (assert) {
-  var bucket = FileBucket.create();
-  var uploader = bucket.makeQueue();
-  var uploader2 = bucket.makeQueue();
+  var queue = UploadQueue.create();
+  var uploader = queue.configure();
+  var uploader2 = queue.configure();
 
   uploader.total.size = 7000;
   uploader2.total.size = 3000;
@@ -78,7 +78,7 @@ test('the progress property is computed from the totals of each uploader', funct
   uploader2.total.loaded = 2000;
 
   uploader.UploadProgress(uploader, {});
-  assert.equal(get(bucket, 'progress'), 75);
+  assert.equal(get(queue, 'progress'), 75);
 });
 
 test('the queued action is triggered when a file is added', function (assert) {
@@ -94,13 +94,13 @@ test('the queued action is triggered when a file is added', function (assert) {
     }
   });
 
-  var bucket = FileBucket.create({
+  var queue = UploadQueue.create({
     name: 'my-uploader',
     onQueued: 'queued',
     target: router
   });
 
-  var uploader = bucket.makeQueue();
+  var uploader = queue.configure();
   uploader.FilesAdded(uploader, [{
     id: 'test',
     name: 'test-filename.jpg',
@@ -126,13 +126,13 @@ test('a successful file upload', function (assert) {
     }
   });
 
-  var bucket = FileBucket.create({
+  var queue = UploadQueue.create({
     name: 'my-uploader',
     onQueued: 'queued',
     target: router
   });
 
-  var uploader = bucket.makeQueue();
+  var uploader = queue.configure();
   var file = {
     id: 'test',
     name: 'test-filename.jpg',
@@ -166,13 +166,13 @@ test('a failed file upload', function (assert) {
     }
   });
 
-  var bucket = FileBucket.create({
+  var queue = UploadQueue.create({
     name: 'my-uploader',
     onQueued: 'queued',
     target: router
   });
 
-  var uploader = bucket.makeQueue();
+  var uploader = queue.configure();
   var file = {
     id: 'test',
     name: 'test-filename.jpg',

@@ -4,7 +4,7 @@ import {
   test
 } from 'ember-qunit';
 import Ember from "ember";
-import FileUploadManager from "ember-plupload/system/file-upload-manager";
+import UploadQueueManager from "ember-plupload/system/upload-queue-manager";
 import MockUploader from '../../helpers/mock-uploader';
 
 var get = Ember.get;
@@ -23,7 +23,7 @@ moduleForComponent('pl-uploader', {
 });
 
 test('it configures the plupload Uploader correctly', function (assert) {
-  var manager = FileUploadManager.create();
+  var manager = UploadQueueManager.create();
 
   // creates the component instance
   var component = this.subject({
@@ -39,13 +39,13 @@ test('it configures the plupload Uploader correctly', function (assert) {
     "no-duplicates": true,
     "max-retries": 2,
     "chunk-size": 128,
-    fileUploadManager: manager
+    uploadQueueManager: manager
   });
 
   // renders the component to the page
   this.render();
 
-  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var uploader = get(component, 'queue.queues.firstObject');
   var elementId = get(component, 'elementId');
 
   assert.ok(uploader.initialized);
@@ -90,7 +90,7 @@ test('sends an event when the file is queued', function (assert) {
     }
   });
 
-  var manager = FileUploadManager.create({
+  var manager = UploadQueueManager.create({
     router: router
   });
 
@@ -98,13 +98,13 @@ test('sends an event when the file is queued', function (assert) {
   var component = this.subject({
     name: 'test-component',
     "when-queued": 'uploadImage',
-    fileUploadManager: manager
+    uploadQueueManager: manager
   });
 
   // renders the component to the page
   this.render();
 
-  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var uploader = get(component, 'queue.queues.firstObject');
   uploader.FilesAdded(uploader, [{
     id: 'test',
     name: 'test-filename.jpg',
@@ -124,20 +124,20 @@ test('resolves file.upload when the file upload succeeds', function (assert) {
     }
   });
 
-  var manager = FileUploadManager.create({
+  var manager = UploadQueueManager.create({
     router: router
   });
 
   // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    fileUploadManager: manager
+    uploadQueueManager: manager
   });
 
   // renders the component to the page
   this.render();
 
-  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test' };
 
   uploader.FilesAdded(uploader, [file]);
@@ -162,20 +162,20 @@ test('rejects file.upload when the file upload succeeds', function (assert) {
     }
   });
 
-  var manager = FileUploadManager.create({
+  var manager = UploadQueueManager.create({
     router: router
   });
 
   // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    fileUploadManager: manager
+    uploadQueueManager: manager
   });
 
   // renders the component to the page
   this.render();
 
-  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test' };
 
   uploader.FilesAdded(uploader, [file]);

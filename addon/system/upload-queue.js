@@ -17,7 +17,7 @@ var summation = function (target, key) {
 /**
 
   @namespace ember-plupload
-  @class FileBucket
+  @class UploadQueue
   @extend Ember.ArrayProxy
   @extend Ember.TargetActionSupport
  */
@@ -37,7 +37,7 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
     this._super();
   },
 
-  makeQueue: function (component, config) {
+  configure: function (config) {
     var uploader = new plupload.Uploader(config);
 
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));

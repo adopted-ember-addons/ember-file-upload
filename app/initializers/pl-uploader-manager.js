@@ -1,14 +1,15 @@
-import FileUploadManager from "ember-plupload/system/file-upload-manager";
+import UploadQueueManager from "ember-plupload/system/upload-queue-manager";
 
 export default {
   name: 'pl-uploader',
 
   initialize: function (container, app) {
-    app.register('app:file-upload-manager', FileUploadManager);
-    app.inject('controller', 'uploader', 'app:file-upload-manager');
-    app.inject('route',      'uploader', 'app:file-upload-manager');
-    app.inject('app:file-upload-manager', 'router', 'router:main');
+    var manager = UploadQueueManager.create();
+    app.register('app:upload-queue-manager', manager, { instantiate: false });
+    app.inject('controller', 'uploadQueueManager', 'app:upload-queue-manager');
+    app.inject('route',      'uploadQueueManager', 'app:upload-queue-manager');
+    app.inject('app:upload-queue-manager', 'router', 'router:main');
 
-    app.inject('component', 'fileUploadManager', 'app:file-upload-manager');
+    app.inject('component', 'uploadQueueManager', 'app:upload-queue-manager');
   }
 }

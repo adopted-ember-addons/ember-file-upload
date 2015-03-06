@@ -9,7 +9,7 @@ var RSVP = Ember.RSVP;
 
 /**
   A representation of a single file being uploaded
-  by the `FileUploadManager`.
+  by the `UploadQueue`.
 
   @namespace ember-plupload
   @class File

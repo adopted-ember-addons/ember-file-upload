@@ -1,5 +1,5 @@
 import Ember from "ember";
-import FileBucket from "./file-bucket";
+import UploadQueue from "./upload-queue";
 
 var get = Ember.get;
 var set = Ember.set;
@@ -12,34 +12,34 @@ export default Ember.Object.extend({
     accessed by name via the `find` method.
    */
   init: function () {
-    set(this, 'uploaders', Ember.Map.create());
+    set(this, 'queues', Ember.Map.create());
   },
 
   /**
     Return or instantiate a new plupload instance
-    for a file uploader.
+    for an upload queue.
 
     @method find
-    @param {String} name The name of the uploader to find
+    @param {String} name The name of the queue to find
     @param {Object} [config] The configuration to use for the uploader
    */
-  find: function (name, component, config) {
-    var uploader;
+  find: function (name, config) {
+    var queue;
 
-    if (get(this, 'uploaders').has(name)) {
-      uploader = get(this, 'uploaders').get(name);
+    if (get(this, 'queues').has(name)) {
+      queue = get(this, 'queues').get(name);
       if (config != null) {
-        uploader.makeQueue(component, config);
+        queue.configure(config);
       }
     } else {
-      uploader = FileBucket.create({
+      queue = UploadQueue.create({
         name: name,
         onQueued: config.on_queued,
         target: get(this, 'router')
       });
-      get(this, 'uploaders').set(name, uploader);
-      uploader.makeQueue(component, config);
+      get(this, 'queues').set(name, queue);
+      queue.configure(config);
     }
-    return uploader;
+    return queue;
   }
 });

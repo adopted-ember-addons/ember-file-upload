@@ -58,7 +58,6 @@ export default Ember.Component.extend({
   }.property(),
 
   attachUploader: function () {
-    var manager = get(this, 'fileUploadManager');
     var config  = {
       on_queued:           get(this, 'when-queued'),
       runtimes:            get(this, 'runtimes').join(','),
@@ -94,17 +93,18 @@ export default Ember.Component.extend({
     config.max_retries = get(this, 'max-retries');
     config.chunk_size = get(this, 'chunk-size');
 
-    set(this, 'fileBucket', manager.find(get(this, 'name'), this, config));
+    var queues = get(this, 'uploadQueueManager');
+    set(this, 'queue', queues.find(get(this, 'name'), config));
 
     this._dragEnters = 0;
     this._invalidateDragData();
   }.on('didInsertElement'),
 
   detachUploader: function () {
-    var bucket = get(this, 'fileBucket');
-    if (bucket) {
-      bucket.orphan(this);
-      set(this, 'fileBucket', null);
+    var queue = get(this, 'queue');
+    if (queue) {
+      queue.orphan();
+      set(this, 'queue', null);
     }
   }.on('willDestroyElement'),
 
@@ -148,11 +148,11 @@ export default Ember.Component.extend({
   },
 
   _invalidateDragData: function () {
-    if (get(this, 'fileBucket.length') > this._queued && get(this, 'dragData')) {
+    if (get(this, 'queue.length') > this._queued && get(this, 'dragData')) {
       set(this, 'dragData', null);
     }
-    this._queued = get(this, 'fileBucket.length');
-  }.observes('fileBucket.length'),
+    this._queued = get(this, 'queue.length');
+  }.observes('queue.length'),
 
   setDragDataValidity: function () {
     if (!isDragAndDropSupported()) { return; }

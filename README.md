@@ -31,7 +31,7 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#pl-uploader extensions="jpg jpeg png gif" action="/api/images/upload" for="upload-image" when-queued="uploadImage" as |files features|}}
+{{#pl-uploader extensions="jpg jpeg png gif" action="/api/images/upload" for="upload-image" when-queued="uploadImage" as |queue features|}}
   <div class="dropzone" id={{features.drag-and-drop.dropzone-id}}>
     {{#with features.drag-and-drop.drag-data as |dragData|}}
       {{#if dragData}}
@@ -40,8 +40,8 @@ For example, creating an image uploader that uploads images to your API server w
         {{else}}
           Invalid
         {{/if}}
-      {{else if files.length}}
-        Uploading {{files.length}} files. ({{files.progress}}%)
+      {{else if queue.length}}
+        Uploading {{queue.length}} files. ({{queue.progress}}%)
       {{else}}
         <h4>Upload Images</h4>
         <p>
