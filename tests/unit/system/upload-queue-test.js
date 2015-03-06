@@ -120,7 +120,7 @@ test('a successful file upload', function (assert) {
         });
         assert.deepEqual(response.headers, {
           Location: 'https://my-server.com/remote-url.jpg',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json; charset=utf-8'
         });
       });
     }
@@ -146,7 +146,7 @@ test('a successful file upload', function (assert) {
     assert.ok(uploader.started);
     uploader.FileUploaded(uploader, file, {
       status: 200,
-      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json",
+      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
       response: '{ "name": "test-filename.jpg" }'
     });
     done();

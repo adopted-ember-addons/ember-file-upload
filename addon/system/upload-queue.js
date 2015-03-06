@@ -135,18 +135,16 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
       return headers;
     }, {});
 
+    var contentType = (headers['Content-Type'] || '').split(';');
     // Parse body according to the Content-Type received by the server
-    switch (headers['Content-Type']) {
-    case 'text/html':
+    if (contentType.indexOf('text/html') !== -1) {
       body = Ember.$.parseHTML(body);
-      break;
-    case 'text/xml':
+    } else if (contentType.indexOf('text/xml') !== -1) {
       body = Ember.$.parseXML(body);
-      break;
-    case 'application/json':
-    case 'application/javascript':
+    } else if (contentType.indexOf('application/json') !== -1 ||
+               contentType.indexOf('text/javascript') !== -1 ||
+               contentType.indexOf('application/javascript') !== -1) {
       body = Ember.$.parseJSON(body);
-      break;
     }
 
     var results = {
