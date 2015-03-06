@@ -4,8 +4,7 @@ export default {
   name: 'pl-uploader',
 
   initialize: function (container, app) {
-    var manager = UploadQueueManager.create();
-    app.register('app:upload-queue-manager', manager, { instantiate: false });
+    app.register('app:upload-queue-manager', UploadQueueManager, { singleton: true });
     app.inject('controller', 'uploadQueueManager', 'app:upload-queue-manager');
     app.inject('route',      'uploadQueueManager', 'app:upload-queue-manager');
     app.inject('app:upload-queue-manager', 'router', 'router:main');
