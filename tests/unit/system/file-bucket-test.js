@@ -1,5 +1,6 @@
+/* global plupload */
 import Ember from 'ember';
-import FileBucket from 'ember-plupload/system/file_bucket';
+import FileBucket from 'ember-plupload/system/file-bucket';
 import MockUploader from '../../helpers/mock-uploader';
 import {
   module,
@@ -8,29 +9,23 @@ import {
 
 var get = Ember.get;
 var bind = Ember.run.bind;
+var originalPlupload;
 
-FileBucket.reopen({
-  makeQueue: function (mock) {
-    mock.bind('FilesAdded',     bind(this, 'filesAdded'));
-    mock.bind('FilesRemoved',   bind(this, 'filesRemoved'));
-    mock.bind('BeforeUpload',   bind(this, 'progressDidChange'));
-    mock.bind('UploadProgress', bind(this, 'progressDidChange'));
-    mock.bind('FileUploaded',   bind(this, 'fileUploaded'));
-    mock.bind('UploadComplete', bind(this, 'uploadComplete'));
-    mock.bind('Error',          bind(this, 'onError'));
-
-    get(this, 'queues').pushObject(mock);
+module('FileBucket', {
+  beforeEach: function () {
+    originalPlupload = plupload.Uploader;
+    plupload.Uploader = MockUploader;
+  },
+  afterEach: function () {
+    plupload.Uploader = originalPlupload;
   }
 });
-
-module('FileBucket');
 
 test('manages the lifecycle of uploaders (nothing queued)', function (assert) {
   var bucket = FileBucket.create();
   assert.equal(get(bucket, 'length'), 0);
 
-  var uploader = new MockUploader();
-  bucket.makeQueue(uploader);
+  var uploader = bucket.makeQueue();
   assert.equal(get(bucket, 'queues.length'), 1);
 
   bucket.orphan();
@@ -42,8 +37,7 @@ test('manages the lifecycle of uploaders (with queued items)', function (assert)
   var bucket = FileBucket.create();
   assert.equal(get(bucket, 'length'), 0);
 
-  var uploader = new MockUploader();
-  bucket.makeQueue(uploader);
+  var uploader = bucket.makeQueue();
   assert.equal(get(bucket, 'queues.length'), 1);
   uploader.total.queued = 1;
 
@@ -56,15 +50,13 @@ test('manages the lifecycle of uploaders (with queued items)', function (assert)
 
 test('multiple uploaders can be handled simultaneously', function (assert) {
   var bucket = FileBucket.create();
-  var uploader = new MockUploader();
+  var uploader = bucket.makeQueue();
   uploader.total.queued = 1;
-  bucket.makeQueue(uploader);
   assert.equal(get(bucket, 'queues.length'), 1);
   bucket.orphan();
 
-  var uploader2 = new MockUploader();
+  var uploader2 = bucket.makeQueue();
   uploader2.total.queued = 1;
-  bucket.makeQueue(uploader2);
   assert.equal(get(bucket, 'queues.length'), 2);
   bucket.orphan();
 
@@ -76,11 +68,8 @@ test('multiple uploaders can be handled simultaneously', function (assert) {
 
 test('the progress property is computed from the totals of each uploader', function (assert) {
   var bucket = FileBucket.create();
-  var uploader = new MockUploader();
-  var uploader2 = new MockUploader();
-
-  bucket.makeQueue(uploader);
-  bucket.makeQueue(uploader2);
+  var uploader = bucket.makeQueue();
+  var uploader2 = bucket.makeQueue();
 
   uploader.total.size = 7000;
   uploader2.total.size = 3000;
@@ -94,7 +83,6 @@ test('the progress property is computed from the totals of each uploader', funct
 
 test('the queued action is triggered when a file is added', function (assert) {
   assert.expect(6);
-  var uploader = new MockUploader();
   var router = Ember.Object.create({
     queued: function (file, env) {
       assert.equal(get(file, 'id'), 'test');
@@ -112,7 +100,7 @@ test('the queued action is triggered when a file is added', function (assert) {
     target: router
   });
 
-  bucket.makeQueue(uploader);
+  var uploader = bucket.makeQueue();
   uploader.FilesAdded(uploader, [{
     id: 'test',
     name: 'test-filename.jpg',
@@ -123,8 +111,6 @@ test('the queued action is triggered when a file is added', function (assert) {
 
 test('a successful file upload', function (assert) {
   var done = assert.async();
-
-  var uploader = new MockUploader();
   var router = Ember.Object.create({
     queued: function (file) {
       file.upload().then(function (response) {
@@ -146,7 +132,7 @@ test('a successful file upload', function (assert) {
     target: router
   });
 
-  bucket.makeQueue(uploader);
+  var uploader = bucket.makeQueue();
   var file = {
     id: 'test',
     name: 'test-filename.jpg',
@@ -170,7 +156,6 @@ test('a successful file upload', function (assert) {
 test('a failed file upload', function (assert) {
   var done = assert.async();
 
-  var uploader = new MockUploader();
   var router = Ember.Object.create({
     queued: function (file) {
       file.upload().then(null, function (response) {
@@ -187,7 +172,7 @@ test('a failed file upload', function (assert) {
     target: router
   });
 
-  bucket.makeQueue(uploader);
+  var uploader = bucket.makeQueue();
   var file = {
     id: 'test',
     name: 'test-filename.jpg',
