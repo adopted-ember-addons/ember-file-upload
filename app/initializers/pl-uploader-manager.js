@@ -1,4 +1,4 @@
-import FileUploadManager from "ember-plupload/system/file_upload_manager";
+import FileUploadManager from "ember-plupload/system/file-upload-manager";
 
 export default {
   name: 'pl-uploader',
@@ -11,4 +11,4 @@ export default {
 
     app.inject('component', 'fileUploadManager', 'app:file-upload-manager');
   }
-};
+}
