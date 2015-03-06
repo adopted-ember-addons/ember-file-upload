@@ -11,6 +11,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `when-queued`       | the name of the action on a route to be called when a file is queued to be uploaded
 | `action`            | the URL to send the upload request to
 | `for`               | the ID of the browse button
 | `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
@@ -19,6 +20,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | `multipart-params`  | multipart params to send along with the upload
 | `max-file-size`     | the maximum size of file uploads
 | `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
+| `max-retries`       | the maximum number of times to retry uploading the file
 | `chunk-size`        | the chunk size to split the file into when sending to the server
 
 
