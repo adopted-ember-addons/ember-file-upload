@@ -1,6 +1,8 @@
 export default function (config) {
+  var removedFiles = [];
   return {
     config: config,
+    removedFiles: removedFiles,
 
     total: {
       queued: 0,
@@ -18,6 +20,10 @@ export default function (config) {
 
     unbindAll: function () {
       this.unbound = true;
+    },
+
+    removeFile: function (file) {
+      removedFiles.push(file);
     },
 
     start: function () {

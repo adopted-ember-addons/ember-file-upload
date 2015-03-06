@@ -48,6 +48,7 @@ test('it configures the plupload Uploader correctly', function (assert) {
   var uploader = get(component, 'fileBucket.queues.firstObject');
   var elementId = get(component, 'elementId');
 
+  assert.ok(uploader.initialized);
   assert.deepEqual(uploader.config, {
     runtimes: 'html5,html4,flash,silverlight',
     url: 'https://my-bucket.amazonaws.com/test',
@@ -73,4 +74,117 @@ test('it configures the plupload Uploader correctly', function (assert) {
       Accept: 'text/plain'
     }
   });
+});
+
+test('sends an event when the file is queued', function (assert) {
+  assert.expect(7);
+  var router = Ember.Object.create({
+    uploadImage: function (file, env) {
+      assert.equal(get(file, 'id'), 'test');
+      assert.equal(get(file, 'name'), 'test-filename.jpg');
+      assert.equal(get(file, 'size'), 2000);
+      assert.equal(get(file, 'progress'), 0);
+      assert.equal(env.name, 'test-component');
+      assert.equal(env.uploader, uploader);
+      assert.ok(!env.uploader.started);
+    }
+  });
+
+  var manager = FileUploadManager.create({
+    router: router
+  });
+
+  // creates the component instance
+  var component = this.subject({
+    name: 'test-component',
+    "when-queued": 'uploadImage',
+    fileUploadManager: manager
+  });
+
+  // renders the component to the page
+  this.render();
+
+  var uploader = get(component, 'fileBucket.queues.firstObject');
+  uploader.FilesAdded(uploader, [{
+    id: 'test',
+    name: 'test-filename.jpg',
+    size: 2000,
+    percent: 0
+  }]);
+});
+
+test('resolves file.upload when the file upload succeeds', function (assert) {
+  var done = assert.async();
+  assert.expect(2);
+  var router = Ember.Object.create({
+    uploadImage: function (file, env) {
+      file.upload().then(function (response) {
+        assert.ok(response);
+      });
+    }
+  });
+
+  var manager = FileUploadManager.create({
+    router: router
+  });
+
+  // creates the component instance
+  var component = this.subject({
+    "when-queued": 'uploadImage',
+    fileUploadManager: manager
+  });
+
+  // renders the component to the page
+  this.render();
+
+  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var file = { id: 'test' };
+
+  uploader.FilesAdded(uploader, [file]);
+  setTimeout(function () {
+    assert.ok(uploader.started);
+    uploader.FileUploaded(uploader, file, {
+      status: 200,
+      responseHeaders: ''
+    });
+    done();
+  }, 100);
+});
+
+test('rejects file.upload when the file upload succeeds', function (assert) {
+  var done = assert.async();
+  assert.expect(2);
+  var router = Ember.Object.create({
+    uploadImage: function (file, env) {
+      file.upload().then(null, function (response) {
+        assert.ok(response);
+      });
+    }
+  });
+
+  var manager = FileUploadManager.create({
+    router: router
+  });
+
+  // creates the component instance
+  var component = this.subject({
+    "when-queued": 'uploadImage',
+    fileUploadManager: manager
+  });
+
+  // renders the component to the page
+  this.render();
+
+  var uploader = get(component, 'fileBucket.queues.firstObject');
+  var file = { id: 'test' };
+
+  uploader.FilesAdded(uploader, [file]);
+  setTimeout(function () {
+    assert.ok(uploader.started);
+    uploader.FileUploaded(uploader, file, {
+      status: 404,
+      responseHeaders: ''
+    });
+    done();
+  }, 100);
 });
