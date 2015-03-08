@@ -127,7 +127,7 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
     this.notifyPropertyChange('progress');
   },
 
-  fileUploaded: function (uploader, file, response) {
+  parseResponse: function (response) {
     var body = trim(response.response);
     var headers = response.responseHeaders.split('\n').without('').reduce(function (headers, header) {
       var parts = header.split(/^([A-Za-z_-]*:)/);
@@ -147,12 +147,15 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
       body = Ember.$.parseJSON(body);
     }
 
-    var results = {
+    return {
       status: response.status,
       body: body,
       headers: headers
     };
+  },
 
+  fileUploaded: function (uploader, file, response) {
+    var results = this.parseResponse(response);
     file = this.findProperty('id', file.id);
     if (file) {
       this.removeObject(file);
@@ -160,8 +163,8 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
 
     // NOTE: Plupload calls UploadProgress upon triggering FileUploaded,
     //       so we don't need to trigger a progress event
-    if (response.status === 204 ||
-        response.status === 200) {
+    if (results.status === 204 ||
+        results.status === 200) {
       file._deferred.resolve(results);
     } else {
       file._deferred.reject(results);
