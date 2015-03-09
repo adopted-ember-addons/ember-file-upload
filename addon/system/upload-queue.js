@@ -95,16 +95,10 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
       });
 
       this.pushObject(file);
-      this.triggerAction({
-        target: get(this, 'target'),
-        action: get(this, 'onQueued'),
-        actionContext: [
-          file,
-          {
-            name: get(this, 'name'),
-            uploader: uploader
-          }
-        ]
+      get(this, 'target').sendAction('when-queued', file, {
+        name: get(this, 'name'),
+        uploader: uploader,
+        queue: this
       });
     }
   },

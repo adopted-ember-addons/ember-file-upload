@@ -23,7 +23,7 @@ export default Ember.Object.extend({
     @param {String} name The name of the queue to find
     @param {Object} [config] The configuration to use for the uploader
    */
-  find: function (name, config) {
+  find: function (name, component, config) {
     var queue;
 
     if (get(this, 'queues').has(name)) {
@@ -35,7 +35,7 @@ export default Ember.Object.extend({
       queue = UploadQueue.create({
         name: name,
         onQueued: config.on_queued,
-        target: get(this, 'router')
+        target: component
       });
       get(this, 'queues').set(name, queue);
       queue.configure(config);

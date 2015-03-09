@@ -8,6 +8,7 @@ import UploadQueueManager from "ember-plupload/system/upload-queue-manager";
 import MockUploader from '../../helpers/mock-uploader';
 
 var get = Ember.get;
+var set = Ember.set;
 var originalPlupload;
 
 moduleForComponent('pl-uploader', {
@@ -23,9 +24,6 @@ moduleForComponent('pl-uploader', {
 });
 
 test('it configures the plupload Uploader correctly', function (assert) {
-  var manager = UploadQueueManager.create();
-
-  // creates the component instance
   var component = this.subject({
     for: 'browse-button',
     "when-queued": 'uploadImage',
@@ -39,10 +37,9 @@ test('it configures the plupload Uploader correctly', function (assert) {
     "no-duplicates": true,
     "max-retries": 2,
     "chunk-size": 128,
-    uploadQueueManager: manager
+    uploadQueueManager: UploadQueueManager.create()
   });
 
-  // renders the component to the page
   this.render();
 
   var uploader = get(component, 'queue.queues.firstObject');
@@ -52,7 +49,6 @@ test('it configures the plupload Uploader correctly', function (assert) {
   assert.deepEqual(uploader.config, {
     runtimes: 'html5,html4,flash,silverlight',
     url: 'https://my-bucket.amazonaws.com/test',
-    on_queued: 'uploadImage',
     browse_button: 'browse-button',
     drop_element: get(component, 'features.drag-and-drop') ? 'dropzone-for-' + elementId : null,
     container: elementId,
@@ -78,7 +74,7 @@ test('it configures the plupload Uploader correctly', function (assert) {
 
 test('sends an event when the file is queued', function (assert) {
   assert.expect(7);
-  var router = Ember.Object.create({
+  var target = {
     uploadImage: function (file, env) {
       assert.equal(get(file, 'id'), 'test');
       assert.equal(get(file, 'name'), 'test-filename.jpg');
@@ -88,21 +84,16 @@ test('sends an event when the file is queued', function (assert) {
       assert.equal(env.uploader, uploader);
       assert.ok(!env.uploader.started);
     }
-  });
+  };
 
-  var manager = UploadQueueManager.create({
-    router: router
-  });
-
-  // creates the component instance
   var component = this.subject({
     name: 'test-component',
     "when-queued": 'uploadImage',
-    uploadQueueManager: manager
+    uploadQueueManager: UploadQueueManager.create()
   });
 
-  // renders the component to the page
   this.render();
+  set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
   uploader.FilesAdded(uploader, [{
@@ -115,27 +106,29 @@ test('sends an event when the file is queued', function (assert) {
 
 test('resolves file.upload when the file upload succeeds', function (assert) {
   var done = assert.async();
-  assert.expect(2);
-  var router = Ember.Object.create({
+  assert.expect(4);
+  var target = {
     uploadImage: function (file, env) {
       file.upload().then(function (response) {
-        assert.ok(response);
+        assert.equal(response.status, 200);
+        assert.deepEqual(response.body, {
+          name: 'test-filename.jpg'
+        });
+        assert.deepEqual(response.headers, {
+          Location: 'https://my-server.com/remote-url.jpg',
+          'Content-Type': 'application/json; charset=utf-8'
+        });
       });
     }
-  });
+  };
 
-  var manager = UploadQueueManager.create({
-    router: router
-  });
-
-  // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    uploadQueueManager: manager
+    uploadQueueManager: UploadQueueManager.create()
   });
 
-  // renders the component to the page
   this.render();
+  set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test' };
@@ -145,35 +138,35 @@ test('resolves file.upload when the file upload succeeds', function (assert) {
     assert.ok(uploader.started);
     uploader.FileUploaded(uploader, file, {
       status: 200,
-      responseHeaders: ''
+      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
+      response: '{ "name": "test-filename.jpg" }'
     });
     done();
   }, 100);
 });
 
-test('rejects file.upload when the file upload succeeds', function (assert) {
+test('rejects file.upload when the file upload fails', function (assert) {
   var done = assert.async();
-  assert.expect(2);
-  var router = Ember.Object.create({
+  assert.expect(4);
+  var target = {
     uploadImage: function (file, env) {
       file.upload().then(null, function (response) {
-        assert.ok(response);
+        assert.equal(response.status, 404);
+        assert.equal(response.body, 'oops');
+        assert.deepEqual(response.headers, {});
       });
     }
-  });
-
-  var manager = UploadQueueManager.create({
-    router: router
-  });
+  };
 
   // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    uploadQueueManager: manager
+    uploadQueueManager: UploadQueueManager.create()
   });
 
   // renders the component to the page
   this.render();
+  set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test' };
@@ -183,7 +176,8 @@ test('rejects file.upload when the file upload succeeds', function (assert) {
     assert.ok(uploader.started);
     uploader.FileUploaded(uploader, file, {
       status: 404,
-      responseHeaders: ''
+      responseHeaders: '',
+      response: 'oops'
     });
     done();
   }, 100);

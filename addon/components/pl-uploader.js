@@ -59,7 +59,6 @@ export default Ember.Component.extend({
 
   attachUploader: function () {
     var config  = {
-      on_queued:           get(this, 'when-queued'),
       runtimes:            get(this, 'runtimes').join(','),
       browse_button:       get(this, 'for'),
       url:                 get(this, 'action'),
@@ -94,7 +93,7 @@ export default Ember.Component.extend({
     config.chunk_size = get(this, 'chunk-size');
 
     var queues = get(this, 'uploadQueueManager');
-    set(this, 'queue', queues.find(get(this, 'name'), config));
+    set(this, 'queue', queues.find(get(this, 'name'), this, config));
 
     this._dragEnters = 0;
     this._invalidateDragData();
