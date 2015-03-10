@@ -38,12 +38,24 @@ export default Ember.Component.extend({
   runtimes: w(['html5', 'html4', 'flash', 'silverlight']),
   accept: w(['application/json', 'text/javascript']),
   extensions: w(),
+  headers: function () {
+    return {
+      Accept: get(this, 'accept').join(',')
+    };
+  }.property('accept'),
 
+  "max-file-size": 0,
+  "no-duplicates": false,
+
+  "send-file-as": "multipart/form-data",
   "multipart-params": null,
-  "max-file-size": null,
-  "no-duplicates": null,
   "max-retries": 0,
   "chunk-size": 0,
+
+  multiple: true,
+  "unique-names": false,
+
+  "file-key": "file",
 
   features: function () {
     var features = {};
@@ -57,24 +69,39 @@ export default Ember.Component.extend({
     return features;
   }.property(),
 
-  attachUploader: function () {
+  config: function () {
+    Ember.assert(
+      "Files can only be sent as 'multipart/form-data' or 'binary'.",
+      ['multipart/form-data', 'binary'].indexOf(get(this, 'send-file-as')) !== -1);
+
     var config  = {
-      runtimes:            get(this, 'runtimes').join(','),
-      browse_button:       get(this, 'for'),
-      url:                 get(this, 'action'),
-      flash_swf_url:       this.BASE_URL + 'Moxie.swf',
-      silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
-      filters: {},
+      browse_button: get(this, 'for'),
+      url: get(this, 'action'),
+      filters: {
+        max_file_size: get(this, 'max-file-size'),
+        prevent_duplicates: get(this, 'no-duplicates')
+      },
+
+      headers: get(this, 'headers'),
+      multipart: get(this, 'send-file-as') === 'multipart/form-data',
       multipart_params: get(this, 'multipart-params') || {},
-      headers: {
-        Accept: get(this, 'accept').join(',')
-      }
+      max_retries: get(this, 'max-retries'),
+      chunk_size: get(this, 'chunk-size'),
+
+      multi_selection: get(this, 'multiple'),
+      required_features: true,
+      unique_names: get(this, 'unique-names'),
+
+      runtimes: get(this, 'runtimes').join(','),
+      file_data_name: get(this, 'file-key'),
+      container: get(this, 'elementId'),
+      flash_swf_url: this.BASE_URL + 'Moxie.swf',
+      silverlight_xap_url: this.BASE_URL + 'Moxie.xap'
     };
 
     if (isDragAndDropSupported()) {
       config.drop_element = get(this, 'features.drag-and-drop.dropzone-id');
     }
-    config.container = get(this, 'elementId');
 
     if (get(this, 'extensions.length')) {
       config.filters.mime_types = [{
@@ -83,17 +110,14 @@ export default Ember.Component.extend({
         }).join(',')
       }];
     }
-    if (get(this, 'max-file-size')) {
-      config.filters.max_file_size = get(this, 'max-file-size');
-    }
-    if (get(this, 'no-duplicates')) {
-      config.filters.preventDuplicates = get(this, 'no-duplicates');
-    }
-    config.max_retries = get(this, 'max-retries');
-    config.chunk_size = get(this, 'chunk-size');
 
-    var queues = get(this, 'uploadQueueManager');
-    set(this, 'queue', queues.find(get(this, 'name'), this, config));
+    return config;
+  }.property(),
+
+  attachUploader: function () {
+    var manager = get(this, 'uploadQueueManager');
+    var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
+    set(this, 'queue', queue);
 
     this._dragEnters = 0;
     this._invalidateDragData();
@@ -106,7 +130,6 @@ export default Ember.Component.extend({
       set(this, 'queue', null);
     }
   }.on('willDestroyElement'),
-
 
   setupDragListeners: function () {
     var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');

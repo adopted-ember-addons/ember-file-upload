@@ -56,15 +56,20 @@ test('it configures the plupload Uploader correctly', function (assert) {
     silverlight_xap_url: '/assets/Moxie.xap',
     max_retries: 2,
     chunk_size: 128,
+    multipart: true,
     multipart_params: {
       signature: 'test'
     },
+    required_features: true,
+    file_data_name: 'file',
+    unique_names: false,
+    multi_selection: true,
     filters: {
       mime_types: [{
         extensions: 'jpg,png,gif'
       }],
       max_file_size: 256,
-      preventDuplicates: true
+      prevent_duplicates: true
     },
     headers: {
       Accept: 'text/plain'

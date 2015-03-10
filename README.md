@@ -14,15 +14,21 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | `when-queued`       | the name of the action on a route to be called when a file is queued to be uploaded
 | `action`            | the URL to send the upload request to
 | `for`               | the ID of the browse button
-| `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
-| `extensions`        | a space-separated list of allowed file extensions
-| `accept`            | a space-separated list of accepted content types that the server can respond with
-| `multipart-params`  | multipart params to send along with the upload
 | `max-file-size`     | the maximum size of file uploads
 | `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
+| `extensions`        | a space-separated list of allowed file extensions
+| `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
+| `accept`            | a space-separated list of accepted content types that the server can respond with. defaults to `application/json text/javascript`
+| `send-file-as`      | how the file should be sent. defaults to `multipart/form-data`; `binary` is the other option
+| `multipart-params`  | multipart params to send along with the upload
 | `max-retries`       | the maximum number of times to retry uploading the file
 | `chunk-size`        | the chunk size to split the file into when sending to the server
+| `multiple`          | whether multiple files can be selected
+| `unique-names`      | when set to `true`, this will rename files sent to the server and send the original name as a parameter named `name`
+| `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
+| `file-key`          | the name of the parameter to send the file as. defaults to `file`
 
+For more in-depth documentation on the configuration options, see the [Plupload documentation](http://plupload.com/docs/Options).
 
 ## Recipes
 
