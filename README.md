@@ -96,6 +96,49 @@ export default Ember.Route.extend({
 });
 ```
 
+## Custom File Filters
+
+File filters are supported using a promise based API on top of Plupload.
+
+Begin by generating a new filter:
+
+```bash
+ember generate file-filter max-image-resolution
+```
+
+Which will generate a new file filter in your application. Call `resolve` if the file is valid, and `reject` with an error code and human readable reason if it's not.
+
+For the `max-image-resolution` filter, the following code will create the correct filter:
+
+```javascript
+import Ember from "ember";
+
+const RSVP = Ember.RSVP;
+
+export default function (maxImageResolution, file, resolve, reject) {
+  var image = new Image();
+  var deferred = RSVP.defer();
+
+  image.onload = deferred.resolve;
+  image.onerror = deferred.reject;
+
+  deferred.promise.then(function () {
+    if (image.width * image.height < maxImageResolution) {
+      throw "Image failed to load";
+    }
+  }).then(resolve, function () {
+    reject(
+      plupload.IMAGE_DIMENSIONS_ERROR,
+      `Resolution exceeds the allowed limit of ${maxImageResolution} pixels.`
+    );
+  }).finally(function () {
+    image.destroy();
+  });
+
+  img.load(file.getSource());
+}
+```
+
 ## Installation
 
 * `ember install:addon ember-plupload`

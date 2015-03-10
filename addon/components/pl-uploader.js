@@ -99,6 +99,14 @@ export default Ember.Component.extend({
       silverlight_xap_url: this.BASE_URL + 'Moxie.xap'
     };
 
+    var filters = get(this, 'fileFilters') || {};
+    var self = this;
+    keys(filters).forEach(function (filter) {
+      if (get(self, filter)) {
+        config.filters[filter] = get(self, filter);
+      }
+    });
+
     if (isDragAndDropSupported()) {
       config.drop_element = get(this, 'features.drag-and-drop.dropzone-id');
     }
