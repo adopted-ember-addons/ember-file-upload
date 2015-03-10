@@ -121,6 +121,7 @@ export default function (maxImageResolution, file, resolve, reject) {
 
   image.onload = deferred.resolve;
   image.onerror = deferred.reject;
+  image.load(file.getSource());
 
   deferred.promise.then(function () {
     if (image.width * image.height < maxImageResolution) {
@@ -134,8 +135,6 @@ export default function (maxImageResolution, file, resolve, reject) {
   }).finally(function () {
     image.destroy();
   });
-
-  img.load(file.getSource());
 }
 ```
 
