@@ -19,9 +19,8 @@ var summation = function (target, key) {
   @namespace ember-plupload
   @class UploadQueue
   @extend Ember.ArrayProxy
-  @extend Ember.TargetActionSupport
  */
-export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
+export default Ember.ArrayProxy.extend({
 
   name: null,
 
@@ -30,10 +29,10 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
   queues: null,
 
   init: function () {
-    set(this, 'queues', []);
-    set(this, 'orphanedQueues', []);
+    set(this, 'queues', Ember.A([]));
+    set(this, 'orphanedQueues', Ember.A([]));
 
-    set(this, 'content', []);
+    set(this, 'content', Ember.A([]));
     this._super();
   },
 
@@ -63,7 +62,7 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
     var activeQueues = get(this, 'queues').filter(function (queue) {
       return orphans.indexOf(queue) === -1;
     });
-    var queue = get(activeQueues, 'lastObject');
+    var queue = get(Ember.A(activeQueues), 'lastObject');
     if (get(queue, 'total.queued') > 0) {
       orphans.pushObject(queue);
     } else {
@@ -74,18 +73,18 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
   destroy: function () {
     this._super();
     get(this, 'queues').invoke('unbindAll');
-    set(this, 'content', []);
+    set(this, 'content', Ember.A([]));
     set(this, 'queues', null);
   },
 
-  progress: function () {
+  progress: Ember.computed(function () {
     var queues        = get(this, 'queues'),
         totalSize     = summation(queues, 'total.size'),
         totalUploaded = summation(queues, 'total.loaded'),
         percent       = totalUploaded / totalSize || 0;
 
     return Math.floor(percent * 100);
-  }.property(),
+  }),
 
   filesAdded: function (uploader, files) {
     for (var i = 0, len = files.length; i < len; i++) {
@@ -123,7 +122,8 @@ export default Ember.ArrayProxy.extend(Ember.TargetActionSupport, {
 
   parseResponse: function (response) {
     var body = trim(response.response);
-    var headers = response.responseHeaders.split('\n').without('').reduce(function (headers, header) {
+    var rawHeaders = Ember.A(response.responseHeaders.split('\n')).without('');
+    var headers = rawHeaders.reduce(function (headers, header) {
       var parts = header.split(/^([A-Za-z_-]*:)/);
       headers[parts[1].slice(0, -1)] = trim(parts[2]);
       return headers;

@@ -48,9 +48,9 @@ export default Ember.Object.extend({
     @property progress
     @type Number
    */
-  progress: function () {
+  progress: Ember.computed(function () {
     return get(this, 'file.percent');
-  }.property(),
+  }),
 
   /**
     Remove the file from the upload queue.

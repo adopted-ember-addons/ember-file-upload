@@ -57,7 +57,7 @@ export default Ember.Component.extend({
 
   "file-key": "file",
 
-  features: function () {
+  features: Ember.computed(function () {
     var features = {};
 
     if (isDragAndDropSupported()) {
@@ -67,9 +67,9 @@ export default Ember.Component.extend({
       };
     }
     return features;
-  }.property(),
+  }),
 
-  config: function () {
+  config: Ember.computed(function () {
     Ember.assert(
       "Files can only be sent as 'multipart/form-data' or 'binary'.",
       ['multipart/form-data', 'binary'].indexOf(get(this, 'send-file-as')) !== -1);
@@ -120,26 +120,26 @@ export default Ember.Component.extend({
     }
 
     return config;
-  }.property(),
+  }),
 
-  attachUploader: function () {
+  attachUploader: Ember.on('willInsertElement', function () {
     var manager = get(this, 'uploadQueueManager');
     var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
 
     this._dragEnters = 0;
     this._invalidateDragData();
-  }.on('didInsertElement'),
+  }),
 
-  detachUploader: function () {
+  detachUploader: Ember.on('willDestroyElement', function () {
     var queue = get(this, 'queue');
     if (queue) {
       queue.orphan();
       set(this, 'queue', null);
     }
-  }.on('willDestroyElement'),
+  }),
 
-  setupDragListeners: function () {
+  setupDragListeners: Ember.on('didInsertElement', function () {
     var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
     if (dropzoneId) {
       var handlers = this.eventHandlers = {
@@ -151,9 +151,9 @@ export default Ember.Component.extend({
         Ember.$(document).on(key, '#' + dropzoneId, handlers[key]);
       });
     }
-  }.on('didInsertElement'),
+  }),
 
-  teardownDragListeners: function () {
+  teardownDragListeners: Ember.on('willDestroyElement', function () {
     var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
     if (dropzoneId) {
       var handlers = this.eventHandlers;
@@ -162,7 +162,7 @@ export default Ember.Component.extend({
       });
       this.eventHandlers = null;
     }
-  }.on('willDestroyElement'),
+  }),
 
   dragData: null,
   enteredDropzone: function (evt) {
@@ -177,14 +177,14 @@ export default Ember.Component.extend({
     }
   },
 
-  _invalidateDragData: function () {
+  _invalidateDragData: Ember.observer('queue.length', function () {
     if (get(this, 'queue.length') > this._queued && get(this, 'dragData')) {
       set(this, 'dragData', null);
     }
     this._queued = get(this, 'queue.length');
-  }.observes('queue.length'),
+  }),
 
-  setDragDataValidity: function () {
+  setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
     if (!isDragAndDropSupported()) { return; }
 
     var data       = get(this, 'dragData');
@@ -206,5 +206,5 @@ export default Ember.Component.extend({
     } else {
       set(this, 'features.drag-and-drop.drag-data', null);
     }
-  }.observes('dragData').on('init')
+  }))
 });
