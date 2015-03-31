@@ -7,7 +7,7 @@ var toArray = function (value) {
   if (typeof value === "string") {
     value = w(value);
   }
-  return value;
+  return Ember.A(value);
 };
 
 export default function(defaultValue) {

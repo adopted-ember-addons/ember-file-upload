@@ -38,11 +38,11 @@ export default Ember.Component.extend({
   runtimes: w(['html5', 'html4', 'flash', 'silverlight']),
   accept: w(['application/json', 'text/javascript']),
   extensions: w(),
-  headers: function () {
+  headers: Ember.computed('accept', function () {
     return {
       Accept: get(this, 'accept').join(',')
     };
-  }.property('accept'),
+  }),
 
   "max-file-size": 0,
   "no-duplicates": false,
