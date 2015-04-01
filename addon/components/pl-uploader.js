@@ -122,7 +122,7 @@ export default Ember.Component.extend({
     return config;
   }),
 
-  attachUploader: Ember.on('willInsertElement', function () {
+  attachUploader: Ember.on('didInsertElement', function () {
     var manager = get(this, 'uploadQueueManager');
     var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
