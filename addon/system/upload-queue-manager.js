@@ -29,6 +29,7 @@ export default Ember.Object.extend({
     if (get(this, 'queues').has(name)) {
       queue = get(this, 'queues').get(name);
       if (config != null) {
+        set(queue, 'target', component);
         queue.configure(config);
       }
     } else {
