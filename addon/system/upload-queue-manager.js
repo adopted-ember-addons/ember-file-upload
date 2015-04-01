@@ -34,7 +34,6 @@ export default Ember.Object.extend({
     } else {
       queue = UploadQueue.create({
         name: name,
-        onQueued: config.on_queued,
         target: component
       });
       get(this, 'queues').set(name, queue);
