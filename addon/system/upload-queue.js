@@ -122,7 +122,7 @@ export default Ember.ArrayProxy.extend({
 
   parseResponse: function (response) {
     var body = trim(response.response);
-    var rawHeaders = Ember.A(response.responseHeaders.split('\n')).without('');
+    var rawHeaders = Ember.A(response.responseHeaders.split(/\\n|\\r/)).without('');
     var headers = rawHeaders.reduce(function (headers, header) {
       var parts = header.split(/^([A-Za-z_-]*:)/);
       if(parts.length > 0){
