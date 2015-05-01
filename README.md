@@ -39,25 +39,23 @@ For example, creating an image uploader that uploads images to your API server w
 ```handlebars
 {{#pl-uploader extensions="jpg jpeg png gif" action="/api/images/upload" for="upload-image" when-queued="uploadImage" as |queue features|}}
   <div class="dropzone" id={{features.drag-and-drop.dropzone-id}}>
-    {{#with features.drag-and-drop.drag-data as |dragData|}}
-      {{#if dragData}}
-        {{#if dragData.valid}}
-          Drop to upload
-        {{else}}
-          Invalid
-        {{/if}}
-      {{else if queue.length}}
-        Uploading {{queue.length}} files. ({{queue.progress}}%)
+    {{#if features.drag-and-drop.drag-data}}
+      {{#if features.drag-and-drop.drag-data.valid}}
+        Drop to upload
       {{else}}
-        <h4>Upload Images</h4>
-        <p>
-          {{#if features.drag-and-drop}}
-            Drag and drop images onto this area to upload them or
-          {{/if}}
-          <a id="upload-image">Add an Image.</a>
-        </p>
+        Invalid
       {{/if}}
-    {{/with}}
+    {{else if queue.length}}
+      Uploading {{queue.length}} files. ({{queue.progress}}%)
+    {{else}}
+      <h4>Upload Images</h4>
+      <p>
+        {{#if features.drag-and-drop}}
+          Drag and drop images onto this area to upload them or
+        {{/if}}
+        <a id="upload-image">Add an Image.</a>
+      </p>
+    {{/if}}
   </div>
 {{/pl-uploader}}
 ```

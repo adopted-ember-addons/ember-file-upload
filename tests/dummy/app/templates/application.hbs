@@ -1,3 +1,30 @@
-<h2 id="title">Welcome to Ember.js</h2>
+<h2>PlUpload Test</h2>
+<hr>
+{{#pl-uploader extensions="jpg jpeg png gif" action="/api/images/upload" for="upload-image" when-queued="uploadImage" as |queue features|}}
+  <div class="dropzone" id={{features.drag-and-drop.dropzone-id}}>
+    {{#if features.drag-and-drop.drag-data}}
+      {{#if features.drag-and-drop.drag-data.valid}}
+        Drop to upload
+      {{else}}
+        Invalid
+      {{/if}}
+    {{else if queue.length}}
+      Uploading {{queue.length}} files. ({{queue.progress}}%)
+    {{else}}
+      <h4>Upload Images</h4>
+      <p>
+        {{#if features.drag-and-drop}}
+          Drag and drop images onto this area to upload them or
+        {{/if}}
+        <a id="upload-image">Add an Image.</a>
+      </p>
+    {{/if}}
+  </div>
+{{/pl-uploader}}
 
-{{outlet}}
+<h4>Events</h4>
+<ul>
+  {{#each events as |event|}}
+    <li>{{event}}</li>
+  {{/each}}
+</ul>
