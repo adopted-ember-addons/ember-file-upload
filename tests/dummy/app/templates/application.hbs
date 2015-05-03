@@ -25,6 +25,6 @@
 <h4>Events</h4>
 <ul>
   {{#each events as |event|}}
-    <li>{{event}}</li>
+    <li><img src={{event.preview}} style="max-width: 100px; max-height: 100px">{{event.filename}}</li>
   {{/each}}
 </ul>
