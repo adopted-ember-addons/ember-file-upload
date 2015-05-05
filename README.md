@@ -83,6 +83,12 @@ export default Ember.Route.extend({
         filesize: get(file, 'size')
       });
 
+      file.read().then(function (url) {
+        if (get(image, 'url') == null) {
+          set(image, 'url', url);
+        }
+      });
+
       file.upload().then(function (response) {
         set(image, 'url', response.headers.Location);
         return image.save();

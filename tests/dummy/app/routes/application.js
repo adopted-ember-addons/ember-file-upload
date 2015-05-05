@@ -1,5 +1,4 @@
 import Ember from "ember";
-import readFileAsDataURL from "../utils/read-file-as-data-url";
 
 export default Ember.Route.extend({
   actions: {
@@ -8,8 +7,9 @@ export default Ember.Route.extend({
       if (controller.get('events') == null) {
         controller.set('events', Ember.A([]));
       }
+
       let filename = file.get('name');
-      readFileAsDataURL(file.get('file')).then(function (url) {
+      file.read().then(function (url) {
         controller.get('events').pushObject({
           filename: filename,
           preview: url

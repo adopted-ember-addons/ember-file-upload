@@ -1,11 +1,13 @@
+/* global mOxie */
 import Ember from "ember";
 
-var get = Ember.get;
-var reads = Ember.computed.reads;
+const get = Ember.get;
+const reads = Ember.computed.reads;
 
-var later = Ember.run.later;
+const later = Ember.run.later;
 
-var RSVP = Ember.RSVP;
+const RSVP = Ember.RSVP;
+const mOxieFileReader = mOxie.FileReader;
 
 /**
   A representation of a single file being uploaded
@@ -69,5 +71,34 @@ export default Ember.Object.extend({
     later(uploader, 'start', 100);
 
     return this._deferred.promise;
+  },
+
+  read: function (options = { as: 'data-url' }) {
+    let file = get(this, 'file').getSource();
+    let reader = new mOxieFileReader();
+    let { promise, resolve, reject } = RSVP.defer();
+    reader.onloadend = resolve;
+    reader.onerror = reject;
+
+    switch (options.as) {
+    case 'array-buffer':
+      reader.readAsArrayBuffer(file);
+      break;
+    case 'data-url':
+      reader.readAsDataURL(file);
+      break;
+    case 'binary-string':
+      reader.readAsBinaryString(file);
+      break;
+    case 'text':
+      reader.readAsText(file);
+      break;
+    }
+
+    return promise.then(function () {
+      return reader.result;
+    }, function () {
+      return reader.error;
+    });
   }
 });
