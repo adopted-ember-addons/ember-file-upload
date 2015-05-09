@@ -36,26 +36,13 @@ export default Ember.Component.extend({
     @default ['html5', 'html4', 'flash', 'silverlight']
    */
   runtimes: w(['html5', 'html4', 'flash', 'silverlight']),
-  accept: w(['application/json', 'text/javascript']),
   extensions: w(),
-  headers: Ember.computed('accept', function () {
-    return {
-      Accept: get(this, 'accept').join(',')
-    };
-  }),
 
   "max-file-size": 0,
   "no-duplicates": false,
 
-  "send-file-as": "multipart/form-data",
-  "multipart-params": null,
-  "max-retries": 0,
-  "chunk-size": 0,
-
   multiple: true,
   "unique-names": false,
-
-  "file-key": "file",
 
   features: Ember.computed(function () {
     var features = {};
@@ -70,40 +57,27 @@ export default Ember.Component.extend({
   }),
 
   config: Ember.computed(function () {
-    Ember.assert(
-      "Files can only be sent as 'multipart/form-data' or 'binary'.",
-      ['multipart/form-data', 'binary'].indexOf(get(this, 'send-file-as')) !== -1);
-
     var config  = {
       browse_button: get(this, 'for'),
-      url: get(this, 'action'),
       filters: {
         max_file_size: get(this, 'max-file-size'),
         prevent_duplicates: get(this, 'no-duplicates')
       },
 
-      headers: get(this, 'headers'),
-      multipart: get(this, 'send-file-as') === 'multipart/form-data',
-      multipart_params: get(this, 'multipart-params') || {},
-      max_retries: get(this, 'max-retries'),
-      chunk_size: get(this, 'chunk-size'),
-
       multi_selection: get(this, 'multiple'),
       required_features: true,
-      unique_names: get(this, 'unique-names'),
 
       runtimes: get(this, 'runtimes').join(','),
-      file_data_name: get(this, 'file-key'),
       container: get(this, 'elementId'),
       flash_swf_url: this.BASE_URL + 'Moxie.swf',
-      silverlight_xap_url: this.BASE_URL + 'Moxie.xap'
+      silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
+      unique_names: get(this, 'unique-names')
     };
 
     var filters = get(this, 'fileFilters') || {};
-    var self = this;
-    keys(filters).forEach(function (filter) {
-      if (get(self, filter)) {
-        config.filters[filter] = get(self, filter);
+    keys(filters).forEach((filter) => {
+      if (get(this, filter)) {
+        config.filters[filter] = get(this, filter);
       }
     });
 

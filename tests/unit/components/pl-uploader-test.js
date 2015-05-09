@@ -27,16 +27,9 @@ test('it configures the plupload Uploader correctly', function (assert) {
   var component = this.subject({
     for: 'browse-button',
     "when-queued": 'uploadImage',
-    action: 'https://my-bucket.amazonaws.com/test',
-    accept: 'text/plain',
     extensions: 'JPG PNG GIF',
-    "multipart-params": {
-      signature: 'test'
-    },
     "max-file-size": 256,
     "no-duplicates": true,
-    "max-retries": 2,
-    "chunk-size": 128,
     uploadQueueManager: UploadQueueManager.create()
   });
 
@@ -48,20 +41,12 @@ test('it configures the plupload Uploader correctly', function (assert) {
   assert.ok(uploader.initialized);
   assert.deepEqual(uploader.config, {
     runtimes: 'html5,html4,flash,silverlight',
-    url: 'https://my-bucket.amazonaws.com/test',
     browse_button: 'browse-button',
     drop_element: get(component, 'features.drag-and-drop') ? 'dropzone-for-' + elementId : null,
     container: elementId,
     flash_swf_url: '/assets/Moxie.swf',
     silverlight_xap_url: '/assets/Moxie.xap',
-    max_retries: 2,
-    chunk_size: 128,
-    multipart: true,
-    multipart_params: {
-      signature: 'test'
-    },
     required_features: true,
-    file_data_name: 'file',
     unique_names: false,
     multi_selection: true,
     filters: {
@@ -70,9 +55,6 @@ test('it configures the plupload Uploader correctly', function (assert) {
       }],
       max_file_size: 256,
       prevent_duplicates: true
-    },
-    headers: {
-      Accept: 'text/plain'
     }
   });
 });
@@ -145,6 +127,147 @@ test('resolves file.upload when the file upload succeeds', function (assert) {
       status: 200,
       responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
       response: '{ "name": "test-filename.jpg" }'
+    });
+    done();
+  }, 100);
+});
+
+test('merges uploader settings with the settings provided in file.upload', function (assert) {
+  var done = assert.async();
+  assert.expect(2);
+  var target = {
+    uploadImage: function (file, env) {
+      file.upload({
+        url: 'https://my-bucket.amazonaws.com/test',
+        accepts: 'text/plain',
+        data: {
+          signature: 'test'
+        },
+        maxRetries: 2,
+        chunkSize: 128
+      });
+    }
+  };
+
+  var component = this.subject({
+    for: 'browse-button',
+    "when-queued": 'uploadImage',
+    extensions: 'JPG PNG GIF',
+    "max-file-size": 256,
+    "no-duplicates": true,
+    uploadQueueManager: UploadQueueManager.create()
+  });
+  var elementId = get(component, 'elementId');
+
+  this.render();
+  set(component, 'targetObject', target);
+
+  var uploader = get(component, 'queue.queues.firstObject');
+  var file = { id: 'test' };
+
+  uploader.FilesAdded(uploader, [file]);
+  setTimeout(function () {
+    assert.ok(uploader.started);
+
+    uploader.BeforeUpload(uploader, file);
+    assert.deepEqual(uploader.config, {
+      runtimes: 'html5,html4,flash,silverlight',
+      url: 'https://my-bucket.amazonaws.com/test',
+      browse_button: 'browse-button',
+      drop_element: get(component, 'features.drag-and-drop') ? 'dropzone-for-' + elementId : null,
+      container: elementId,
+      flash_swf_url: '/assets/Moxie.swf',
+      silverlight_xap_url: '/assets/Moxie.xap',
+      max_retries: 2,
+      chunk_size: 128,
+      multipart: true,
+      multipart_params: {
+        signature: 'test'
+      },
+      required_features: true,
+      file_data_name: 'file',
+      unique_names: false,
+      multi_selection: true,
+      filters: {
+        mime_types: [{
+          extensions: 'jpg,png,gif'
+        }],
+        max_file_size: 256,
+        prevent_duplicates: true
+      },
+      headers: {
+        Accept: 'text/plain'
+      }
+    });
+    done();
+  }, 100);
+});
+
+test('merges the url correctly if passed in as the first parameter to upload', function (assert) {
+  var done = assert.async();
+  assert.expect(2);
+  var target = {
+    uploadImage: function (file, env) {
+      file.upload('https://my-bucket.amazonaws.com/test', {
+        accepts: 'text/plain',
+        data: {
+          signature: 'test'
+        },
+        maxRetries: 2,
+        chunkSize: 128
+      });
+    }
+  };
+
+  var component = this.subject({
+    for: 'browse-button',
+    "when-queued": 'uploadImage',
+    extensions: 'JPG PNG GIF',
+    "max-file-size": 256,
+    "no-duplicates": true,
+    uploadQueueManager: UploadQueueManager.create()
+  });
+  var elementId = get(component, 'elementId');
+
+  this.render();
+  set(component, 'targetObject', target);
+
+  var uploader = get(component, 'queue.queues.firstObject');
+  var file = { id: 'test' };
+
+  uploader.FilesAdded(uploader, [file]);
+  setTimeout(function () {
+    assert.ok(uploader.started);
+
+    uploader.BeforeUpload(uploader, file);
+    assert.deepEqual(uploader.config, {
+      runtimes: 'html5,html4,flash,silverlight',
+      url: 'https://my-bucket.amazonaws.com/test',
+      browse_button: 'browse-button',
+      drop_element: get(component, 'features.drag-and-drop') ? 'dropzone-for-' + elementId : null,
+      container: elementId,
+      flash_swf_url: '/assets/Moxie.swf',
+      silverlight_xap_url: '/assets/Moxie.xap',
+      max_retries: 2,
+      chunk_size: 128,
+      multipart: true,
+      multipart_params: {
+        signature: 'test'
+      },
+      required_features: true,
+      file_data_name: 'file',
+      unique_names: false,
+      multi_selection: true,
+      filters: {
+        mime_types: [{
+          extensions: 'jpg,png,gif'
+        }],
+        max_file_size: 256,
+        prevent_duplicates: true
+      },
+      headers: {
+        Accept: 'text/plain'
+      }
     });
     done();
   }, 100);

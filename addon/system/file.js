@@ -9,6 +9,37 @@ const later = Ember.run.later;
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
+const settingsToConfig = function (settings = {}) {
+  let url = settings.url;
+  let accepts = settings.accepts || ['application/json', 'text/javascript'];
+  let headers = settings.headers || {};
+  let data = settings.data || {};
+  let maxRetries = settings.maxRetries || 0;
+  let chunkSize = settings.chunkSize || 0;
+  let contentType = settings.contentType || 'multipart/form-data';
+  let fileKey = settings.fileKey || 'file';
+
+  if (headers.Accept == null) {
+    if (!Ember.Array.detect(accepts)) {
+      accepts = Ember.A([accepts]).compact();
+    }
+    headers.Accept = accepts.join(',');
+  }
+  Ember.assert(
+    "Files can only be sent as 'multipart/form-data' or 'binary'.",
+    ['multipart/form-data', 'binary'].indexOf(contentType) !== -1);
+
+  return {
+    url: url,
+    headers: headers,
+    multipart: contentType === 'multipart/form-data',
+    multipart_params: data,
+    max_retries: maxRetries,
+    chunk_size: chunkSize,
+    file_data_name: fileKey
+  };
+};
+
 /**
   A representation of a single file being uploaded
   by the `UploadQueue`.
@@ -63,9 +94,16 @@ export default Ember.Object.extend({
     get(this, 'uploader').removeFile(get(this, 'file'));
   },
 
-  upload: function () {
+  upload: function (url, settings) {
     var uploader = get(this, 'uploader');
     this._deferred = RSVP.defer();
+
+    if (settings == null) {
+      settings = url;
+    } else {
+      settings.url = url;
+    }
+    this.config = settingsToConfig(settings || {});
 
     // Start uploading the files
     later(uploader, 'start', 100);
