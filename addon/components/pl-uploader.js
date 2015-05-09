@@ -58,6 +58,7 @@ export default Ember.Component.extend({
 
   config: Ember.computed(function () {
     var config  = {
+      url: true, // Required to init plupload
       browse_button: get(this, 'for'),
       filters: {
         max_file_size: get(this, 'max-file-size'),

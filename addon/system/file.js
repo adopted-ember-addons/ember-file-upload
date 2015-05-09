@@ -103,7 +103,7 @@ export default Ember.Object.extend({
     } else {
       settings.url = url;
     }
-    this.config = settingsToConfig(settings || {});
+    this.settings = settingsToConfig(settings);
 
     // Start uploading the files
     later(uploader, 'start', 100);

@@ -1,8 +1,8 @@
 export default function (config) {
   var removedFiles = [];
   return {
-    config: config,
     removedFiles: removedFiles,
+    settings: config || {},
 
     total: {
       queued: 0,

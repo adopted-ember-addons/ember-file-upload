@@ -51,8 +51,11 @@ export default Ember.ArrayProxy.extend({
 
     get(this, 'queues').pushObject(uploader);
 
+    let settings = copy(uploader.settings);
+    delete settings.url;
+    set(this, 'settings', settings);
+
     uploader.init();
-    set(this, 'config', copy(uploader.config));
     return uploader;
   },
 
@@ -116,9 +119,9 @@ export default Ember.ArrayProxy.extend({
 
   configureUpload: function (uploader, file) {
     file = this.findProperty('id', file.id);
-    // Reset config for merging
-    uploader.config = copy(get(this, 'config'));
-    merge(uploader.config, file.config);
+    // Reset settings for merging
+    uploader.settings = copy(get(this, 'settings'));
+    merge(uploader.settings, file.settings);
 
     this.progressDidChange(uploader, file);
   },

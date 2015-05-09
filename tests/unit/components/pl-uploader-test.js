@@ -39,7 +39,8 @@ test('it configures the plupload Uploader correctly', function (assert) {
   var elementId = get(component, 'elementId');
 
   assert.ok(uploader.initialized);
-  assert.deepEqual(uploader.config, {
+  assert.deepEqual(uploader.settings, {
+    url: true,
     runtimes: 'html5,html4,flash,silverlight',
     browse_button: 'browse-button',
     drop_element: get(component, 'features.drag-and-drop') ? 'dropzone-for-' + elementId : null,
@@ -170,7 +171,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
     assert.ok(uploader.started);
 
     uploader.BeforeUpload(uploader, file);
-    assert.deepEqual(uploader.config, {
+    assert.deepEqual(uploader.settings, {
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
       browse_button: 'browse-button',
@@ -240,7 +241,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
     assert.ok(uploader.started);
 
     uploader.BeforeUpload(uploader, file);
-    assert.deepEqual(uploader.config, {
+    assert.deepEqual(uploader.settings, {
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
       browse_button: 'browse-button',
