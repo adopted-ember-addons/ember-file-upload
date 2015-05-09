@@ -22,7 +22,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 
 This configuration is for the uploader instance as a whole. Most of the configuration deals directly with the feel of the uploader. When the queued event is triggered, you will be given a file object that allows you to configure where the file is being uploaded:
 
-| Attribute           | Definition
+| Property            | Definition
 |---------------------|------------------|
 | `url`               | the URL to send the upload request to
 | `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
