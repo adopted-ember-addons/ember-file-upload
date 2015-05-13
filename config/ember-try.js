@@ -14,5 +14,10 @@ module.exports = {
     dependencies: {
       'ember': 'beta'
     }
+  }, {
+    name: 'canary',
+    dependencies: {
+      'ember': 'canary'
+    }
   }]
 };
