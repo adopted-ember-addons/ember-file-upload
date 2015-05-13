@@ -11,12 +11,17 @@ const mOxieFileReader = mOxie.FileReader;
 
 const settingsToConfig = function (settings = {}) {
   let url = settings.url;
+  let method = settings.method || 'POST';
   let accepts = settings.accepts || ['application/json', 'text/javascript'];
+  let contentType = settings.contentType || get(this, 'type');
   let headers = settings.headers || {};
   let data = settings.data || {};
   let maxRetries = settings.maxRetries || 0;
   let chunkSize = settings.chunkSize || 0;
-  let contentType = settings.contentType || 'multipart/form-data';
+  let multipart = settings.multipart;
+  if (multipart !== true && multipart !== false) {
+    multipart = true;
+  }
   let fileKey = settings.fileKey || 'file';
 
   if (headers.Accept == null) {
@@ -25,14 +30,16 @@ const settingsToConfig = function (settings = {}) {
     }
     headers.Accept = accepts.join(',');
   }
-  Ember.assert(
-    "Files can only be sent as 'multipart/form-data' or 'binary'.",
-    ['multipart/form-data', 'binary'].indexOf(contentType) !== -1);
+
+  if (headers['Content-Type'] == null && contentType) {
+    headers['Content-Type'] = contentType;
+  }
 
   return {
     url: url,
+    method: method,
     headers: headers,
-    multipart: contentType === 'multipart/form-data',
+    multipart: multipart,
     multipart_params: data,
     max_retries: maxRetries,
     chunk_size: chunkSize,
@@ -75,6 +82,14 @@ export default Ember.Object.extend({
   size: reads('file.size'),
 
   /**
+    The content type of the file
+
+    @property type
+    @type String
+   */
+  type: reads('file.type'),
+
+  /**
     The current upload progress of the file,
     which is a number between 0 and 100.
 
@@ -103,7 +118,7 @@ export default Ember.Object.extend({
     } else {
       settings.url = url;
     }
-    this.settings = settingsToConfig(settings);
+    this.settings = settingsToConfig.call(this, settings);
 
     // Start uploading the files
     later(uploader, 'start', 100);

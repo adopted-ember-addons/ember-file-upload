@@ -140,6 +140,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
     uploadImage: function (file, env) {
       file.upload({
         url: 'https://my-bucket.amazonaws.com/test',
+        method: 'PUT',
         accepts: 'text/plain',
         data: {
           signature: 'test'
@@ -164,7 +165,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test' };
+  var file = { id: 'test', type: 'image/gif' };
 
   uploader.FilesAdded(uploader, [file]);
   setTimeout(function () {
@@ -181,6 +182,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
       silverlight_xap_url: '/assets/Moxie.xap',
       max_retries: 2,
       chunk_size: 128,
+      method: 'PUT',
       multipart: true,
       multipart_params: {
         signature: 'test'
@@ -197,7 +199,8 @@ test('merges uploader settings with the settings provided in file.upload', funct
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain'
+        Accept: 'text/plain',
+        'Content-Type': 'image/gif'
       }
     });
     done();
@@ -211,6 +214,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
     uploadImage: function (file, env) {
       file.upload('https://my-bucket.amazonaws.com/test', {
         accepts: 'text/plain',
+        contentType: 'text/plain',
         data: {
           signature: 'test'
         },
@@ -234,7 +238,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test' };
+  var file = { id: 'test', type: 'image/gif' };
 
   uploader.FilesAdded(uploader, [file]);
   setTimeout(function () {
@@ -251,6 +255,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       silverlight_xap_url: '/assets/Moxie.xap',
       max_retries: 2,
       chunk_size: 128,
+      method: 'POST',
       multipart: true,
       multipart_params: {
         signature: 'test'
@@ -267,7 +272,8 @@ test('merges the url correctly if passed in as the first parameter to upload', f
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain'
+        Accept: 'text/plain',
+        'Content-Type': 'text/plain'
       }
     });
     done();

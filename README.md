@@ -27,8 +27,9 @@ This configuration is for the uploader instance as a whole. Most of the configur
 | `url`               | the URL to send the upload request to
 | `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
 | `accepts`           | a string or array of accepted content types that the server can respond with. defaults to `['application/json', 'text/javascript']`
-| `contentType`       | how the file should be sent. defaults to `multipart/form-data`; `binary` is the other option
+| `contentType`       | correlates to the Content-Type header of the headers. defaults to the type of the file
 | `data`              | multipart params to send along with the upload
+| `multipart`         | whether the file should be sent using using a multipart form object or as a binary stream.
 | `maxRetries`        | the maximum number of times to retry uploading the file
 | `chunkSize`         | the chunk size to split the file into when sending to the server
 | `fileKey`          | the name of the parameter to send the file as. defaults to `file`
