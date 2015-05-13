@@ -3,10 +3,12 @@ import Ember from "ember";
 import File from "./file";
 import trim from "./trim";
 
-var get = Ember.get;
-var set = Ember.set;
-var bool = Ember.computed.bool;
-var bind = Ember.run.bind;
+const get = Ember.get;
+const set = Ember.set;
+const bool = Ember.computed.bool;
+const bind = Ember.run.bind;
+const copy = Ember.copy;
+const merge = Ember.merge;
 
 var summation = function (target, key) {
   return target.reduce(function (E, obj) {
@@ -41,13 +43,17 @@ export default Ember.ArrayProxy.extend({
 
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));
     uploader.bind('FilesRemoved',   bind(this, 'filesRemoved'));
-    uploader.bind('BeforeUpload',   bind(this, 'progressDidChange'));
+    uploader.bind('BeforeUpload',   bind(this, 'configureUpload'));
     uploader.bind('UploadProgress', bind(this, 'progressDidChange'));
     uploader.bind('FileUploaded',   bind(this, 'fileUploaded'));
     uploader.bind('UploadComplete', bind(this, 'uploadComplete'));
     uploader.bind('Error',          bind(this, 'onError'));
 
     get(this, 'queues').pushObject(uploader);
+
+    let settings = copy(uploader.settings);
+    delete settings.url;
+    set(this, 'settings', settings);
 
     uploader.init();
     return uploader;
@@ -109,6 +115,15 @@ export default Ember.ArrayProxy.extend({
         this.removeObject(file);
       }
     }
+  },
+
+  configureUpload: function (uploader, file) {
+    file = this.findProperty('id', file.id);
+    // Reset settings for merging
+    uploader.settings = copy(get(this, 'settings'));
+    merge(uploader.settings, file.settings);
+
+    this.progressDidChange(uploader, file);
   },
 
   progressDidChange: function (uploader, file) {

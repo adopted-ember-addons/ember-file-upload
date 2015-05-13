@@ -9,6 +9,44 @@ const later = Ember.run.later;
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
+const settingsToConfig = function (settings = {}) {
+  let url = settings.url;
+  let method = settings.method || 'POST';
+  let accepts = settings.accepts || ['application/json', 'text/javascript'];
+  let contentType = settings.contentType || get(this, 'type');
+  let headers = settings.headers || {};
+  let data = settings.data || {};
+  let maxRetries = settings.maxRetries || 0;
+  let chunkSize = settings.chunkSize || 0;
+  let multipart = settings.multipart;
+  if (multipart !== true && multipart !== false) {
+    multipart = true;
+  }
+  let fileKey = settings.fileKey || 'file';
+
+  if (headers.Accept == null) {
+    if (!Ember.Array.detect(accepts)) {
+      accepts = Ember.A([accepts]).compact();
+    }
+    headers.Accept = accepts.join(',');
+  }
+
+  if (headers['Content-Type'] == null && contentType) {
+    headers['Content-Type'] = contentType;
+  }
+
+  return {
+    url: url,
+    method: method,
+    headers: headers,
+    multipart: multipart,
+    multipart_params: data,
+    max_retries: maxRetries,
+    chunk_size: chunkSize,
+    file_data_name: fileKey
+  };
+};
+
 /**
   A representation of a single file being uploaded
   by the `UploadQueue`.
@@ -44,6 +82,14 @@ export default Ember.Object.extend({
   size: reads('file.size'),
 
   /**
+    The content type of the file
+
+    @property type
+    @type String
+   */
+  type: reads('file.type'),
+
+  /**
     The current upload progress of the file,
     which is a number between 0 and 100.
 
@@ -63,9 +109,16 @@ export default Ember.Object.extend({
     get(this, 'uploader').removeFile(get(this, 'file'));
   },
 
-  upload: function () {
+  upload: function (url, settings) {
     var uploader = get(this, 'uploader');
     this._deferred = RSVP.defer();
+
+    if (settings == null) {
+      settings = url;
+    } else {
+      settings.url = url;
+    }
+    this.settings = settingsToConfig.call(this, settings);
 
     // Start uploading the files
     later(uploader, 'start', 100);
