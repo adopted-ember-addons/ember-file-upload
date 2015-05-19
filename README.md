@@ -150,7 +150,33 @@ export default function (maxImageResolution, file, resolve, reject) {
 }
 ```
 
-## Installation
+## S3 Direct uploads
+
+If you would like to use the addon to upload directly to S3, you'll need to configure your bucket to accept and expose headers to allow plupload to access your bucket.
+
+The following CORS configuration should be sufficient for most cases:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>Content-Type</AllowedHeader>
+    <AllowedHeader>x-amz-acl</AllowedHeader>
+    <AllowedHeader>origin</AllowedHeader>
+    <AllowedHeader>accept</AllowedHeader>
+    <ExposeHeader>Location</ExposeHeader>
+  </CORSRule>
+</CORSConfiguration>
+```
+
+Exposing `Location` to clients is important, since S3 will return the URL of the object where it's stored. This is accessible in the promise resolution as `response.headers.Location`. You may choose to expose more headers for debugging purposes (see [S3 Documentation](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html))
+
+
+# Installation
 
 * `ember install:addon ember-plupload`
 
