@@ -9,20 +9,34 @@ const later = Ember.run.later;
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
-const settingsToConfig = function (settings = {}) {
-  let url = settings.url;
-  let method = settings.method || 'POST';
-  let accepts = settings.accepts || ['application/json', 'text/javascript'];
-  let contentType = settings.contentType || get(this, 'type');
-  let headers = settings.headers || {};
-  let data = settings.data || {};
-  let maxRetries = settings.maxRetries || 0;
-  let chunkSize = settings.chunkSize || 0;
-  let multipart = settings.multipart;
-  if (multipart !== true && multipart !== false) {
-    multipart = true;
+const keys = Ember.keys;
+
+const mergeDefaults = function (defaults, options = {}) {
+  const unsetKeys = Ember.A(keys(defaults)).removeObjects(keys(options));
+  const settings = Ember.copy(options, true);
+
+  for (let i = 0, len = unsetKeys.length; i < len; i++) {
+    let key = unsetKeys[i];
+    settings[key] = defaults[key];
   }
-  let fileKey = settings.fileKey || 'file';
+  return settings;
+};
+
+const settingsToConfig = function (settings = {}) {
+  let {
+    url, method, accepts, contentType, headers,
+    data, maxRetries, chunkSize, multipart, fileKey
+  } = mergeDefaults({
+    method: 'POST',
+    accepts: ['application/json', 'text/javascript'],
+    contentType: get(this, 'type'),
+    headers: {},
+    data: {},
+    maxRetries: 0,
+    chunkSize: 0,
+    multipart: true,
+    fileKey: 'file'
+  }, settings);
 
   if (headers.Accept == null) {
     if (!Ember.Array.detect(accepts)) {
