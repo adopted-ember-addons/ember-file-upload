@@ -35,7 +35,8 @@
   },
   "description": "An uploader component for Ember apps",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "file-upload"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0"
