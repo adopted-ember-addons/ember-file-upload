@@ -45,8 +45,8 @@ const settingsToConfig = function (settings = {}) {
     headers.Accept = accepts.join(',');
   }
 
-  if (headers['Content-Type'] == null && contentType) {
-    headers['Content-Type'] = contentType;
+  if (contentType) {
+    data['Content-Type'] = contentType;
   }
 
   return {
