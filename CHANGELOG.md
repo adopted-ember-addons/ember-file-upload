@@ -1,5 +1,12 @@
 # ember-plupload Changelog
 
+## 0.6.3 (May 23, 2015)
+* Simplify the interface to deal with drag and drop. This doesn't change the current semantics, but the old style semantics will be dropped in a future release. The `features.drag-and-drop` is flattened onto the second yield param and has the properties `id`, `enabled`, `valid`, and `active`.
+* Add `for-dropzone` so uploaders can easily use the `<body>` element as their dropzone.
+
+## 0.6.2 (May 23, 2015)
+* `contentType` is now sent in the multipart_params by default. Otherwise, the `Content-Type` of the form submission would be overriden and the file simply wouldn't upload.
+
 ## 0.6.1 (May 19, 2015)
 * Update plupload bower component.
 * Allow settings to be unset when uploading. (For example, some users may not want to have the `Content-Type` header sent)

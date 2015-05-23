@@ -13,6 +13,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 |---------------------|------------------|
 | `when-queued`       | the name of the action on a route to be called when a file is queued to be uploaded
 | `for`               | the ID of the browse button
+| `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
 | `max-file-size`     | the maximum size of file uploads
 | `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
 | `extensions`        | a space-separated list of allowed file extensions
@@ -45,10 +46,10 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#pl-uploader for="upload-image" extensions="jpg jpeg png gif" when-queued="uploadImage" as |queue features|}}
-  <div class="dropzone" id={{features.drag-and-drop.dropzone-id}}>
-    {{#if features.drag-and-drop.drag-data}}
-      {{#if features.drag-and-drop.drag-data.valid}}
+{{#pl-uploader for="upload-image" extensions="jpg jpeg png gif" when-queued="uploadImage" as |queue dropzone|}}
+  <div class="dropzone" id={{dropzone.id}}>
+    {{#if dropzone.active}}
+      {{#if dropzone.valid}}
         Drop to upload
       {{else}}
         Invalid
@@ -58,7 +59,7 @@ For example, creating an image uploader that uploads images to your API server w
     {{else}}
       <h4>Upload Images</h4>
       <p>
-        {{#if features.drag-and-drop}}
+        {{#if dropzone.enabled}}
           Drag and drop images onto this area to upload them or
         {{/if}}
         <a id="upload-image">Add an Image.</a>

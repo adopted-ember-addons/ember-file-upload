@@ -25,6 +25,7 @@ export default Ember.Component.extend({
 
   name: null,
 
+  'for-dropzone': null,
   'when-queued': null,
 
   /**
@@ -44,12 +45,17 @@ export default Ember.Component.extend({
   multiple: true,
   "unique-names": false,
 
-  features: Ember.computed(function () {
+  features: Ember.computed('for-dropzone', function () {
     var features = {};
+    var id = get(this, 'for-dropzone') || 'dropzone-for-' + get(this, 'elementId');
+    features.enabled = false;
 
     if (isDragAndDropSupported()) {
+      features.enabled = true;
+      features.id = id;
+      features.data = null;
       features['drag-and-drop'] = {
-        'dropzone-id': 'dropzone-for-' + get(this, 'elementId'),
+        'dropzone-id': id,
         'drag-data': null
       };
     }
@@ -83,7 +89,7 @@ export default Ember.Component.extend({
     });
 
     if (isDragAndDropSupported()) {
-      config.drop_element = get(this, 'features.drag-and-drop.dropzone-id');
+      config.drop_element = get(this, 'features.id');
     }
 
     if (get(this, 'extensions.length')) {
@@ -115,7 +121,7 @@ export default Ember.Component.extend({
   }),
 
   setupDragListeners: Ember.on('didInsertElement', function () {
-    var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
+    var dropzoneId = get(this, 'features.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers = {
         dragenter: bind(this, 'enteredDropzone'),
@@ -129,7 +135,7 @@ export default Ember.Component.extend({
   }),
 
   teardownDragListeners: Ember.on('willDestroyElement', function () {
-    var dropzoneId = get(this, 'features.drag-and-drop.dropzone-id');
+    var dropzoneId = get(this, 'features.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers;
       keys(handlers).forEach(function (key) {
@@ -178,8 +184,12 @@ export default Ember.Component.extend({
 
     if (data) {
       set(this, 'features.drag-and-drop.drag-data', { valid: isValid });
+      set(this, 'features.active', true);
+      set(this, 'features.valid', isValid);
     } else {
       set(this, 'features.drag-and-drop.drag-data', null);
+      set(this, 'features.active', false);
+      set(this, 'features.valid', null);
     }
   }))
 });
