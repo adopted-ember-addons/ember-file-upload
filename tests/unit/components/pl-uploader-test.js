@@ -185,7 +185,8 @@ test('merges uploader settings with the settings provided in file.upload', funct
       method: 'PUT',
       multipart: true,
       multipart_params: {
-        signature: 'test'
+        signature: 'test',
+        'Content-Type': 'image/gif'
       },
       required_features: true,
       file_data_name: 'file',
@@ -199,8 +200,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'image/gif'
+        Accept: 'text/plain'
       }
     });
     done();
@@ -258,7 +258,8 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       method: 'POST',
       multipart: true,
       multipart_params: {
-        signature: 'test'
+        signature: 'test',
+        'Content-Type': 'text/plain'
       },
       required_features: true,
       file_data_name: 'file',
@@ -272,8 +273,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'text/plain'
+        Accept: 'text/plain'
       }
     });
     done();

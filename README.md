@@ -27,7 +27,7 @@ This configuration is for the uploader instance as a whole. Most of the configur
 | `url`               | the URL to send the upload request to
 | `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
 | `accepts`           | a string or array of accepted content types that the server can respond with. defaults to `['application/json', 'text/javascript']`
-| `contentType`       | correlates to the Content-Type header of the headers. defaults to the type of the file
+| `contentType`       | correlates to the Content-Type header of the file. This will add a property 'Content-Type' to your data. This defaults to the type of the file
 | `data`              | multipart params to send along with the upload
 | `multipart`         | whether the file should be sent using using a multipart form object or as a binary stream.
 | `maxRetries`        | the maximum number of times to retry uploading the file
