@@ -159,7 +159,9 @@ export default Ember.Component.extend({
   },
 
   _invalidateDragData: Ember.observer('queue.length', function () {
+    // Looks like someone dropped a file
     if (get(this, 'queue.length') > this._queued && get(this, 'dragData')) {
+      this._dragEnters = 0;
       set(this, 'dragData', null);
     }
     this._queued = get(this, 'queue.length');

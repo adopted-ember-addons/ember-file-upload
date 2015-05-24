@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.4 (May 24, 2015)
+* #13 Fix dropzone hover events
+
 ## 0.6.3 (May 23, 2015)
 * Simplify the interface to deal with drag and drop. This doesn't change the current semantics, but the old style semantics will be dropped in a future release. The `features.drag-and-drop` is flattened onto the second yield param and has the properties `id`, `enabled`, `valid`, and `active`.
 * Add `for-dropzone` so uploaders can easily use the `<body>` element as their dropzone.
