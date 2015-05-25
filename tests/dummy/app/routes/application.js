@@ -14,7 +14,7 @@ export default Ember.Route.extend({
           filename: filename,
           preview: url
         });
-      });
+      }, function () {});
 
       file.destroy();
     }

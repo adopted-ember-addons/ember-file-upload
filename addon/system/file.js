@@ -126,12 +126,14 @@ export default Ember.Object.extend({
     @method destroy
    */
   destroy: function () {
+    if (this.isDestroyed) { return; }
     get(this, 'uploader').removeFile(get(this, 'file'));
+    this.isDestroyed = true;
   },
 
   upload: function (url, settings) {
     var uploader = get(this, 'uploader');
-    this._deferred = RSVP.defer();
+    this._deferred = RSVP.defer(`File: '${get(this, 'id')}' Upload file`);
 
     if (settings == null) {
       settings = url;

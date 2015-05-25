@@ -188,7 +188,9 @@ export default Ember.Component.extend({
 
   _invalidateDragData: Ember.observer('queue.length', function () {
     // Looks like someone dropped a file
-    if (get(this, 'queue.length') > this._queued && get(this, 'dragData')) {
+    const filesAdded = get(this, 'queue.length') > this._queued;
+    const filesDropped = get(this, 'queue.length') === 0 && this._queued === 0;
+    if ((filesAdded || filesDropped) && get(this, 'dragData')) {
       this.deactivateDropzone();
     }
     this._queued = get(this, 'queue.length');

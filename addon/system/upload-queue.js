@@ -83,6 +83,10 @@ export default Ember.ArrayProxy.extend({
     set(this, 'queues', null);
   },
 
+  refresh: function () {
+    get(this, 'queues').invoke('refresh');
+  },
+
   progress: Ember.computed(function () {
     var queues        = get(this, 'queues'),
         totalSize     = summation(queues, 'total.size'),
@@ -207,7 +211,36 @@ export default Ember.ArrayProxy.extend({
   onError: function (uploader, error) {
     if (error.file) {
       var file = this.findProperty('id', error.file.id);
-      set(file, 'error', error.file);
+      if (file == null) {
+        file = File.create({
+          uploader: uploader,
+          file: file
+        });
+      }
+
+      set(file, 'error', error);
+
+      if (file._deferred) {
+        file._deferred.reject(error);
+
+      // This happended before the file got queued,
+      // So we need to stub out `upload` and trigger
+      // the queued event
+      } else {
+        file.upload = file.read = function () {
+          Ember.run.debounce(uploader, 'refresh', 750);
+          return Ember.RSVP.reject(error, `File: '${error.file.id}' ${error.message}`);
+        };
+        file.isDestroyed = true;
+
+        get(this, 'target').sendAction('when-queued', file, {
+          name: get(this, 'name'),
+          uploader: uploader,
+          queue: this
+        });
+      }
+      this.notifyPropertyChange('length');
+      Ember.run.debounce(uploader, 'refresh', 750);
     } else {
       set(this, 'error', error);
     }

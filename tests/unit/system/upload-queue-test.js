@@ -80,3 +80,27 @@ test('the progress property is computed from the totals of each uploader', funct
   uploader.UploadProgress(uploader, {});
   assert.equal(get(queue, 'progress'), 75);
 });
+
+test('files that error are always passed to the action', function (assert) {
+  var done = assert.async();
+  var queue = UploadQueue.create();
+  queue.target = {
+    sendAction: function (action, file) {
+      assert.ok(get(file, 'error'));
+      file.upload().then(null, (error) => {
+        assert.ok(error);
+        done();
+      });
+    }
+  };
+  var uploader = queue.configure();
+  var file = {
+    id: 'test',
+    name: 'test-filename.jpg',
+    size: 2000,
+    percent: 0
+  };
+  uploader.Error(uploader, {
+    file: file
+  });
+});

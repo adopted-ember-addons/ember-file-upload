@@ -1,5 +1,9 @@
 # ember-plupload Changelog
 
+## 0.6.8 (May 25, 2015)
+* Always trigger the `when-queued` event even if the file is invalid. Promise returning functions `read` and `upload` will always be rejected with the error.
+* Expose `refresh` on the queue for those having trouble with misaligned plupload input masks. Internally, the uploader will try to refresh the position of the mask at times where there might be changes in templates.
+
 ## 0.6.7 (May 24, 2015)
 * Rename `features` to `dropzone` (with an alias setup for features).
 * Fix #14 by patching dragenter and dragleave events

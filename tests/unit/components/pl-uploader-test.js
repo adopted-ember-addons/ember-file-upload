@@ -130,7 +130,7 @@ test('resolves file.upload when the file upload succeeds', function (assert) {
       response: '{ "name": "test-filename.jpg" }'
     });
     done();
-  }, 100);
+  }, 120);
 });
 
 test('merges uploader settings with the settings provided in file.upload', function (assert) {
@@ -205,7 +205,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
       }
     });
     done();
-  }, 100);
+  }, 120);
 });
 
 test('merges the url correctly if passed in as the first parameter to upload', function (assert) {
@@ -317,5 +317,5 @@ test('rejects file.upload when the file upload fails', function (assert) {
       response: 'oops'
     });
     done();
-  }, 100);
+  }, 120);
 });

@@ -4,6 +4,8 @@ export default function (config) {
     removedFiles: removedFiles,
     settings: config || {},
 
+    refresh: function () {},
+
     total: {
       queued: 0,
       size: 0,
