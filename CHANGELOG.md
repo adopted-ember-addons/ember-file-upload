@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.9 (May 25, 2015)
+* Reset `progress` when all files have finished uploading in the queue.
+
 ## 0.6.8 (May 25, 2015)
 * Always trigger the `when-queued` event even if the file is invalid. Promise returning functions `read` and `upload` will always be rejected with the error.
 * Expose `refresh` on the queue for those having trouble with misaligned plupload input masks. Internally, the uploader will try to refresh the position of the mask at times where there might be changes in templates.
