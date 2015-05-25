@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.5 (May 24, 2015)
+* Set `Content-Type` in the headers if the file is being sent as a binary blob, otherwise, stick it into the multipart_params. These defaults allow for easy integration with uploading directly to S3.
+
 ## 0.6.4 (May 24, 2015)
 * #13 Fix dropzone hover events
 

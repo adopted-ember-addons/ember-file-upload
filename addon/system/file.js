@@ -45,8 +45,14 @@ const settingsToConfig = function (settings = {}) {
     headers.Accept = accepts.join(',');
   }
 
+  // Switch setting content type according to
+  // the type of request we're sending.
   if (contentType) {
-    data['Content-Type'] = contentType;
+    if (multipart) {
+      data['Content-Type'] = contentType;
+    } else {
+      headers['Content-Type'] = contentType;
+    }
   }
 
   return {
