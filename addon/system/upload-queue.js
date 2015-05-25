@@ -201,6 +201,7 @@ export default Ember.ArrayProxy.extend({
     // Notify plupload that our browse_button may have
     // changed locations
     Ember.run.later(uploader, 'refresh', 750);
+    this.notifyPropertyChange('progress');
 
     // Clean up the orphaned uploader and its files
     if (get(this, 'orphanedQueues').indexOf(uploader) !== -1) {
