@@ -43,7 +43,7 @@ test('it configures the plupload Uploader correctly', function (assert) {
     url: true,
     runtimes: 'html5,html4,flash,silverlight',
     browse_button: 'browse-button',
-    drop_element: get(component, 'features.enabled') ? 'dropzone-for-' + elementId : null,
+    drop_element: get(component, 'dropzone.enabled') ? 'dropzone-for-' + elementId : null,
     container: elementId,
     flash_swf_url: '/assets/Moxie.swf',
     silverlight_xap_url: '/assets/Moxie.xap',
@@ -177,7 +177,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
       browse_button: 'browse-button',
-      drop_element: get(component, 'features.enabled') ? 'ember-application' : null,
+      drop_element: get(component, 'dropzone.enabled') ? 'ember-application' : null,
       container: elementId,
       flash_swf_url: '/assets/Moxie.swf',
       silverlight_xap_url: '/assets/Moxie.xap',
@@ -216,6 +216,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       file.upload('https://my-bucket.amazonaws.com/test', {
         accepts: 'text/plain',
         contentType: 'text/plain',
+        multipart: false,
         data: {
           signature: 'test'
         },
@@ -250,17 +251,16 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
       browse_button: 'browse-button',
-      drop_element: get(component, 'features.enabled') ? 'dropzone-for-' + elementId : null,
+      drop_element: get(component, 'dropzone.enabled') ? 'dropzone-for-' + elementId : null,
       container: elementId,
       flash_swf_url: '/assets/Moxie.swf',
       silverlight_xap_url: '/assets/Moxie.xap',
       max_retries: 2,
       chunk_size: 128,
       method: 'POST',
-      multipart: true,
+      multipart: false,
       multipart_params: {
-        signature: 'test',
-        'Content-Type': 'text/plain'
+        signature: 'test'
       },
       required_features: true,
       file_data_name: 'file',
@@ -274,7 +274,8 @@ test('merges the url correctly if passed in as the first parameter to upload', f
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain'
+        Accept: 'text/plain',
+        'Content-Type': 'text/plain'
       }
     });
     done();

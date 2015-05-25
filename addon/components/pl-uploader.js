@@ -1,4 +1,5 @@
 import Ember from "ember";
+import Stylesheet from "../system/stylesheet";
 import trim from "../system/trim";
 import w from "../computed/w";
 
@@ -45,21 +46,21 @@ export default Ember.Component.extend({
   multiple: true,
   "unique-names": false,
 
-  features: Ember.computed('for-dropzone', function () {
-    var features = {};
+  dropzone: Ember.computed('for-dropzone', function () {
+    var dropzone = {};
     var id = get(this, 'for-dropzone') || 'dropzone-for-' + get(this, 'elementId');
-    features.enabled = false;
+    dropzone.enabled = false;
 
     if (isDragAndDropSupported()) {
-      features.enabled = true;
-      features.id = id;
-      features.data = null;
-      features['drag-and-drop'] = {
+      dropzone.enabled = true;
+      dropzone.id = id;
+      dropzone.data = null;
+      dropzone['drag-and-drop'] = {
         'dropzone-id': id,
         'drag-data': null
       };
     }
-    return features;
+    return dropzone;
   }),
 
   config: Ember.computed(function () {
@@ -89,7 +90,7 @@ export default Ember.Component.extend({
     });
 
     if (isDragAndDropSupported()) {
-      config.drop_element = get(this, 'features.id');
+      config.drop_element = get(this, 'dropzone.id');
     }
 
     if (get(this, 'extensions.length')) {
@@ -108,7 +109,8 @@ export default Ember.Component.extend({
     var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
 
-    this._dragEnters = 0;
+    this._firstDragEnter = false;
+    this._secondDragEnter = false;
     this._invalidateDragData();
   }),
 
@@ -121,7 +123,7 @@ export default Ember.Component.extend({
   }),
 
   setupDragListeners: Ember.on('didInsertElement', function () {
-    var dropzoneId = get(this, 'features.id');
+    var dropzoneId = get(this, 'dropzone.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers = {
         dragenter: bind(this, 'enteredDropzone'),
@@ -131,38 +133,56 @@ export default Ember.Component.extend({
       keys(handlers).forEach(function (key) {
         Ember.$(document).on(key, '#' + dropzoneId, handlers[key]);
       });
+      this._stylesheet = new Stylesheet();
     }
   }),
 
   teardownDragListeners: Ember.on('willDestroyElement', function () {
-    var dropzoneId = get(this, 'features.id');
+    var dropzoneId = get(this, 'dropzone.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers;
       keys(handlers).forEach(function (key) {
         Ember.$(document).off(key, '#' + dropzoneId, handlers[key]);
       });
       this.eventHandlers = null;
+      this._stylesheet.destroy();
     }
   }),
 
   dragData: null,
-  enteredDropzone: function (evt) {
-    this._dragEnters++;
-    set(this, 'dragData', get(evt, 'originalEvent.dataTransfer'));
+  enteredDropzone({ originalEvent: evt }) {
+    if (this._firstDragEnter) {
+      this._secondDragEnter = true;
+    } else {
+      this._firstDragEnter = true;
+      this.activateDropzone(evt);
+    }
   },
 
-  leftDropzone: function () {
-    this._dragEnters--;
-    if (this._dragEnters === 0) {
-      set(this, 'dragData', null);
+  leftDropzone() {
+    if (this._secondDragEnter) {
+      this._secondDragEnter = false;
+    } else {
+      this._firstDragEnter = false;
     }
+
+    if (!this._firstDragEnter && !this._secondDragEnter) {
+      this.deactivateDropzone();
+    }
+  },
+
+  deactivateDropzone() {
+    this._stylesheet.rule(`#${get(this, 'dropzone.id')} *`, {
+      pointerEvents: null
+    });
+    this._firstDragEnter = this._secondDragEnter = false;
+    set(this, 'dragData', null);
   },
 
   _invalidateDragData: Ember.observer('queue.length', function () {
     // Looks like someone dropped a file
     if (get(this, 'queue.length') > this._queued && get(this, 'dragData')) {
-      this._dragEnters = 0;
-      set(this, 'dragData', null);
+      this.deactivateDropzone();
     }
     this._queued = get(this, 'queue.length');
   }),
@@ -185,13 +205,17 @@ export default Ember.Component.extend({
     }
 
     if (data) {
-      set(this, 'features.drag-and-drop.drag-data', { valid: isValid });
-      set(this, 'features.active', true);
-      set(this, 'features.valid', isValid);
+      // @DEPRECATED
+      set(this, 'dropzone.drag-and-drop.drag-data', { valid: isValid });
+
+      set(this, 'dropzone.active', true);
+      set(this, 'dropzone.valid', isValid);
     } else {
-      set(this, 'features.drag-and-drop.drag-data', null);
-      set(this, 'features.active', false);
-      set(this, 'features.valid', null);
+      // @DEPRECATED
+      set(this, 'dropzone.drag-and-drop.drag-data', null);
+
+      set(this, 'dropzone.active', false);
+      set(this, 'dropzone.valid', null);
     }
   }))
 });
