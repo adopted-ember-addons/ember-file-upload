@@ -42,8 +42,8 @@ test('it configures the plupload Uploader correctly', function (assert) {
   assert.deepEqual(uploader.settings, {
     url: true,
     runtimes: 'html5,html4,flash,silverlight',
-    browse_button: 'browse-button',
-    drop_element: get(component, 'dropzone.enabled') ? 'dropzone-for-' + elementId : null,
+    browse_button: ['browse-button'],
+    drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
     container: elementId,
     flash_swf_url: '/assets/Moxie.swf',
     silverlight_xap_url: '/assets/Moxie.xap',
@@ -176,8 +176,8 @@ test('merges uploader settings with the settings provided in file.upload', funct
     assert.deepEqual(uploader.settings, {
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
-      browse_button: 'browse-button',
-      drop_element: get(component, 'dropzone.enabled') ? 'ember-application' : null,
+      browse_button: ['browse-button'],
+      drop_element: get(component, 'dropzone.enabled') ? ['ember-application'] : null,
       container: elementId,
       flash_swf_url: '/assets/Moxie.swf',
       silverlight_xap_url: '/assets/Moxie.xap',
@@ -250,8 +250,8 @@ test('merges the url correctly if passed in as the first parameter to upload', f
     assert.deepEqual(uploader.settings, {
       runtimes: 'html5,html4,flash,silverlight',
       url: 'https://my-bucket.amazonaws.com/test',
-      browse_button: 'browse-button',
-      drop_element: get(component, 'dropzone.enabled') ? 'dropzone-for-' + elementId : null,
+      browse_button: ['browse-button'],
+      drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
       container: elementId,
       flash_swf_url: '/assets/Moxie.swf',
       silverlight_xap_url: '/assets/Moxie.xap',

@@ -38,7 +38,7 @@ export default Ember.ArrayProxy.extend({
     this._super();
   },
 
-  configure: function (config) {
+  configure: function (config = {}) {
     var uploader = new plupload.Uploader(config);
 
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));
@@ -50,6 +50,12 @@ export default Ember.ArrayProxy.extend({
     uploader.bind('Error',          bind(this, 'onError'));
 
     get(this, 'queues').pushObject(uploader);
+
+    // Set browse_button and drop_element as
+    // references to the buttons so mOxie doesn't
+    // get confused when the dom might be detached
+    uploader.settings.browse_button = [config.browse_button];
+    uploader.settings.drop_element = [config.drop_element];
 
     let settings = copy(uploader.settings);
     delete settings.url;
