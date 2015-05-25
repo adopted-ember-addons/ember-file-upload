@@ -1,6 +1,6 @@
 # ember-plupload Changelog
 
-## 0.6.6 (May 24, 2015)
+## 0.6.7 (May 24, 2015)
 * Rename `features` to `dropzone` (with an alias setup for features).
 * Fix #14 by patching dragenter and dragleave events
 * Apply `pointer-events: none` to all children of the dropzone so dragenter and dragleave events are stable.
