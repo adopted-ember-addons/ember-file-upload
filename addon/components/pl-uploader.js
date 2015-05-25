@@ -171,6 +171,13 @@ export default Ember.Component.extend({
     }
   },
 
+  activateDropzone(evt) {
+    this._stylesheet.rule(`#${get(this, 'dropzone.id')} *`, {
+      pointerEvents: 'none'
+    });
+    set(this, 'dragData', get(evt, 'dataTransfer'));
+  },
+
   deactivateDropzone() {
     this._stylesheet.rule(`#${get(this, 'dropzone.id')} *`, {
       pointerEvents: null
