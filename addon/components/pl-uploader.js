@@ -21,6 +21,22 @@ var isDragAndDropSupported = (function () {
 
 var slice = Array.prototype.slice;
 
+const deprecateAction = function (action) {
+  Ember.deprecate(`
+The 'action' attribute is unsupported by this version of ember-plupload.
+You should pass in the url as the first argument for the upload:
+
+    actions: {
+      ${get(this, 'when-queued')}: function (file) {
+        file.upload(${action});
+      }
+    }
+
+Please consult the documentation for how to upload files from your action:
+https://github.com/paddle8/ember-plupload#configuration`, action == null
+  );
+}
+
 export default Ember.Component.extend({
   classNames: ['pl-uploader'],
 
@@ -81,6 +97,7 @@ export default Ember.Component.extend({
       silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
       unique_names: get(this, 'unique-names')
     };
+    deprecateAction.call(this, get(this, 'action'));
 
     var filters = get(this, 'fileFilters') || {};
     keys(filters).forEach((filter) => {
