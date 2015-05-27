@@ -1,6 +1,6 @@
-import Ember from "ember";
+import Ember from 'ember';
+import computed from '../system/computed';
 
-var computed = Ember.computed;
 var w = Ember.String.w;
 
 var toArray = function (value) {
@@ -12,10 +12,12 @@ var toArray = function (value) {
 
 export default function(defaultValue) {
   defaultValue = defaultValue || [];
-  return computed(function w(key, value) {
-    if (arguments.length > 1) {
-      value = toArray(value);
+  return computed({
+    get() {
+      return toArray(defaultValue);
+    },
+    set(key, value) {
+      return toArray(value);
     }
-    return value || toArray(defaultValue);
   });
 }

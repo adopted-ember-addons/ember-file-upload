@@ -2,6 +2,7 @@
 import Ember from "ember";
 import File from "./file";
 import trim from "./trim";
+import computed from './computed';
 
 const get = Ember.get;
 const set = Ember.set;
@@ -93,13 +94,15 @@ export default Ember.ArrayProxy.extend({
     get(this, 'queues').invoke('refresh');
   },
 
-  progress: Ember.computed(function () {
-    var queues        = get(this, 'queues'),
-        totalSize     = summation(queues, 'total.size'),
-        totalUploaded = summation(queues, 'total.loaded'),
-        percent       = totalUploaded / totalSize || 0;
+  progress: computed({
+    get() {
+      const queues        = get(this, 'queues');
+      const totalSize     = summation(queues, 'total.size');
+      const totalUploaded = summation(queues, 'total.loaded');
+      const percent       = totalUploaded / totalSize || 0;
 
-    return Math.floor(percent * 100);
+      return Math.floor(percent * 100);
+    }
   }),
 
   filesAdded: function (uploader, files) {

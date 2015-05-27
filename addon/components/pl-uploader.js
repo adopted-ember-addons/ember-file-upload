@@ -2,6 +2,7 @@ import Ember from "ember";
 import Stylesheet from "../system/stylesheet";
 import trim from "../system/trim";
 import w from "../computed/w";
+import computed from '../system/computed';
 
 var get = Ember.get;
 var set = Ember.set;
@@ -35,7 +36,7 @@ You should pass in the url as the first argument for the upload:
 Please consult the documentation for how to upload files from your action:
 https://github.com/paddle8/ember-plupload#configuration`, action == null
   );
-}
+};
 
 export default Ember.Component.extend({
   classNames: ['pl-uploader'],
@@ -62,63 +63,67 @@ export default Ember.Component.extend({
   multiple: true,
   "unique-names": false,
 
-  dropzone: Ember.computed('for-dropzone', function () {
-    var dropzone = {};
-    var id = get(this, 'for-dropzone') || 'dropzone-for-' + get(this, 'elementId');
-    dropzone.enabled = false;
+  dropzone: computed('for-dropzone', {
+    get() {
+      var dropzone = {};
+      var id = get(this, 'for-dropzone') || 'dropzone-for-' + get(this, 'elementId');
+      dropzone.enabled = false;
 
-    if (isDragAndDropSupported()) {
-      dropzone.enabled = true;
-      dropzone.id = id;
-      dropzone.data = null;
-      dropzone['drag-and-drop'] = {
-        'dropzone-id': id,
-        'drag-data': null
-      };
+      if (isDragAndDropSupported()) {
+        dropzone.enabled = true;
+        dropzone.id = id;
+        dropzone.data = null;
+        dropzone['drag-and-drop'] = {
+          'dropzone-id': id,
+          'drag-data': null
+        };
+      }
+      return dropzone;
     }
-    return dropzone;
   }),
 
-  config: Ember.computed(function () {
-    var config  = {
-      url: true, // Required to init plupload
-      browse_button: get(this, 'for'),
-      filters: {
-        max_file_size: get(this, 'max-file-size'),
-        prevent_duplicates: get(this, 'no-duplicates')
-      },
+  config: computed({
+    get() {
+      var config  = {
+        url: true, // Required to init plupload
+        browse_button: get(this, 'for'),
+        filters: {
+          max_file_size: get(this, 'max-file-size'),
+          prevent_duplicates: get(this, 'no-duplicates')
+        },
 
-      multi_selection: get(this, 'multiple'),
-      required_features: true,
+        multi_selection: get(this, 'multiple'),
+        required_features: true,
 
-      runtimes: get(this, 'runtimes').join(','),
-      container: get(this, 'elementId'),
-      flash_swf_url: this.BASE_URL + 'Moxie.swf',
-      silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
-      unique_names: get(this, 'unique-names')
-    };
-    deprecateAction.call(this, get(this, 'action'));
+        runtimes: get(this, 'runtimes').join(','),
+        container: get(this, 'elementId'),
+        flash_swf_url: this.BASE_URL + 'Moxie.swf',
+        silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
+        unique_names: get(this, 'unique-names')
+      };
+      deprecateAction.call(this, get(this, 'action'));
 
-    var filters = get(this, 'fileFilters') || {};
-    keys(filters).forEach((filter) => {
-      if (get(this, filter)) {
-        config.filters[filter] = get(this, filter);
+      var filters = get(this, 'fileFilters') || {};
+      keys(filters).forEach((filter) => {
+        if (get(this, filter)) {
+          config.filters[filter] = get(this, filter);
+        }
+      });
+
+      if (isDragAndDropSupported()) {
+        config.drop_element = get(this, 'dropzone.id');
       }
-    });
 
-    if (isDragAndDropSupported()) {
-      config.drop_element = get(this, 'dropzone.id');
+      if (get(this, 'extensions.length')) {
+        config.filters.mime_types = [{
+          extensions: get(this, 'extensions').map(function (ext) {
+            return ext.toLowerCase();
+          }).join(',')
+        }];
+      }
+
+      return config;
     }
-
-    if (get(this, 'extensions.length')) {
-      config.filters.mime_types = [{
-        extensions: get(this, 'extensions').map(function (ext) {
-          return ext.toLowerCase();
-        }).join(',')
-      }];
-    }
-
-    return config;
   }),
 
   attachUploader: Ember.on('didInsertElement', function () {

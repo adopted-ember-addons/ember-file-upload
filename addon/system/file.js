@@ -1,5 +1,6 @@
 /* global mOxie */
 import Ember from "ember";
+import computed from './computed';
 
 const get = Ember.get;
 const reads = Ember.computed.reads;
@@ -116,8 +117,10 @@ export default Ember.Object.extend({
     @property progress
     @type Number
    */
-  progress: Ember.computed(function () {
-    return get(this, 'file.percent');
+  progress: computed({
+    get() {
+      return get(this, 'file.percent');
+    }
   }),
 
   /**
