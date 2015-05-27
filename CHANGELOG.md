@@ -1,5 +1,9 @@
 # ember-plupload Changelog
 
+## 0.6.11 (May 26, 2015)
+* Add deprecation warnings for users of the old syntax (from 0.5.1).
+* Remove deprecations for the new computed property syntax. Support for older versions of ember that do not support this will be dropped in 1.0.0.
+
 ## 0.6.10 (May 25, 2015)
 * Monkeypatch plupload to take references to the drop_element and browse_button so parts of the interface can be conditionally shown / hidden without breaking the buttons.
 
