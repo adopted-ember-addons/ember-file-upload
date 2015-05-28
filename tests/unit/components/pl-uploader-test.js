@@ -282,6 +282,71 @@ test('merges the url correctly if passed in as the first parameter to upload', f
   }, 100);
 });
 
+test('use url correctly if it is the only argument', function (assert) {
+  var done = assert.async();
+  assert.expect(2);
+  var target = {
+    uploadImage: function (file, env) {
+      file.upload('https://my-bucket.amazonaws.com/test');
+    }
+  };
+
+  var component = this.subject({
+    for: 'browse-button',
+    "when-queued": 'uploadImage',
+    extensions: 'JPG PNG GIF',
+    "max-file-size": 256,
+    "no-duplicates": true,
+    uploadQueueManager: UploadQueueManager.create()
+  });
+  var elementId = get(component, 'elementId');
+
+  this.render();
+  set(component, 'targetObject', target);
+
+  var uploader = get(component, 'queue.queues.firstObject');
+  var file = { id: 'test', type: 'image/gif' };
+
+  uploader.FilesAdded(uploader, [file]);
+  setTimeout(function () {
+    assert.ok(uploader.started);
+
+    uploader.BeforeUpload(uploader, file);
+    assert.deepEqual(uploader.settings, {
+      runtimes: 'html5,html4,flash,silverlight',
+      url: 'https://my-bucket.amazonaws.com/test',
+      browse_button: ['browse-button'],
+      drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
+      container: elementId,
+      flash_swf_url: '/assets/Moxie.swf',
+      silverlight_xap_url: '/assets/Moxie.xap',
+      max_retries: 2,
+      chunk_size: 128,
+      method: 'POST',
+      multipart: false,
+      multipart_params: {
+        signature: 'test'
+      },
+      required_features: true,
+      file_data_name: 'file',
+      unique_names: false,
+      multi_selection: true,
+      filters: {
+        mime_types: [{
+          extensions: 'jpg,png,gif'
+        }],
+        max_file_size: 256,
+        prevent_duplicates: true
+      },
+      headers: {
+        Accept: 'text/plain',
+        'Content-Type': 'text/plain'
+      }
+    });
+    done();
+  }, 100);
+});
+
 test('rejects file.upload when the file upload fails', function (assert) {
   var done = assert.async();
   assert.expect(4);
