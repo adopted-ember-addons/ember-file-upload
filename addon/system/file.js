@@ -12,7 +12,7 @@ const mOxieFileReader = mOxie.FileReader;
 
 const keys = Ember.keys;
 
-const mergeDefaults = function (defaults, options = {}) {
+const mergeDefaults = function (defaults, options) {
   const unsetKeys = Ember.A(keys(defaults)).removeObjects(keys(options));
   const settings = Ember.copy(options, true);
 
@@ -23,7 +23,7 @@ const mergeDefaults = function (defaults, options = {}) {
   return settings;
 };
 
-const settingsToConfig = function (settings = {}) {
+const settingsToConfig = function (settings) {
   let {
     url, method, accepts, contentType, headers,
     data, maxRetries, chunkSize, multipart, fileKey
@@ -139,10 +139,15 @@ export default Ember.Object.extend({
     this._deferred = RSVP.defer(`File: '${get(this, 'id')}' Upload file`);
 
     if (settings == null) {
-      settings = url;
-    } else {
+      if (typeof url === 'object') {
+        settings = url;
+      } else {
+        settings = { url };
+      }
+    } else if (url) {
       settings.url = url;
     }
+
     this.settings = settingsToConfig.call(this, settings);
 
     // Start uploading the files

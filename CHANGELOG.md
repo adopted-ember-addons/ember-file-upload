@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.12 (May 28, 2015)
+* Allow only an url to be passed to upload without any additional options.
+
 ## 0.6.11 (May 26, 2015)
 * Add deprecation warnings for users of the old syntax (from 0.5.1).
 * Remove deprecations for the new computed property syntax. Support for older versions of ember that do not support this will be dropped in 1.0.0.

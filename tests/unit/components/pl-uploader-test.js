@@ -320,12 +320,12 @@ test('use url correctly if it is the only argument', function (assert) {
       container: elementId,
       flash_swf_url: '/assets/Moxie.swf',
       silverlight_xap_url: '/assets/Moxie.xap',
-      max_retries: 2,
-      chunk_size: 128,
+      max_retries: 0,
+      chunk_size: 0,
       method: 'POST',
-      multipart: false,
+      multipart: true,
       multipart_params: {
-        signature: 'test'
+        'Content-Type': 'image/gif'
       },
       required_features: true,
       file_data_name: 'file',
@@ -339,8 +339,7 @@ test('use url correctly if it is the only argument', function (assert) {
         prevent_duplicates: true
       },
       headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'text/plain'
+        Accept: 'application/json,text/javascript'
       }
     });
     done();
