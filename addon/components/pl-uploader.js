@@ -150,6 +150,9 @@ export default Ember.Component.extend({
       queue.orphan();
       set(this, 'queue', null);
     }
+    let sheet = sharedStyleSheet();
+    sheet.css(`#${get(this, 'dropzone.id')} *`, null);
+    sheet.applyStyles();
   }),
 
   setupDragListeners: Ember.on('didInsertElement', function () {
@@ -210,10 +213,9 @@ export default Ember.Component.extend({
 
   deactivateDropzone() {
     let sheet = sharedStyleSheet();
-    sheet.css(`#${get(this, 'dropzone.id')} *`, {
-      pointerEvents: null
-    });
+    sheet.css(`#${get(this, 'dropzone.id')} *`, null);
     Ember.run.scheduleOnce('render', sheet, 'applyStyles');
+
     this._firstDragEnter = this._secondDragEnter = false;
     set(this, 'dragData', null);
   },
