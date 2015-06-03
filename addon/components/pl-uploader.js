@@ -1,5 +1,5 @@
 import Ember from "ember";
-import Stylesheet from "../system/stylesheet";
+import Dinosheet from "dinosheets";
 import trim from "../system/trim";
 import w from "../computed/w";
 import computed from '../system/computed';
@@ -155,7 +155,7 @@ export default Ember.Component.extend({
       keys(handlers).forEach(function (key) {
         Ember.$(document).on(key, '#' + dropzoneId, handlers[key]);
       });
-      this._stylesheet = new Stylesheet();
+      this._stylesheet = new Dinosheet();
     }
   }),
 
@@ -194,14 +194,14 @@ export default Ember.Component.extend({
   },
 
   activateDropzone(evt) {
-    this._stylesheet.rule(`#${get(this, 'dropzone.id')} *`, {
+    this._stylesheet.css(`#${get(this, 'dropzone.id')} *`, {
       pointerEvents: 'none'
     });
     set(this, 'dragData', get(evt, 'dataTransfer'));
   },
 
   deactivateDropzone() {
-    this._stylesheet.rule(`#${get(this, 'dropzone.id')} *`, {
+    this._stylesheet.css(`#${get(this, 'dropzone.id')} *`, {
       pointerEvents: null
     });
     this._firstDragEnter = this._secondDragEnter = false;

@@ -13,6 +13,11 @@ module.exports = {
     app.import('bower_components/plupload/js/Moxie.xap', {
       destDir: 'assets'
     });
+    app.import('bower_components/dinosheets/dist/dinosheets.amd.js', {
+      exports: {
+        'dinosheets': ['default']
+      }
+    });
 
     app.import('vendor/styles/ember-plupload.css');
   }
