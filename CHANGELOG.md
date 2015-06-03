@@ -1,6 +1,6 @@
 # ember-plupload Changelog
 
-## 0.6.13 (June 3, 2015)
+## 0.6.14 (June 3, 2015)
 * Use extracted dynamic stylesheet library, named dinosheets, for disabling pointer events on the dropzone. Installing the new version should properly add the library to your `bower.json`.
 
 ## 0.6.12 (May 28, 2015)
