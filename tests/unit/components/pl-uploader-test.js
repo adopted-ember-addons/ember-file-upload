@@ -47,7 +47,6 @@ test('it configures the plupload Uploader correctly', function (assert) {
     container: elementId,
     flash_swf_url: '/assets/Moxie.swf',
     silverlight_xap_url: '/assets/Moxie.xap',
-    required_features: true,
     unique_names: false,
     multi_selection: true,
     filters: {
@@ -189,7 +188,6 @@ test('merges uploader settings with the settings provided in file.upload', funct
         signature: 'test',
         'Content-Type': 'image/gif'
       },
-      required_features: true,
       file_data_name: 'file',
       unique_names: false,
       multi_selection: true,
@@ -262,7 +260,6 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       multipart_params: {
         signature: 'test'
       },
-      required_features: true,
       file_data_name: 'file',
       unique_names: false,
       multi_selection: true,
@@ -327,7 +324,6 @@ test('use url correctly if it is the only argument', function (assert) {
       multipart_params: {
         'Content-Type': 'image/gif'
       },
-      required_features: true,
       file_data_name: 'file',
       unique_names: false,
       multi_selection: true,

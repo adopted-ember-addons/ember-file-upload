@@ -101,7 +101,6 @@ export default Ember.Component.extend({
         },
 
         multi_selection: get(this, 'multiple'),
-        required_features: true,
 
         runtimes: get(this, 'runtimes').join(','),
         container: get(this, 'elementId'),
