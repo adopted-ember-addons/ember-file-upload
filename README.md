@@ -1,4 +1,4 @@
-# {{pl-uploader}} [![Build Status](https://travis-ci.org/paddle8/ember-plupload.svg)](https://travis-ci.org/paddle8/ember-plupload) [![Code Climate](https://codeclimate.com/github/paddle8/ember-plupload/badges/gpa.svg)](https://codeclimate.com/github/paddle8/ember-plupload)
+# {{pl-uploader}} [![Build Status](https://travis-ci.org/paddle8/ember-plupload.svg)](https://travis-ci.org/paddle8/ember-plupload) [![Code Climate](https://codeclimate.com/github/paddle8/ember-plupload/badges/gpa.svg)](https://codeclimate.com/github/paddle8/ember-plupload) [![Ember Observer Score](http://emberobserver.com/badges/ember-plupload.svg)](http://emberobserver.com/addons/ember-plupload)
 
 {{pl-uploader}} is an ember component that provides an API for [Plupload](http://www.plupload.com/). Uploads are persistent accross routes in your application (they continue in the background).
 
