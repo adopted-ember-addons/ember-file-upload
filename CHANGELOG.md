@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.18 (June 11, 2015)
+* Uploads that respond with 201s should be resolved instead of rejected. Courtesy of @raytiley
+
 ## 0.6.16 (June 3, 2015)
 * 0.6.14 had a bug where the stylesheet would never be applied. This also reduces memory usage and DOM churn by sharing the stylesheet across all instances of the uploader.
 
