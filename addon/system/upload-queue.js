@@ -188,7 +188,8 @@ export default Ember.ArrayProxy.extend({
     // NOTE: Plupload calls UploadProgress upon triggering FileUploaded,
     //       so we don't need to trigger a progress event
     if (results.status === 204 ||
-        results.status === 200) {
+        results.status === 200 ||
+        results.status === 201) {
       file._deferred.resolve(results);
     } else {
       file._deferred.reject(results);
