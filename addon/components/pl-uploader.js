@@ -133,7 +133,12 @@ export default Ember.Component.extend({
     }
   }),
 
-  attachUploader: Ember.on('didInsertElement', function () {
+  didInsertElement: Ember.on('didInsertElement', function() {
+    Ember.run.scheduleOnce('afterRender', this, 'attachUploader');
+    Ember.run.scheduleOnce('afterRender', this, 'setupDragListeners');
+  }),
+
+  attachUploader: function () {
     var manager = get(this, 'uploadQueueManager');
     var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
@@ -141,20 +146,9 @@ export default Ember.Component.extend({
     this._firstDragEnter = false;
     this._secondDragEnter = false;
     this._invalidateDragData();
-  }),
+  },
 
-  detachUploader: Ember.on('willDestroyElement', function () {
-    var queue = get(this, 'queue');
-    if (queue) {
-      queue.orphan();
-      set(this, 'queue', null);
-    }
-    let sheet = sharedStyleSheet();
-    sheet.css(`#${get(this, 'dropzone.id')} *`, null);
-    sheet.applyStyles();
-  }),
-
-  setupDragListeners: Ember.on('didInsertElement', function () {
+  setupDragListeners: function () {
     var dropzoneId = get(this, 'dropzone.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers = {
@@ -166,6 +160,17 @@ export default Ember.Component.extend({
         Ember.$(document).on(key, '#' + dropzoneId, handlers[key]);
       });
     }
+  },
+
+  detachUploader: Ember.on('willDestroyElement', function () {
+    var queue = get(this, 'queue');
+    if (queue) {
+      queue.orphan();
+      set(this, 'queue', null);
+    }
+    let sheet = sharedStyleSheet();
+    sheet.css(`#${get(this, 'dropzone.id')} *`, null);
+    sheet.applyStyles();
   }),
 
   teardownDragListeners: Ember.on('willDestroyElement', function () {
