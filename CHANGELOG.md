@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.20 (June 12, 2015)
+* Include unminified plupload and moxie for development, which helps with debugging issuse with plupload / moxie. Courtesy of @raytiley
+
 ## 0.6.19 (June 12, 2015)
 * Fixes #19. Attach event listeners after the initial render is complete. This was causing browser crashes on Ember 1.13+. Courtesy of @raytiley
 

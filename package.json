@@ -1,6 +1,6 @@
 {
   "name": "ember-plupload",
-  "version": "0.6.19",
+  "version": "0.6.20",
   "directories": {
     "doc": "doc",
     "test": "tests"
