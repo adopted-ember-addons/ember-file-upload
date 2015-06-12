@@ -138,7 +138,7 @@ export default Ember.Component.extend({
     Ember.run.scheduleOnce('afterRender', this, 'setupDragListeners');
   }),
 
-  attachUploader: function () {
+  attachUploader() {
     var manager = get(this, 'uploadQueueManager');
     var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
@@ -148,7 +148,7 @@ export default Ember.Component.extend({
     this._invalidateDragData();
   },
 
-  setupDragListeners: function () {
+  setupDragListeners() {
     var dropzoneId = get(this, 'dropzone.id');
     if (dropzoneId) {
       var handlers = this.eventHandlers = {
