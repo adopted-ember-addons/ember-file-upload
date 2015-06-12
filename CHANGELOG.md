@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.19 (June 12, 2015)
+* Fixes #19. Attach event listeners after the initial render is complete. This was causing browser crashes on Ember 1.13+. Courtesy of @raytiley
+
 ## 0.6.18 (June 11, 2015)
 * Uploads that respond with 201s should be resolved instead of rejected. Courtesy of @raytiley
 
