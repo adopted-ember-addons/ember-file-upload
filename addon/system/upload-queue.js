@@ -159,7 +159,7 @@ export default Ember.ArrayProxy.extend({
       return headers;
     }, {});
 
-    var contentType = (headers['Content-Type'] || '').split(';');
+    var contentType = (headers['Content-Type'] || headers['content-type'] || '').split(';');
     // Parse body according to the Content-Type received by the server
     if (contentType.indexOf('text/html') !== -1) {
       body = Ember.$.parseHTML(body);
