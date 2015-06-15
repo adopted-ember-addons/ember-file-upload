@@ -151,7 +151,14 @@ export default Ember.Object.extend({
     this.settings = settingsToConfig.call(this, settings);
 
     // Start uploading the files
-    later(uploader, 'start', 100);
+    //
+    // This number is chosen due to comments in
+    // https://github.com/paddle8/ember-plupload/issues/22
+    //
+    // When we upgrade plupload so it takes
+    // settings as part of the upload process,
+    // we'll remove this.
+    later(uploader, 'start', 400);
 
     return this._deferred.promise;
   },

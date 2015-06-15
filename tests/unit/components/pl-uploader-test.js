@@ -130,7 +130,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
         response: '{ "name": "test-filename.jpg" }'
       });
       done();
-    }, 120);
+    }, 420);
   });
 });
 
@@ -205,7 +205,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
       }
     });
     done();
-  }, 120);
+  }, 420);
 });
 
 test('merges the url correctly if passed in as the first parameter to upload', function (assert) {
@@ -278,7 +278,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
       }
     });
     done();
-  }, 100);
+  }, 420);
 });
 
 test('use url correctly if it is the only argument', function (assert) {
@@ -341,7 +341,7 @@ test('use url correctly if it is the only argument', function (assert) {
       }
     });
     done();
-  }, 100);
+  }, 420);
 });
 
 test('rejects file.upload when the file upload fails', function (assert) {
@@ -379,5 +379,5 @@ test('rejects file.upload when the file upload fails', function (assert) {
       response: 'oops'
     });
     done();
-  }, 120);
+  }, 420);
 });
