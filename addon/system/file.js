@@ -128,13 +128,13 @@ export default Ember.Object.extend({
 
     @method destroy
    */
-  destroy: function () {
+  destroy() {
     if (this.isDestroyed) { return; }
     get(this, 'uploader').removeFile(get(this, 'file'));
     this.isDestroyed = true;
   },
 
-  upload: function (url, settings) {
+  upload(url, settings) {
     var uploader = get(this, 'uploader');
     this._deferred = RSVP.defer(`File: '${get(this, 'id')}' Upload file`);
 
@@ -163,7 +163,7 @@ export default Ember.Object.extend({
     return this._deferred.promise;
   },
 
-  read: function (options = { as: 'data-url' }) {
+  read(options = { as: 'data-url' }) {
     let file = get(this, 'file').getSource();
     let reader = new mOxieFileReader();
     let { promise, resolve, reject } = RSVP.defer();

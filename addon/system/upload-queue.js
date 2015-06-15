@@ -38,7 +38,7 @@ export default Ember.ArrayProxy.extend({
 
   queues: null,
 
-  init: function () {
+  init() {
     set(this, 'queues', Ember.A([]));
     set(this, 'orphanedQueues', Ember.A([]));
 
@@ -46,7 +46,7 @@ export default Ember.ArrayProxy.extend({
     this._super();
   },
 
-  configure: function (config = {}) {
+  configure(config = {}) {
     var uploader = new plupload.Uploader(config);
 
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));
@@ -77,7 +77,7 @@ export default Ember.ArrayProxy.extend({
     Orphan the active plupload object so
     we garbage collect the queues.
    */
-  orphan: function () {
+  orphan() {
     var orphans = get(this, 'orphanedQueues');
     var activeQueues = get(this, 'queues').filter(function (queue) {
       return orphans.indexOf(queue) === -1;
@@ -90,14 +90,14 @@ export default Ember.ArrayProxy.extend({
     }
   },
 
-  destroy: function () {
+  destroy() {
     this._super();
     get(this, 'queues').invoke('unbindAll');
     set(this, 'content', Ember.A([]));
     set(this, 'queues', null);
   },
 
-  refresh: function () {
+  refresh() {
     get(this, 'queues').invoke('refresh');
   },
 
@@ -112,8 +112,8 @@ export default Ember.ArrayProxy.extend({
     }
   }),
 
-  filesAdded: function (uploader, files) {
-    for (var i = 0, len = files.length; i < len; i++) {
+  filesAdded(uploader, files) {
+    for (let i = 0, len = files.length; i < len; i++) {
       var file = File.create({
         uploader: uploader,
         file: files[i]
@@ -128,7 +128,7 @@ export default Ember.ArrayProxy.extend({
     }
   },
 
-  filesRemoved: function (uploader, files) {
+  filesRemoved(uploader, files) {
     for (var i = 0, len = files.length; i < len; i++) {
       var file = this.findProperty('id', files[i].id);
       if (file) {
@@ -137,7 +137,7 @@ export default Ember.ArrayProxy.extend({
     }
   },
 
-  configureUpload: function (uploader, file) {
+  configureUpload(uploader, file) {
     file = this.findProperty('id', file.id);
     // Reset settings for merging
     uploader.settings = copy(get(this, 'settings'));
@@ -146,7 +146,7 @@ export default Ember.ArrayProxy.extend({
     this.progressDidChange(uploader, file);
   },
 
-  progressDidChange: function (uploader, file) {
+  progressDidChange(uploader, file) {
     file = this.findProperty('id', file.id);
     if (file) {
       file.notifyPropertyChange('progress');
@@ -155,7 +155,7 @@ export default Ember.ArrayProxy.extend({
     this.notifyPropertyChange('progress');
   },
 
-  parseResponse: function (response) {
+  parseResponse(response) {
     var body = trim(response.response);
     var rawHeaders = Ember.A(response.responseHeaders.split(/\n|\r/)).without('');
     var headers = rawHeaders.reduce(function (headers, header) {
@@ -185,7 +185,7 @@ export default Ember.ArrayProxy.extend({
     };
   },
 
-  fileUploaded: function (uploader, file, response) {
+  fileUploaded(uploader, file, response) {
     var results = this.parseResponse(response);
     file = this.findProperty('id', file.id);
     if (file) {
@@ -205,14 +205,14 @@ export default Ember.ArrayProxy.extend({
     Ember.run.later(uploader, 'refresh', 750);
   },
 
-  garbageCollectUploader: function (uploader) {
+  garbageCollectUploader(uploader) {
     get(this, 'queues').removeObject(uploader);
     get(this, 'orphanedQueues').removeObject(uploader);
     this.filterProperty('uploader', uploader).invoke('destroy');
     uploader.unbindAll();
   },
 
-  uploadComplete: function (uploader) {
+  uploadComplete(uploader) {
     // Notify plupload that our browse_button may have
     // changed locations
     Ember.run.later(uploader, 'refresh', 750);
@@ -224,7 +224,7 @@ export default Ember.ArrayProxy.extend({
     }
   },
 
-  onError: function (uploader, error) {
+  onError(uploader, error) {
     if (error.file) {
       var file = this.findProperty('id', error.file.id);
       if (file == null) {

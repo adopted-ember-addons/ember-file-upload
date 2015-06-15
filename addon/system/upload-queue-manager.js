@@ -11,7 +11,7 @@ export default Ember.Object.extend({
     Setup a map of uploaders so they may be
     accessed by name via the `find` method.
    */
-  init: function () {
+  init() {
     set(this, 'queues', Ember.Map.create());
   },
 
@@ -23,7 +23,7 @@ export default Ember.Object.extend({
     @param {String} name The name of the queue to find
     @param {Object} [config] The configuration to use for the uploader
    */
-  find: function (name, component, config) {
+  find(name, component, config) {
     var queue;
 
     if (get(this, 'queues').has(name)) {
