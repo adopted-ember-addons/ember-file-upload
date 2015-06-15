@@ -4,17 +4,24 @@ import File from "./file";
 import trim from "./trim";
 import computed from './computed';
 
-const get = Ember.get;
-const set = Ember.set;
+const { get, set } = Ember;
+const { keys, copy, merge } = Ember;
 const bool = Ember.computed.bool;
 const bind = Ember.run.bind;
-const copy = Ember.copy;
-const merge = Ember.merge;
 
 var summation = function (target, key) {
   return target.reduce(function (E, obj) {
     return E + get(obj, key);
   }, 0);
+};
+
+var getHeader = function (headers, header) {
+  let headerKeys = Ember.A(keys(headers));
+  let headerIdx = headerKeys.map((s) => s.toLowerCase()).indexOf(header.toLowerCase());
+  if (headerIdx !== -1) {
+    return headers[headerKeys[headerIdx]];
+  }
+  return null;
 };
 
 /**
@@ -95,7 +102,7 @@ export default Ember.ArrayProxy.extend({
   },
 
   progress: computed({
-    get() {
+    get: function _get() {
       const queues        = get(this, 'queues');
       const totalSize     = summation(queues, 'total.size');
       const totalUploaded = summation(queues, 'total.loaded');
@@ -159,7 +166,7 @@ export default Ember.ArrayProxy.extend({
       return headers;
     }, {});
 
-    var contentType = (headers['Content-Type'] || headers['content-type'] || '').split(';');
+    let contentType = (getHeader(headers, 'Content-Type') || '').split(';');
     // Parse body according to the Content-Type received by the server
     if (contentType.indexOf('text/html') !== -1) {
       body = Ember.$.parseHTML(body);
@@ -187,9 +194,7 @@ export default Ember.ArrayProxy.extend({
 
     // NOTE: Plupload calls UploadProgress upon triggering FileUploaded,
     //       so we don't need to trigger a progress event
-    if (results.status === 204 ||
-        results.status === 200 ||
-        results.status === 201) {
+    if (Math.floor(results.status / 200) === 1) {
       file._deferred.resolve(results);
     } else {
       file._deferred.reject(results);

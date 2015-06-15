@@ -104,3 +104,21 @@ test('files that error are always passed to the action', function (assert) {
     file: file
   });
 });
+
+test('responses are converted to the content-type no matter its casing', function (assert) {
+  let queue = UploadQueue.create();
+  let response = queue.parseResponse({
+    status: 204,
+    response: '<ResponseStatus>204</ResponseStatus>',
+    responseHeaders: 'content-type: text/xml'
+  });
+
+  assert.equal(response.status, 204);
+  assert.deepEqual(response.headers, {
+    'content-type': 'text/xml'
+  });
+
+  let status = response.body.getElementsByTagName('ResponseStatus')[0]
+                            .childNodes[0].nodeValue;
+  assert.equal(status, '204');
+});

@@ -91,45 +91,47 @@ test('sends an event when the file is queued', function (assert) {
   }]);
 });
 
-test('resolves file.upload when the file upload succeeds', function (assert) {
-  var done = assert.async();
-  assert.expect(4);
-  var target = {
-    uploadImage: function (file, env) {
-      file.upload().then(function (response) {
-        assert.equal(response.status, 200);
-        assert.deepEqual(response.body, {
-          name: 'test-filename.jpg'
+Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
+  test(`resolves a response of ${status}`, function (assert) {
+    var done = assert.async();
+    assert.expect(4);
+    var target = {
+      uploadImage: function (file, env) {
+        file.upload().then(function (response) {
+          assert.equal(response.status, status);
+          assert.deepEqual(response.body, {
+            name: 'test-filename.jpg'
+          });
+          assert.deepEqual(response.headers, {
+            Location: 'https://my-server.com/remote-url.jpg',
+            'Content-Type': 'application/json; charset=utf-8'
+          });
         });
-        assert.deepEqual(response.headers, {
-          Location: 'https://my-server.com/remote-url.jpg',
-          'Content-Type': 'application/json; charset=utf-8'
-        });
-      });
-    }
-  };
+      }
+    };
 
-  var component = this.subject({
-    "when-queued": 'uploadImage',
-    uploadQueueManager: UploadQueueManager.create()
-  });
-
-  this.render();
-  set(component, 'targetObject', target);
-
-  var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test' };
-
-  uploader.FilesAdded(uploader, [file]);
-  setTimeout(function () {
-    assert.ok(uploader.started);
-    uploader.FileUploaded(uploader, file, {
-      status: 200,
-      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
-      response: '{ "name": "test-filename.jpg" }'
+    var component = this.subject({
+      "when-queued": 'uploadImage',
+      uploadQueueManager: UploadQueueManager.create()
     });
-    done();
-  }, 120);
+
+    this.render();
+    set(component, 'targetObject', target);
+
+    var uploader = get(component, 'queue.queues.firstObject');
+    var file = { id: 'test' };
+
+    uploader.FilesAdded(uploader, [file]);
+    setTimeout(function () {
+      assert.ok(uploader.started);
+      uploader.FileUploaded(uploader, file, {
+        status: status,
+        responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
+        response: '{ "name": "test-filename.jpg" }'
+      });
+      done();
+    }, 120);
+  });
 });
 
 test('merges uploader settings with the settings provided in file.upload', function (assert) {
