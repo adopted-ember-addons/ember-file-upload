@@ -1,5 +1,10 @@
 # ember-plupload Changelog
 
+## 0.6.21 (June 14, 2015)
+* Allow any 2XX series status to resolve the file upload
+* Headers are case-insensitive, which meant that sometimes responses weren't parsed correctly. Courtesy of @raytiley
+* Add a longer delay before uploading a file, trying to solve a race condition where settings were incorrectly reset before uploads. Courtesy of @walter
+
 ## 0.6.20 (June 12, 2015)
 * Include unminified plupload and moxie for development, which helps with debugging issuse with plupload / moxie. Courtesy of @raytiley
 
