@@ -150,15 +150,20 @@ export default Ember.Object.extend({
 
     this.settings = settingsToConfig.call(this, settings);
 
-    // Start uploading the files
-    //
-    // This number is chosen due to comments in
-    // https://github.com/paddle8/ember-plupload/issues/22
-    //
-    // When we upgrade plupload so it takes
-    // settings as part of the upload process,
-    // we'll remove this.
-    later(uploader, 'start', 400);
+    if (this.file.upload) {
+      // when plupload has the paralllel upload API available
+      this.file.upload(this.settings);
+    } else {
+      // Start uploading the files
+      //
+      // This number is chosen due to comments in
+      // https://github.com/paddle8/ember-plupload/issues/22
+      //
+      // When we upgrade plupload so it takes
+      // settings as part of the upload process,
+      // we'll remove this.
+      later(uploader, 'start', 400);
+    }
 
     return this._deferred.promise;
   },
