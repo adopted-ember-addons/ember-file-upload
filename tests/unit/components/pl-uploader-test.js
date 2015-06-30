@@ -83,12 +83,12 @@ test('sends an event when the file is queued', function (assert) {
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  uploader.FilesAdded(uploader, [{
+  uploader.addFile({
     id: 'test',
     name: 'test-filename.jpg',
     size: 2000,
     percent: 0
-  }]);
+  });
 });
 
 Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
@@ -121,7 +121,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
     var uploader = get(component, 'queue.queues.firstObject');
     var file = { id: 'test' };
 
-    uploader.FilesAdded(uploader, [file]);
+    uploader.addFile(file);
     setTimeout(function () {
       assert.ok(uploader.started);
       uploader.FileUploaded(uploader, file, {
@@ -169,7 +169,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test', type: 'image/gif' };
 
-  uploader.FilesAdded(uploader, [file]);
+  uploader.addFile(file);
   setTimeout(function () {
     assert.ok(uploader.started);
 
@@ -242,7 +242,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test', type: 'image/gif' };
 
-  uploader.FilesAdded(uploader, [file]);
+  uploader.addFile(file);
   setTimeout(function () {
     assert.ok(uploader.started);
 
@@ -306,7 +306,7 @@ test('use url correctly if it is the only argument', function (assert) {
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test', type: 'image/gif' };
 
-  uploader.FilesAdded(uploader, [file]);
+  uploader.addFile(file);
   setTimeout(function () {
     assert.ok(uploader.started);
 
@@ -370,7 +370,7 @@ test('rejects file.upload when the file upload fails', function (assert) {
   var uploader = get(component, 'queue.queues.firstObject');
   var file = { id: 'test' };
 
-  uploader.FilesAdded(uploader, [file]);
+  uploader.addFile(file);
   setTimeout(function () {
     assert.ok(uploader.started);
     uploader.FileUploaded(uploader, file, {

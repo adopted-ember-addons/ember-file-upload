@@ -3,6 +3,7 @@ export default function (config) {
   return {
     removedFiles: removedFiles,
     settings: config || {},
+    files: [],
 
     refresh: function () {},
 
@@ -16,16 +17,24 @@ export default function (config) {
       this.initialized = true;
     },
 
+    addFile: function (file) {
+      this.files.push(file);
+      this.FilesAdded(this, [file]);
+    },
+
+    removeFile: function (file) {
+      let index = this.files.indexOf(file);
+      this.files.splice(index, 1);
+      this.FilesRemoved(this, [file]);
+      removedFiles.push(file);
+    },
+
     bind: function (functionName, callback) {
       this[functionName] = callback;
     },
 
     unbindAll: function () {
       this.unbound = true;
-    },
-
-    removeFile: function (file) {
-      removedFiles.push(file);
     },
 
     start: function () {
