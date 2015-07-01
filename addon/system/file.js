@@ -163,7 +163,9 @@ export default Ember.Object.extend({
 
   read(options = { as: 'data-url' }) {
     let file = get(this, 'file').getSource();
+    /*jshint -W055 */
     let reader = new mOxieFileReader();
+    /*jshint +W055 */
     let { promise, resolve, reject } = RSVP.defer();
     reader.onloadend = resolve;
     reader.onerror = reject;
