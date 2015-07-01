@@ -380,3 +380,54 @@ test('rejects file.upload when the file upload fails', function (assert) {
     done();
   }, 420);
 });
+
+test('plupload.File.upload is called if it is defined', function (assert) {
+  assert.expect(1);
+  var target = {
+    uploadImage: function (file, env) {
+      file.upload({
+        url: 'https://my-bucket.amazonaws.com/test',
+        method: 'PUT',
+        accepts: 'text/plain',
+        data: {
+          signature: 'test'
+        },
+        maxRetries: 2,
+        chunkSize: 128
+      });
+    }
+  };
+
+  // creates the component instance
+  var component = this.subject({
+    "when-queued": 'uploadImage',
+    uploadQueueManager: UploadQueueManager.create()
+  });
+
+  // renders the component to the page
+  this.render();
+  set(component, 'targetObject', target);
+
+  var uploader = get(component, 'queue.queues.firstObject');
+  var file = {
+    id: 'test',
+    upload(settings) {
+      assert.deepEqual(settings, {
+        url: 'https://my-bucket.amazonaws.com/test',
+        method: 'PUT',
+        multipart: true,
+        file_data_name: 'file',
+        multipart_params: {
+          signature: 'test'
+        },
+        headers: {
+          Accept: 'text/plain',
+        },
+        max_retries: 2,
+        chunk_size: 128
+      });
+    }
+  };
+
+  uploader.addFile(file);
+});
