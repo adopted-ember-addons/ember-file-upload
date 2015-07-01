@@ -12,8 +12,7 @@ var set = Ember.set;
 var originalPlupload;
 
 moduleForComponent('pl-uploader', {
-  // specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  unit: true,
   beforeEach: function () {
     originalPlupload = plupload.Uploader;
     plupload.Uploader = MockUploader;
