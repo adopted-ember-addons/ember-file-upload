@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default function (...dependentKeys) {
-  if (Ember.FEATURES['new-computed-syntax']) {
+  if (Ember.FEATURES['new-computed-syntax'] || Ember.VERSION.match(/^1\.13/)) {
     return Ember.computed(...dependentKeys);
   } else {
     let method = dependentKeys.pop();
