@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.22 (June 30, 2015)
+* Handle code paths for beta versions of plupload. Some users of ember-plupload are using this in the wild. Courtesy of @walter
+
 ## 0.6.21 (June 14, 2015)
 * Allow any 2XX series status to resolve the file upload
 * Headers are case-insensitive, which meant that sometimes responses weren't parsed correctly. Courtesy of @raytiley
