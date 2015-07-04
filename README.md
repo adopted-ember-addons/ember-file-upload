@@ -11,6 +11,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `name`              | a unique identifier of the uploader. used to rehydrate a component with its uploads happening in the background
 | `when-queued`       | the name of the action on a route to be called when a file is queued to be uploaded
 | `for`               | the ID of the browse button
 | `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
