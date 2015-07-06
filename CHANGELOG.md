@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.6.23 (July 6, 2015)
+* Fix file uploads for IE9 by increasing the queue timeout to 100ms. Courtesy of @mgrigis
+
 ## 0.6.22 (June 30, 2015)
 * Handle code paths for beta versions of plupload. Some users of ember-plupload are using this in the wild. Courtesy of @walter
 

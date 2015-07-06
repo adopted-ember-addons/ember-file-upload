@@ -155,7 +155,7 @@ export default Ember.Object.extend({
     if (this.file.upload) {
       this.file.upload(this.settings);
     } else {
-      later(uploader, 'start', 100);
+      later(uploader, 'start', 400);
     }
 
     return this._deferred.promise;
