@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.7.0 (July 6, 2015)
+* Change UploadQueueManager to a service called Uploader with various aggregate properties about all files uploading.
+
 ## 0.6.23 (July 6, 2015)
 * Fix file uploads for IE9 by increasing the queue timeout to 100ms. Courtesy of @mgrigis
 
