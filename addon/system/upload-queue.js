@@ -58,7 +58,9 @@ export default Ember.ArrayProxy.extend({
     // references to the buttons so mOxie doesn't
     // get confused when the dom might be detached
     uploader.settings.browse_button = [config.browse_button];
-    uploader.settings.drop_element = [config.drop_element];
+    if (config.drop_element) {
+      uploader.settings.drop_element = [config.drop_element];
+    }
 
     let settings = copy(uploader.settings);
     delete settings.url;

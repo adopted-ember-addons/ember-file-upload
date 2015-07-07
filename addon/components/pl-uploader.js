@@ -12,7 +12,11 @@ var bind = Ember.run.bind;
 
 var isDragAndDropSupported = (function () {
   var supported = null;
-  return function () {
+  return function (runtimes) {
+    if (runtimes.indexOf('html5') === -1) {
+      return false;
+    }
+
     if (supported == null) {
       supported = 'draggable' in document.createElement('span');
     }
@@ -91,7 +95,7 @@ export default Ember.Component.extend({
       var id = get(this, 'for-dropzone') || 'dropzone-for-' + get(this, 'elementId');
       dropzone.enabled = false;
 
-      if (isDragAndDropSupported()) {
+      if (isDragAndDropSupported(get(this, 'runtimes'))) {
         dropzone.enabled = true;
         dropzone.id = id;
         dropzone.data = null;
@@ -131,7 +135,7 @@ export default Ember.Component.extend({
         }
       });
 
-      if (isDragAndDropSupported()) {
+      if (isDragAndDropSupported(get(this, 'runtimes'))) {
         config.drop_element = get(this, 'dropzone.id');
       }
 
@@ -249,7 +253,7 @@ export default Ember.Component.extend({
   }),
 
   setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
-    if (!isDragAndDropSupported()) { return; }
+    if (!isDragAndDropSupported(get(this, 'runtimes'))) { return; }
 
     var data       = get(this, 'dragData');
     var extensions = get(this, 'extensions');
