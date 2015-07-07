@@ -1,6 +1,6 @@
 <h2>PlUpload Test</h2>
 <hr>
-{{#pl-uploader extensions="jpg jpeg png gif" for="upload-image" when-queued="uploadImage" as |queue features|}}
+{{#pl-uploader extensions="jpg jpeg png gif" for="upload-image" onfileadd="uploadImage" as |queue features|}}
   <div class="dropzone" id={{features.drag-and-drop.dropzone-id}} style="width: 80%; height: 100px; border: 2px dashed gray; padding: 0 20px">
     {{#if features.drag-and-drop.drag-data}}
       {{#if features.drag-and-drop.drag-data.valid}}
