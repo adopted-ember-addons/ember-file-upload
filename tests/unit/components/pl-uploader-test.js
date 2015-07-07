@@ -4,7 +4,7 @@ import {
   test
 } from 'ember-qunit';
 import Ember from "ember";
-import UploadQueueManager from "ember-plupload/system/upload-queue-manager";
+import Uploader from "ember-plupload/services/uploader";
 import MockUploader from '../../helpers/mock-uploader';
 
 var get = Ember.get;
@@ -29,7 +29,7 @@ test('it configures the plupload Uploader correctly', function (assert) {
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
 
   this.render();
@@ -75,7 +75,7 @@ test('sends an event when the file is queued', function (assert) {
   var component = this.subject({
     name: 'test-component',
     "when-queued": 'uploadImage',
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
 
   this.render();
@@ -111,7 +111,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
 
     var component = this.subject({
       "when-queued": 'uploadImage',
-      uploadQueueManager: UploadQueueManager.create()
+      uploader: Uploader.create()
     });
 
     this.render();
@@ -158,7 +158,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
 
@@ -231,7 +231,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
 
@@ -295,7 +295,7 @@ test('use url correctly if it is the only argument', function (assert) {
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
 
@@ -359,7 +359,7 @@ test('rejects file.upload when the file upload fails', function (assert) {
   // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
 
   // renders the component to the page
@@ -401,7 +401,7 @@ test('plupload.File.upload is called if it is defined', function (assert) {
   // creates the component instance
   var component = this.subject({
     "when-queued": 'uploadImage',
-    uploadQueueManager: UploadQueueManager.create()
+    uploader: Uploader.create()
   });
 
   // renders the component to the page

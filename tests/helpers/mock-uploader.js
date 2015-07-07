@@ -19,12 +19,18 @@ export default function (config) {
 
     addFile: function (file) {
       this.files.push(file);
+      this.total.queued++;
+      this.total.size += file.size;
+      this.total.loaded += file.loaded;
       this.FilesAdded(this, [file]);
     },
 
     removeFile: function (file) {
       let index = this.files.indexOf(file);
       this.files.splice(index, 1);
+      this.total.queued--;
+      this.total.size -= file.size;
+      this.total.loaded -= file.loaded;
       this.FilesRemoved(this, [file]);
       removedFiles.push(file);
     },

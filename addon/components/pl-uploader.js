@@ -54,6 +54,8 @@ export default Ember.Component.extend({
   'for-dropzone': null,
   'when-queued': null,
 
+  uploader: Ember.inject.service(),
+
   /**
     A cascading list of runtimes to fallback on to
     for uploading files with.
@@ -139,8 +141,8 @@ export default Ember.Component.extend({
   }),
 
   attachUploader() {
-    var manager = get(this, 'uploadQueueManager');
-    var queue = manager.find(get(this, 'name'), this, get(this, 'config'));
+    var uploader = get(this, 'uploader');
+    var queue = uploader.findOrCreate(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
 
     this._firstDragEnter = false;

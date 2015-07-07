@@ -3,17 +3,12 @@ import Ember from "ember";
 import File from "./file";
 import trim from "./trim";
 import computed from './computed';
+import sumBy from "../system/sum-by";
 
 const { get, set } = Ember;
 const { keys, copy, merge } = Ember;
 const bool = Ember.computed.bool;
 const bind = Ember.run.bind;
-
-var summation = function (target, key) {
-  return target.reduce(function (E, obj) {
-    return E + get(obj, key);
-  }, 0);
-};
 
 var getHeader = function (headers, header) {
   let headerKeys = Ember.A(keys(headers));
@@ -101,13 +96,21 @@ export default Ember.ArrayProxy.extend({
     get(this, 'queues').invoke('refresh');
   },
 
-  progress: computed({
+  size: computed({
     get: function _get() {
-      const queues        = get(this, 'queues');
-      const totalSize     = summation(queues, 'total.size');
-      const totalUploaded = summation(queues, 'total.loaded');
-      const percent       = totalUploaded / totalSize || 0;
+      return sumBy(get(this, 'queues'), 'total.size') || 0;
+    }
+  }),
 
+  loaded: computed({
+    get: function _get() {
+      return sumBy(get(this, 'queues'), 'total.loaded') || 0;
+    }
+  }),
+
+  progress: computed('size', 'loaded', {
+    get: function _get() {
+      let percent = get(this, 'loaded') / get(this, 'size') || 0;
       return Math.floor(percent * 100);
     }
   }),
@@ -125,6 +128,9 @@ export default Ember.ArrayProxy.extend({
         uploader: uploader,
         queue: this
       });
+
+      this.notifyPropertyChange('size');
+      this.notifyPropertyChange('loaded');
     }
   },
 
@@ -135,6 +141,9 @@ export default Ember.ArrayProxy.extend({
         this.removeObject(file);
       }
     }
+
+    this.notifyPropertyChange('size');
+    this.notifyPropertyChange('loaded');
   },
 
   configureUpload(uploader, file) {
@@ -152,7 +161,8 @@ export default Ember.ArrayProxy.extend({
       file.notifyPropertyChange('progress');
     }
 
-    this.notifyPropertyChange('progress');
+    this.notifyPropertyChange('size');
+    this.notifyPropertyChange('loaded');
   },
 
   parseResponse(response) {
@@ -216,7 +226,8 @@ export default Ember.ArrayProxy.extend({
     // Notify plupload that our browse_button may have
     // changed locations
     Ember.run.later(uploader, 'refresh', 750);
-    this.notifyPropertyChange('progress');
+    this.notifyPropertyChange('loaded');
+    this.notifyPropertyChange('size');
 
     // Clean up the orphaned uploader and its files
     if (get(this, 'orphanedQueues').indexOf(uploader) !== -1) {
