@@ -1,6 +1,7 @@
 import Ember from "ember";
 import UploadQueue from "../system/upload-queue";
 import flatten from "../system/flatten";
+import computed from "../system/computed";
 
 var get = Ember.get;
 var set = Ember.set;
@@ -17,13 +18,13 @@ export default Ember.Service.extend({
     set(this, 'all', Ember.A());
   },
 
-  files: Ember.computed('all.@each.length', {
+  files: computed('all.@each.length', {
     get() {
       return flatten(get(this, 'all').invoke('toArray'));
     }
   }),
 
-  size: Ember.computed('all.@each.size', {
+  size: computed('all.@each.size', {
     get() {
       return Ember.A(get(this, 'all').getEach('size')).reduce(function (E, x) {
         return E + x;
@@ -31,7 +32,7 @@ export default Ember.Service.extend({
     }
   }),
 
-  loaded: Ember.computed('all.@each.loaded', {
+  loaded: computed('all.@each.loaded', {
     get() {
       return Ember.A(get(this, 'all').getEach('loaded')).reduce(function (E, x) {
         return E + x;
