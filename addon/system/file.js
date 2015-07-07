@@ -5,8 +5,6 @@ import computed from './computed';
 const get = Ember.get;
 const reads = Ember.computed.reads;
 
-const later = Ember.run.later;
-
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
@@ -155,7 +153,7 @@ export default Ember.Object.extend({
     if (this.file.upload) {
       this.file.upload(this.settings);
     } else {
-      later(uploader, 'start', 400);
+      uploader.start();
     }
 
     return this._deferred.promise;

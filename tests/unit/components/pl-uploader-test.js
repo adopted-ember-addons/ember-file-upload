@@ -133,7 +133,6 @@ test('sends an event when the file is queued', function (assert) {
 
 Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
   test(`resolves a response of ${status}`, function (assert) {
-    var done = assert.async();
     assert.expect(4);
     var target = {
       uploadImage: function (file, env) {
@@ -162,20 +161,16 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
     var file = { id: 'test' };
 
     uploader.addFile(file);
-    setTimeout(function () {
-      assert.ok(uploader.started);
-      uploader.FileUploaded(uploader, file, {
-        status: status,
-        responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
-        response: '{ "name": "test-filename.jpg" }'
-      });
-      done();
-    }, 420);
+    assert.ok(uploader.started);
+    uploader.FileUploaded(uploader, file, {
+      status: status,
+      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
+      response: '{ "name": "test-filename.jpg" }'
+    });
   });
 });
 
 test('merges uploader settings with the settings provided in file.upload', function (assert) {
-  var done = assert.async();
   assert.expect(2);
   var target = {
     uploadImage: function (file, env) {
@@ -210,46 +205,42 @@ test('merges uploader settings with the settings provided in file.upload', funct
   var file = { id: 'test', type: 'image/gif' };
 
   uploader.addFile(file);
-  setTimeout(function () {
-    assert.ok(uploader.started);
+  assert.ok(uploader.started);
 
-    uploader.BeforeUpload(uploader, file);
-    assert.deepEqual(uploader.settings, {
-      runtimes: 'html5,html4,flash,silverlight',
-      url: 'https://my-bucket.amazonaws.com/test',
-      browse_button: ['browse-button'],
-      drop_element: get(component, 'dropzone.enabled') ? ['ember-application'] : null,
-      container: elementId,
-      flash_swf_url: '/assets/Moxie.swf',
-      silverlight_xap_url: '/assets/Moxie.xap',
-      max_retries: 2,
-      chunk_size: 128,
-      method: 'PUT',
-      multipart: true,
-      multipart_params: {
-        signature: 'test',
-        'Content-Type': 'image/gif'
-      },
-      file_data_name: 'file',
-      unique_names: false,
-      multi_selection: true,
-      filters: {
-        mime_types: [{
-          extensions: 'jpg,png,gif'
-        }],
-        max_file_size: 256,
-        prevent_duplicates: true
-      },
-      headers: {
-        Accept: 'text/plain'
-      }
-    });
-    done();
-  }, 420);
+  uploader.BeforeUpload(uploader, file);
+  assert.deepEqual(uploader.settings, {
+    runtimes: 'html5,html4,flash,silverlight',
+    url: 'https://my-bucket.amazonaws.com/test',
+    browse_button: ['browse-button'],
+    drop_element: get(component, 'dropzone.enabled') ? ['ember-application'] : null,
+    container: elementId,
+    flash_swf_url: '/assets/Moxie.swf',
+    silverlight_xap_url: '/assets/Moxie.xap',
+    max_retries: 2,
+    chunk_size: 128,
+    method: 'PUT',
+    multipart: true,
+    multipart_params: {
+      signature: 'test',
+      'Content-Type': 'image/gif'
+    },
+    file_data_name: 'file',
+    unique_names: false,
+    multi_selection: true,
+    filters: {
+      mime_types: [{
+        extensions: 'jpg,png,gif'
+      }],
+      max_file_size: 256,
+      prevent_duplicates: true
+    },
+    headers: {
+      Accept: 'text/plain'
+    }
+  });
 });
 
 test('merges the url correctly if passed in as the first parameter to upload', function (assert) {
-  var done = assert.async();
   assert.expect(2);
   var target = {
     uploadImage: function (file, env) {
@@ -283,46 +274,42 @@ test('merges the url correctly if passed in as the first parameter to upload', f
   var file = { id: 'test', type: 'image/gif' };
 
   uploader.addFile(file);
-  setTimeout(function () {
-    assert.ok(uploader.started);
+  assert.ok(uploader.started);
 
-    uploader.BeforeUpload(uploader, file);
-    assert.deepEqual(uploader.settings, {
-      runtimes: 'html5,html4,flash,silverlight',
-      url: 'https://my-bucket.amazonaws.com/test',
-      browse_button: ['browse-button'],
-      drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
-      container: elementId,
-      flash_swf_url: '/assets/Moxie.swf',
-      silverlight_xap_url: '/assets/Moxie.xap',
-      max_retries: 2,
-      chunk_size: 128,
-      method: 'POST',
-      multipart: false,
-      multipart_params: {
-        signature: 'test'
-      },
-      file_data_name: 'file',
-      unique_names: false,
-      multi_selection: true,
-      filters: {
-        mime_types: [{
-          extensions: 'jpg,png,gif'
-        }],
-        max_file_size: 256,
-        prevent_duplicates: true
-      },
-      headers: {
-        Accept: 'text/plain',
-        'Content-Type': 'text/plain'
-      }
-    });
-    done();
-  }, 420);
+  uploader.BeforeUpload(uploader, file);
+  assert.deepEqual(uploader.settings, {
+    runtimes: 'html5,html4,flash,silverlight',
+    url: 'https://my-bucket.amazonaws.com/test',
+    browse_button: ['browse-button'],
+    drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
+    container: elementId,
+    flash_swf_url: '/assets/Moxie.swf',
+    silverlight_xap_url: '/assets/Moxie.xap',
+    max_retries: 2,
+    chunk_size: 128,
+    method: 'POST',
+    multipart: false,
+    multipart_params: {
+      signature: 'test'
+    },
+    file_data_name: 'file',
+    unique_names: false,
+    multi_selection: true,
+    filters: {
+      mime_types: [{
+        extensions: 'jpg,png,gif'
+      }],
+      max_file_size: 256,
+      prevent_duplicates: true
+    },
+    headers: {
+      Accept: 'text/plain',
+      'Content-Type': 'text/plain'
+    }
+  });
 });
 
 test('use url correctly if it is the only argument', function (assert) {
-  var done = assert.async();
   assert.expect(2);
   var target = {
     uploadImage: function (file, env) {
@@ -347,45 +334,41 @@ test('use url correctly if it is the only argument', function (assert) {
   var file = { id: 'test', type: 'image/gif' };
 
   uploader.addFile(file);
-  setTimeout(function () {
-    assert.ok(uploader.started);
+  assert.ok(uploader.started);
 
-    uploader.BeforeUpload(uploader, file);
-    assert.deepEqual(uploader.settings, {
-      runtimes: 'html5,html4,flash,silverlight',
-      url: 'https://my-bucket.amazonaws.com/test',
-      browse_button: ['browse-button'],
-      drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
-      container: elementId,
-      flash_swf_url: '/assets/Moxie.swf',
-      silverlight_xap_url: '/assets/Moxie.xap',
-      max_retries: 0,
-      chunk_size: 0,
-      method: 'POST',
-      multipart: true,
-      multipart_params: {
-        'Content-Type': 'image/gif'
-      },
-      file_data_name: 'file',
-      unique_names: false,
-      multi_selection: true,
-      filters: {
-        mime_types: [{
-          extensions: 'jpg,png,gif'
-        }],
-        max_file_size: 256,
-        prevent_duplicates: true
-      },
-      headers: {
-        Accept: 'application/json,text/javascript'
-      }
-    });
-    done();
-  }, 420);
+  uploader.BeforeUpload(uploader, file);
+  assert.deepEqual(uploader.settings, {
+    runtimes: 'html5,html4,flash,silverlight',
+    url: 'https://my-bucket.amazonaws.com/test',
+    browse_button: ['browse-button'],
+    drop_element: get(component, 'dropzone.enabled') ? ['dropzone-for-' + elementId] : null,
+    container: elementId,
+    flash_swf_url: '/assets/Moxie.swf',
+    silverlight_xap_url: '/assets/Moxie.xap',
+    max_retries: 0,
+    chunk_size: 0,
+    method: 'POST',
+    multipart: true,
+    multipart_params: {
+      'Content-Type': 'image/gif'
+    },
+    file_data_name: 'file',
+    unique_names: false,
+    multi_selection: true,
+    filters: {
+      mime_types: [{
+        extensions: 'jpg,png,gif'
+      }],
+      max_file_size: 256,
+      prevent_duplicates: true
+    },
+    headers: {
+      Accept: 'application/json,text/javascript'
+    }
+  });
 });
 
 test('rejects file.upload when the file upload fails', function (assert) {
-  var done = assert.async();
   assert.expect(4);
   var target = {
     uploadImage: function (file, env) {
@@ -411,15 +394,12 @@ test('rejects file.upload when the file upload fails', function (assert) {
   var file = { id: 'test' };
 
   uploader.addFile(file);
-  setTimeout(function () {
-    assert.ok(uploader.started);
-    uploader.FileUploaded(uploader, file, {
-      status: 404,
-      responseHeaders: '',
-      response: 'oops'
-    });
-    done();
-  }, 420);
+  assert.ok(uploader.started);
+  uploader.FileUploaded(uploader, file, {
+    status: 404,
+    responseHeaders: '',
+    response: 'oops'
+  });
 });
 
 test('plupload.File.upload is called if it is defined', function (assert) {
