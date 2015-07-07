@@ -25,7 +25,7 @@ moduleForComponent('pl-uploader', {
 test('it configures the plupload Uploader correctly', function (assert) {
   var component = this.subject({
     for: 'browse-button',
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
@@ -74,7 +74,7 @@ test('sends an event when the file is queued', function (assert) {
 
   var component = this.subject({
     name: 'test-component',
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     uploader: Uploader.create()
   });
 
@@ -110,7 +110,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
     };
 
     var component = this.subject({
-      "when-queued": 'uploadImage',
+      onfileadd: 'uploadImage',
       uploader: Uploader.create()
     });
 
@@ -154,7 +154,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
   var component = this.subject({
     for: 'browse-button',
     'for-dropzone': 'ember-application',
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
@@ -227,7 +227,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
 
   var component = this.subject({
     for: 'browse-button',
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
@@ -291,7 +291,7 @@ test('use url correctly if it is the only argument', function (assert) {
 
   var component = this.subject({
     for: 'browse-button',
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
     "max-file-size": 256,
     "no-duplicates": true,
@@ -358,7 +358,7 @@ test('rejects file.upload when the file upload fails', function (assert) {
 
   // creates the component instance
   var component = this.subject({
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     uploader: Uploader.create()
   });
 
@@ -400,7 +400,7 @@ test('plupload.File.upload is called if it is defined', function (assert) {
 
   // creates the component instance
   var component = this.subject({
-    "when-queued": 'uploadImage',
+    onfileadd: 'uploadImage',
     uploader: Uploader.create()
   });
 

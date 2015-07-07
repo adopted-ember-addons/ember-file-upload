@@ -260,7 +260,7 @@ export default Ember.ArrayProxy.extend({
         };
         file.isDestroyed = true;
 
-        get(this, 'target').sendAction('when-queued', file, {
+        get(this, 'target').sendAction('onfileadd', file, {
           name: get(this, 'name'),
           uploader: uploader,
           queue: this
@@ -270,6 +270,7 @@ export default Ember.ArrayProxy.extend({
       Ember.run.debounce(uploader, 'refresh', 750);
     } else {
       set(this, 'error', error);
+      get(this, 'target').sendAction('onerror', error);
     }
   }
 });

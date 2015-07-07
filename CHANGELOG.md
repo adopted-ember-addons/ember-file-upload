@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 0.8.0 (July 6, 2015)
+* Change 'when-queued' action handler to 'onfileadd'. This also adds an error handler called 'onerror'.
+
 ## 0.7.0 (July 6, 2015)
 * Change UploadQueueManager to a service called Uploader with various aggregate properties about all files uploading.
 

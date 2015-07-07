@@ -36,7 +36,7 @@ The 'action' attribute is unsupported by this version of ember-plupload.
 You should pass in the url as the first argument for the upload:
 
     actions: {
-      ${get(this, 'when-queued')}: function (file) {
+      ${get(this, 'onfileadd')}: function (file) {
         file.upload(${action});
       }
     }
@@ -52,7 +52,19 @@ export default Ember.Component.extend({
   name: null,
 
   'for-dropzone': null,
-  'when-queued': null,
+  'when-queued': computed('onfileadd', {
+    get() {
+      return get(this, 'onfileadd');
+    },
+    set(_, value) {
+      Ember.deprecate('The `when-queued` action is deprecated, use `onfileadd` instead.');
+      set(this, 'onfileadd', value);
+      return value;
+    }
+  }),
+
+  onfileadd: null,
+  onerror: null,
 
   uploader: Ember.inject.service(),
 

@@ -12,7 +12,8 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | Attribute           | Definition
 |---------------------|------------------|
 | `name`              | a unique identifier of the uploader. used to rehydrate a component with its uploads happening in the background
-| `when-queued`       | the name of the action on a route to be called when a file is queued to be uploaded
+| `onfileadd`         | the name of the action to be called when a file is added to a queue
+| `onerror`           | the name of the action to be called when an error happens when creating a queue or uploading a file
 | `for`               | the ID of the browse button
 | `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
 | `max-file-size`     | the maximum size of file uploads
