@@ -1,5 +1,13 @@
 # ember-plupload Changelog
 
+## 1.13.0 (July 13, 2015)
+* Allow files to be retried. Call `upload` on files that you'd like to try again to retry them.
+* [BREAKING CHANGE] Remove deprecated code. All deprecations from 0.8.1 and below are removed, along with old behavior. Please upgrade to 0.8.1 before upgrading to 1.13.0 to ensure that there are no deprecation warnings.
+
+## 0.8.1 (July 7, 2015)
+* Fix HTML4 runtimes by conditionally adding drag and drop params to the uploader.
+* Remove long timeouts before starting the upload in the `file.upload` method.
+
 ## 0.8.0 (July 6, 2015)
 * Change 'when-queued' action handler to 'onfileadd'. This also adds an error handler called 'onerror'.
 
