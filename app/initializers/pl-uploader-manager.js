@@ -1,7 +1,7 @@
 import Ember from "ember";
 import makeFileFilter from "ember-plupload/system/make-file-filter";
 
-var keys = Ember.keys;
+var keys = Object.keys;
 
 export function initialize(container, app) {
   var entries = requirejs.entries;

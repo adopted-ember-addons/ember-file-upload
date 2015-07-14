@@ -5,7 +5,7 @@ import w from "../computed/w";
 
 var get = Ember.get;
 var set = Ember.set;
-var keys = Ember.keys;
+var keys = Object.keys;
 
 var bind = Ember.run.bind;
 var computed = Ember.computed;
