@@ -2,6 +2,7 @@
 import Ember from "ember";
 
 const get = Ember.get;
+const alias = Ember.computed.alias;
 const reads = Ember.computed.reads;
 
 const RSVP = Ember.RSVP;
@@ -90,7 +91,7 @@ export default Ember.Object.extend({
     @property name
     @type String
    */
-  name: reads('file.name'),
+  name: alias('file.name'),
 
   /**
     The size of the file in bytes
