@@ -2,13 +2,13 @@ import Ember from "ember";
 import DinoSheet from "dinosheets";
 import trim from "../system/trim";
 import w from "../computed/w";
-import computed from '../system/computed';
 
 var get = Ember.get;
 var set = Ember.set;
 var keys = Ember.keys;
 
 var bind = Ember.run.bind;
+var computed = Ember.computed;
 
 var isDragAndDropSupported = (function () {
   var supported = null;
@@ -34,38 +34,12 @@ var sharedStyleSheet = function () {
 
 var slice = Array.prototype.slice;
 
-const deprecateAction = function (action) {
-  Ember.deprecate(`
-The 'action' attribute is unsupported by this version of ember-plupload.
-You should pass in the url as the first argument for the upload:
-
-    actions: {
-      ${get(this, 'onfileadd')}: function (file) {
-        file.upload(${action});
-      }
-    }
-
-Please consult the documentation for how to upload files from your action:
-https://github.com/paddle8/ember-plupload#configuration`, action == null
-  );
-};
-
 export default Ember.Component.extend({
   classNames: ['pl-uploader'],
 
   name: null,
 
   'for-dropzone': null,
-  'when-queued': computed('onfileadd', {
-    get() {
-      return get(this, 'onfileadd');
-    },
-    set(_, value) {
-      Ember.deprecate('The `when-queued` action is deprecated, use `onfileadd` instead.');
-      set(this, 'onfileadd', value);
-      return value;
-    }
-  }),
 
   onfileadd: null,
   onerror: null,
@@ -126,7 +100,6 @@ export default Ember.Component.extend({
         silverlight_xap_url: this.BASE_URL + 'Moxie.xap',
         unique_names: get(this, 'unique-names')
       };
-      deprecateAction.call(this, get(this, 'action'));
 
       var filters = get(this, 'fileFilters') || {};
       keys(filters).forEach((filter) => {
@@ -270,15 +243,9 @@ export default Ember.Component.extend({
     }
 
     if (data) {
-      // @DEPRECATED
-      set(this, 'dropzone.drag-and-drop.drag-data', { valid: isValid });
-
       set(this, 'dropzone.active', true);
       set(this, 'dropzone.valid', isValid);
     } else {
-      // @DEPRECATED
-      set(this, 'dropzone.drag-and-drop.drag-data', null);
-
       set(this, 'dropzone.active', false);
       set(this, 'dropzone.valid', null);
     }

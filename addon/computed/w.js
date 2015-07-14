@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import computed from '../system/computed';
 
 var w = Ember.String.w;
+var computed = Ember.computed;
 
 var toArray = function (value) {
   if (typeof value === "string") {

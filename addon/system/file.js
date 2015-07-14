@@ -1,6 +1,5 @@
 /* global mOxie */
 import Ember from "ember";
-import computed from './computed';
 
 const get = Ember.get;
 const reads = Ember.computed.reads;
@@ -8,7 +7,8 @@ const reads = Ember.computed.reads;
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
-const keys = Ember.keys;
+const keys = Object.keys;
+const computed = Ember.computed;
 
 const mergeDefaults = function (defaults, options) {
   const unsetKeys = Ember.A(keys(defaults)).removeObjects(keys(options));

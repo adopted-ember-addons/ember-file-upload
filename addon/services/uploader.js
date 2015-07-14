@@ -1,10 +1,10 @@
 import Ember from "ember";
 import UploadQueue from "../system/upload-queue";
 import flatten from "../system/flatten";
-import computed from "../system/computed";
 
 var get = Ember.get;
 var set = Ember.set;
+var computed = Ember.computed;
 
 export default Ember.Service.extend({
 
