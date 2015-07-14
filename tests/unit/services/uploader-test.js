@@ -1,7 +1,6 @@
 /* global plupload */
 import Ember from 'ember';
 import Uploader from 'ember-plupload/services/uploader';
-import UploadQueue from 'ember-plupload/system/upload-queue';
 import MockUploader from '../../helpers/mock-uploader';
 import {
   module,
@@ -9,7 +8,6 @@ import {
 } from 'qunit';
 
 var get = Ember.get;
-var bind = Ember.run.bind;
 var originalPlupload;
 
 module('service:uploader', {
@@ -26,7 +24,7 @@ test('the size of the uploader is the aggregate of all queues', function (assert
   var uploader = Uploader.create();
   var queue1 = uploader.findOrCreate('queue1', Ember.Component.create(), {});
   var queue2 = uploader.findOrCreate('queue2', Ember.Component.create(), {});
-  var queue3 = uploader.findOrCreate('queue3', Ember.Component.create(), {});
+  uploader.findOrCreate('queue3', Ember.Component.create(), {});
 
   assert.equal(get(uploader, 'files.length'), 0);
   assert.equal(get(uploader, 'size'), 0);
@@ -74,7 +72,7 @@ test('the uploaded size of the uploader is the aggregate of all queues', functio
   var uploader = Uploader.create();
   var queue1 = uploader.findOrCreate('queue1', Ember.Component.create(), {});
   var queue2 = uploader.findOrCreate('queue2', Ember.Component.create(), {});
-  var queue3 = uploader.findOrCreate('queue3', Ember.Component.create(), {});
+  uploader.findOrCreate('queue3', Ember.Component.create(), {});
 
   assert.equal(get(uploader, 'files.length'), 0);
   assert.equal(get(uploader, 'size'), 0);
