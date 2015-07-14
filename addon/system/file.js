@@ -154,8 +154,6 @@ export default Ember.Object.extend({
       this.file.upload(this.settings);
     } else {
       if (this.file.status === plupload.FAILED) {
-        uploader.removeFile(this.file);
-        uploader.addFile(this.file);
         this.file.status = plupload.QUEUED;
       }
       uploader.start();

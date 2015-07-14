@@ -119,8 +119,6 @@ export default Ember.ArrayProxy.extend({
 
   filesAdded(uploader, files) {
     for (let i = 0, len = files.length; i < len; i++) {
-      if (files[i].status === plupload.FAILED) { continue; }
-
       var file = File.create({
         uploader: uploader,
         file: files[i]
@@ -140,7 +138,6 @@ export default Ember.ArrayProxy.extend({
 
   filesRemoved(uploader, files) {
     for (var i = 0, len = files.length; i < len; i++) {
-      if (files[i].status === plupload.FAILED) { continue; }
       var file = this.findProperty('id', files[i].id);
       if (file) {
         this.removeObject(file);
