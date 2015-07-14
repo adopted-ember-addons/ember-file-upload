@@ -1,4 +1,4 @@
-/* global mOxie */
+/* global mOxie, plupload */
 import Ember from "ember";
 
 const get = Ember.get;
@@ -153,10 +153,10 @@ export default Ember.Object.extend({
     if (this.file.upload) {
       this.file.upload(this.settings);
     } else {
-      if (get(this, 'error')) {
-        this.file.retrying = true;
+      if (this.file.status === plupload.FAILED) {
         uploader.removeFile(this.file);
         uploader.addFile(this.file);
+        this.file.status = plupload.QUEUED;
       }
       uploader.start();
     }
