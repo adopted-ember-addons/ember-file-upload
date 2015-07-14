@@ -153,6 +153,11 @@ export default Ember.Object.extend({
     if (this.file.upload) {
       this.file.upload(this.settings);
     } else {
+      if (get(this, 'error')) {
+        this.file.retrying = true;
+        uploader.removeFile(this.file);
+        uploader.addFile(this.file);
+      }
       uploader.start();
     }
 
