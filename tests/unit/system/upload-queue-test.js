@@ -93,14 +93,13 @@ test('files that error are always passed to the action', function (assert) {
     }
   };
   var uploader = queue.configure();
-  var file = {
-    id: 'test',
-    name: 'test-filename.jpg',
-    size: 2000,
-    percent: 0
-  };
   uploader.Error(uploader, {
-    file: file
+    file: {
+      id: 'test',
+      name: 'test-filename.jpg',
+      size: 2000,
+      percent: 0
+    }
   });
 });
 

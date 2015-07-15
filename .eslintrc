@@ -16,14 +16,15 @@
     "node": true,
   },
   "rules": {
-    "comma-dangle": [2, "always"],
+    "comma-dangle": [1, "never"],
     "no-debugger": 2,
     "no-dupe-args": 2,
     "no-dupe-keys": 2,
     "no-duplicate-case": 2,
     "no-empty": 2,
     "no-irregular-whitespace": 2,
-    "complexity": [1, 5],
+    "no-multi-spaces": 0,
+    "complexity": [1, 7],
     "dot-location": [2, "property"],
     "eqeqeq": [2, "allow-null"],
     "guard-for-in": 2,
@@ -35,13 +36,8 @@
       "exceptRange": true
     }],
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
-    "camelcase": [2, {
-      "properties": "always"
-    }],
-    "comma-spacing": [2, {
-      "before": false,
-      "after": true
-    }],
+    "camelcase": 0,
+    "comma-spacing": 0,
     "comma-style": [2, "last"],
     "indent": [2, 2],
     "key-spacing": [2, {
@@ -53,6 +49,7 @@
     "new-cap": 0,
     "no-lonely-if": 2,
     "no-trailing-spaces": 2,
+    "no-underscore-dangle": 0,
     "one-var": [2, {
       "uninitialized": "always",
       "initialized": "never"

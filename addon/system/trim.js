@@ -8,7 +8,7 @@ if (String.prototype.trim) {
   // Make sure we trim BOM and NBSP
   var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
   trim = function (string) {
-    return (string || '').replace(rtrim, "");
+    return (string || '').replace(rtrim, '');
   };
 }
 

@@ -1,5 +1,5 @@
 /* global mOxie, plupload */
-import Ember from "ember";
+import Ember from 'ember';
 
 const get = Ember.get;
 const alias = Ember.computed.alias;

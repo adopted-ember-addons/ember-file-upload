@@ -1,5 +1,5 @@
-import Ember from "ember";
-import makeFileFilter from "ember-plupload/system/make-file-filter";
+/*global requirejs */
+import makeFileFilter from 'ember-plupload/system/make-file-filter';
 
 var keys = Object.keys;
 
@@ -12,9 +12,9 @@ export function initialize(container, app) {
       var filterName = key.split('/').slice(-1);
       var module = require(key, null, null, true);
       if (module) {
-        fileFilters[filterName] = module['default'];
-        makeFileFilter(filterName, module['default']);
-        app.register('file-filter:' + filterName, module['default'], { instantiate: false });
+        fileFilters[filterName] = module.default;
+        makeFileFilter(filterName, module.default);
+        app.register('file-filter:' + filterName, module.default, { instantiate: false });
       }
     }
   });
@@ -26,4 +26,4 @@ export function initialize(container, app) {
 export default {
   name: 'pl-uploader',
   initialize: initialize
-}
+};

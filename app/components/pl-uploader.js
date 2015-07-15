@@ -1,5 +1,5 @@
-import PlUploader from "ember-plupload/components/pl-uploader";
-import config from "../config/environment";
+import PlUploader from 'ember-plupload/components/pl-uploader';
+import config from '../config/environment';
 
 var BASE_URL = config.PLUPLOAD_BASE_URL;
 

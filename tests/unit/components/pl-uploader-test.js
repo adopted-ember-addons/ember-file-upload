@@ -3,8 +3,8 @@ import {
   moduleForComponent,
   test
 } from 'ember-qunit';
-import Ember from "ember";
-import Uploader from "ember-plupload/services/uploader";
+import Ember from 'ember';
+import Uploader from 'ember-plupload/services/uploader';
 import MockUploader from '../../helpers/mock-uploader';
 
 var get = Ember.get;
@@ -27,8 +27,8 @@ test('it configures the plupload Uploader correctly', function (assert) {
     for: 'browse-button',
     onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
-    "max-file-size": 256,
-    "no-duplicates": true,
+    'max-file-size': 256,
+    'no-duplicates': true,
     uploader: Uploader.create()
   });
 
@@ -68,8 +68,8 @@ test('when html5 is not a runtime, drop_element is not included', function (asse
     for: 'browse-button',
     onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
-    "max-file-size": 256,
-    "no-duplicates": true,
+    'max-file-size': 256,
+    'no-duplicates': true,
     uploader: Uploader.create(),
     runtimes: 'html4 flash'
   });
@@ -101,6 +101,14 @@ test('when html5 is not a runtime, drop_element is not included', function (asse
 
 test('sends an event when the file is queued', function (assert) {
   assert.expect(7);
+  var component = this.subject({
+    name: 'test-component',
+    onfileadd: 'uploadImage',
+    uploader: Uploader.create()
+  });
+
+  this.render();
+  var uploader = get(component, 'queue.queues.firstObject');
   var target = {
     uploadImage: function (file, env) {
       assert.equal(get(file, 'id'), 'test');
@@ -112,17 +120,8 @@ test('sends an event when the file is queued', function (assert) {
       assert.ok(!env.uploader.started);
     }
   };
-
-  var component = this.subject({
-    name: 'test-component',
-    onfileadd: 'uploadImage',
-    uploader: Uploader.create()
-  });
-
-  this.render();
   set(component, 'targetObject', target);
 
-  var uploader = get(component, 'queue.queues.firstObject');
   uploader.addFile({
     id: 'test',
     name: 'test-filename.jpg',
@@ -158,13 +157,13 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
     set(component, 'targetObject', target);
 
     var uploader = get(component, 'queue.queues.firstObject');
-    var file = { id: 'test' };
+    var rawFile = { id: 'test' };
 
-    uploader.addFile(file);
+    uploader.addFile(rawFile);
     assert.ok(uploader.started);
-    uploader.FileUploaded(uploader, file, {
+    uploader.FileUploaded(uploader, rawFile, {
       status: status,
-      responseHeaders: "Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8",
+      responseHeaders: 'Location: https://my-server.com/remote-url.jpg\nContent-Type: application/json; charset=utf-8',
       response: '{ "name": "test-filename.jpg" }'
     });
   });
@@ -192,8 +191,8 @@ test('merges uploader settings with the settings provided in file.upload', funct
     'for-dropzone': 'ember-application',
     onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
-    "max-file-size": 256,
-    "no-duplicates": true,
+    'max-file-size': 256,
+    'no-duplicates': true,
     uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
@@ -202,12 +201,12 @@ test('merges uploader settings with the settings provided in file.upload', funct
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test', type: 'image/gif' };
+  var rawFile = { id: 'test', type: 'image/gif' };
 
-  uploader.addFile(file);
+  uploader.addFile(rawFile);
   assert.ok(uploader.started);
 
-  uploader.BeforeUpload(uploader, file);
+  uploader.BeforeUpload(uploader, rawFile);
   assert.deepEqual(uploader.settings, {
     runtimes: 'html5,html4,flash,silverlight',
     url: 'https://my-bucket.amazonaws.com/test',
@@ -261,8 +260,8 @@ test('merges the url correctly if passed in as the first parameter to upload', f
     for: 'browse-button',
     onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
-    "max-file-size": 256,
-    "no-duplicates": true,
+    'max-file-size': 256,
+    'no-duplicates': true,
     uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
@@ -271,12 +270,12 @@ test('merges the url correctly if passed in as the first parameter to upload', f
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test', type: 'image/gif' };
+  var rawFile = { id: 'test', type: 'image/gif' };
 
-  uploader.addFile(file);
+  uploader.addFile(rawFile);
   assert.ok(uploader.started);
 
-  uploader.BeforeUpload(uploader, file);
+  uploader.BeforeUpload(uploader, rawFile);
   assert.deepEqual(uploader.settings, {
     runtimes: 'html5,html4,flash,silverlight',
     url: 'https://my-bucket.amazonaws.com/test',
@@ -321,8 +320,8 @@ test('use url correctly if it is the only argument', function (assert) {
     for: 'browse-button',
     onfileadd: 'uploadImage',
     extensions: 'JPG PNG GIF',
-    "max-file-size": 256,
-    "no-duplicates": true,
+    'max-file-size': 256,
+    'no-duplicates': true,
     uploader: Uploader.create()
   });
   var elementId = get(component, 'elementId');
@@ -331,12 +330,12 @@ test('use url correctly if it is the only argument', function (assert) {
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test', type: 'image/gif' };
+  var rawFile = { id: 'test', type: 'image/gif' };
 
-  uploader.addFile(file);
+  uploader.addFile(rawFile);
   assert.ok(uploader.started);
 
-  uploader.BeforeUpload(uploader, file);
+  uploader.BeforeUpload(uploader, rawFile);
   assert.deepEqual(uploader.settings, {
     runtimes: 'html5,html4,flash,silverlight',
     url: 'https://my-bucket.amazonaws.com/test',
@@ -391,11 +390,11 @@ test('rejects file.upload when the file upload fails', function (assert) {
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = { id: 'test' };
+  var rawFile = { id: 'test' };
 
-  uploader.addFile(file);
+  uploader.addFile(rawFile);
   assert.ok(uploader.started);
-  uploader.FileUploaded(uploader, file, {
+  uploader.FileUploaded(uploader, rawFile, {
     status: 404,
     responseHeaders: '',
     response: 'oops'
@@ -430,7 +429,7 @@ test('plupload.File.upload is called if it is defined', function (assert) {
   set(component, 'targetObject', target);
 
   var uploader = get(component, 'queue.queues.firstObject');
-  var file = {
+  var rawFile = {
     id: 'test',
     upload(settings) {
       assert.deepEqual(settings, {
@@ -442,7 +441,7 @@ test('plupload.File.upload is called if it is defined', function (assert) {
           signature: 'test'
         },
         headers: {
-          Accept: 'text/plain',
+          Accept: 'text/plain'
         },
         max_retries: 2,
         chunk_size: 128
@@ -450,5 +449,5 @@ test('plupload.File.upload is called if it is defined', function (assert) {
     }
   };
 
-  uploader.addFile(file);
+  uploader.addFile(rawFile);
 });

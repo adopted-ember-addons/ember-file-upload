@@ -10,9 +10,9 @@ ratings:
   paths:
   - "app/**"
   - "addon/**"
-  - "blueprints/**"
 exclude_paths:
 - "*.md"
+- "blueprints/**"
 - "config/**"
 - "dist/**"
 - "vendor/**"

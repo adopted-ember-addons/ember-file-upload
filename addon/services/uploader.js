@@ -1,6 +1,6 @@
-import Ember from "ember";
-import UploadQueue from "../system/upload-queue";
-import flatten from "../system/flatten";
+import Ember from 'ember';
+import UploadQueue from '../system/upload-queue';
+import flatten from '../system/flatten';
 
 var get = Ember.get;
 var set = Ember.set;

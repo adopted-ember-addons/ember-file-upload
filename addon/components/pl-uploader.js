@@ -1,7 +1,7 @@
-import Ember from "ember";
-import DinoSheet from "dinosheets";
-import trim from "../system/trim";
-import w from "../computed/w";
+import Ember from 'ember';
+import DinoSheet from 'dinosheets';
+import trim from '../system/trim';
+import w from '../computed/w';
 
 var get = Ember.get;
 var set = Ember.set;
@@ -57,11 +57,11 @@ export default Ember.Component.extend({
   runtimes: w(['html5', 'html4', 'flash', 'silverlight']),
   extensions: w(),
 
-  "max-file-size": 0,
-  "no-duplicates": false,
+  'max-file-size': 0,
+  'no-duplicates': false,
 
   multiple: true,
-  "unique-names": false,
+  'unique-names': false,
 
   dropzone: computed('for-dropzone', {
     get() {
@@ -84,7 +84,7 @@ export default Ember.Component.extend({
 
   config: computed({
     get() {
-      var config  = {
+      var config = {
         url: true, // Required to init plupload
         browse_button: get(this, 'for'),
         filters: {
@@ -228,9 +228,9 @@ export default Ember.Component.extend({
   setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
     if (!isDragAndDropSupported(get(this, 'runtimes'))) { return; }
 
-    var data       = get(this, 'dragData');
+    var data = get(this, 'dragData');
     var extensions = get(this, 'extensions');
-    var isValid    = true;
+    var isValid = true;
 
     // Validate
     if (extensions.length) {

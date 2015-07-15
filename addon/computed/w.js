@@ -4,7 +4,7 @@ var w = Ember.String.w;
 var computed = Ember.computed;
 
 var toArray = function (value) {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     value = w(value);
   }
   return Ember.A(value);

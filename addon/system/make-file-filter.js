@@ -1,5 +1,5 @@
 /* global plupload */
-import Ember from "ember";
+import Ember from 'ember';
 
 var RSVP = Ember.RSVP;
 

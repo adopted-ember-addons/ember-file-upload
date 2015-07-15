@@ -1,8 +1,8 @@
 /* globals plupload */
-import Ember from "ember";
-import File from "./file";
-import trim from "./trim";
-import sumBy from "../system/sum-by";
+import Ember from 'ember';
+import File from './file';
+import trim from './trim';
+import sumBy from '../system/sum-by';
 
 const { get, set } = Ember;
 const { keys, copy, merge } = Ember;
@@ -79,11 +79,11 @@ export default Ember.ArrayProxy.extend({
     var activeQueues = get(this, 'queues').filter(function (queue) {
       return orphans.indexOf(queue) === -1;
     });
-    var queue = get(Ember.A(activeQueues), 'lastObject');
-    if (get(queue, 'total.queued') > 0) {
-      orphans.pushObject(queue);
+    var freshestQueue = get(Ember.A(activeQueues), 'lastObject');
+    if (get(freshestQueue, 'total.queued') > 0) {
+      orphans.pushObject(freshestQueue);
     } else {
-      this.garbageCollectUploader(queue);
+      this.garbageCollectUploader(freshestQueue);
     }
   },
 
@@ -170,12 +170,12 @@ export default Ember.ArrayProxy.extend({
   parseResponse(response) {
     var body = trim(response.response);
     var rawHeaders = Ember.A(response.responseHeaders.split(/\n|\r/)).without('');
-    var headers = rawHeaders.reduce(function (headers, header) {
+    var headers = rawHeaders.reduce(function (E, header) {
       var parts = header.split(/^([A-Za-z_-]*:)/);
       if (parts.length > 0){
-        headers[parts[1].slice(0, -1)] = trim(parts[2]);
+        E[parts[1].slice(0, -1)] = trim(parts[2]);
       }
-      return headers;
+      return E;
     }, {});
 
     let contentType = (getHeader(headers, 'Content-Type') || '').split(';');
