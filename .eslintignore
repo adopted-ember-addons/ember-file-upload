@@ -1,0 +1,6 @@
+dist/
+config/
+vendor/
+node_modules/
+bower_components/
+tmp/

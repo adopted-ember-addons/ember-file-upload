@@ -2,16 +2,20 @@
 engines:
   eslint:
     enabled: true
-  csslint:
+  fixme:
     enabled: true
   watson:
     enabled: true
 ratings:
   paths:
-  - "**.js"
-  - "**.css"
+  - "app/**"
+  - "addon/**"
+  - "blueprints/**"
 exclude_paths:
-- config/**/*
-- vendor/**/*
-- node_modules/**/*
-- bower_components/**/*
+- "*.md"
+- "config/**"
+- "dist/**"
+- "vendor/**"
+- "node_modules/**"
+- "bower_components/**"
+- "tmp/**"
