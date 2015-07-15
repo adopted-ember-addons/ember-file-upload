@@ -2,11 +2,11 @@
 import Ember from "ember";
 import File from "./file";
 import trim from "./trim";
-import computed from './computed';
 import sumBy from "../system/sum-by";
 
 const { get, set } = Ember;
 const { keys, copy, merge } = Ember;
+const computed = Ember.computed;
 const bool = Ember.computed.bool;
 const bind = Ember.run.bind;
 
@@ -125,7 +125,7 @@ export default Ember.ArrayProxy.extend({
       });
 
       this.pushObject(file);
-      get(this, 'target').sendAction('when-queued', file, {
+      get(this, 'target').sendAction('onfileadd', file, {
         name: get(this, 'name'),
         uploader: uploader,
         queue: this

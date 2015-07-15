@@ -4,6 +4,13 @@
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
+## Compatibility
+
+|  ember-plupload    | Ember   |
+|--------------------|---------|
+| v0.8.1 and before  | < 1.12  |
+| v1.13.X and after  | >= 1.12 |
+
 ## Configuration
 
 The `{{pl-uploader}}` component exposes a variety of parameters for configuring plupload:

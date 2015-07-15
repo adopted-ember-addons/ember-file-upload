@@ -135,7 +135,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
   test(`resolves a response of ${status}`, function (assert) {
     assert.expect(4);
     var target = {
-      uploadImage: function (file, env) {
+      uploadImage: function (file) {
         file.upload().then(function (response) {
           assert.equal(response.status, status);
           assert.deepEqual(response.body, {
@@ -173,7 +173,7 @@ Ember.A([200, 201, 202, 203, 204, 206]).forEach(function (status) {
 test('merges uploader settings with the settings provided in file.upload', function (assert) {
   assert.expect(2);
   var target = {
-    uploadImage: function (file, env) {
+    uploadImage: function (file) {
       file.upload({
         url: 'https://my-bucket.amazonaws.com/test',
         method: 'PUT',
@@ -243,7 +243,7 @@ test('merges uploader settings with the settings provided in file.upload', funct
 test('merges the url correctly if passed in as the first parameter to upload', function (assert) {
   assert.expect(2);
   var target = {
-    uploadImage: function (file, env) {
+    uploadImage: function (file) {
       file.upload('https://my-bucket.amazonaws.com/test', {
         accepts: 'text/plain',
         contentType: 'text/plain',
@@ -312,7 +312,7 @@ test('merges the url correctly if passed in as the first parameter to upload', f
 test('use url correctly if it is the only argument', function (assert) {
   assert.expect(2);
   var target = {
-    uploadImage: function (file, env) {
+    uploadImage: function (file) {
       file.upload('https://my-bucket.amazonaws.com/test');
     }
   };
@@ -371,7 +371,7 @@ test('use url correctly if it is the only argument', function (assert) {
 test('rejects file.upload when the file upload fails', function (assert) {
   assert.expect(4);
   var target = {
-    uploadImage: function (file, env) {
+    uploadImage: function (file) {
       file.upload().then(null, function (response) {
         assert.equal(response.status, 404);
         assert.equal(response.body, 'oops');
@@ -405,7 +405,7 @@ test('rejects file.upload when the file upload fails', function (assert) {
 test('plupload.File.upload is called if it is defined', function (assert) {
   assert.expect(1);
   var target = {
-    uploadImage: function (file, env) {
+    uploadImage: function (file) {
       file.upload({
         url: 'https://my-bucket.amazonaws.com/test',
         method: 'PUT',

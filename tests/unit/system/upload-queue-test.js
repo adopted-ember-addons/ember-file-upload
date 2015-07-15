@@ -8,7 +8,6 @@ import {
 } from 'qunit';
 
 var get = Ember.get;
-var bind = Ember.run.bind;
 var originalPlupload;
 
 module('UploadQueue', {

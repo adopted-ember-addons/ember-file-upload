@@ -1,14 +1,15 @@
-/* global mOxie */
+/* global mOxie, plupload */
 import Ember from "ember";
-import computed from './computed';
 
 const get = Ember.get;
+const alias = Ember.computed.alias;
 const reads = Ember.computed.reads;
 
 const RSVP = Ember.RSVP;
 const mOxieFileReader = mOxie.FileReader;
 
-const keys = Ember.keys;
+const keys = Object.keys;
+const computed = Ember.computed;
 
 const mergeDefaults = function (defaults, options) {
   const unsetKeys = Ember.A(keys(defaults)).removeObjects(keys(options));
@@ -90,7 +91,7 @@ export default Ember.Object.extend({
     @property name
     @type String
    */
-  name: reads('file.name'),
+  name: alias('file.name'),
 
   /**
     The size of the file in bytes
@@ -153,6 +154,9 @@ export default Ember.Object.extend({
     if (this.file.upload) {
       this.file.upload(this.settings);
     } else {
+      if (this.file.status === plupload.FAILED) {
+        this.file.status = plupload.QUEUED;
+      }
       uploader.start();
     }
 
