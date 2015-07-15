@@ -1,0 +1,17 @@
+---
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  watson:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+  - "**.css"
+exclude_paths:
+- config/**/*
+- vendor/**/*
+- node_modules/**/*
+- bower_components/**/*
