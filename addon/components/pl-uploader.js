@@ -228,13 +228,13 @@ export default Ember.Component.extend({
   setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
     if (!isDragAndDropSupported(get(this, 'runtimes'))) { return; }
 
-    var data = get(this, 'dragData') || {};
+    var data = get(this, 'dragData');
     var extensions = get(this, 'extensions');
     var isValid = true;
 
     // Validate
     if (extensions.length) {
-      isValid = slice.call(get(data, 'items') || []).every(function (item) {
+      isValid = slice.call(get(data || {}, 'items') || []).every(function (item) {
         var fileType = trim(item.type).toLowerCase();
         return extensions.any(function (ext) {
           return (new RegExp(ext + '$')).test(fileType);
