@@ -228,7 +228,7 @@ export default Ember.Component.extend({
   setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
     if (!isDragAndDropSupported(get(this, 'runtimes'))) { return; }
 
-    var data = get(this, 'dragData');
+    var data = get(this, 'dragData') || {};
     var extensions = get(this, 'extensions');
     var isValid = true;
 

@@ -4,3 +4,4 @@ vendor/
 node_modules/
 bower_components/
 tmp/
+blueprints/file-filter/files/

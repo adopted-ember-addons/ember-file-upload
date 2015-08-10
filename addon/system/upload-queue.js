@@ -5,10 +5,11 @@ import trim from './trim';
 import sumBy from '../system/sum-by';
 
 const { get, set } = Ember;
-const { keys, copy, merge } = Ember;
+const { copy, merge } = Ember;
 const computed = Ember.computed;
 const bool = Ember.computed.bool;
 const bind = Ember.run.bind;
+const keys = Object.keys;
 
 var getHeader = function (headers, header) {
   let headerKeys = Ember.A(keys(headers));
@@ -138,7 +139,7 @@ export default Ember.ArrayProxy.extend({
 
   filesRemoved(uploader, files) {
     for (var i = 0, len = files.length; i < len; i++) {
-      var file = this.findProperty('id', files[i].id);
+      var file = this.findBy('id', files[i].id);
       if (file) {
         this.removeObject(file);
       }
@@ -149,7 +150,7 @@ export default Ember.ArrayProxy.extend({
   },
 
   configureUpload(uploader, file) {
-    file = this.findProperty('id', file.id);
+    file = this.findBy('id', file.id);
     // Reset settings for merging
     uploader.settings = copy(get(this, 'settings'));
     merge(uploader.settings, file.settings);
@@ -158,7 +159,7 @@ export default Ember.ArrayProxy.extend({
   },
 
   progressDidChange(uploader, file) {
-    file = this.findProperty('id', file.id);
+    file = this.findBy('id', file.id);
     if (file) {
       file.notifyPropertyChange('progress');
     }
@@ -199,7 +200,7 @@ export default Ember.ArrayProxy.extend({
 
   fileUploaded(uploader, file, response) {
     var results = this.parseResponse(response);
-    file = this.findProperty('id', file.id);
+    file = this.findBy('id', file.id);
     if (file) {
       this.removeObject(file);
     }
@@ -220,7 +221,7 @@ export default Ember.ArrayProxy.extend({
   garbageCollectUploader(uploader) {
     get(this, 'queues').removeObject(uploader);
     get(this, 'orphanedQueues').removeObject(uploader);
-    this.filterProperty('uploader', uploader).invoke('destroy');
+    this.filterBy('uploader', uploader).invoke('destroy');
     uploader.unbindAll();
   },
 
@@ -239,7 +240,7 @@ export default Ember.ArrayProxy.extend({
 
   onError(uploader, error) {
     if (error.file) {
-      var file = this.findProperty('id', error.file.id);
+      var file = this.findBy('id', error.file.id);
       if (file == null) {
         file = File.create({
           uploader: uploader,
