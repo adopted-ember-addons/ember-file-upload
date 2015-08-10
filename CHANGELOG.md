@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.2 (August 10, 2015)
+* Fix a bug introduced in 1.13.1 where dropzones were always marked as active.
+
 ## 1.13.1 (August 10, 2015)
 * Add support for Ember 2.0.0-beta.5. This removes deprecated API calls from the addon (`Ember.keys`, `Ember.Enumerable.filterProperty`, `Ember.Enumerable.findProperty`).
 
