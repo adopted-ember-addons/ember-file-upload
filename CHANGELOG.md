@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.1 (August 10, 2015)
+* Add support for Ember 2.0.0-beta.5. This removes deprecated API calls from the addon (`Ember.keys`, `Ember.Enumerable.filterProperty`, `Ember.Enumerable.findProperty`).
+
 ## 1.13.0 (July 13, 2015)
 * Allow files to be retried. Call `upload` on files that you'd like to try again to retry them.
 * [BREAKING CHANGE] Remove deprecated code. All deprecations from 0.8.1 and below are removed, along with old behavior. Please upgrade to 0.8.1 before upgrading to 1.13.0 to ensure that there are no deprecation warnings.
