@@ -1,11 +1,11 @@
 # ember-plupload Changelog
 
 ## 1.13.3 (August 12, 2015)
-* Update plupload to [https://github.com/moxiecode/plupload/releases/tag/v2.1.8](2.1.8). Included below are the changelog to mOxie and plupload:
+* Update plupload to [2.1.8](https://github.com/moxiecode/plupload/releases/tag/v2.1.8). Included below are the changelog to mOxie and plupload:
 
 #### Plupload v2.1.4
 * Fix: don't cancel current upload on generic file error
-* Update moxie to [https://github.com/moxiecode/moxie/releases/tag/v1.3](v1.3)
+* Update moxie to [v1.3](https://github.com/moxiecode/moxie/releases/tag/v1.3)
 
 #### Moxie v1.3
 (last minor version to target Flash Player 10.3)
@@ -25,7 +25,7 @@
 #### Plupload v2.1.8
 * Fix event binding/unbinding logic by partially reverting it.
 * Fix UA parser bug that made v2.1.5 unusable.
-* Update moxie to [https://github.com/moxiecode/moxie/releases/tag/v1.3.4](v1.3.4)
+* Update moxie to [v1.3.4](https://github.com/moxiecode/moxie/releases/tag/v1.3.4)
 
 #### Moxie v1.3.4
 * Image, HTML5: Refactor ExifParser, mostly to survive invalid meta data.
