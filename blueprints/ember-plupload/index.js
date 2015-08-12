@@ -1,10 +1,12 @@
-module.exports = {
-  normalizeEntityName: function() {},
+var RSVP = require('rsvp');
 
-  afterInstall: function() {
-    var self = this;
-    return this.addBowerPackageToProject('plupload', 'v2.1.8').then(function () {
-      return self.addBowerPackageToProject('dinosheets', '0.0.1');
-    });
+module.exports = {
+  normalizeEntityName: function () {},
+
+  afterInstall: function () {
+    return RSVP.all([
+      this.addBowerPackageToProject('plupload', 'v2.1.8'),
+      this.addBowerPackageToProject('dinosheets', '0.0.1'),
+    ]);
   }
 };
