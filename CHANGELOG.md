@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.4 (August 12, 2015)
+* Update blueprints to work with new function signature for `addBowerPackageToProject`. See https://github.com/ember-cli/ember-cli/pull/4643 for more information on these changes. Courtesy of @deathbearbrown
+
 ## 1.13.3 (August 12, 2015)
 * Update plupload to [2.1.8](https://github.com/moxiecode/plupload/releases/tag/v2.1.8). Included below are the changelog to mOxie and plupload:
 

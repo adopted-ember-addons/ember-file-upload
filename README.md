@@ -6,10 +6,11 @@ To use the uploader, you must provide a name (for proper queueing and bundling o
 
 ## Compatibility
 
-|  ember-plupload    | Ember   |
-|--------------------|---------|
-| v0.8.1 and before  | < 1.12  |
-| v1.13.X and after  | >= 1.12 |
+|  ember-plupload    | ember   | ember-cli |
+|--------------------|---------|-----------|
+| v0.8.1 and before  | < 1.12  | < 1.13.5  |
+| v1.13.0 to v1.13.3 | >= 1.12 | < 1.13.5  |
+| v1.13.4 and after  | >= 1.12 | >= 1.13.5 |
 
 ## Configuration
 
