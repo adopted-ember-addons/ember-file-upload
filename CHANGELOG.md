@@ -1,5 +1,39 @@
 # ember-plupload Changelog
 
+## 1.13.3 (August 12, 2015)
+* Update plupload to [https://github.com/moxiecode/plupload/releases/tag/v2.1.8](2.1.8). Included below are the changelog to mOxie and plupload:
+
+#### Plupload v2.1.4
+* Fix: don't cancel current upload on generic file error
+* Update moxie to [https://github.com/moxiecode/moxie/releases/tag/v1.3](v1.3)
+
+#### Moxie v1.3
+(last minor version to target Flash Player 10.3)
+
+* FileInput, HTML5: Allow multiple file upload on iOS 8+.
+* FileInput, HTML5: Where possible filter files by extensions, instead of mime types.
+* Encode, Utils: Fix btoa() to properly interpret multi-byte strings.
+* FileInput/FileDrop: Unbind all events on destroy.
+* Image, HTML5/Flash/Silverlight: Properly extract RATIONAL/SRATIONAL types.
+* Runtime, Flash: Make sure SWF is properly removed in IE on destroy.
+* FileReader, Silverlight: Constrain conversion of the buffer to amount of bytes that it actually contains.
+* Image/Jpeg, HTML5: Survive the cases when there's no embedded thumb.
+* Image, HTML5: Extract embedded thumb from JPEG, when available.
+* RuntimeClient: Letter-case of the runtime identifier, shouldn't matter.
+* FileInput, HTML5: Set relativePath on the File object when it's available (when folder is selected in WebKit).
+
+#### Plupload v2.1.8
+* Fix event binding/unbinding logic by partially reverting it.
+* Fix UA parser bug that made v2.1.5 unusable.
+* Update moxie to [https://github.com/moxiecode/moxie/releases/tag/v1.3.4](v1.3.4)
+
+#### Moxie v1.3.4
+* Image, HTML5: Refactor ExifParser, mostly to survive invalid meta data.
+* Utils, Env: ua-parser-js has dropped MAJOR version property.
+* Utils, Url: Fix resolveUrl() regression.
+* Utils, Basic: Fix each() regression.
+* Image, Flash/Silverlight: Fix thumb extraction regression.
+
 ## 1.13.2 (August 10, 2015)
 * Fix a bug introduced in 1.13.1 where dropzones were always marked as active.
 
