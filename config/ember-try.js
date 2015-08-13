@@ -1,9 +1,9 @@
 module.exports = {
   scenarios: [
     {
-      name: '1.13',
+      name: 'lts',
       dependencies: {
-        ember: '1.13.8'
+        'ember': '1.13.8'
       }
     },
     {
