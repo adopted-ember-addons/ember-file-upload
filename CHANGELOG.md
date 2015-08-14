@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.6 (August 14, 2015)
+* Fixes a bug where drag and drop stopped working when `no-duplicates` was set to true. Courtesy of @cooperjbrandon
+
 ## 1.13.5 (August 14, 2015)
 * Fixes a bug where the the uploader button's position wasn't invalidated when files are added / removed from the queue. Courtesy of @knownasilya
 
