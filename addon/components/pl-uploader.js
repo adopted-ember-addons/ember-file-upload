@@ -223,7 +223,16 @@ export default Ember.Component.extend({
       this.deactivateDropzone();
     }
     this._queued = get(this, 'queue.length');
+    Ember.run.scheduleOnce('afterRender', this, 'refreshQueue');
   }),
+
+  refreshQueue() {
+    var queue = this.get('queue');
+
+    if (queue) {
+      queue.refresh();
+    }
+  },
 
   setDragDataValidity: Ember.observer('dragData', Ember.on('init', function () {
     if (!isDragAndDropSupported(get(this, 'runtimes'))) { return; }
