@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.5 (August 14, 2015)
+* Fixes a bug where the the uploader button's position wasn't invalidated when files are added / removed from the queue. Courtesy of @knownasilya
+
 ## 1.13.4 (August 12, 2015)
 * Update blueprints to work with new function signature for `addBowerPackageToProject`. See https://github.com/ember-cli/ember-cli/pull/4643 for more information on these changes. Courtesy of @deathbearbrown
 
