@@ -22,6 +22,7 @@ The `{{pl-uploader}}` component exposes a variety of parameters for configuring 
 | `name`              | a unique identifier of the uploader. used to rehydrate a component with its uploads happening in the background
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
 | `onerror`           | the name of the action to be called when an error happens when creating a queue or uploading a file
+| `onInitOfUploader`  | the name of the action to be called when the component is initialized. This makes it so you have access to the methods of the native pluploader object. For instance, with the pluploader object you and manually add files with `pluploader.addFile(<file>)`.
 | `for`               | the ID of the browse button
 | `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
 | `max-file-size`     | the maximum size of file uploads
@@ -56,7 +57,7 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#pl-uploader for="upload-image" extensions="jpg jpeg png gif" onfileadd="uploadImage" as |queue dropzone|}}
+{{#pl-uploader for="upload-image" extensions="jpg jpeg png gif" onInitOfUploader="onInitOfUploader" onfileadd="uploadImage" as |queue dropzone|}}
   <div class="dropzone" id={{dropzone.id}}>
     {{#if dropzone.active}}
       {{#if dropzone.valid}}

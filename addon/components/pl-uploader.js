@@ -134,6 +134,10 @@ export default Ember.Component.extend({
     var queue = uploader.findOrCreate(get(this, 'name'), this, get(this, 'config'));
     set(this, 'queue', queue);
 
+    // Send up the pluploader object so the app implementing this component as has access to it
+    var pluploader = queue.get('queues.firstObject');
+    this.sendAction('onInitOfUploader', pluploader);
+
     this._firstDragEnter = false;
     this._secondDragEnter = false;
     this._invalidateDragData();

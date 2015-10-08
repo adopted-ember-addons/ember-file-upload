@@ -451,3 +451,29 @@ test('plupload.File.upload is called if it is defined', function (assert) {
 
   uploader.addFile(rawFile);
 });
+
+test('sends native pluploader to its parent on creation of the uploader', function (assert) {
+  assert.expect(1);
+
+  var uploaderSentup;
+
+  var target = {
+    onInitOfUploader: function (pluploader) {
+      uploaderSentup = pluploader;
+    }
+  };
+
+  // creates the component instance
+  var component = this.subject({
+    onInitOfUploader: 'onInitOfUploader',
+    uploader: Uploader.create()
+  });
+
+  set(component, 'targetObject', target);
+
+  // renders the component to the page
+  this.render();
+
+  var uploader = get(component, 'queue.queues.firstObject');
+  assert.deepEqual(uploader, uploaderSentup);
+});
