@@ -285,7 +285,7 @@ export default Ember.Route.extend({
   actions: {
     uploadImage: function (file) {
       let model = this.modelFor(this.routeName);
-      RSVP.cast(Ember.$('/api/s3_direct')).then(function (response) {
+      RSVP.cast(Ember.$.get('/api/s3_direct')).then(function (response) {
         return file.upload(response.url, {
           data: response.credentials
         });
