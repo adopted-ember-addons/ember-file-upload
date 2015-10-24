@@ -3,7 +3,7 @@ import makeFileFilter from 'ember-plupload/system/make-file-filter';
 
 var keys = Object.keys;
 
-export function initialize(container, app) {
+export function initialize(app) {
   var entries = requirejs.entries;
   var fileFilterPrefix = app.modulePrefix + '/file-filters';
   var fileFilters = {};
