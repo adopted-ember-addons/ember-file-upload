@@ -317,4 +317,8 @@ export default Ember.Route.extend({
 
 * `ember build`
 
+## Publishing
+
+* `ember github-pages:commit --message "Releasing docs"`
+
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).

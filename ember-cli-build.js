@@ -4,6 +4,15 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
+    fingerprint: {
+      extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'eot', 'ttf', 'woff', 'woff2', 'svg'],
+      prepend: '/ember-plupload/'
+    },
+    svg: {
+      paths: [
+        'tests/dummy/public/assets/images'
+      ]
+    }
   });
 
   /*

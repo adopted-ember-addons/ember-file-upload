@@ -1,0 +1,66 @@
+.window {
+  margin: 0 auto;
+  max-width: 500px;
+
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  margin-bottom: 50px;
+}
+
+.window_chrome {
+  position: relative;
+  background: #D8D8D8;
+  text-align: center;
+  height: 30px;
+  border-radius: 5px 5px 0 0;
+  line-height: 30px;
+  text-shadow: 0px 1px 1px #EFEFEF;
+  border-bottom: 1px solid #C8C8C8;
+
+  .button {
+    transition: all .2s;
+    position: absolute;
+    border-radius: 6px;
+    width: 10px;
+    height: 10px;
+    top: 10px;
+  }
+
+  .close {
+    background-color: $red;
+    border: 1px solid #C6351C;
+    left: 10px;
+  }
+
+  .minimize {
+    background-color: $yellow;
+    border: 1px solid #CB9803;
+    left: 30px;
+  }
+
+  .maximize {
+    background-color: $green;
+    border: 1px solid #009452;
+    left: 50px;
+  }
+}
+
+.window_content {
+  min-height: 250px;
+  padding: 20px;
+  overflow: auto;
+
+  code {
+    font-size: 16px;
+    display: block;
+  }
+}
+
+@media (max-width: 525px) {
+  .window .button {
+    opacity: 0;
+  }
+  .window, .window_content, .window_content code {
+    font-size: 14px;
+  }
+}
