@@ -45,6 +45,7 @@ export default Ember.ArrayProxy.extend({
   configure(config = {}) {
     var uploader = new plupload.Uploader(config);
 
+    uploader.bind('Init',           bind(this, 'runtimeDidChange'));
     uploader.bind('FilesAdded',     bind(this, 'filesAdded'));
     uploader.bind('FilesRemoved',   bind(this, 'filesRemoved'));
     uploader.bind('BeforeUpload',   bind(this, 'configureUpload'));
@@ -69,6 +70,17 @@ export default Ember.ArrayProxy.extend({
 
     uploader.init();
     return uploader;
+  },
+
+  runtimeDidChange({ runtime }) {
+    let $input = get(this, 'target').$('.moxie-shim input');
+    let ruid = $input.attr('id');
+    let I = mOxie.Runtime.getInfo(ruid);
+
+    // Polyfill mobile support
+    if (!I.can('summon_file_dialog')) {
+      $input.attr('capture', 'camera');
+    }
   },
 
   /**
