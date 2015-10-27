@@ -1,4 +1,4 @@
-/* globals plupload */
+/* globals plupload, mOxie */
 import Ember from 'ember';
 import File from './file';
 import trim from './trim';
@@ -72,7 +72,7 @@ export default Ember.ArrayProxy.extend({
     return uploader;
   },
 
-  runtimeDidChange({ runtime }) {
+  runtimeDidChange() {
     let $input = get(this, 'target').$('.moxie-shim input');
     let ruid = $input.attr('id');
     let I = mOxie.Runtime.getInfo(ruid);
