@@ -67,7 +67,7 @@ export default Ember.Service.extend({
         name: name,
         target: component
       });
-      get(this, 'all').push(queue);
+      get(this, 'all').pushObject(queue);
       get(this, 'queues').set(name, queue);
       queue.configure(config);
     }
