@@ -1,5 +1,13 @@
 # ember-plupload Changelog
 
+## 1.13.8 (November 18, 2015)
+* Use observable methods for the uploader service so properties properly get updated (`files`, `size`, `loaded`, and `progress`). (Courtesy of @schwabix)
+* Start of polyfill work for making uploads work on mobile devices.
+
+## 1.13.7 (October 26, 2015)
+* Expose plupload internals through `onInitOfUploader` action. This is a stop-gap measure for mobile support, which may be superceded by support in the addon to handle it transparently. (courtesy of @cooperjbrandon)
+* Support Ember 2.x and 1.x initializers (courtesy of @Kulja)
+
 ## 1.13.6 (August 14, 2015)
 * Fixes a bug where drag and drop stopped working when `no-duplicates` was set to true. Courtesy of @cooperjbrandon
 
