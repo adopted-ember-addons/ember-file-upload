@@ -128,6 +128,41 @@ A common scenario is to alert users that they still have pending uploads when th
 
 In addition to the file list, there are properties that indicate how many bytes have been uploaded (`loaded`), the total size of all files in bytes (`size`), and the progress of all files (`progress`). Using these, you may implement a global progress bar indicating files that are uploading in the background.
 
+## Acceptance Tests
+
+`ember-plupload` has a test helper called `addFiles` available to developers to fake adding files to their uploader. It needs a container or owner object (an application instance or container), the name of the uploader, and a JavaScript object that describes the basics of the file.
+
+This can be used to fake a file upload like so:
+
+```javascript
+import { addFiles } from 'ember-plupload/test-helper';
+
+moduleForAcceptance('/photos');
+
+test('uploading an image', function (assert) {
+  let [file] = addFiles(this.application, 'photo-uploader', {
+    name: 'Tomster.png',
+    size: 2048
+  });
+
+  // The file has been added; now we can manipulate it
+  file.progress = 50;
+
+  andThen(function () {
+    assert.equal(find('.progress-bar').css('width'), '50%');
+  });
+
+  file.respondWith(200, {
+    'Location': '/assets/public/ok.png',
+    'Content-Type': 'application/json'
+  }, {});
+
+  andThen(function () {
+    assert.equal(find('.photo').attr('src'), '/assets/public/ok.png');
+  });
+});
+
+```
 
 ## Custom File Filters
 
