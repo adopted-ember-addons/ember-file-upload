@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'lts',
       dependencies: {
-        'ember': '1.13.8'
+        'ember': '1.13.13'
       }
     },
     {
