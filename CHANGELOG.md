@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.8 (November 19, 2015)
+* Add acceptance test helper `addFiles` and documentation.
+
 ## 1.13.8 (November 18, 2015)
 * Use observable methods for the uploader service so properties properly get updated (`files`, `size`, `loaded`, and `progress`). (Courtesy of @schwabix)
 * Start of polyfill work for making uploads work on mobile devices.
