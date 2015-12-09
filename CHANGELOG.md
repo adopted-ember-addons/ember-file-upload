@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.9 (December 9, 2015)
+* Fix cases where Chrome would asynchronously load the `document.styleSheet`, causing ember-plupload to mess with app styles. (Courtesy of @mixonic)
+
 ## 1.13.8 (November 19, 2015)
 * Add acceptance test helper `addFiles` and documentation.
 
