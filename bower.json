@@ -12,7 +12,7 @@
     "loader.js": "ember-cli/loader.js#3.4.0",
     "qunit": "~1.20.0",
     "plupload": "~2.1.8",
-    "dinosheets": "0.1.0"
+    "dinosheets": "0.1.1"
   },
   "resolutions": {
     "loader.js": "3.4.0",
