@@ -336,7 +336,7 @@ export default Ember.Route.extend({
 
 # Installation
 
-* `ember install:addon ember-plupload`
+* `ember install ember-plupload`
 
 ## Running
 
