@@ -348,9 +348,10 @@ export default Ember.Route.extend({
 * `ember test`
 * `ember test --server`
 
-## Building
+# Contributing
 
-* `ember build`
+Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-plupload/blob/master/CONDUCT.md).
+
 
 ## Publishing
 
