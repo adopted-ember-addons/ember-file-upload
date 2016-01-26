@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.11 (January 26, 2016)
+* Fix drag-and-drop cases where the drag-out event is never handled. (Courtesy of @raytiley)
+
 ## 1.13.10 (December 9, 2015)
 * Fix cases where Chrome would asynchronously load the `document.styleSheet`, causing ember-plupload to mess with app styles. (Courtesy of @mixonic)
 
