@@ -137,9 +137,7 @@ export default Ember.Component.extend({
     // Send up the pluploader object so the app implementing this component as has access to it
     var pluploader = queue.get('queues.firstObject');
     this.sendAction('onInitOfUploader', pluploader);
-
-    this._firstDragEnter = false;
-    this._secondDragEnter = false;
+    this._dragInProgress = false;
     this._invalidateDragData();
   },
 
@@ -181,22 +179,15 @@ export default Ember.Component.extend({
 
   dragData: null,
   enteredDropzone({ originalEvent: evt }) {
-    if (this._firstDragEnter) {
-      this._secondDragEnter = true;
-    } else {
-      this._firstDragEnter = true;
-      this.activateDropzone(evt);
+    if (this._dragInProgress === false) {
+        this._dragInProgress = true;
+        this.activateDropzone(evt);
     }
   },
 
   leftDropzone() {
-    if (this._secondDragEnter) {
-      this._secondDragEnter = false;
-    } else {
-      this._firstDragEnter = false;
-    }
-
-    if (!this._firstDragEnter && !this._secondDragEnter) {
+    if (this._dragInProgress === true) {
+      this._dragInProgress = false;
       this.deactivateDropzone();
     }
   },
@@ -215,7 +206,7 @@ export default Ember.Component.extend({
     sheet.css(`#${get(this, 'dropzone.id')} *`, null);
     Ember.run.scheduleOnce('render', sheet, 'applyStyles');
 
-    this._firstDragEnter = this._secondDragEnter = false;
+    this._dragInProgress = false;
     set(this, 'dragData', null);
   },
 
