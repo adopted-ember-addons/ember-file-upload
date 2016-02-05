@@ -43,6 +43,10 @@ export default Ember.ArrayProxy.extend({
   },
 
   configure(config = {}) {
+    if (config.browse_button) {
+      Ember.assert(`An element with the id "${config.browse_button}" is needed to match the uploader\'s for attribute.`, document.getElementById(config.browse_button));
+    }
+
     var uploader = new plupload.Uploader(config);
 
     uploader.bind('Init',           bind(this, 'runtimeDidChange'));
