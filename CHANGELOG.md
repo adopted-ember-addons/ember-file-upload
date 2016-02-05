@@ -1,5 +1,8 @@
 # ember-plupload Changelog
 
+## 1.13.12 (February 5, 2016)
+* Assert that the browse button is in the DOM before trying to initialize the uploader.
+
 ## 1.13.11 (January 26, 2016)
 * Fix drag-and-drop cases where the drag-out event is never handled. (Courtesy of @raytiley)
 
