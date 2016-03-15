@@ -6,7 +6,9 @@ const alias = Ember.computed.alias;
 const reads = Ember.computed.reads;
 
 const RSVP = Ember.RSVP;
-const mOxieFileReader = mOxie.FileReader;
+const mOxieFileReader = function () {
+  return new mOxie.FileReader();
+};
 
 const keys = Object.keys;
 const computed = Ember.computed;
@@ -166,7 +168,7 @@ export default Ember.Object.extend({
   read(options = { as: 'data-url' }) {
     let file = get(this, 'file').getSource();
     /*jshint -W055 */
-    let reader = new mOxieFileReader();
+    let reader = mOxieFileReader();
     /*jshint +W055 */
     let { promise, resolve, reject } = RSVP.defer();
     reader.onloadend = resolve;
@@ -190,7 +192,7 @@ export default Ember.Object.extend({
     return promise.then(function () {
       return reader.result;
     }, function () {
-      return reader.error;
+      return RSVP.reject(reader.error);
     });
   }
 });
