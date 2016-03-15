@@ -1,5 +1,9 @@
 # ember-plupload Changelog
 
+## 1.13.13 (March 15, 2016)
+* Add an API for mocking out file.read() for `ember-plupload/test-helpers`.
+* Update ember-cli
+
 ## 1.13.12 (February 5, 2016)
 * Assert that the browse button is in the DOM before trying to initialize the uploader.
 

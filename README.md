@@ -161,8 +161,28 @@ test('uploading an image', function (assert) {
     assert.equal(find('.photo').attr('src'), '/assets/public/ok.png');
   });
 });
-
 ```
+
+If the file is being read by the host application, then providing the file contents in the file object. The contents are wrapped in a promise to provide the ability to test the success state and error of a read() call.
+
+```javascript
+import { addFiles } from 'ember-plupload/test-helper';
+
+moduleForAcceptance('/notes');
+
+test('showing a note', function (assert) {
+  let [file] = addFiles(this.application, 'photo-uploader', {
+    name: 'douglas_coupland.txt',
+    size: 2048,
+    text: Ember.RSVP.resolve('I can feel the money leaving my body')
+  });
+
+  andThen(function () {
+    assert.equal(find('.note').text(), 'I can feel the money leaving my body');
+  });
+});
+```
+
 
 ## Custom File Filters
 
