@@ -1,36 +1,23 @@
-# {{pl-uploader}} [![Build Status](https://travis-ci.org/tim-evans/ember-plupload.svg)](https://travis-ci.org/tim-evans/ember-plupload) [![Code Climate](https://codeclimate.com/github/tim-evans/ember-plupload/badges/gpa.svg)](https://codeclimate.com/github/tim-evans/ember-plupload) [![Ember Observer Score](http://emberobserver.com/badges/ember-plupload.svg)](http://emberobserver.com/addons/ember-plupload)
+# {{file-upload}} [![Build Status](https://travis-ci.org/tim-evans/ember-file-upload.svg)](https://travis-ci.org/tim-evans/ember-file-upload) [![Code Climate](https://codeclimate.com/github/tim-evans/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/tim-evans/ember-file-upload) [![Ember Observer Score](http://emberobserver.com/badges/ember-file-upload.svg)](http://emberobserver.com/addons/ember-file-upload)
 
-{{pl-uploader}} is an ember component that provides an API for [Plupload](http://www.plupload.com/). Uploads are persistent accross routes in your application (they continue in the background).
+{{file-upload}} is an ember component that provides an API for file uploads. Uploads are persistent accross routes in your application (they continue in the background).
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
-## Compatibility
-
-|  ember-plupload    | ember   | ember-cli |
-|--------------------|---------|-----------|
-| v0.8.1 and before  | < 1.12  | < 1.13.5  |
-| v1.13.0 to v1.13.3 | >= 1.12 | < 1.13.5  |
-| v1.13.4 and after  | >= 1.12 | >= 1.13.5 |
-
 ## Configuration
 
-The `{{pl-uploader}}` component exposes a variety of parameters for configuring plupload:
+The `{{file-upload}}` component exposes a variety of parameters for configuring file-uploader:
 
 
 | Attribute           | Definition
 |---------------------|------------------|
-| `name`              | a unique identifier of the uploader. used to rehydrate a component with its uploads happening in the background
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
-| `onerror`           | the name of the action to be called when an error happens when creating a queue or uploading a file
-| `onInitOfUploader`  | the name of the action to be called when the component is initialized. This makes it so you have access to the methods of the native pluploader object. For instance, with the pluploader object you and manually add files with `pluploader.addFile(<file>)`.
-| `for`               | the ID of the browse button
+| `ondragenter`       | the name of the action to be called when a file is added to a queue
+| `ondragleave`       | the name of the action to be called when a file is added to a queue
+| `ondrop`            | the name of the action to be called when a file is added to a queue
 | `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
-| `max-file-size`     | the maximum size of file uploads
-| `no-duplicates`     | disallow duplicate files (determined by matching the file's name and size)
-| `extensions`        | a space-separated list of allowed file extensions
+| `accept`            | a list of MIME types / extensions to accept by the input
 | `multiple`          | whether multiple files can be selected
-| `unique-names`      | when set to `true`, this will rename files sent to the server and send the original name as a parameter named `name`
-| `runtimes`          | a space-separated list of runtimes for plupload to attempt to use (in order of importance)
 
 This configuration is for the uploader instance as a whole. Most of the configuration deals directly with the feel of the uploader. When the queued event is triggered, you will be given a file object that allows you to configure where the file is being uploaded:
 
@@ -48,8 +35,6 @@ This configuration is for the uploader instance as a whole. Most of the configur
 
 The function signature of `upload` is `upload(url, [settings])`, or `upload(settings)`.
 
-For more in-depth documentation on the configuration options, see the [Plupload documentation](http://plupload.com/docs/Options).
-
 ## Recipes
 
 The cleanest approach to configure uploaders is to create a component that encapsulates the configuration on the uploader component. Using the uploader as a container, you can provide a clean API for an uploader.
@@ -57,8 +42,11 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#pl-uploader for="upload-image" extensions="jpg jpeg png gif" onInitOfUploader="onInitOfUploader" onfileadd="uploadImage" as |queue dropzone|}}
-  <div class="dropzone" id={{dropzone.id}}>
+{{#with (upload-queue for="photos"
+                      accept="image/png, image/gif, image/jpeg"
+                      multiple=true
+                      onfileadd=(route-action "uploadImage")) as |queue|}}
+  {{#file-dropzone queue=queue as |dropzone|}}
     {{#if dropzone.active}}
       {{#if dropzone.valid}}
         Drop to upload
@@ -73,29 +61,28 @@ For example, creating an image uploader that uploads images to your API server w
         {{#if dropzone.enabled}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        <a id="upload-image">Add an Image.</a>
+        {{#file-upload queue=queue}}
+          <a id="upload-image" tabindex=0>Add an Image.</a>
+        {{/file-upload}}
       </p>
     {{/if}}
-  </div>
-{{/pl-uploader}}
+ {{/file-dropzone}}
+{{/with}}
 ```
 
 ## Integration
-
-If your application doesn't use an assets folder, or serves assets from a different domain, you will need to add a PLUPLOAD_BASE_URL to your configuration file.
 
 The addon emits an event when a file is queued for upload. You may trigger the upload by calling the `upload` function on the file, which returns a promise that is resolved when the file has finished uploading and is rejected if the file couldn't be uploaded.
 
 ```javascript
 import Ember from "ember";
 
-const get = Ember.get;
-const set = Ember.set;
+const { get, set } = Ember;
 
 export default Ember.Route.extend({
 
   actions: {
-    uploadImage: function (file) {
+    uploadImage(file) {
       var product = this.modelFor('product');
       var image = this.store.createRecord('image', {
         product: product,
@@ -122,7 +109,7 @@ export default Ember.Route.extend({
 
 ## Access to the global list of uploading files
 
-`ember-plupload` exposes a service called `uploader` that exposes aggregate information on files being uploaded in your app.
+`ember-file-upload` exposes a service called `uploader` that exposes aggregate information on files being uploaded in your app.
 
 A common scenario is to alert users that they still have pending uploads when they are about to leave the page. To do this, look at `uploader.get('files.length')` to see if there's any files uploading.
 
@@ -130,12 +117,12 @@ In addition to the file list, there are properties that indicate how many bytes 
 
 ## Acceptance Tests
 
-`ember-plupload` has a test helper called `addFiles` available to developers to fake adding files to their uploader. It needs a container or owner object (an application instance or container), the name of the uploader, and a JavaScript object that describes the basics of the file.
+`ember-file-uploader` has a test helper called `addFiles` available to developers to fake adding files to their uploader. It needs a container or owner object (an application instance or container), the name of the uploader, and a JavaScript object that describes the basics of the file.
 
 This can be used to fake a file upload like so:
 
 ```javascript
-import { addFiles } from 'ember-plupload/test-helper';
+import { addFiles } from 'ember-file-uploader/test-helper';
 
 moduleForAcceptance('/photos');
 
@@ -166,7 +153,7 @@ test('uploading an image', function (assert) {
 If the file is being read by the host application, then providing the file contents in the file object. The contents are wrapped in a promise to provide the ability to test the success state and error of a read() call.
 
 ```javascript
-import { addFiles } from 'ember-plupload/test-helper';
+import { addFiles } from 'ember-file-uploader/test-helper';
 
 moduleForAcceptance('/notes');
 
@@ -183,52 +170,9 @@ test('showing a note', function (assert) {
 });
 ```
 
-
-## Custom File Filters
-
-File filters are supported using a promise based API on top of Plupload.
-
-Begin by generating a new filter:
-
-```bash
-ember generate file-filter max-image-resolution
-```
-
-Which will generate a new file filter in your application. Call `resolve` if the file is valid, and `reject` with an error code and human readable reason if it's not.
-
-For the `max-image-resolution` filter, the following code will create the correct filter:
-
-```javascript
-import Ember from "ember";
-
-const RSVP = Ember.RSVP;
-
-export default function (maxImageResolution, file, resolve, reject) {
-  var image = new Image();
-  var deferred = RSVP.defer();
-
-  image.onload = deferred.resolve;
-  image.onerror = deferred.reject;
-  image.load(file.getSource());
-
-  deferred.promise.then(function () {
-    if (image.width * image.height < maxImageResolution) {
-      throw "Image failed to load";
-    }
-  }).then(resolve, function () {
-    reject(
-      plupload.IMAGE_DIMENSIONS_ERROR,
-      `Resolution exceeds the allowed limit of ${maxImageResolution} pixels.`
-    );
-  }).finally(function () {
-    image.destroy();
-  });
-}
-```
-
 ## S3 Direct uploads
 
-If you would like to use the addon to upload directly to S3, you'll need to configure your bucket to accept and expose headers to allow plupload to access your bucket.
+If you would like to use the addon to upload directly to S3, you'll need to configure your bucket to accept and expose headers to allow the addon to access your bucket.
 
 The following CORS configuration should be sufficient for most cases:
 
@@ -356,7 +300,7 @@ export default Ember.Route.extend({
 
 # Installation
 
-* `ember install ember-plupload`
+* `ember install ember-file-uploader`
 
 ## Running
 
@@ -370,7 +314,7 @@ export default Ember.Route.extend({
 
 # Contributing
 
-Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-plupload/blob/master/CONDUCT.md).
+Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-file-upload/blob/master/CONDUCT.md).
 
 
 ## Publishing

@@ -1,3 +1,2 @@
-import Uploader from 'ember-plupload/services/uploader';
-export default Uploader;
+import { default } from 'ember-file-upload/services/uploader';
 

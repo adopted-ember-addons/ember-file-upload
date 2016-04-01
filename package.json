@@ -1,5 +1,5 @@
 {
-  "name": "ember-plupload",
+  "name": "ember-file-uploader",
   "version": "1.13.13",
   "directories": {
     "doc": "doc",
@@ -12,7 +12,7 @@
     "prepublish": "rm -rf app/styles/app.scss",
     "postpublish": "echo '// Must be present due to bug in ember-cli 0.2.7 / ember-cli-sass 4.0.1' > app/styles/app.scss"
   },
-  "repository": "https://github.com/tim-evans/ember-plupload",
+  "repository": "https://github.com/tim-evans/ember-file-uploader",
   "engines": {
     "node": ">= 0.10.0"
   },

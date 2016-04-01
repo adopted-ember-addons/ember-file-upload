@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import UploadQueue from '../system/upload-queue';
+import Queue from '../queue';
 import flatten from '../system/flatten';
+import sumBy from '../computed/sum-by';
 
-var get = Ember.get;
-var set = Ember.set;
-var computed = Ember.computed;
+const { get, set, computed } = Ember;
 
 export default Ember.Service.extend({
 
@@ -24,53 +23,36 @@ export default Ember.Service.extend({
     }
   }),
 
-  size: computed('all.@each.size', {
-    get() {
-      return Ember.A(get(this, 'all').getEach('size')).reduce(function (E, x) {
-        return E + x;
-      }, 0);
-    }
-  }),
+  size: sumBy('files.@each.size'),
 
-  loaded: computed('all.@each.loaded', {
-    get() {
-      return Ember.A(get(this, 'all').getEach('loaded')).reduce(function (E, x) {
-        return E + x;
-      }, 0);
-    }
-  }),
+  loaded: sumBy('files.@each.loaded'),
 
-  progress: Ember.computed('size', 'loaded', function () {
-    let percent = get(this, 'loaded') / get(this, 'size') || 0;
-    return Math.floor(percent * 100);
+  progress: computed('size', 'loaded', {
+    get() {
+      let percent = get(this, 'loaded') / get(this, 'size') || 0;
+      return Math.floor(percent * 100);
+    }
   }),
 
   /**
-    Return or instantiate a new plupload instance
-    for an upload queue.
+    Return or instantiate a queue.
 
     @method find
     @param {String} name The name of the queue to find
-    @param {Object} [config] The configuration to use for the uploader
+    @param {Object} options The options to set on the queue
    */
-  findOrCreate(name, component, config) {
+  findOrCreate(name, options) {
     var queue;
 
     if (get(this, 'queues').has(name)) {
       queue = get(this, 'queues').get(name);
-      if (config != null) {
-        set(queue, 'target', component);
-        queue.configure(config);
-      }
     } else {
-      queue = UploadQueue.create({
-        name: name,
-        target: component
-      });
+      queue = Queue.create({ name });
       get(this, 'all').pushObject(queue);
       get(this, 'queues').set(name, queue);
-      queue.configure(config);
     }
+    queue.setProperties(options);
+
     return queue;
   }
 });
