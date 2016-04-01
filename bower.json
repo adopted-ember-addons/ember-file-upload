@@ -1,5 +1,5 @@
 {
-  "name": "ember-plupload",
+  "name": "ember-file-upload",
   "dependencies": {
     "ember": "1.13.13",
     "ember-cli-shims": "0.1.0",
