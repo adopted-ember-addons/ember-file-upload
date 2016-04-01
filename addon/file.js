@@ -2,30 +2,30 @@ import Ember from 'ember';
 import FileReader from 'system/file-reader';
 import HTTPRequest from 'system/http-request';
 
-const { RSVP, get } = Ember;
+const { get, set } = Ember;
 const { reads } = Ember.computed;
 
 function normalizeOptions(file, url, options) {
-  if (typeof url == 'object') {
+  if (typeof url === 'object') {
     options = url;
     url = null;
   }
 
-  options ||= {};
+  options = options || {};
 
-  options.url ||= url;
-  options.method ||= 'POST';
-  options.accepts ||= ['application/json', 'text/javascript'];
-  options.contentType ||= get(file, 'type');
-  options.headers ||= {};
-  options.data ||= {};
-  options.fileKey ||= 'file';
+  options.url = options.url || url;
+  options.method = options.method || 'POST';
+  options.accepts = options.accepts || ['application/json', 'text/javascript'];
+  options.contentType = options.contentType || get(file, 'type');
+  options.headers = options.headers || {};
+  options.data = options.data || {};
+  options.fileKey = options.fileKey || 'file';
 
   if (options.headers.Accept == null) {
     if (!Array.isArray(options.accepts)) {
       options.accepts = [options.accepts];
     }
-    headers.Accept = options.accepts.join(',');
+    options.headers.Accept = options.accepts.join(',');
   }
 
   // Set Content-Type in the data payload
@@ -85,7 +85,7 @@ let File = Ember.Object.extend({
     return request.send(form);
   },
 
-  read({ as: 'data-url' }) {
+  read(options={ as: 'data-url' }) {
     let reader = new FileReader();
 
     let blob = this.blob;
@@ -107,15 +107,13 @@ File.reopenClass({
   fromBlob(blob) {
     Object.defineProperty(this, 'blob', {
       writeable: false,
-      configurable, false,
       enumerable: false,
       value: blob
     });
     Object.defineProperty(this, 'id', {
       writeable: false,
-      configurable, false,
       enumerable: true,
-      value: `file-${uuid.v4()}`
+      value: `file-${Ember.generateGuid()}`
     });
   }
 });

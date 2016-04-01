@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import trim from './trim';
 
-const { RSVP, set } = Ember;
+const { RSVP } = Ember;
 
 function getHeader(headers, header) {
   let headerKeys = Object.keys(headers);
@@ -10,7 +10,7 @@ function getHeader(headers, header) {
     return headers[headerKeys[headerIdx]];
   }
   return null;
-};
+}
 
 function parseResponse(request) {
   var body = trim(request.responseText);
@@ -52,10 +52,10 @@ export default function () {
 
   let aborted = RSVP.defer();
   promise.cancel = function () {
-    reader.abort();
+    request.abort();
     return aborted.promise;
   };
-  reader.onabort = function () {
+  request.onabort = function () {
     aborted.resolve();
   };
 
@@ -75,7 +75,7 @@ export default function () {
   this.onprogress = this.progress || function () {};
 
   request.onloadstart = request.onprogress = request.onloadend = (evt) => {
-    this.onprogress();
+    this.onprogress(evt);
   };
 
   request.onload = function () {
@@ -90,7 +90,7 @@ export default function () {
   Object.defineProperty(this, 'timeout', {
     get() {
       return request.timeout;
-    }
+    },
     set(timeout) {
       request.timeout = timeout;
     },

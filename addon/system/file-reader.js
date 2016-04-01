@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { RSVP, set } = Ember;
+const { RSVP } = Ember;
 
 export default function () {
   let { resolve, reject, promise } = RSVP.defer();

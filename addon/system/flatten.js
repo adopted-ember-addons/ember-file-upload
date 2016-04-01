@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 function flatten(array) {
   var flattened = [];
   for (let i = 0, len = array.length; i < len; i++) {

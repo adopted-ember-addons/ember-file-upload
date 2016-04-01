@@ -2,10 +2,12 @@
 
 <h2>PlUpload Test</h2>
 <hr>
-{{#pl-uploader extensions="jpg jpeg png gif" for="upload-image" onfileadd="uploadImage" as |queue features|}}
-  <div class="dropzone" id={{features.drag-and-drop.dropzone-id}} style="width: 80%; height: 100px; border: 2px dashed gray; padding: 0 20px">
-    {{#if features.drag-and-drop.drag-data}}
-      {{#if features.drag-and-drop.drag-data.valid}}
+{{#with (upload-queue for="images"
+                      accept="image/jpeg, image/gif, image/png")
+                      onfileadd=(action "uploadImage") as |queue|}}
+  {{#file-dropzone queue=queue style="width: 80%; height: 100px; border: 2px dashed gray; padding: 0 20px" as |dropzone|}}
+    {{#if dropzone.active}}
+      {{#if dropzone.valid}}
         Drop to upload
       {{else}}
         Invalid
@@ -15,14 +17,16 @@
     {{else}}
       <h4>Upload Images</h4>
       <p>
-        {{#if features.drag-and-drop}}
+        {{#if dropzone.active}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        <a id="upload-image">Add an Image.</a>
+        {{#file-upload queue=queue}}
+          <a id="upload-image">Add an Image.</a>
+        {{/file-upload}}
       </p>
     {{/if}}
   </div>
-{{/pl-uploader}}
+{{/with}}
 
 <h4>Events</h4>
 <ul>

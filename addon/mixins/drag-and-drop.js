@@ -1,30 +1,29 @@
 import Ember from 'ember';
 
-const { $, on } = Ember;
+const { $, get, on } = Ember;
 const { bind } = Ember.run;
 
 const DragAndDrop = Ember.Mixin.create({
   _bindEventHandlers: on('didInsertElement', function () {
-    let dropzoneId = get(this, 'for-dropzone');
-    if (dropzoneId) {
-      let handlers = this._dragHandlers = {
-        dragenter: bind(this, 'didEnterDropzone'),
-        dragleave: bind(this, 'didLeaveDropzone'),
-        drop:      bind(this, 'didDrop')
-      };
+    let id = get(this, 'elementId');
+    let handlers = this._dragHandlers = {
+      dragenter: bind(this, 'didEnterDropzone'),
+      dragleave: bind(this, 'didLeaveDropzone'),
+      drop:      bind(this, 'didDrop')
+    };
 
-      Object.keys(handlers).forEach(function (key) {
-        $(document).on(key, `#${dropzoneId}`, handlers[key]);
-      });
+    Object.keys(handlers).forEach(function (key) {
+      $(document).on(key, `#${id}`, handlers[key]);
+    });
 
-      this._dragMutex = 0;
-    }
+    this._dragMutex = 0;
   }),
 
   teardownDragListeners: on('willDestroyElement', function () {
+    let id = get(this, 'elementId');
     let handlers = this._dragHandlers || {};
-    keys(handlers).forEach(function (key) {
-      $(document).off(key, `#${dropzoneId}`, handlers[key]);
+    Object.keys(handlers).forEach(function (key) {
+      $(document).off(key, `#${id}`, handlers[key]);
     });
 
     this._dragHandlers = null;
