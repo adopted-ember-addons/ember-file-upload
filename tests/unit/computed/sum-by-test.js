@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import sumBy from 'ember-plupload/computed/sum-by';
+import sumBy from 'ember-file-upload/computed/sum-by';
 import {
   module,
   test
@@ -8,10 +8,10 @@ import {
 module('computed:sum-by');
 
 test('property updates when objects are pushed onto the collection', function (assert) {
-  let queue = Ember.Object.create({
-    files: [],
+  let queue = Ember.Object.extend({
+    files: Ember.A(),
     size: sumBy('files.@each.size')
-  });
+  }).create();
 
   assert.equal(queue.get('size'), 0);
 
@@ -35,26 +35,28 @@ test('property updates when objects are pushed onto the collection', function (a
 });
 
 test('property updates when the item property updates', function (assert) {
-  let queue = Ember.Object.create({
-    files: [
+  let queue = Ember.Object.extend({
+    files: Ember.A([
       { loaded: 0 },
       { loaded: 512 }
-    ],
+    ]),
     loaded: sumBy('files.@each.loaded')
-  });
+  }).create();
 
   assert.equal(queue.get('loaded'), 512);
 
   Ember.run(function () {
-    queue.set('files.firstObject', 128);
+    queue.set('files.firstObject.loaded', 128);
   });
 
-  assert.equal(queue.get('size'), 640);
+  assert.equal(queue.get('loaded'), 640);
 });
 
 test('compatability with ArrayProxy', function (assert) {
-  let queue = Ember.Object.extend(Ember.ArrayProxy).create({
-    loaded: sumBy('@each.size')
+  let queue = Ember.ArrayProxy.extend({
+    size: sumBy('@each.size')
+  }).create({
+    content: Ember.A([])
   });
 
   assert.equal(queue.get('size'), 0);

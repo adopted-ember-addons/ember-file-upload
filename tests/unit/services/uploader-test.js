@@ -1,41 +1,26 @@
-/* global plupload */
 import Ember from 'ember';
-import Uploader from 'ember-plupload/services/uploader';
-import MockUploader from '../../helpers/mock-uploader';
-import {
-  module,
-  test
-} from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 
-var get = Ember.get;
-var originalPlupload;
+var { get } = Ember;
 
-module('service:uploader', {
-  beforeEach: function () {
-    originalPlupload = plupload.Uploader;
-    plupload.Uploader = MockUploader;
-  },
-  afterEach: function () {
-    plupload.Uploader = originalPlupload;
-  }
-});
+moduleFor('service:uploader');
 
 test('the size of the uploader is the aggregate of all queues', function (assert) {
-  var uploader = Uploader.create();
-  var queue1 = uploader.findOrCreate('queue1', Ember.Component.create(), {});
-  var queue2 = uploader.findOrCreate('queue2', Ember.Component.create(), {});
-  uploader.findOrCreate('queue3', Ember.Component.create(), {});
+  var uploader = this.subject();
+  var queue1 = uploader.findOrCreate('queue1');
+  var queue2 = uploader.findOrCreate('queue2');
+  uploader.findOrCreate('queue3');
 
   assert.equal(get(uploader, 'files.length'), 0);
   assert.equal(get(uploader, 'size'), 0);
   assert.equal(get(uploader, 'loaded'), 0);
   assert.equal(get(uploader, 'progress'), 0);
 
-  get(queue1, 'queues.firstObject').addFile({
+  queue1.pushObject({
     id: 'test',
     name: 'test-filename.jpg',
     size: 2000,
-    percent: 0
+    loaded: 0
   });
 
   assert.equal(get(uploader, 'files.length'), 1);
@@ -43,11 +28,11 @@ test('the size of the uploader is the aggregate of all queues', function (assert
   assert.equal(get(uploader, 'loaded'), 0);
   assert.equal(get(uploader, 'progress'), 0);
 
-  get(queue2, 'queues.firstObject').addFile({
+  queue2.pushObject({
     id: 'test1',
     name: 'test-filename.jpg',
     size: 3500,
-    percent: 0
+    loaded: 0
   });
 
   assert.equal(get(uploader, 'files.length'), 2);
@@ -55,11 +40,11 @@ test('the size of the uploader is the aggregate of all queues', function (assert
   assert.equal(get(uploader, 'loaded'), 0);
   assert.equal(get(uploader, 'progress'), 0);
 
-  get(queue2, 'queues.firstObject').addFile({
+  queue2.pushObject({
     id: 'test2',
     name: 'test-filename.jpg',
     size: 1400,
-    percent: 0
+    loaded: 0
   });
 
   assert.equal(get(uploader, 'files.length'), 3);
@@ -69,15 +54,15 @@ test('the size of the uploader is the aggregate of all queues', function (assert
 });
 
 test('the uploaded size of the uploader is the aggregate of all queues', function (assert) {
-  var uploader = Uploader.create();
-  var queue1 = uploader.findOrCreate('queue1', Ember.Component.create(), {});
+  var uploader = this.subject();
+  var queue1 = uploader.findOrCreate('queue1');
 
   assert.equal(get(uploader, 'files.length'), 0);
   assert.equal(get(uploader, 'size'), 0);
   assert.equal(get(uploader, 'loaded'), 0);
   assert.equal(get(uploader, 'progress'), 0);
 
-  get(queue1, 'queues.firstObject').addFile({
+  queue1.pushObject({
     id: 'test',
     name: 'test-filename.jpg',
     size: 2000,
@@ -89,9 +74,9 @@ test('the uploaded size of the uploader is the aggregate of all queues', functio
   assert.equal(get(uploader, 'loaded'), 500);
   assert.equal(get(uploader, 'progress'), 25);
 
-  var queue2 = uploader.findOrCreate('queue2', Ember.Component.create(), {});
+  var queue2 = uploader.findOrCreate('queue2');
 
-  get(queue2, 'queues.firstObject').addFile({
+  queue2.pushObject({
     id: 'test1',
     name: 'test-filename.jpg',
     size: 3500,
@@ -103,9 +88,9 @@ test('the uploaded size of the uploader is the aggregate of all queues', functio
   assert.equal(get(uploader, 'loaded'), 1000);
   assert.equal(get(uploader, 'progress'), 18);
 
-  uploader.findOrCreate('queue3', Ember.Component.create(), {});
+  uploader.findOrCreate('queue3');
 
-  get(queue2, 'queues.firstObject').addFile({
+  queue2.pushObject({
     id: 'test2',
     name: 'test-filename.jpg',
     size: 1400,

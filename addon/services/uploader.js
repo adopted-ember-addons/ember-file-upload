@@ -41,7 +41,7 @@ export default Ember.Service.extend({
     @param {String} name The name of the queue to find
     @param {Object} options The options to set on the queue
    */
-  findOrCreate(name, options) {
+  findOrCreate(name, options={}) {
     var queue;
 
     if (get(this, 'queues').has(name)) {
