@@ -1,1 +1,1 @@
-export { default } from 'ember-plupload/components/file-upload';
+export { default } from 'ember-file-upload/components/file-upload/component';

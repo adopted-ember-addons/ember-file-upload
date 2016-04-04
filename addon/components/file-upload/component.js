@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import File from '../file';
+import File from '../../file';
 import layout from './template';
 
 const { get } = Ember;

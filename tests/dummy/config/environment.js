@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'dummy',
     environment: environment,
-    baseURL: '/ember-plupload/',
+    baseURL: '/ember-file-upload/',
     locationType: 'auto',
     contentSecurityPolicy: {
       'img-src': "'self' data:",

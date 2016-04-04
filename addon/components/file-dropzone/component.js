@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import File from '../file';
+import File from '../../file';
 import DragAndDrop from '../../mixins/drag-and-drop';
 import layout from './template';
 

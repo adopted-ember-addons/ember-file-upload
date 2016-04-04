@@ -1,1 +1,1 @@
-export { default } from 'ember-plupload/components/file-dropzone';
+export { default } from 'ember-file-upload/components/file-dropzone/component';

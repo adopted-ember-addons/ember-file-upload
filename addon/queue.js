@@ -37,5 +37,10 @@ export default Ember.ArrayProxy.extend({
       let percent = (get(this, 'loaded') / get(this, 'size')) || 0;
       return Math.floor(percent * 100);
     }
-  })
+  }),
+
+  pushObject(file) {
+    this._super(file);
+    file.queue = this;
+  }
 });

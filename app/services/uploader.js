@@ -1,2 +1,1 @@
-import { default } from 'ember-file-upload/services/uploader';
-
+export { default } from 'ember-file-upload/services/uploader';

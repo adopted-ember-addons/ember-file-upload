@@ -1,6 +1,7 @@
+/* global atob */
 import Ember from 'ember';
-import FileReader from 'system/file-reader';
-import HTTPRequest from 'system/http-request';
+import FileReader from './system/file-reader';
+import HTTPRequest from './system/http-request';
 
 const { get, set } = Ember;
 const { reads } = Ember.computed;
@@ -99,22 +100,45 @@ let File = Ember.Object.extend({
     case 'text':
       return reader.readAsText(blob);
     }
+  },
+
+  remove() {
+    this.queue.removeObject(this);
   }
 
 });
 
 File.reopenClass({
   fromBlob(blob) {
-    Object.defineProperty(this, 'blob', {
+    let file = File.create();
+    Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
       value: blob
     });
-    Object.defineProperty(this, 'id', {
+    Object.defineProperty(file, 'id', {
       writeable: false,
       enumerable: true,
       value: `file-${Ember.generateGuid()}`
     });
+
+    return file;
+  },
+
+  fromDataURL(dataURL) {
+    let [typeInfo, base64String] = dataURL.split(',');
+    let mimeType = typeInfo.match(/:(.*?);/)[1];
+
+    let binaryString = atob(base64String);
+    let binaryData = new Uint8Array(binaryString.length);
+
+    for (let i = 0, len = binaryString.length; i < len; i++) {
+      binaryData[i] = binaryString.charCodeAt(i);
+    }
+
+    let blob = new Blob([binaryData], { type: mimeType });
+
+    return this.fromBlob(blob);
   }
 });
 
