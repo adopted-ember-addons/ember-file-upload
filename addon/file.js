@@ -2,6 +2,7 @@
 import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
+import uuid from './system/uuid';
 
 const { get, set } = Ember;
 const { reads } = Ember.computed;
@@ -42,6 +43,15 @@ function normalizeOptions(file, url, options) {
 }
 
 let File = Ember.Object.extend({
+
+  init() {
+    this._super();
+    Object.defineProperty(this, 'id', {
+      writeable: false,
+      enumerable: true,
+      value: `file-${uuid()}`
+    });
+  },
 
   id: null,
 
@@ -109,17 +119,21 @@ let File = Ember.Object.extend({
 });
 
 File.reopenClass({
+
+  /**
+    Creates a file object that can be read or uploaded to a
+    server from a Blob object.
+
+    @method fromBlob
+    @param {Blob} blob The blob to create the file from.
+    @return {File} A file object
+   */
   fromBlob(blob) {
     let file = File.create();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
       value: blob
-    });
-    Object.defineProperty(file, 'id', {
-      writeable: false,
-      enumerable: true,
-      value: `file-${Ember.generateGuid()}`
     });
 
     return file;
