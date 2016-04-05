@@ -35,9 +35,9 @@ function byteToHex(number) {
 
 function serialize(bytes) {
   let hex = [];
-  bytes.forEach(function (b, i) {
-    hex[i] = byteToHex(b);
-  });
+  for (let i = 0, len = bytes.length; i < len; i++) {
+    hex[i] = byteToHex(bytes[i]);
+  }
 
   return hex.slice(0, 4).join('') + '-' +
          hex.slice(4, 6).join('') + '-' +
