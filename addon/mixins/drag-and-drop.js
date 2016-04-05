@@ -59,7 +59,7 @@ const DragAndDrop = Ember.Mixin.create({
     if (evt.stopPropagation) { evt.stopPropagation(); }
     this._dropzoneEntrance = null;
 
-    this.send('drop', evt.dataTransfer);
+    this.send('drop', evt.dataTransfer.files);
   }
 });
 
