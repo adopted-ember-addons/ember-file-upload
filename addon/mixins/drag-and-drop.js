@@ -9,14 +9,13 @@ const DragAndDrop = Ember.Mixin.create({
     let handlers = this._dragHandlers = {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
+      dragover:  bind(this, 'didDragOver'),
       drop:      bind(this, 'didDrop')
     };
 
     Object.keys(handlers).forEach(function (key) {
       $(document).on(key, `#${id}`, handlers[key]);
     });
-
-    this._dragMutex = 0;
   }),
 
   teardownDragListeners: on('willDestroyElement', function () {
@@ -26,35 +25,41 @@ const DragAndDrop = Ember.Mixin.create({
       $(document).off(key, `#${id}`, handlers[key]);
     });
 
-    this._dragHandlers = null;
+    this._dropzoneEntrance = null;
   }),
 
   didEnterDropzone({ originalEvent: evt }) {
-    if (evt.preventDefault)  { evt.preventDefault(); }
-    if (evt.stopPropagation) { evt.stopPropagation(); }
-
-    if (this._dragMutex === 0) {
+    if (this._dropzoneEntrance == null) {
+      this._dropzoneEntrance = evt.target;
       this.send('dragEnter', evt.dataTransfer);
     }
-    this._dragMutex++;
   },
 
   didLeaveDropzone({ originalEvent: evt }) {
-    if (evt.preventDefault)  { evt.preventDefault(); }
-    if (evt.stopPropagation) { evt.stopPropagation(); }
-    this._dragMutex--;
-
-    if (this._dragMutex === 0) {
-      this.send('dragLeave', evt.dataTransfer);
+    // If the element paired with the dragenter
+    // event was removed from the DOM, clear it out
+    // so the process can be run again.
+    if (!$.contains(get(this, 'element'), this._dropzoneEntrance)) {
+      this._dropzoneEntrance = null;
     }
+
+    if (evt.target === this._dropzoneEntrance) {
+      this.send('dragLeave', evt.dataTransfer);
+      this._dropzoneEntrance = null;
+    }
+  },
+
+  didDragOver({ originalEvent: evt }) {
+    evt.preventDefault();
+    evt.stopPropagation();
   },
 
   didDrop({ originalEvent: evt }) {
     if (evt.preventDefault)  { evt.preventDefault(); }
     if (evt.stopPropagation) { evt.stopPropagation(); }
-    this._dragMutex = 0;
+    this._dropzoneEntrance = null;
 
-    this.send('drop', evt);
+    this.send('drop', evt.dataTransfer);
   }
 });
 
