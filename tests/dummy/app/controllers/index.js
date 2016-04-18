@@ -20,7 +20,6 @@ export default Ember.Controller.extend({
 
       let filename = file.get('name');
       file.read().then((url) => {
-        console.log(url);
         this.get('events').pushObject({
           filename: filename,
           preview: url

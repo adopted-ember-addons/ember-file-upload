@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import sumBy from './computed/sum-by';
 
-const { get, set, computed } = Ember;
-const { bool } = computed;
+const { get, set, computed, observer } = Ember;
 
 /**
   The Queue is a collection of files that
@@ -14,25 +13,33 @@ const { bool } = computed;
 
   @namespace ember-file-upload
   @class Queue
-  @extend Ember.ArrayProxy
+  @extend Ember.Object
  */
-export default Ember.ArrayProxy.extend({
-
-  content: [],
+export default Ember.Object.extend({
 
   init() {
-    set(this, 'content', Ember.A([]));
+    set(this, 'files', Ember.A());
     this._super();
   },
 
   destroy() {
     this._super();
-    set(this, 'content', Ember.A([]));
+    get(this, 'files').forEach((file) => set(file, 'queue', null));
+    set(this, 'files', Ember.A());
   },
 
-  pushObject(file) {
-    this._super(file);
+  /**
+    @method push
+    @
+   */
+  push(file) {
     file.queue = this;
+    get(this, 'files').pushObject(file);
+  },
+
+  remove(file) {
+    file.queue = null;
+    get(this, 'files').removeObject(file);
   },
 
   /**
@@ -58,6 +65,62 @@ export default Ember.ArrayProxy.extend({
   name: null,
 
   /**
+    The list of files in the queue. This automatically gets
+    flushed when all the files in the queue have settled.
+
+    Note that files that have failed need to be manually
+    removed from the queue. This is so they can be retried
+    without resetting the state of the queue, orphaning the
+    file from its queue. Upload failures can happen due to a
+    timeout or a server response. If you choose to use the
+    `abort` method, the file will fail to upload, but will
+    be removed from the requeuing proccess, and will be
+    considered to be in a settled state.
+
+    @property files
+    @type {File[]}
+    @default []
+   */
+  files: [],
+
+  /**
+    @private
+
+    Flushes the `files` property when they have settled. This
+    will only flush files when all files have arrived at a terminus
+    of their state chart.
+
+    ```
+        .------.     .---------.     .--------.
+    o--| queued |-->| uploading |-->| uploaded |
+        `------`     `---------`     `--------`
+           ^              |    .-------.
+           |              |`->| aborted |
+           |              |    `-------`
+           |  .------.    |    .---------.
+           `-| failed |<-` `->| timed_out |-.
+           |  `------`         `---------`  |
+           `-------------------------------`
+    ```
+
+    Files *may* be requeued by the uesr in the `failed` or `timed_out`
+    states.
+
+    @method flushFilesWhenSettled
+   */
+  flushFilesWhenSettled: observer('files.@each.state', function () {
+    let files = get(this, 'files');
+    let allFilesHaveSettled = files.every(function (file) {
+      return ['uploaded', 'aborted'].indexOf(file.status) !== -1;
+    });
+
+    if (allFilesHaveSettled) {
+      get(this, 'files').forEach((file) => set(file, 'queue', null));
+      set(this, 'files', Ember.A());
+    }
+  }),
+
+  /**
     The aggregate size (in bytes) of all files in the queue.
 
     @property size
@@ -65,7 +128,7 @@ export default Ember.ArrayProxy.extend({
     @type {Number}
     @default 0
    */
-  size: sumBy('@each.size'),
+  size: sumBy('files.@each.size'),
 
   /**
     The aggregate amount of bytes that have been uploaded
@@ -76,7 +139,7 @@ export default Ember.ArrayProxy.extend({
     @type {Number}
     @default 0
    */
-  loaded: sumBy('@each.loaded'),
+  loaded: sumBy('files.@each.loaded'),
 
   /**
     The current upload progress of the queue, as a number from 0 to 100.

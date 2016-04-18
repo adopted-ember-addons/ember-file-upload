@@ -15,6 +15,10 @@ html, body {
   background: linear-gradient(#FFFFFF, #FFFFFF 50%, $primary-color 50%, $primary-color);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 header {
   background: $primary-color;
   color: #FFF;
@@ -100,8 +104,8 @@ pre, pre.hljs {
 }
 
 ::selection {
-  background: #AD9FCF;
+  background: #A9F76E;
 }
 ::-moz-selection {
-  background: #AD9FCF;
+  background: #A9F76E;
 }

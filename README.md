@@ -6,7 +6,8 @@ To use the uploader, you must provide a name (for proper queueing and bundling o
 
 ## Configuration
 
-The `{{file-upload}}` component exposes a variety of parameters for configuring file-uploader:
+The `{{file-upload}}` component is configured with a single property: a queue. A queue is configured with options that
+exposes a variety of parameters for configuring file-uploader:
 
 
 | Attribute           | Definition
@@ -28,10 +29,7 @@ This configuration is for the uploader instance as a whole. Most of the configur
 | `accepts`           | a string or array of accepted content types that the server can respond with. defaults to `['application/json', 'text/javascript']`
 | `contentType`       | correlates to the Content-Type header of the file. This will add a property 'Content-Type' to your data. This defaults to the type of the file
 | `data`              | multipart params to send along with the upload
-| `multipart`         | whether the file should be sent using using a multipart form object or as a binary stream.
-| `maxRetries`        | the maximum number of times to retry uploading the file
-| `chunkSize`         | the chunk size to split the file into when sending to the server
-| `fileKey`          | the name of the parameter to send the file as. defaults to `file`
+| `fileKey`           | the name of the parameter to send the file as. defaults to `file`
 
 The function signature of `upload` is `upload(url, [settings])`, or `upload(settings)`.
 
@@ -42,31 +40,30 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#with (upload-queue for="photos"
-                      accept="image/png, image/gif, image/jpeg"
-                      multiple=true
-                      onfileadd=(route-action "uploadImage")) as |queue|}}
-  {{#file-dropzone queue=queue as |dropzone|}}
-    {{#if dropzone.active}}
-      {{#if dropzone.valid}}
-        Drop to upload
-      {{else}}
-        Invalid
-      {{/if}}
-    {{else if queue.length}}
-      Uploading {{queue.length}} files. ({{queue.progress}}%)
+{{#with (hash queue=(upload-queue for="photos")
+              dropzone=(drop-zone for="photos") as |uploader|}}
+  {{#if uploader.dropzone.active}}
+    {{#if uploader.dropzone.valid}}
+      Drop to upload
     {{else}}
-      <h4>Upload Images</h4>
-      <p>
-        {{#if dropzone.enabled}}
-          Drag and drop images onto this area to upload them or
-        {{/if}}
-        {{#file-upload queue=queue}}
-          <a id="upload-image" tabindex=0>Add an Image.</a>
-        {{/file-upload}}
-      </p>
+      Invalid
     {{/if}}
- {{/file-dropzone}}
+  {{else if uploader.queue.length}}
+    Uploading {{uploader.queue.length}} files. ({{uploader.queue.progress}}%)
+  {{else}}
+    <h4>Upload Images</h4>
+    <p>
+      {{#if uploader.dropzone.enabled}}
+        Drag and drop images onto this area to upload them or
+      {{/if}}
+      {{#file-upload queue=(upload-queue for="photos"
+                                         accept="image/png, image/gif, image/jpeg"
+                                         multiple=true
+                                         onfileadd=(route-action "uploadImage"))}}
+        <a id="upload-image" tabindex=0>Add an Image.</a>
+      {{/file-upload}}
+    </p>
+  {{/if}}
 {{/with}}
 ```
 
@@ -75,33 +72,39 @@ For example, creating an image uploader that uploads images to your API server w
 The addon emits an event when a file is queued for upload. You may trigger the upload by calling the `upload` function on the file, which returns a promise that is resolved when the file has finished uploading and is rejected if the file couldn't be uploaded.
 
 ```javascript
-import Ember from "ember";
+import Ember from 'ember';
+import { task } from 'ember-concurrency';
 
 const { get, set } = Ember;
 
 export default Ember.Route.extend({
 
-  actions: {
-    uploadImage(file) {
-      var product = this.modelFor('product');
-      var image = this.store.createRecord('image', {
-        product: product,
+  uploadPhoto: task(function * (file) {
+    try {
+      let product = this.modelFor('product');
+      let photo = this.store.createRecord('photo', {
+        product,
         filename: get(file, 'name'),
         filesize: get(file, 'size')
       });
 
       file.read().then(function (url) {
-        if (get(image, 'url') == null) {
-          set(image, 'url', url);
+        if (get(photo, 'url') == null) {
+          set(photo, 'url', url);
         }
       });
 
-      file.upload('/api/images/upload').then(function (response) {
-        set(image, 'url', response.headers.Location);
-        return image.save();
-      }, function () {
-        image.rollback();
-      });
+      let response = yield file.upload('/api/images/upload');
+      set(photo, 'url', response.headers.Location);
+      yield photo.save();
+    } catch {
+      photo.rollback();
+    }
+  }).maxConcurrency(3).enqueue(),
+
+  actions: {
+    uploadImage(file) {
+      get(this, 'uploadPhoto').perform(file);
     }
   }
 });

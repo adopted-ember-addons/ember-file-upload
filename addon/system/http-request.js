@@ -19,7 +19,7 @@ function parseResponse(request) {
   });
 
   var headers = rawHeaders.reduce(function (E, header) {
-    var parts = header.split(/^([A-Za-z_-]*:)/);
+    var parts = header.split(/^([0-9A-Za-z_-]*:)/);
     if (parts.length > 0){
       E[parts[1].slice(0, -1)] = trim(parts[2]);
     }
@@ -51,11 +51,12 @@ export default function () {
   let request = new XMLHttpRequest();
 
   let aborted = RSVP.defer();
-  promise.cancel = function () {
+  promise.cancel = () => {
     request.abort();
     return aborted.promise;
   };
   request.onabort = function () {
+    this.onabort();
     aborted.resolve();
   };
 
@@ -72,7 +73,9 @@ export default function () {
     return promise;
   };
 
-  this.onprogress = this.progress || function () {};
+  this.onprogress = this.onprogress || function () {};
+  this.ontimeout = this.ontimeout || function () {};
+  this.onabort = this.onabort || function () {};
 
   request.onloadstart = request.onprogress = request.onloadend = (evt) => {
     this.onprogress(evt);
@@ -98,7 +101,8 @@ export default function () {
     configurable: false
   });
 
-  request.ontimeout = function () {
+  request.ontimeout = () => {
+    this.ontimeout();
     reject(parseResponse(request));
   };
 }

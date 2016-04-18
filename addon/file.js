@@ -4,7 +4,7 @@ import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import uuid from './system/uuid';
 
-const { get, set } = Ember;
+const { get, set, RSVP } = Ember;
 const { reads } = Ember.computed;
 
 function normalizeOptions(file, url, options) {
@@ -53,19 +53,82 @@ let File = Ember.Object.extend({
     });
   },
 
+  /**
+    A unique id generated for this file.
+
+    @property
+    @type {String}
+    @readonly
+   */
   id: null,
 
+  /**
+    The file name.
+
+    @property name
+    @type {String}
+   */
   name: reads('blob.name'),
 
+  /**
+    The size of the file in bytes.
+
+    @property size
+    @type {Number}
+    @readonly
+   */
   size: reads('blob.size'),
 
+  /**
+    The MIME type of the file.
+
+    For a image file this may be `image/png`.
+
+    @property type
+    @type {String}
+    @readonly
+   */
   type: reads('blob.type'),
 
-  loaded: null,
+  /**
+    @property loaded
+    @type {Number}
+    @default 0
+    @readonly
+   */
+  loaded: 0,
 
-  progress: null,
+  /**
+    @property progress
+    @type {Number}
+    @default 0
+    @readonly
+   */
+  progress: 0,
+
+  /**
+    The current state that the file is in.
+    One of:
+
+    - `queued`
+    - `uploading`
+    - `timed_out`
+    - `aborted`
+    - `uploaded`
+    - `failed`
+
+    @property state
+    @type {String}
+    @default 'queued'
+    @readonly
+   */
+  state: 'queued',
 
   upload(url, opts) {
+    if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state') === -1) {
+      Ember.assert(`The file ${this.id} is in the state "${get(this, 'state')}" and cannot be requeued.`);
+    }
+
     let options = normalizeOptions(this, url, opts);
 
     // Build the form
@@ -93,7 +156,23 @@ let File = Ember.Object.extend({
       }
     };
 
-    return request.send(form);
+    request.ontimeout = () => {
+      set(this, 'state', 'timed_out');
+    };
+
+    request.onabort = () => {
+      set(this, 'state', 'aborted');
+    };
+
+    set(this, 'state', 'uploading');
+
+    return request.send(form).then((result) => {
+      set(this, 'state', 'uploaded');
+      return result;
+    }, (error) => {
+      set(this, 'state', 'failed');
+      return RSVP.reject(error);
+    });
   },
 
   read(options={ as: 'data-url' }) {
@@ -110,12 +189,7 @@ let File = Ember.Object.extend({
     case 'text':
       return reader.readAsText(blob);
     }
-  },
-
-  remove() {
-    this.queue.removeObject(this);
   }
-
 });
 
 File.reopenClass({

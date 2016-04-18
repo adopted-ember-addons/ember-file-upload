@@ -27,4 +27,60 @@
       </div>
     </div>
   </section>
+
+  <section id="recipes">
+    <h2>Recipes</h2>
+    <div class="grid">
+      <div class="half">
+        {{#console-window title="components/photo-uploader/template.hbs"}}
+          <code>{{highlight '{{title "' model.title '"}}'}}
+          </code>
+        {{/console-window}}
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <h2>Demo</h2>
+    <div class="grid">
+      <div class="half">
+        {{#app-window title="Photos of My Cat"}}
+          {{#with (file-dropzone for="images") as |dropzone|}}
+            {{#if dropzone.active}}
+              {{if dropzone.valid}}
+                Cat eating file
+              {{else}}
+                Cat hissing
+              {{/if}}
+            {{else}}
+              Normal Cat
+            {{/if}}
+
+            {{#if dropzone.enabled}}
+              Drag and drop cat photos!
+            {{/if}}
+            {{#file-upload for-dropzone="body"
+                           queue=(upload-queue for="images")
+                           multiple=false
+                           onfileadd=(action "uploadImage")
+                           accept="image/*"}}
+              <a id="upload-image" >Add an Image.</a>
+            {{/file-upload}}
+
+            {{#with (upload-queue for="images") as |queue|}}
+              {{#if queue.uploads.length}}
+                Uploading {{queue.uploads.length}} files. ({{queue.uploads.progress}}%)
+              {{/if}}
+            {{/with}}
+          {{/with}}
+        {{/app-window}}
+        <h4>Events</h4>
+        <ul>
+          {{#each events as |event|}}
+            <li><img src={{event.preview}} style="max-width: 100px; max-height: 100px">{{event.filename}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </section>
 </main>

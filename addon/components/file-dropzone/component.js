@@ -4,7 +4,7 @@ import DragAndDrop from '../../mixins/drag-and-drop';
 import layout from './template';
 import trim from '../../system/trim';
 
-const { get } = Ember;
+const { get, set } = Ember;
 
 export default Ember.Component.extend(DragAndDrop, {
   classNames: ['file-dropzone'],
@@ -75,13 +75,14 @@ export default Ember.Component.extend(DragAndDrop, {
       }
     },
 
-    dragLeave(dragTransfer) {
+    dragLeave(dataTransfer) {
       let dragLeave = get(this, 'ondragleave');
-      set(this, 'active', true);
+      set(this, 'active', false);
       dragLeave && dragLeave(dataTransfer);
     },
 
     drop(files) {
+      set(this, 'active', false);
       this.addFiles(files);
     }
   }
