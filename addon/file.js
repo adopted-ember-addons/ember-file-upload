@@ -201,7 +201,7 @@ export default Ember.Object.extend({
     @return {File} A file object
    */
   fromBlob(blob) {
-    let file = File.create();
+    let file = this.create();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
