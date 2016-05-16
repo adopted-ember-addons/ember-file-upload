@@ -42,7 +42,7 @@ function normalizeOptions(file, url, options) {
   return options;
 }
 
-let File = Ember.Object.extend({
+export default Ember.Object.extend({
 
   init() {
     this._super();
@@ -125,7 +125,7 @@ let File = Ember.Object.extend({
   state: 'queued',
 
   upload(url, opts) {
-    if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state') === -1) {
+    if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state')) === -1) {
       Ember.assert(`The file ${this.id} is in the state "${get(this, 'state')}" and cannot be requeued.`);
     }
 
@@ -190,9 +190,7 @@ let File = Ember.Object.extend({
       return reader.readAsText(blob);
     }
   }
-});
-
-File.reopenClass({
+}).reopenClass({
 
   /**
     Creates a file object that can be read or uploaded to a
@@ -229,5 +227,3 @@ File.reopenClass({
     return this.fromBlob(blob);
   }
 });
-
-export default File;

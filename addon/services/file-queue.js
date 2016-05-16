@@ -1,9 +1,8 @@
 import Ember from 'ember';
 import Queue from '../queue';
-import flatten from '../system/flatten';
 import sumBy from '../computed/sum-by';
 
-const { get, set, computed } = Ember;
+const { get, set, computed, observer } = Ember;
 
 /**
   The file queue service is a global file

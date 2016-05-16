@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { $, get, on } = Ember;
+const { $, get } = Ember;
 const { bind } = Ember.run;
 
 let supported = (function () {
