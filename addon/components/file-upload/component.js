@@ -21,11 +21,8 @@ export default Ember.Component.extend({
 
     let queue = get(this, 'queue');
     let onfileadd = get(queue, 'onfileadd');
-    files.forEach(function (file) {
-      queue.pushObject(file);
-    });
-
     files.forEach((file) => {
+      queue.pushObject(file);
       onfileadd(file, queue);
     });
   },

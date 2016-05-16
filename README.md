@@ -40,30 +40,34 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#with (hash queue=(upload-queue for="photos")
-              dropzone=(drop-zone for="photos") as |uploader|}}
-  {{#if uploader.dropzone.active}}
-    {{#if uploader.dropzone.valid}}
-      Drop to upload
-    {{else}}
-      Invalid
-    {{/if}}
-  {{else if uploader.queue.length}}
-    Uploading {{uploader.queue.length}} files. ({{uploader.queue.progress}}%)
-  {{else}}
-    <h4>Upload Images</h4>
-    <p>
-      {{#if uploader.dropzone.enabled}}
-        Drag and drop images onto this area to upload them or
+{{#with (file-queue for="photos"
+                    accept="image/*"
+                    multiple=true
+                    onfileadd=(route-action "uploadImage")) as |queue|}}
+  {{#with (file-dropzone for="photos"
+                         queue=(file-queue for="photos")) as |dropzone|}}
+    <div id="photos">
+      {{#if dropzone.active}}
+        {{#if dropzone.valid}}
+          Drop to upload
+        {{else}}
+          Invalid
+        {{/if}}
+      {{else if queue.files.length}}
+        Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+      {{else}}
+        <h4>Upload Images</h4>
+        <p>
+          {{#if dropzone.supported}}
+            Drag and drop images onto this area to upload them or
+          {{/if}}
+          {{#file-upload queue=(file-queue for="photos")}}
+            <a id="upload-image" tabindex=0>Add an Image.</a>
+          {{/file-upload}}
+        </p>
       {{/if}}
-      {{#file-upload queue=(upload-queue for="photos"
-                                         accept="image/png, image/gif, image/jpeg"
-                                         multiple=true
-                                         onfileadd=(route-action "uploadImage"))}}
-        <a id="upload-image" tabindex=0>Add an Image.</a>
-      {{/file-upload}}
-    </p>
-  {{/if}}
+    </div>
+  {{/with}}
 {{/with}}
 ```
 

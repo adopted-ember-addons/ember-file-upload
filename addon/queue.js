@@ -24,19 +24,33 @@ export default Ember.Object.extend({
 
   destroy() {
     this._super();
+    get(this, 'fileQueue.queues').delete(get(this, 'name'));
     get(this, 'files').forEach((file) => set(file, 'queue', null));
     set(this, 'files', Ember.A());
   },
 
   /**
+    The FileQueue service.
+
+    @property fileQueue
+    @type {FileQueue}
+   */
+  fileQueue: null,
+
+  /**
     @method push
-    @
+    @param {File} file The file to append to the queue
    */
   push(file) {
     file.queue = this;
+    get(this, 'fileQueue.files').pushObject(file);
     get(this, 'files').pushObject(file);
   },
 
+  /**
+    @method remove
+    @param {File} file The file to remove from the queue.
+   */
   remove(file) {
     file.queue = null;
     get(this, 'files').removeObject(file);
