@@ -82,7 +82,12 @@ export default function () {
   };
 
   request.onload = function () {
-    resolve(parseResponse(request));
+    let response = parseResponse(request);
+    if (Math.floor(response.status / 200) === 1) {
+      resolve(response);
+    } else {
+      reject(response);
+    }
   };
 
   request.onerror = function () {
