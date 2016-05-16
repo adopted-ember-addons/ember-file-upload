@@ -56,8 +56,8 @@ export default function () {
     return aborted.promise;
   };
   request.onabort = function () {
-    this.onabort();
-    aborted.resolve();
+    Ember.run(this, 'onabort');
+    Ember.run(aborted, resolve);
   };
 
   this.setRequestHeader = function (header, value) {
@@ -78,15 +78,15 @@ export default function () {
   this.onabort = this.onabort || function () {};
 
   request.onloadstart = request.onprogress = request.onloadend = (evt) => {
-    this.onprogress(evt);
+    Ember.run(this, 'onprogress', evt);
   };
 
   request.onload = function () {
     let response = parseResponse(request);
     if (Math.floor(response.status / 200) === 1) {
-      resolve(response);
+      Ember.run(null, resolve, response);
     } else {
-      reject(response);
+      Ember.run(null, reject, response);
     }
   };
 
@@ -107,7 +107,7 @@ export default function () {
   });
 
   request.ontimeout = () => {
-    this.ontimeout();
-    reject(parseResponse(request));
+    Ember.run(this, 'ontimeout');
+    Ember.run(null, reject, parseResponse(request));
   };
 }
