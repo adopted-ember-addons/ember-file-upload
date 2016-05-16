@@ -139,10 +139,11 @@ export default Ember.Object.extend({
     });
 
     let request = new HTTPRequest();
+    request.open(options.method, options.url);
+
     Object.keys(options.headers).forEach(function (key) {
       request.setRequestHeader(key, options.headers[key]);
     });
-    request.open(options.method, options.url);
 
     if (options.timeout) {
       request.timeout = options.timeout;
