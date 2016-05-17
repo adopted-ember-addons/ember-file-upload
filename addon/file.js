@@ -44,7 +44,7 @@ function normalizeOptions(file, url, options) {
 
 let inflightRequests = 0;
 Ember.Test.registerWaiter(null, function () {
-  return inflightRequests > 0;
+  return inflightRequests === 0;
 });
 
 export default Ember.Object.extend({
