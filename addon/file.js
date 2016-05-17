@@ -172,20 +172,19 @@ export default Ember.Object.extend({
 
     set(this, 'state', 'uploading');
 
-    let response = request.send(form).then((result) => {
+    // Increment for Ember.Test
+    inflightRequests++;
+
+    return request.send(form).then((result) => {
       set(this, 'state', 'uploaded');
       return result;
     }, (error) => {
       set(this, 'state', 'failed');
       return RSVP.reject(error);
-    });
-
-    inflightRequests++;
-    response.finally(function () {
+    }).finally(function () {
+      // Decrement for Ember.Test
       inflightRequests--;
     });
-
-    return response;
   },
 
   read(options={ as: 'data-url' }) {
