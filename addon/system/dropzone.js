@@ -1,7 +1,10 @@
 import Ember from 'ember';
+import DataTransfer from './data-transfer';
 
-const { $, get } = Ember;
+const { $, get, set } = Ember;
 const { bind } = Ember.run;
+
+const DATA_TRANSFER = Symbol();
 
 let supported = (function () {
   return 'draggable' in document.createElement('span');
@@ -12,6 +15,12 @@ export default Ember.Object.create({
   'for': null,
 
   supported,
+
+  ondragenter: null,
+
+  ondragleave: null,
+
+  queue: null,
 
   init() {
     this._super();
@@ -42,7 +51,19 @@ export default Ember.Object.create({
   didEnterDropzone({ originalEvent: evt }) {
     if (this._dropzoneEntrance == null) {
       this._dropzoneEntrance = evt.target;
-      this.ondragenter(evt.dataTransfer);
+
+      let dataTransfer = DataTransfer.create({
+        dataTransfer: evt.dataTransfer
+      });
+      this[DATA_TRANSFER] = dataTransfer;
+
+      set(this, 'active', true);
+      set(this, 'valid', get(dataTransfer, 'valid'));
+      this.recompute();
+
+      if (this.ondragenter) {
+        this.ondragenter(dataTransfer);
+      }
     }
   },
 
@@ -57,8 +78,14 @@ export default Ember.Object.create({
     }
 
     if (evt.target === this._dropzoneEntrance) {
-      this.ondragleave(evt.dataTransfer);
+      if (this.ondragleave) {
+        set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+        this.ondragleave(this[DATA_TRANSFER]);
+        this[DATA_TRANSFER] = null;
+      }
+      set(this, 'active', false);
       this._dropzoneEntrance = null;
+      this.recompute();
     }
   },
 
@@ -72,6 +99,30 @@ export default Ember.Object.create({
     if (evt.stopPropagation) { evt.stopPropagation(); }
     this._dropzoneEntrance = null;
 
-    this.ondrop(evt.dataTransfer.files);
+    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    if (this.ondrop) {
+      this.ondrop(this[DATA_TRANSFER]);
+    }
+
+    set(this, 'active', false);
+    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'));
+    this.recompute();
+    this[DATA_TRANSFER] = null;
+  },
+
+  /**
+    Render a helpful warning when calling toString() on
+    a dropzone, since it should always be used with the `{{#with}}`
+    helper.
+   */
+  toString() {
+    return `
+      You're using {{#file-dropzone}} as a helper instead of a sub-expression.
+      It's recommended to use file-dropzone as a sub-expression:
+
+      {{#with (file-dropzone for="app" queue=(file-queue for="designs")) as |dropzone|}}
+        {{! Your dropzone display logic goes here }}
+      {{/with}}
+    `;
   }
 });

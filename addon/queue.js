@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import File from './file';
 import sumBy from './computed/sum-by';
 
 const { get, set, computed, observer } = Ember;
@@ -19,6 +20,7 @@ export default Ember.Object.extend({
 
   init() {
     set(this, 'files', Ember.A());
+    set(this, '_dropzones', Ember.A());
     this._super();
   },
 
@@ -45,6 +47,21 @@ export default Ember.Object.extend({
     file.queue = this;
     get(this, 'fileQueue.files').pushObject(file);
     get(this, 'files').pushObject(file);
+  },
+
+  /**
+    @private
+    @method _addFiles
+    @param {FileList} fileList The event triggered from the DOM that contains a list of files
+   */
+  _addFiles(fileList) {
+    let onfileadd = get(this, 'onfileadd');
+
+    for (let i = 0, len = fileList.length; i < len; i++) {
+      let file = File.fromBlob(fileList.item(i));
+      this.push(file);
+      onfileadd(file);
+    }
   },
 
   /**

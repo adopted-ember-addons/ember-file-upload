@@ -3,13 +3,15 @@ import Dropzone from '../system/dropzone';
 
 export default Ember.Helper.extend({
   compute(_, hash) {
-    let queue = hash.queue;
-    let dropzone = queue._dropzone;
+    let dropzone = this._dropzone;
 
     if (!hash['for']) { return dropzone; }
 
     if (dropzone) {
-      dropzone = Dropzone.create(hash);
+      dropzone = this._dropzone = Dropzone.create(Ember.merge({
+        queue: hash.queue,
+        recompute: () => this.recompute()
+      }, hash));
     } else {
       dropzone.setProperties(hash);
     }
@@ -18,6 +20,7 @@ export default Ember.Helper.extend({
   },
 
   destroy() {
-    queue._dropzone;
+    this._dropzone.destroy();
+    this._dropzone = null;
   }
 });
