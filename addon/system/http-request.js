@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import trim from './trim';
 
-const { RSVP } = Ember;
+const { RSVP, $ } = Ember;
+const { bind } = Ember.run;
 
 function getHeader(headers, header) {
   let headerKeys = Object.keys(headers);
@@ -30,13 +31,13 @@ function parseResponse(request) {
 
   // Parse body according to the Content-Type received by the server
   if (contentType.indexOf('text/html') !== -1) {
-    body = Ember.$.parseHTML(body);
+    body = $.parseHTML(body);
   } else if (contentType.indexOf('text/xml') !== -1) {
-    body = Ember.$.parseXML(body);
+    body = $.parseXML(body);
   } else if (contentType.indexOf('application/json') !== -1 ||
              contentType.indexOf('text/javascript') !== -1 ||
              contentType.indexOf('application/javascript') !== -1) {
-    body = Ember.$.parseJSON(body);
+    body = $.parseJSON(body);
   }
 
   return {
@@ -55,10 +56,10 @@ export default function () {
     request.abort();
     return aborted.promise;
   };
-  request.onabort = function () {
-    Ember.run(this, 'onabort');
-    Ember.run(aborted, resolve);
-  };
+  request.onabort = bind(this, function () {
+    this.onabort();
+    aborted.resolve();
+  });
 
   this.setRequestHeader = function (header, value) {
     request.setRequestHeader(header, value);
@@ -77,22 +78,22 @@ export default function () {
   this.ontimeout = this.ontimeout || function () {};
   this.onabort = this.onabort || function () {};
 
-  request.onloadstart = request.onprogress = request.onloadend = (evt) => {
-    Ember.run(this, 'onprogress', evt);
-  };
+  request.onloadstart = request.onprogress = request.onloadend = bind(this, function (evt) {
+    this.onprogress(evt);
+  });
 
-  request.onload = function () {
+  request.onload = bind(this, function () {
     let response = parseResponse(request);
     if (Math.floor(response.status / 200) === 1) {
-      Ember.run(null, resolve, response);
+      resolve(response);
     } else {
-      Ember.run(null, reject, response);
+      reject(response);
     }
-  };
+  });
 
-  request.onerror = function () {
+  request.onerror = bind(this, function () {
     reject(parseResponse(request));
-  };
+  });
 
 
   Object.defineProperty(this, 'timeout', {
@@ -106,8 +107,8 @@ export default function () {
     configurable: false
   });
 
-  request.ontimeout = () => {
-    Ember.run(this, 'ontimeout');
-    Ember.run(null, reject, parseResponse(request));
-  };
+  request.ontimeout = bind(this, function () {
+    this.ontimeout();
+    reject(parseResponse(request));
+  });
 }

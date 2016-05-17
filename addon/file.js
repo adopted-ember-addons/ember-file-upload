@@ -42,6 +42,11 @@ function normalizeOptions(file, url, options) {
   return options;
 }
 
+let inflightRequests = 0;
+Ember.Test.registerWaiter(null, function () {
+  return inflightRequests > 0;
+});
+
 export default Ember.Object.extend({
 
   init() {
@@ -167,13 +172,20 @@ export default Ember.Object.extend({
 
     set(this, 'state', 'uploading');
 
-    return request.send(form).then((result) => {
+    let response = request.send(form).then((result) => {
       set(this, 'state', 'uploaded');
       return result;
     }, (error) => {
       set(this, 'state', 'failed');
       return RSVP.reject(error);
     });
+
+    inflightRequests++;
+    response.finally(function () {
+      inflightRequests--;
+    });
+
+    return response;
   },
 
   read(options={ as: 'data-url' }) {
