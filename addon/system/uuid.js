@@ -46,7 +46,7 @@ function serialize(bytes) {
          hex.slice(10).join('');
 }
 
-export default function () {
+function uuid() {
   let numbers = random();
 
   numbers[6] = (numbers[6] & 0x0f) | 0x40;
@@ -54,3 +54,11 @@ export default function () {
 
   return serialize(numbers);
 }
+
+uuid.short = function () {
+  let result = uuid();
+
+  return result.slice(0, 4) + result.slice(5, 6);
+};
+
+export default uuid;

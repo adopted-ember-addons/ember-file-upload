@@ -45,9 +45,9 @@
     <div class="grid">
       <div class="half">
         {{#app-window title="Photos of My Cat"}}
-          {{#with (file-dropzone for="images") as |dropzone|}}
+          {{#with (file-dropzone for="body" queue=(file-queue for="images")) as |dropzone|}}
             {{#if dropzone.active}}
-              {{if dropzone.valid}}
+              {{#if dropzone.valid}}
                 Cat eating file
               {{else}}
                 Cat hissing
@@ -56,18 +56,18 @@
               Normal Cat
             {{/if}}
 
-            {{#if dropzone.enabled}}
+            {{#if dropzone.supported}}
               Drag and drop cat photos!
             {{/if}}
-            {{#file-upload for-dropzone="body"
-                           queue=(upload-queue for="images")
-                           multiple=false
-                           onfileadd=(action "uploadImage")
-                           accept="image/*"}}
-              <a id="upload-image" >Add an Image.</a>
+            <br>
+            {{#file-upload queue=(file-queue for="images"
+                                             multiple=false
+                                             onfileadd=(action "uploadImage")
+                                             accept="image/*")}}
+              <a>Add an Image.</a>
             {{/file-upload}}
 
-            {{#with (upload-queue for="images") as |queue|}}
+            {{#with (file-queue for="images") as |queue|}}
               {{#if queue.uploads.length}}
                 Uploading {{queue.uploads.length}} files. ({{queue.uploads.progress}}%)
               {{/if}}

@@ -8,9 +8,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember try:testall",
-    "prepublish": "rm -rf app/styles/app.scss",
-    "postpublish": "echo '// Must be present due to bug in ember-cli 0.2.7 / ember-cli-sass 4.0.1' > app/styles/app.scss"
+    "test": "ember try:testall"
   },
   "repository": "https://github.com/tim-evans/ember-file-upload",
   "engines": {

@@ -8,12 +8,12 @@ export default Ember.Helper.extend({
     if (!hash['for']) { return dropzone; }
 
     if (dropzone) {
+      dropzone.setProperties(hash);
+    } else {
       dropzone = this._dropzone = Dropzone.create(Ember.merge({
         queue: hash.queue,
         recompute: () => this.recompute()
       }, hash));
-    } else {
-      dropzone.setProperties(hash);
     }
 
     return dropzone;

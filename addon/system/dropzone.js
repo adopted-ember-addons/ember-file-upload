@@ -10,7 +10,7 @@ let supported = (function () {
   return 'draggable' in document.createElement('span');
 }());
 
-export default Ember.Object.create({
+export default Ember.Object.extend({
 
   'for': null,
 
