@@ -2,10 +2,14 @@
 import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
+import RSVP from 'rsvp';
 import uuid from './system/uuid';
 
-const { get, set, RSVP } = Ember;
-const { reads } = Ember.computed;
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
+
+const { computed } = Ember;
+const { reads } = computed;
 
 function normalizeOptions(file, url, options) {
   if (typeof url === 'object') {
@@ -107,7 +111,7 @@ export default Ember.Object.extend({
     get() {
       return get(this, 'type').split('/').slice(-1)[0];
     }
-  })
+  }),
 
   /**
     @property loaded
