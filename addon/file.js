@@ -96,6 +96,20 @@ export default Ember.Object.extend({
   type: reads('blob.type'),
 
   /**
+    Returns the appropriate file extension of
+    the file according to the type
+
+    @property extension
+    @type {String}
+    @readonly
+   */
+  extension: computed('type', {
+    get() {
+      return get(this, 'type').split('/').slice(-1)[0];
+    }
+  })
+
+  /**
     @property loaded
     @type {Number}
     @default 0
@@ -139,8 +153,12 @@ export default Ember.Object.extend({
     // Build the form
     let form = new FormData();
 
-    Object.keys(options.data).forEach(function (key) {
-      form.append(key, options.data[key]);
+    Object.keys(options.data).forEach((key) => {
+      if (key === options.fileKey) {
+        form.append(key, options.data[key], get(this, 'name'));
+      } else {
+        form.append(key, options.data[key]);
+      }
     });
 
     let request = new HTTPRequest();
