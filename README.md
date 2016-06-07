@@ -307,7 +307,7 @@ export default Ember.Route.extend({
 
 # Installation
 
-* `ember install ember-file-uploader`
+* `ember install ember-file-upload`
 
 ## Running
 
