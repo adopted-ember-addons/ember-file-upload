@@ -1,4 +1,4 @@
-# ember-plupload Changelog
+# ember-file-upload Changelog
 
 ## 1.13.13 (March 15, 2016)
 * Add an API for mocking out file.read() for `ember-plupload/test-helpers`.
