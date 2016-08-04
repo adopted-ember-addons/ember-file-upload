@@ -82,6 +82,10 @@ export default function () {
     this.onprogress(evt);
   });
 
+  if (request.upload) {
+    request.upload.onprogress = request.onprogress;
+  }
+
   request.onload = bind(this, function () {
     let response = parseResponse(request);
     if (Math.floor(response.status / 200) === 1) {
