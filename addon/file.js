@@ -26,6 +26,7 @@ function normalizeOptions(file, url, options) {
   options.headers = options.headers || {};
   options.data = options.data || {};
   options.fileKey = options.fileKey || 'file';
+  options.payloadType = options.payloadType || 'form';
 
   if (options.headers.Accept == null) {
     if (!Array.isArray(options.accepts)) {
@@ -34,10 +35,14 @@ function normalizeOptions(file, url, options) {
     options.headers.Accept = options.accepts.join(',');
   }
 
+  if (options.payloadType === 'binary') {
+    options.headers['content-type'] = 'application/octet-stream';
+  }
+
   // Set Content-Type in the data payload
   // instead of the headers, since the header
   // for Content-Type will always be multipart/form-data
-  if (options.contentType) {
+  if (options.payloadType === 'form' && options.contentType) {
     options.data['Content-Type'] = options.contentType;
   }
 
@@ -156,17 +161,6 @@ export default Ember.Object.extend({
 
     let options = normalizeOptions(this, url, opts);
 
-    // Build the form
-    let form = new FormData();
-
-    Object.keys(options.data).forEach((key) => {
-      if (key === options.fileKey) {
-        form.append(key, options.data[key], get(this, 'name'));
-      } else {
-        form.append(key, options.data[key]);
-      }
-    });
-
     let request = new HTTPRequest();
     request.open(options.method, options.url);
 
@@ -199,16 +193,48 @@ export default Ember.Object.extend({
     // Increment for Ember.Test
     inflightRequests++;
 
-    return request.send(form).then((result) => {
-      set(this, 'state', 'uploaded');
-      return result;
-    }, (error) => {
-      set(this, 'state', 'failed');
-      return RSVP.reject(error);
-    }).finally(function () {
-      // Decrement for Ember.Test
-      inflightRequests--;
-    });
+    if(options.payloadType === 'form') {
+
+      // Build the form
+      let form = new FormData();
+
+      Object.keys(options.data).forEach((key) => {
+        if (key === options.fileKey) {
+          form.append(key, options.data[key], get(this, 'name'));
+        } else {
+          form.append(key, options.data[key]);
+        }
+      });
+
+      return request.send(form).then((result) => {
+        set(this, 'state', 'uploaded');
+        return result;
+      }, (error) => {
+        set(this, 'state', 'failed');
+        return RSVP.reject(error);
+      }).finally(function () {
+        // Decrement for Ember.Test
+        inflightRequests--;
+      });
+
+    } else if(options.payloadType === 'binary') {
+
+      const data = get(this, 'blob');
+      return request.send(data).then((result) => {
+        set(this, 'state', 'uploaded');
+        return result;
+      }, (error) => {
+        set(this, 'state', 'failed');
+        return RSVP.reject(error);
+      }).finally(function () {
+        // Decrement for Ember.Test
+        inflightRequests--;
+      });
+
+    }
+
+
+
   },
 
   read(options={ as: 'data-url' }) {
