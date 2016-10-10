@@ -53,6 +53,7 @@ export default Ember.Object.extend({
       this._dropzoneEntrance = evt.target;
 
       let dataTransfer = DataTransfer.create({
+        queue: get(this, 'queue'),
         dataTransfer: evt.dataTransfer
       });
       this[DATA_TRANSFER] = dataTransfer;

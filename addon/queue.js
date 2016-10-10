@@ -58,7 +58,9 @@ export default Ember.Object.extend({
     let onfileadd = get(this, 'onfileadd');
 
     for (let i = 0, len = fileList.length; i < len; i++) {
-      let file = File.fromBlob(fileList.item(i));
+      let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
+      let file = File.fromBlob(fileBlob);
+
       this.push(file);
       if(onfileadd) {
         onfileadd(file);
