@@ -75,7 +75,7 @@ export default Ember.Service.extend({
   flushFilesWhenSettled: observer('files.@each.state', function () {
     let files = get(this, 'files');
     let allFilesHaveSettled = files.every(function (file) {
-      return ['uploaded', 'aborted'].indexOf(file.status) !== -1;
+      return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
     });
 
     if (allFilesHaveSettled) {
