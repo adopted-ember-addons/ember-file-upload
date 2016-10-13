@@ -77,10 +77,8 @@ export default Ember.Service.extend({
     let allFilesHaveSettled = files.every(function (file) {
       return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
     });
-    
-    if (files.length <= 0) {
-      return;
-    }
+
+    if (files.length === 0) { return; }
 
     if (allFilesHaveSettled) {
       get(this, 'files').forEach((file) => set(file, 'queue', null));
