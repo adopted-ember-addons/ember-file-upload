@@ -49,7 +49,10 @@ export default Ember.Object.extend({
   },
 
   didEnterDropzone({ originalEvent: evt }) {
-    if (this._dropzoneEntrance == null) {
+    let element = document.getElementById(get(this, 'for'));
+    let entrance = this._dropzoneEntrance;
+
+    if (entrance == null || $.contains(element, entrance)) {
       this._dropzoneEntrance = evt.target;
 
       let dataTransfer = DataTransfer.create({
@@ -91,6 +94,7 @@ export default Ember.Object.extend({
   },
 
   didDragOver({ originalEvent: evt }) {
+    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     evt.preventDefault();
     evt.stopPropagation();
   },
@@ -109,6 +113,8 @@ export default Ember.Object.extend({
     get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'));
     this.recompute();
     this[DATA_TRANSFER] = null;
+    evt.preventDefault();
+    evt.stopPropagation();
   },
 
   /**

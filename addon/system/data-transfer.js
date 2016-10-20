@@ -11,13 +11,22 @@ export default Ember.Object.extend({
 
   valid: computed('dataTransfer.files', 'files', {
     get() {
-      return get(this, 'dataTransfer.files.length') !== get(this, 'files.length');
+      return get(this, 'dataTransfer.items.length') === get(this, 'files.length');
     }
   }),
 
   files: computed('queue.multiple', 'queue.accept', 'dataTransfer', {
     get() {
       let fileList = get(this, 'dataTransfer.files');
+      let itemList = get(this, 'dataTransfer.items') || [];
+      if (itemList.length > fileList.length) {
+        fileList = itemList;
+      }
+
+      if (fileList == null) {
+        return [];
+      }
+
       let files = [];
       if (!get(this, 'queue.multiple') && fileList.length > 1) {
         files.push(fileList[0]);
@@ -41,11 +50,15 @@ export default Ember.Object.extend({
       });
 
       return files.filter(function (file) {
-        let extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
+        let extension = null;
+        if (file.name && /(\.[^.]+)$/.test(file.name)) {
+          extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
+        }
+
         let type = file.type.toLowerCase();
         return mimeTypes.find(function (mimeType) {
-                 return mimeType.test(type);
-               }) || extensions.indexOf(extension) !== -1;
+          return mimeType.test(type);
+        }) || extensions.indexOf(extension) !== -1;
       });
     }
   })
