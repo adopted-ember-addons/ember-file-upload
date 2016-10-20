@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import File from 'ember-file-upload/file';
 
 export default Ember.Controller.extend({
   actions: {
