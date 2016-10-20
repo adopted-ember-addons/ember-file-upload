@@ -113,3 +113,19 @@ pre, pre.hljs {
 a {
   cursor: pointer;
 }
+
+#cat-photos {
+  .cat {
+    font-size: 80px;
+    text-align: center;
+    padding-top: 40px;
+    pointer-events: none;
+    -webkit-select: none;
+  }
+  p {
+    text-align: center;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
