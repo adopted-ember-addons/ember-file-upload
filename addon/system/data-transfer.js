@@ -11,20 +11,26 @@ export default Ember.Object.extend({
 
   valid: computed('dataTransfer.files', 'files', {
     get() {
+      if (get(this, 'files') == null) {
+        return true;
+      }
+
       return get(this, 'dataTransfer.items.length') === get(this, 'files.length');
     }
   }),
 
   files: computed('queue.multiple', 'queue.accept', 'dataTransfer', {
     get() {
-      let fileList = get(this, 'dataTransfer.files') || [];
-      let itemList = get(this, 'dataTransfer.items') || [];
-      if (itemList.length > fileList.length) {
+      let fileList = get(this, 'dataTransfer.files');
+      let itemList = get(this, 'dataTransfer.items');
+
+      if (fileList && itemList &&
+          itemList.length > fileList.length) {
         fileList = itemList;
       }
 
       if (fileList == null) {
-        return [];
+        return null;
       }
 
       let files = [];
