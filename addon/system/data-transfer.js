@@ -17,7 +17,7 @@ export default Ember.Object.extend({
 
   files: computed('queue.multiple', 'queue.accept', 'dataTransfer', {
     get() {
-      let fileList = get(this, 'dataTransfer.files');
+      let fileList = get(this, 'dataTransfer.files') || [];
       let itemList = get(this, 'dataTransfer.items') || [];
       if (itemList.length > fileList.length) {
         fileList = itemList;
