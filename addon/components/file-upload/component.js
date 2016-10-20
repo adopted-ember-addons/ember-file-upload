@@ -28,7 +28,7 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     let id = get(this, 'for');
-    Ember.assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label')
+    Ember.assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
     this.$('*').each(function (_, element) {
       if (element.id !== id &&
           VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
