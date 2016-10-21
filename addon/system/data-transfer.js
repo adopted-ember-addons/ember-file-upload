@@ -15,7 +15,10 @@ export default Ember.Object.extend({
         return true;
       }
 
-      return get(this, 'dataTransfer.items.length') === get(this, 'files.length');
+      return (
+        get(this, 'dataTransfer.items.length') ||
+        get(this, 'dataTransfer.files.length')
+      ) === get(this, 'files.length');
     }
   }),
 
@@ -24,8 +27,9 @@ export default Ember.Object.extend({
       let fileList = get(this, 'dataTransfer.files');
       let itemList = get(this, 'dataTransfer.items');
 
-      if (fileList && itemList &&
-          itemList.length > fileList.length) {
+      if ((fileList == null && itemList) ||
+          (itemList != null && fileList != null &&
+           itemList.length > fileList.length)) {
         fileList = itemList;
       }
 
@@ -42,7 +46,11 @@ export default Ember.Object.extend({
         }
       }
 
-      let accept = get(this, 'queue.accept') || '';
+      let accept = get(this, 'queue.accept');
+      if (accept == null) {
+        return files;
+      }
+
       let tokens = accept.split(',').map(function (token) {
         return trim(token).toLowerCase();
       });
@@ -68,5 +76,4 @@ export default Ember.Object.extend({
       });
     }
   })
-
 });
