@@ -2,8 +2,6 @@ import Ember from 'ember';
 import FileReader from 'ember-file-upload/system/file-reader';
 
 export default function () {
-  var speed = 'average';
-
   this.upload = function (url, fn, options={ speed: 'average' }) {
     let speed = 0;
     switch (options.speed) {
@@ -50,14 +48,14 @@ export default function () {
             loaded
           });
 
-          loaded += speed / 20
+          loaded += speed / 20;
           setTimeout(upload, 50);
         }
       }
       upload();
       return promise;
     }, null, { timing: true });
-  }
+  };
 
   this.upload('/photos/new', function (file) {
     return {
