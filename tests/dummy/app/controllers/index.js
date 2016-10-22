@@ -7,10 +7,9 @@ export default Ember.Controller.extend({
         this.set('events', Ember.A([]));
       }
 
-      let filename = file.get('name');
-      file.read().then((url) => {
+      return file.upload('/photos/new').then(({ body: { filename, url } }) => {
         this.get('events').pushObject({
-          filename: filename,
+          filename,
           preview: url
         });
       }, function () {});

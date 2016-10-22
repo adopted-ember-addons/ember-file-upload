@@ -9,14 +9,12 @@ export default Ember.Route.extend({
       }
 
       let filename = file.get('name');
-      file.read().then(function (url) {
+      return file.upload('/photos/new').then(function (url) {
         controller.get('events').pushObject({
           filename: filename,
           preview: url
         });
-      }, function () {});
-
-      file.destroy();
+      });
     }
   }
 });

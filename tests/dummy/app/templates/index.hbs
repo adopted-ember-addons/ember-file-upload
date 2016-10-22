@@ -33,37 +33,37 @@
     <div class="grid">
       <div class="half">
         {{#app-window title="Photos of My Cat" id='cat-photos'}}
-          {{#with (file-dropzone for="cat-photos" queue=(file-queue for="images")) as |dropzone|}}
-            {{#if dropzone.supported}}
-              <div class="cat">
-                {{#if dropzone.active}}
-                  {{#if dropzone.valid}}
-                    😻
-                  {{else}}
-                    🙀
-                  {{/if}}
-                {{else}}
-                  😺
-                {{/if}}
-              </div>
-            {{/if}}
-
-            <p>
+          {{#with (file-queue for="images") as |queue|}}
+            {{#with (file-dropzone for="cat-photos" queue=queue) as |dropzone|}}
               {{#if dropzone.supported}}
-                Drag your photos or
+                <div class="cat">
+                  {{#if dropzone.active}}
+                    {{#if dropzone.valid}}
+                      😻
+                    {{else}}
+                      🙀
+                    {{/if}}
+                  {{else}}
+                    😺
+                  {{/if}}
+                </div>
               {{/if}}
-              {{#file-upload queue=(file-queue for="images"
-                                               multiple=false
-                                               onfileadd=(action "uploadImage")
-                                               accept="image/*")}}
-                <a>select them</a>
-              {{/file-upload}}
-              to upload.
-            </p>
 
-            {{#with (file-queue for="images") as |queue|}}
-              {{#if queue.uploads.length}}
-                Uploading {{queue.uploads.length}} files. ({{queue.uploads.progress}}%)
+              <p>
+                {{#if dropzone.supported}}
+                  Drag your photos or
+                {{/if}}
+                {{#file-upload queue=(file-queue for="images"
+                                                 multiple=true
+                                                 onfileadd=(action "uploadImage")
+                                                 accept="image/*")}}
+                  <a>select them</a>
+                {{/file-upload}}
+                to upload.
+              </p>
+
+              {{#if queue.files.length}}
+                Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
               {{/if}}
             {{/with}}
           {{/with}}
