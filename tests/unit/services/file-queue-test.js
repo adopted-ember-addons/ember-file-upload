@@ -102,3 +102,45 @@ test('the uploaded size of the queue is the aggregate of all queues', function (
   assert.equal(get(queue, 'loaded'), 2000);
   assert.equal(get(queue, 'progress'), 28);
 });
+
+test('the queue is emptied when all files are completed', function (assert) {
+  var queue = this.subject();
+  var queue1 = queue.create('queue1');
+
+  queue1.push({
+    id: 'test',
+    name: 'test-filename.jpg',
+    size: 2000,
+    loaded: 500,
+    state: 'queued'
+  });
+
+  assert.equal(get(queue, 'files.length'), 1);
+
+  queue1.push({
+    id: 'test1',
+    name: 'test-filename.jpg',
+    size: 3500,
+    loaded: 500,
+    state: 'queued'
+  });
+
+  assert.equal(get(queue, 'files.length'), 2);
+
+  queue1.push({
+    id: 'test2',
+    name: 'test-filename.jpg',
+    size: 1400,
+    loaded: 1000,
+    state: 'uploaded'
+  });
+
+  assert.equal(get(queue, 'files.length'), 3);
+
+  queue1.set('files.0.state', 'aborted');
+  assert.equal(get(queue, 'files.length'), 3);
+
+  queue1.set('files.1.state', 'uploaded');
+  assert.equal(get(queue, 'files.length'), 0);
+  assert.equal(get(queue1, 'files.length'), 0);
+});
