@@ -37,7 +37,7 @@ export default Ember.Object.extend({
         return null;
       }
 
-      let files = [];
+      let files = Ember.A();
       if (!get(this, 'queue.multiple') && fileList.length > 1) {
         files.push(fileList[0]);
       } else {
@@ -51,17 +51,17 @@ export default Ember.Object.extend({
         return files;
       }
 
-      let tokens = accept.split(',').map(function (token) {
+      let tokens = Ember.A(accept.split(',').map(function (token) {
         return trim(token).toLowerCase();
-      });
-      let extensions = tokens.filter(function (token) {
+      }));
+      let extensions = Ember.A(tokens.filter(function (token) {
         return token.indexOf('.') === 0;
-      });
-      let mimeTypes = tokens.filter(function (token) {
+      }));
+      let mimeTypes = Ember.A(Ember.A(tokens.filter(function (token) {
         return token.indexOf('.') !== 0;
-      }).map(function (mimeType) {
+      })).map(function (mimeType) {
         return new RegExp(mimeType);
-      });
+      }));
 
       return files.filter(function (file) {
         let extension = null;
