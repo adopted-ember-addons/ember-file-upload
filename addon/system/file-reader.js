@@ -10,7 +10,7 @@ export default function () {
   reader.onerror = reject;
 
   let aborted = RSVP.defer();
-  promise.cancel = function () {
+  let cancel = function () {
     reader.abort();
     return aborted.promise;
   };
@@ -21,11 +21,13 @@ export default function () {
   ['readAsArrayBuffer', 'readAsDataURL', 'readAsBinaryString', 'readAsText'].forEach((methodName) => {
     this[methodName] = function (blob) {
       reader[methodName](blob);
-      return promise.then(function () {
+      let p = promise.then(function () {
         return reader.result;
       }, function () {
         return RSVP.reject(reader.error);
       });
+      p.cancel = cancel;
+      return p;
     };
   });
 }
