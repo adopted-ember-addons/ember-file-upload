@@ -1,4 +1,5 @@
-<header>
+<div id="index">
+  <header>
   <h1>{{inline-svg 'icon'}} ember-file-upload</h1><nav>
     <a href="#docs">Docs</a>
     <a href="#recipes">Recipes</a>
@@ -8,7 +9,7 @@
 </header>
 
 <div class="hero">
-  <p>A file upload framework <br>for <img class="ember-logo" alt="ember" src="assets/images/ember-logo.png" /> apps</p>
+  <p>A file upload framework <br>for {{inline-svg "ember-logo" class="ember-logo" alt="ember"}} apps</p>
   <a class="more" href="#installation">{{inline-svg 'arrow'}}</a>
 </div>
 
@@ -55,7 +56,7 @@
                 {{/if}}
                 {{#file-upload queue=(file-queue for="images"
                                                  multiple=true
-                                                 onfileadd=(action "uploadImage")
+                                                 onfileadd=(route-action "uploadImage")
                                                  accept="image/*")}}
                   <a>select them</a>
                 {{/file-upload}}
@@ -70,11 +71,12 @@
         {{/app-window}}
         <h4>Events</h4>
         <ul>
-          {{#each events as |event|}}
-            <li><img src={{event.preview}} style="max-width: 100px; max-height: 100px">{{event.filename}}</li>
+          {{#each model as |file|}}
+            <li><img src={{file.preview}} style="max-width: 100px; max-height: 100px">{{file.filename}}</li>
           {{/each}}
         </ul>
       </div>
     </div>
   </section>
-</main>
+  </main>
+</div>
