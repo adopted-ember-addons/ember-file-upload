@@ -7,6 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('docs');
+  this.route('recipes');
+  this.route('aws');
 });
 
 export default Router;

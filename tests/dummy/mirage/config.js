@@ -1,5 +1,22 @@
 import Ember from 'ember';
+import uuid from 'ember-file-upload/system/uuid';
 import FileReader from 'ember-file-upload/system/file-reader';
+
+// Handle support for FormData#get in browsers that don't
+// support it, only be done when mirage is included.
+if (FormData.prototype.get == null) {
+  const MAP = 'map_' + uuid.short();
+
+  const append = FormData.prototype.append;
+  FormData.prototype.append = function (...args) {
+    if (this[MAP] == null) { this[MAP] = {}; }
+    this[MAP][args[0]] = args[1];
+    return append.call(this, ...args);
+  };
+  FormData.prototype.get = function (key) {
+    return this[MAP][key];
+  };
+}
 
 export default function () {
   this.upload = function (url, fn, options={ speed: 'average' }) {
