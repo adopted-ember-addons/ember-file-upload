@@ -47,30 +47,28 @@ For example, creating an image uploader that uploads images to your API server w
 
 ```handlebars
 {{#file-dropzone name="photos" as |dropzone queue|}}
-  <div id="photos">
-    {{#if dropzone.active}}
-      {{#if dropzone.valid}}
-        Drop to upload
-      {{else}}
-        Invalid
-      {{/if}}
-    {{else if queue.files.length}}
-      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+  {{#if dropzone.active}}
+    {{#if dropzone.valid}}
+      Drop to upload
     {{else}}
-      <h4>Upload Images</h4>
-      <p>
-        {{#if dropzone.supported}}
-          Drag and drop images onto this area to upload them or
-        {{/if}}
-        {{#file-upload name="photos"
-                       accept="image/*"
-                       multiple=true
-                       onfileadd=(route-action "uploadImage")}}
-          <a id="upload-image" tabindex=0>Add an Image.</a>
-        {{/file-upload}}
-      </p>
+      Invalid
     {{/if}}
-  </div>
+  {{else if queue.files.length}}
+    Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+  {{else}}
+    <h4>Upload Images</h4>
+    <p>
+      {{#if dropzone.supported}}
+        Drag and drop images onto this area to upload them or
+      {{/if}}
+      {{#file-upload name="photos"
+                     accept="image/*"
+                     multiple=true
+                     onfileadd=(route-action "uploadImage")}}
+        <a id="upload-image" tabindex=0>Add an Image.</a>
+      {{/file-upload}}
+    </p>
+  {{/if}}
 {{/file-dropzone}}
 ```
 
