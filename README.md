@@ -12,19 +12,25 @@ exposes a variety of parameters for configuring file-uploader:
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `accept`            | a list of MIME types / extensions to accept by the input
+| `multiple`          | whether multiple files can be selected
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
+
+The `{{file-dropzone}}` component:
+
+| Attribute           | Definition
+|---------------------|------------------|
 | `ondragenter`       | the name of the action to be called when a file is added to a queue
 | `ondragleave`       | the name of the action to be called when a file is added to a queue
 | `ondrop`            | the name of the action to be called when a file is added to a queue
-| `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
-| `accept`            | a list of MIME types / extensions to accept by the input
-| `multiple`          | whether multiple files can be selected
+
 
 This configuration is for the uploader instance as a whole. Most of the configuration deals directly with the feel of the uploader. When the queued event is triggered, you will be given a file object that allows you to configure where the file is being uploaded:
 
 | Property            | Definition
 |---------------------|------------------|
 | `url`               | the URL to send the upload request to
+| `method`            | the HTTP method to use when uploading the file; defaults to `POST`
 | `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
 | `accepts`           | a string or array of accepted content types that the server can respond with. defaults to `['application/json', 'text/javascript']`
 | `contentType`       | correlates to the Content-Type header of the file. This will add a property 'Content-Type' to your data. This defaults to the type of the file
@@ -40,35 +46,32 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#with (file-queue for="photos"
-                    accept="image/*"
-                    multiple=true
-                    onfileadd=(route-action "uploadImage")) as |queue|}}
-  {{#with (file-dropzone for="photos"
-                         queue=(file-queue for="photos")) as |dropzone|}}
-    <div id="photos">
-      {{#if dropzone.active}}
-        {{#if dropzone.valid}}
-          Drop to upload
-        {{else}}
-          Invalid
-        {{/if}}
-      {{else if queue.files.length}}
-        Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+{{#file-dropzone name="photos" as |dropzone queue|}}
+  <div id="photos">
+    {{#if dropzone.active}}
+      {{#if dropzone.valid}}
+        Drop to upload
       {{else}}
-        <h4>Upload Images</h4>
-        <p>
-          {{#if dropzone.supported}}
-            Drag and drop images onto this area to upload them or
-          {{/if}}
-          {{#file-upload queue=(file-queue for="photos")}}
-            <a id="upload-image" tabindex=0>Add an Image.</a>
-          {{/file-upload}}
-        </p>
+        Invalid
       {{/if}}
-    </div>
-  {{/with}}
-{{/with}}
+    {{else if queue.files.length}}
+      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+    {{else}}
+      <h4>Upload Images</h4>
+      <p>
+        {{#if dropzone.supported}}
+          Drag and drop images onto this area to upload them or
+        {{/if}}
+        {{#file-upload name="photos"
+                       accept="image/*"
+                       multiple=true
+                       onfileadd=(route-action "uploadImage")}}
+          <a id="upload-image" tabindex=0>Add an Image.</a>
+        {{/file-upload}}
+      </p>
+    {{/if}}
+  </div>
+{{/file-dropzone}}
 ```
 
 ## Integration
@@ -124,23 +127,26 @@ In addition to the file list, there are properties that indicate how many bytes 
 
 ## Acceptance Tests
 
-`ember-file-uploader` has a test helper called `addFiles` available to developers to fake adding files to their uploader. It needs a container or owner object (an application instance or container), the name of the uploader, and a JavaScript object that describes the basics of the file.
+`ember-file-upload` integrates with `ember-cli-mirage` for acceptance tests. This helper provides a way to realistically simulate file uploads, including progress events and failure states. The helper adds another method to the mirage server called `upload`, which will handle upload requests.
 
-This can be used to fake a file upload like so:
 
 ```javascript
-import { addFiles } from 'ember-file-uploader/test-helper';
-
 moduleForAcceptance('/photos');
 
 test('uploading an image', function (assert) {
-  let [file] = addFiles(this.application, 'photo-uploader', {
-    name: 'Tomster.png',
-    size: 2048
+  server.upload('/photos/new', function (file) {
+    return {
+      filename: file.name,
+      filesize: file.size,
+      uploadedAt: new Date(),
+      url: file.url
+    };
   });
 
-  // The file has been added; now we can manipulate it
-  file.progress = 50;
+  let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
+  file.name = 'smile.gif';
+
+  addFile(file);
 
   andThen(function () {
     assert.equal(find('.progress-bar').css('width'), '50%');
