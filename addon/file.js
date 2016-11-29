@@ -211,21 +211,26 @@ export default Ember.Object.extend({
     });
   },
 
-  read(options={ as: 'data-url' }) {
+  readAsArrayBuffer() {
     let reader = new FileReader();
+    return reader.readAsArrayBuffer(this.blob);
+  },
 
-    let blob = this.blob;
-    switch (options.as) {
-    case 'array-buffer':
-      return reader.readAsArrayBuffer(blob);
-    case 'data-url':
-      return reader.readAsDataURL(blob);
-    case 'binary-string':
-      return reader.readAsBinaryString(blob);
-    case 'text':
-      return reader.readAsText(blob);
-    }
+  readAsDataURL() {
+    let reader = new FileReader();
+    return reader.readAsDataURL(this.blob);
+  },
+
+  readAsBinaryString() {
+    let reader = new FileReader();
+    return reader.readAsBinaryString(this.blob);
+  },
+
+  readAsText() {
+    let reader = new FileReader();
+    return reader.readAsText(this.blob);
   }
+
 }).reopenClass({
 
   /**
