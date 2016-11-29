@@ -14,26 +14,13 @@ const { service } = Ember.inject;
   {{/with}}
   ```
 
-  If called with a `for` property, it will return the queue
+  If called with a `name` property, it will return the queue
   of that name:
 
   ```handlebars
-  {{#with (file-queue for="photos") as |queue|}}
+  {{#with (file-queue name="photos") as |queue|}}
     {{queue.progress}}%
   {{/with}}
-  ```
-
-  And if there are more attributes passed in, it will
-  configure the queue with additional information that
-  will handle lifecycle hooks and validation:
-
-  ```handlebars
-  {{#file-upload queue=(file-queue for="photos"
-                                   multiple=true
-                                   accept="image/*"
-                                   onfileadd=(action "uploadImage"))
-    Add Photo
-  {{/file-upload}}
   ```
 
   @public
@@ -47,12 +34,11 @@ export default Ember.Helper.extend({
 
   compute(_, hash) {
     let queues = get(this, 'fileQueue');
-    let queueName = hash['for'];
+    let queueName = hash['name'];
     if (queueName) {
-      delete hash['for'];
+      delete hash['name'];
       let queue = queues.find(queueName) ||
                   queues.create(queueName);
-      queue.setProperties(hash);
       return queue;
     }
 
