@@ -1,8 +1,10 @@
 import Ember from 'ember';
-import DataTransfer from './data-transfer';
+import layout from './template';
+import DataTransfer from '../../system/data-transfer';
 
-const { $, get, set } = Ember;
+const { $, get, set, computed } = Ember;
 const { bind } = Ember.run;
+const { service } = Ember.inject;
 
 const DATA_TRANSFER = Symbol();
 
@@ -10,9 +12,11 @@ let supported = (function () {
   return 'draggable' in document.createElement('span');
 }());
 
-export default Ember.Object.extend({
+export default Ember.Component.extend({
 
-  'for': null,
+  layout,
+
+  name: null,
 
   supported,
 
@@ -20,11 +24,20 @@ export default Ember.Object.extend({
 
   ondragleave: null,
 
-  queue: null,
+  fileQueue: service(),
 
-  init() {
+  queue: computed('name', {
+    get() {
+      let queueName = get(this, 'name');
+      let queues = get(this, 'fileQueue');
+      return queues.find(queueName) ||
+             queues.create(queueName);
+    }
+  }),
+
+  didInsertElement() {
     this._super();
-    let id = get(this, 'for');
+    let id = get(this, 'elementId');
     let handlers = this._dragHandlers = {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
@@ -37,8 +50,8 @@ export default Ember.Object.extend({
     });
   },
 
-  destroy() {
-    let id = get(this, 'for');
+  willDestroyElement() {
+    let id = get(this, 'elementId');
     let handlers = this._dragHandlers || {};
     Object.keys(handlers).forEach(function (key) {
       $(document).off(key, `#${id}`, handlers[key]);
@@ -49,10 +62,12 @@ export default Ember.Object.extend({
   },
 
   didEnterDropzone({ originalEvent: evt }) {
-    let element = document.getElementById(get(this, 'for'));
+    let element = get(this, 'element');
     let entrance = this._dropzoneEntrance;
 
-    if (entrance == null || $.contains(element, entrance)) {
+    if (entrance == null ||
+        $.contains(element, entrance) ||
+        element === entrance) {
       this._dropzoneEntrance = evt.target;
 
       let dataTransfer = DataTransfer.create({
@@ -63,7 +78,6 @@ export default Ember.Object.extend({
 
       set(this, 'active', true);
       set(this, 'valid', get(dataTransfer, 'valid'));
-      this.recompute();
 
       if (this.ondragenter) {
         this.ondragenter(dataTransfer);
@@ -72,12 +86,13 @@ export default Ember.Object.extend({
   },
 
   didLeaveDropzone({ originalEvent: evt }) {
-    let element = document.getElementById(get(this, 'for'));
+    let element = get(this, 'element');
 
     // If the element paired with the dragenter
     // event was removed from the DOM, clear it out
     // so the process can be run again.
-    if (!$.contains(element, this._dropzoneEntrance)) {
+    if (!$.contains(element, this._dropzoneEntrance) &&
+        element !== this._dropzoneEntrance) {
       this._dropzoneEntrance = null;
     }
 
@@ -89,7 +104,6 @@ export default Ember.Object.extend({
       }
       set(this, 'active', false);
       this._dropzoneEntrance = null;
-      this.recompute();
     }
   },
 
@@ -100,6 +114,57 @@ export default Ember.Object.extend({
   },
 
   didDrop({ originalEvent: evt }) {
+    // Testing support for dragging and dropping images
+    // from other browser windows
+    let url = evt.dataTransfer.getData('text/uri-list');
+    let html = evt.dataTransfer.getData('text/html');
+    if (html) {
+      let img = $(html)[1];
+      if (img.tagName === 'IMG') {
+        url = img.src;
+      }
+    }
+
+    console.log(url);
+    debugger;
+    if (url) {
+      console.log(url);
+      var image = new Image();
+      var [filename] = url.split('/').slice(-1);
+      image.crossOrigin = 'anonymous';
+      image.onload = () => {
+        var canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0);
+
+        if (canvas.toBlob) {
+          canvas.toBlob((blob) => {
+            let [file] = get(this, 'queue')._addFiles([blob]);
+            set(file, 'name', filename);
+          });
+        } else {
+          let binStr = atob(canvas.toDataURL().split(',')[1]),
+              len = binStr.length,
+              arr = new Uint8Array(len);
+
+          for (var i=0; i<len; i++ ) {
+            arr[i] = binStr.charCodeAt(i);
+          }
+          let blob = new Blob([arr], { type: 'image/png' });
+          blob.name = filename;
+          let [file] = get(this, 'queue')._addFiles([blob]);
+          set(file, 'name', filename);
+        }
+      };
+      image.onerror = function (e) {
+        console.log(e);
+      };
+      image.src = url;
+    }
+
     if (evt.preventDefault)  { evt.preventDefault(); }
     if (evt.stopPropagation) { evt.stopPropagation(); }
     this._dropzoneEntrance = null;
@@ -111,25 +176,8 @@ export default Ember.Object.extend({
 
     set(this, 'active', false);
     get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'));
-    this.recompute();
     this[DATA_TRANSFER] = null;
     evt.preventDefault();
     evt.stopPropagation();
-  },
-
-  /**
-    Render a helpful warning when calling toString() on
-    a dropzone, since it should always be used with the `{{#with}}`
-    helper.
-   */
-  toString() {
-    return `
-      You're using {{#file-dropzone}} as a helper instead of a sub-expression.
-      It's recommended to use file-dropzone as a sub-expression:
-
-      {{#with (file-dropzone for="app" queue=(file-queue for="designs")) as |dropzone|}}
-        {{! Your dropzone display logic goes here }}
-      {{/with}}
-    `;
   }
 });
