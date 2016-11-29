@@ -81,5 +81,5 @@ export default function () {
       uploadedAt: new Date(),
       url: file.url
     };
-  });
+  }, { speed: 'fast' });
 }

@@ -15,42 +15,41 @@
   <section id="demo">
     <h2>Demo</h2>
     <div class="grid">
+      <img src="/assets/images/gorbypuff.png">
       <div class="half">
-        {{#app-window title="Photos of My Cat" id='cat-photos'}}
-          {{#with (file-queue for="images") as |queue|}}
-            {{#with (file-dropzone for="cat-photos" queue=queue) as |dropzone|}}
-              {{#if dropzone.supported}}
-                <div class="cat">
-                  {{#if dropzone.active}}
-                    {{#if dropzone.valid}}
-                      😻
-                    {{else}}
-                      🙀
-                    {{/if}}
+        {{#app-window title="Photos of My Cat"}}
+          {{#file-dropzone id="cat-photos" name="photos" as |dropzone queue|}}
+            {{#if dropzone.supported}}
+              <div class="cat">
+                {{#if dropzone.active}}
+                  {{#if dropzone.valid}}
+                    😻
                   {{else}}
-                    😺
+                    🙀
                   {{/if}}
-                </div>
-              {{/if}}
-
-              <p>
-                {{#if dropzone.supported}}
-                  Drag your photos or
+                {{else}}
+                  😺
                 {{/if}}
-                {{#file-upload queue=(file-queue for="images"
-                                                 multiple=true
-                                                 onfileadd=(route-action "uploadImage")
-                                                 accept="image/*")}}
-                  <a>select them</a>
-                {{/file-upload}}
-                to upload.
-              </p>
+              </div>
+            {{/if}}
 
-              {{#if queue.files.length}}
-                Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+            <p>
+              {{#if dropzone.supported}}
+                Drag your photos or
               {{/if}}
-            {{/with}}
-          {{/with}}
+              {{#file-upload name="photos"
+                             multiple=true
+                             onfileadd=(route-action "uploadImage")
+                             accept="image/*"}}
+                <a>select them</a>
+              {{/file-upload}}
+              to upload.
+            </p>
+
+            {{#if queue.files.length}}
+              Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+            {{/if}}
+          {{/file-dropzone}}
         {{/app-window}}
         <h4>Events</h4>
         <ul>
