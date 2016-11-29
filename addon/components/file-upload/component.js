@@ -2,7 +2,8 @@ import Ember from 'ember';
 import layout from './template';
 import uuid from '../../system/uuid';
 
-const { get, computed } = Ember;
+const { get, computed, setProperties, getProperties } = Ember;
+const { service } = Ember.inject;
 
 const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
                     'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
@@ -24,7 +25,26 @@ export default Ember.Component.extend({
 
   layout,
 
-  queue: null,
+  name: null,
+
+  fileQueue: service(),
+
+  didReceiveAttrs() {
+    if (get(this, 'queue')) {
+      setProperties(get(this, 'queue'), getProperties(this, 'accept', 'multiple', 'onfileadd'));
+    }
+  },
+
+  queue: computed('name', {
+    get() {
+      let queueName = get(this, 'name');
+      if (queueName != null) {
+        let queues = get(this, 'fileQueue');
+        return queues.find(queueName) ||
+               queues.create(queueName);
+      }
+    }
+  }),
 
   didInsertElement() {
     let id = get(this, 'for');
