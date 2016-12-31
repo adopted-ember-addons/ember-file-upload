@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
+import uuid from '../../system/uuid';
 
 const { $, get, set, computed } = Ember;
 const { bind } = Ember.run;
 const { service } = Ember.inject;
 
-const DATA_TRANSFER = Symbol();
+const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
 let supported = (function () {
   return 'draggable' in document.createElement('span');
