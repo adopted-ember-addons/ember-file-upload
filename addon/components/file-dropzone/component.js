@@ -126,10 +126,7 @@ export default Ember.Component.extend({
       }
     }
 
-    console.log(url);
-    debugger;
     if (url) {
-      console.log(url);
       var image = new Image();
       var [filename] = url.split('/').slice(-1);
       image.crossOrigin = 'anonymous';
