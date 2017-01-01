@@ -1,4 +1,4 @@
-/* global FakeXMLHttpRequest */
+/* global FakeXMLHttpRequest, XMLSerializer */
 import HttpRequest from 'ember-file-upload/system/http-request';
 import {
   module,
@@ -106,9 +106,10 @@ test('successful send with a text/xml response', function (assert) {
     assert.deepEqual(response.headers, {
       'Content-Type': 'text/xml'
     });
-    assert.equal(response.body.firstChild.outerHTML, xml);
+    assert.equal(new XMLSerializer().serializeToString(response.body), xml);
   });
 
+  console.log(this.request.requestBody);
   assert.deepEqual(this.request.requestBody, {
     filename: 'rfc.md'
   });
