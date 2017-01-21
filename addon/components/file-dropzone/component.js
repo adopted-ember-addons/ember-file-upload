@@ -10,7 +10,8 @@ const { service } = Ember.inject;
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
 let supported = (function () {
-  return 'draggable' in document.createElement('span');
+  return window.hasOwnProperty('document') &&
+         'draggable' in document.createElement('span');
 }());
 
 export default Ember.Component.extend({
