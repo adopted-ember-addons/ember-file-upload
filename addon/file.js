@@ -22,7 +22,9 @@ function normalizeOptions(file, url, options) {
   options.url = options.url || url;
   options.method = options.method || 'POST';
   options.accepts = options.accepts || ['application/json', 'text/javascript'];
-  options.contentType = options.contentType || get(file, 'type');
+  if (!options.hasOwnProperty('contentType')) {
+    options.contentType = get(file, 'type');
+  }
   options.headers = options.headers || {};
   options.data = options.data || {};
   options.fileKey = options.fileKey || 'file';
