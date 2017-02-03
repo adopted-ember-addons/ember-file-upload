@@ -118,16 +118,30 @@ export default Ember.Component.extend({
   didDrop({ originalEvent: evt }) {
     // Testing support for dragging and dropping images
     // from other browser windows
-    let url = evt.dataTransfer.getData('text/uri-list');
-    let html = evt.dataTransfer.getData('text/html');
-    if (html) {
+    let supportsUrls, supportsHtml, html, url;
+
+    try {
+      html = evt.dataTransfer.getData('text/html');
+      supportsHtml = true;
+    } catch (e) {
+      supportsHtml = false;
+    }
+
+    if (supportsHtml && html) {
       let img = $(html)[1];
       if (img.tagName === 'IMG') {
         url = img.src;
       }
     }
 
-    if (url) {
+    try {
+      url = evt.dataTransfer.getData('text/uri-list');
+      supportsUrls = true;
+    } catch (e) {
+      supportsUrls = false;
+    }
+
+    if (supportsUrls && url) {
       var image = new Image();
       var [filename] = url.split('/').slice(-1);
       image.crossOrigin = 'anonymous';
@@ -173,6 +187,7 @@ export default Ember.Component.extend({
       this.ondrop(this[DATA_TRANSFER]);
     }
 
+    // Add file(s) to upload queue.
     set(this, 'active', false);
     get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'));
     this[DATA_TRANSFER] = null;
