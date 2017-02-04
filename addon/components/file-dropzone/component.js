@@ -14,6 +14,9 @@ let supported = (function () {
          'draggable' in document.createElement('span');
 }());
 
+let supportsHtml = null;
+let supportsUrls = null;
+
 export default Ember.Component.extend({
 
   layout,
@@ -118,30 +121,34 @@ export default Ember.Component.extend({
   didDrop({ originalEvent: evt }) {
     // Testing support for dragging and dropping images
     // from other browser windows
-    let supportsUrls, supportsHtml, html, url;
+    let html, url;
 
-    try {
-      html = evt.dataTransfer.getData('text/html');
-      supportsHtml = true;
-    } catch (e) {
-      supportsHtml = false;
+    if (supportsHtml === null) {
+      try {
+        html = evt.dataTransfer.getData('text/html');
+        supportsHtml = true;
+      } catch (e) {
+        supportsHtml = false;
+      }
     }
 
-    if (supportsHtml && html) {
+    if (html) {
       let img = $(html)[1];
       if (img.tagName === 'IMG') {
         url = img.src;
       }
     }
 
-    try {
-      url = evt.dataTransfer.getData('text/uri-list');
-      supportsUrls = true;
-    } catch (e) {
-      supportsUrls = false;
+    if (supportsUrls === null) {
+      try {
+        url = evt.dataTransfer.getData('text/uri-list');
+        supportsUrls = true;
+      } catch (e) {
+        supportsUrls = false;
+      }
     }
 
-    if (supportsUrls && url) {
+    if (url) {
       var image = new Image();
       var [filename] = url.split('/').slice(-1);
       image.crossOrigin = 'anonymous';
