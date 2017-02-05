@@ -10,7 +10,7 @@ const { service } = Ember.inject;
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
 let supported = (function () {
-  return window.hasOwnProperty('document') &&
+  return typeof window !== 'undefined' && window.document &&
          'draggable' in document.createElement('span');
 }());
 
