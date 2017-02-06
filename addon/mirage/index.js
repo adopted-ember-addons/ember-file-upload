@@ -15,16 +15,14 @@ const NETWORK = {
   'offline': 0
 };
 
-export function upload(fn, options={ network: null, method: 'post', timeout: null }) {
+export function upload(fn, options={ network: null, timeout: null }) {
   return function (db, request) {
     let speed = Infinity;
-    let method = options.method || 'post';
 
     if (NETWORK[options.network]) {
       speed = NETWORK[options.network] * 1024;
     }
 
-    let pretender = db.pretender;
     let { file, data } = extractFormData(request.requestBody);
     let loaded = 0;
     let total = file.value.size;

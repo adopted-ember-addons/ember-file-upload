@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { upload } from 'ember-file-upload/mirage';
 
 export default function () {
