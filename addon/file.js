@@ -81,7 +81,14 @@ export default Ember.Object.extend({
     @property name
     @type {String}
    */
-  name: reads('blob.name'),
+  name: computed({
+    get() {
+      return get(this, 'blob.name');
+    },
+    set(_, name) {
+      return name;
+    }
+  }),
 
   /**
     The size of the file in bytes.

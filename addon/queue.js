@@ -2,7 +2,7 @@ import Ember from 'ember';
 import File from './file';
 import sumBy from './computed/sum-by';
 
-const { get, set, computed, observer } = Ember;
+const { get, set, computed, observer, run: { next } } = Ember;
 
 /**
   The Queue is a collection of files that
@@ -56,16 +56,23 @@ export default Ember.Object.extend({
    */
   _addFiles(fileList) {
     let onfileadd = get(this, 'onfileadd');
+    let files = [];
 
     for (let i = 0, len = fileList.length; i < len; i++) {
       let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
-      let file = File.fromBlob(fileBlob);
+      if (fileBlob instanceof Blob) {
+        let file = File.fromBlob(fileBlob);
 
-      this.push(file);
-      if(onfileadd) {
-        onfileadd(file);
+        files.push(file);
+        this.push(file);
+
+        if (onfileadd) {
+          next(onfileadd, file);
+        }
       }
     }
+
+    return files;
   },
 
   /**
