@@ -1,7 +1,7 @@
 /*global triggerEvent, find */
 
 export default function (selector, file, filename) {
-  let input = find(this, `#${selector}`)[0];
+  let input = find(this, selector)[0];
 
   file.name = filename;
 
@@ -15,5 +15,5 @@ export default function (selector, file, filename) {
   };
   input.files.size = files.length;
 
-  return triggerEvent(`#${selector}`, 'change');
+  return triggerEvent(selector, 'change');
 }
