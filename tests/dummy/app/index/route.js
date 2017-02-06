@@ -7,10 +7,11 @@ export default Ember.Route.extend({
 
   actions: {
     uploadImage: function (file) {
-      return file.upload('/photos/new').then(({ body: { filename, url } }) => {
+      return file.upload('/photos/new').then(({ body: { filename, url, type } }) => {
         this.currentModel.pushObject({
           filename,
-          preview: url
+          preview: url,
+          type
         });
       }, function () {});
     }

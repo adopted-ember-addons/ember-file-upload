@@ -40,7 +40,7 @@
               {{#file-upload name="photos"
                              multiple=true
                              onfileadd=(route-action "uploadImage")
-                             accept="image/*"}}
+                             accept="image/*,video/*,audio/*"}}
                 <a>select them</a>
               {{/file-upload}}
               to upload.
@@ -54,7 +54,14 @@
         <h4>Events</h4>
         <ul>
           {{#each model as |file|}}
-            <li><img src={{file.preview}} style="max-width: 100px; max-height: 100px">{{file.filename}}</li>
+            <li>
+              {{#if (equals file.type 'image')}}
+                <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
+              {{else if (equals file.type 'video')}}
+                <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
+              {{/if}}
+              {{file.filename}}
+            </li>
           {{/each}}
         </ul>
       </div>
