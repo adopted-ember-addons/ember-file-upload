@@ -1,7 +1,7 @@
 /*global triggerEvent, find */
 
 export default function (selector, file, filename) {
-  let input = find(this, selector)[0];
+  let input = findWithAssert(selector)[0];
 
   file.name = filename;
 
