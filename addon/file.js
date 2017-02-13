@@ -176,7 +176,7 @@ export default Ember.Object.extend({
       }
     });
 
-    let request = new HTTPRequest();
+    let request = new HTTPRequest({ label: `${options.method} ${get(this, 'name') } to ${options.url}` });
     request.open(options.method, options.url);
 
     Object.keys(options.headers).forEach(function (key) {
@@ -214,29 +214,29 @@ export default Ember.Object.extend({
     }, (error) => {
       set(this, 'state', 'failed');
       return RSVP.reject(error);
-    }).finally(function () {
+    }, `ember-file-upload: Update "${get(this, 'name')}"'s upload state`).finally(function () {
       // Decrement for Ember.Test
       inflightRequests--;
     });
   },
 
   readAsArrayBuffer() {
-    let reader = new FileReader();
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as an ArrayBuffer` });
     return reader.readAsArrayBuffer(this.blob);
   },
 
   readAsDataURL() {
-    let reader = new FileReader();
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a Data URI` });
     return reader.readAsDataURL(this.blob);
   },
 
   readAsBinaryString() {
-    let reader = new FileReader();
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a binary string` });
     return reader.readAsBinaryString(this.blob);
   },
 
   readAsText() {
-    let reader = new FileReader();
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as text` });
     return reader.readAsText(this.blob);
   }
 
