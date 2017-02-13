@@ -10,16 +10,16 @@ const FakeFileReader = {
     this.onabort();
   },
   readAsArrayBuffer(blob) {
-    this[this.trigger](blob);
+    setTimeout(() => this[this.trigger](blob), 0);
   },
   readAsDataURL(blob) {
-    this[this.trigger](blob);
+    setTimeout(() => this[this.trigger](blob), 0);
   },
   readAsBinaryString(blob) {
-    this[this.trigger](blob);
+    setTimeout(() => this[this.trigger](blob), 0);
   },
   readAsText(blob) {
-    this[this.trigger](blob);
+    setTimeout(() => this[this.trigger](blob), 0);
   }
 };
 
