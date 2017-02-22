@@ -162,7 +162,7 @@ export default Ember.Component.extend({
 
         if (canvas.toBlob) {
           canvas.toBlob((blob) => {
-            let [file] = get(this, 'queue')._addFiles([blob]);
+            let [file] = get(this, 'queue')._addFiles([blob], 'web');
             set(file, 'name', filename);
           });
         } else {
@@ -175,7 +175,7 @@ export default Ember.Component.extend({
           }
           let blob = new Blob([arr], { type: 'image/png' });
           blob.name = filename;
-          let [file] = get(this, 'queue')._addFiles([blob]);
+          let [file] = get(this, 'queue')._addFiles([blob], 'web');
           set(file, 'name', filename);
         }
       };
@@ -196,7 +196,7 @@ export default Ember.Component.extend({
 
     // Add file(s) to upload queue.
     set(this, 'active', false);
-    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'));
+    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
     this[DATA_TRANSFER] = null;
     evt.preventDefault();
     evt.stopPropagation();

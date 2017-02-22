@@ -54,14 +54,14 @@ export default Ember.Object.extend({
     @method _addFiles
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
-  _addFiles(fileList) {
+  _addFiles(fileList, source) {
     let onfileadd = get(this, 'onfileadd');
     let files = [];
 
     for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
       let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
       if (fileBlob instanceof Blob) {
-        let file = File.fromBlob(fileBlob);
+        let file = File.fromBlob(fileBlob, source);
 
         files.push(file);
         this.push(file);

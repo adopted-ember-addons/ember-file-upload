@@ -158,6 +158,46 @@ export default Ember.Object.extend({
    */
   state: 'queued',
 
+  /**
+    The source of the file. This is useful
+    for applications that want to gather
+    analytics about how users upload their
+    content.
+
+    This property can be one of the following:
+
+    - `browse`
+    - `drag-and-drop`
+    - `web`
+    - `data-url`
+    - `blob`
+
+    `browse` is the source when the file is created
+    using the native file picker.
+
+    `drag-and-drop` is the source when the file was
+    created using drag and drop from their desktop.
+
+    `web` is the source when the file was created
+    by dragging the file from another webpage.
+
+    `data-url` is the source when the file is created
+    from a data URL using the `fromDataURL` method for
+    files. This usually means that the file was created
+    manually by the developer on behalf of the user.
+
+    `blob` is the source when the file is created
+    from a blob using the `fromBlob` method for
+    files. This usually means that the file was created
+    manually by the developer.
+
+    @property source
+    @type {String}
+    @default ''
+    @readonly
+   */
+  source: '',
+
   upload(url, opts) {
     if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state')) === -1) {
       Ember.assert(`The file ${this.id} is in the state "${get(this, 'state')}" and cannot be requeued.`);
@@ -248,20 +288,34 @@ export default Ember.Object.extend({
 
     @method fromBlob
     @param {Blob} blob The blob to create the file from.
+    @param {String} [source] The source that created the blob.
     @return {File} A file object
    */
-  fromBlob(blob) {
+  fromBlob(blob, source='blob') {
     let file = this.create();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
       value: blob
     });
+    Object.defineProperty(file, 'source', {
+      writeable: false,
+      value: source
+    });
 
     return file;
   },
 
-  fromDataURL(dataURL) {
+  /**
+    Creates a file object that can be read or uploaded to a
+    server from a data URL.
+
+    @method fromDataURL
+    @param {String} dataURL The data URL to create the file from.
+    @param {String} [source] The source of the data URL.
+    @return {File} A file object
+   */
+  fromDataURL(dataURL, source='data-url') {
     let [typeInfo, base64String] = dataURL.split(',');
     let mimeType = typeInfo.match(/:(.*?);/)[1];
 
@@ -274,6 +328,6 @@ export default Ember.Object.extend({
 
     let blob = new Blob([binaryData], { type: mimeType });
 
-    return this.fromBlob(blob);
+    return this.fromBlob(blob, source);
   }
 });
