@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
+import DragListener from '../../system/drag-listener';
 
 const { $, get, set, computed } = Ember;
 const { bind } = Ember.run;
@@ -16,6 +17,8 @@ let supported = (function () {
 
 let supportsHtml = null;
 let supportsUrls = null;
+
+const dragListener = new DragListener();
 
 export default Ember.Component.extend({
 
@@ -42,83 +45,48 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super();
-    let id = get(this, 'elementId');
-    let handlers = this._dragHandlers = {
+
+    dragListener.addEventListeners(`#${get(this, 'elementId')}`, {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
       dragover:  bind(this, 'didDragOver'),
       drop:      bind(this, 'didDrop')
-    };
-
-    Object.keys(handlers).forEach(function (key) {
-      $(document).on(key, `#${id}`, handlers[key]);
     });
   },
 
   willDestroyElement() {
-    let id = get(this, 'elementId');
-    let handlers = this._dragHandlers || {};
-    Object.keys(handlers).forEach(function (key) {
-      $(document).off(key, `#${id}`, handlers[key]);
+    dragListener.removeEventListeners(`#${get(this, 'elementId')}`);
+  },
+
+  didEnterDropzone(evt) {
+    let dataTransfer = DataTransfer.create({
+      queue: get(this, 'queue'),
+      dataTransfer: evt.dataTransfer
     });
+    this[DATA_TRANSFER] = dataTransfer;
 
-    this._dropzoneEntrance = null;
-    this._super();
-  },
+    set(this, 'active', true);
+    set(this, 'valid', get(dataTransfer, 'valid'));
 
-  didEnterDropzone({ originalEvent: evt }) {
-    let element = get(this, 'element');
-    let entrance = this._dropzoneEntrance;
-
-    if (entrance == null ||
-        $.contains(element, entrance) ||
-        element === entrance) {
-      this._dropzoneEntrance = evt.target;
-
-      let dataTransfer = DataTransfer.create({
-        queue: get(this, 'queue'),
-        dataTransfer: evt.dataTransfer
-      });
-      this[DATA_TRANSFER] = dataTransfer;
-
-      set(this, 'active', true);
-      set(this, 'valid', get(dataTransfer, 'valid'));
-
-      if (this.ondragenter) {
-        this.ondragenter(dataTransfer);
-      }
+    if (this.ondragenter) {
+      this.ondragenter(dataTransfer);
     }
   },
 
-  didLeaveDropzone({ originalEvent: evt }) {
-    let element = get(this, 'element');
-
-    // If the element paired with the dragenter
-    // event was removed from the DOM, clear it out
-    // so the process can be run again.
-    if (!$.contains(element, this._dropzoneEntrance) &&
-        element !== this._dropzoneEntrance) {
-      this._dropzoneEntrance = null;
+  didLeaveDropzone(evt) {
+    if (this.ondragleave) {
+      set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+      this.ondragleave(this[DATA_TRANSFER]);
+      this[DATA_TRANSFER] = null;
     }
-
-    if (evt.target === this._dropzoneEntrance) {
-      if (this.ondragleave) {
-        set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
-        this.ondragleave(this[DATA_TRANSFER]);
-        this[DATA_TRANSFER] = null;
-      }
-      set(this, 'active', false);
-      this._dropzoneEntrance = null;
-    }
+    set(this, 'active', false);
   },
 
-  didDragOver({ originalEvent: evt }) {
+  didDragOver(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
-    evt.preventDefault();
-    evt.stopPropagation();
   },
 
-  didDrop({ originalEvent: evt }) {
+  didDrop(evt) {
     // Testing support for dragging and dropping images
     // from other browser windows
     let html, url;
@@ -185,10 +153,6 @@ export default Ember.Component.extend({
       image.src = url;
     }
 
-    if (evt.preventDefault)  { evt.preventDefault(); }
-    if (evt.stopPropagation) { evt.stopPropagation(); }
-    this._dropzoneEntrance = null;
-
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.ondrop) {
       this.ondrop(this[DATA_TRANSFER]);
@@ -198,7 +162,5 @@ export default Ember.Component.extend({
     set(this, 'active', false);
     get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
     this[DATA_TRANSFER] = null;
-    evt.preventDefault();
-    evt.stopPropagation();
   }
 });
