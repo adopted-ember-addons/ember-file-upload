@@ -128,56 +128,48 @@ In addition to the file list, there are properties that indicate how many bytes 
 `ember-file-upload` integrates with `ember-cli-mirage` for acceptance tests. This helper provides a way to realistically simulate file uploads, including progress events and failure states. The helper adds another method to the mirage server called `upload`, which will handle upload requests.
 
 
+`mirage/config.js`
 ```javascript
+import { upload } from 'ember-file-upload/mirage';
+
+export default function () {
+  this.post('/photos/new', upload(function (db, file) {
+    let { name: filename, size: filesize, url } = file;
+    let photo = db.create('photo', { filename, filesize, url, uploadedAt: new Date() });
+    return photo;
+  });
+}
+```
+
+```javascript
+import { upload } from '../../helpers/upload';
+import File from 'ember-file-upload/file';
+
 moduleForAcceptance('/photos');
 
-test('uploading an image', function (assert) {
-  server.upload('/photos/new', function (file) {
-    return {
-      filename: file.name,
-      filesize: file.size,
-      uploadedAt: new Date(),
-      url: file.url
-    };
-  });
-
+test('uploading an image', async function (assert) {
   let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
-  file.name = 'smile.gif';
 
-  addFile(file);
+  await upload('#upload-photo', file, 'smile.gif');
 
-  andThen(function () {
-    assert.equal(find('.progress-bar').css('width'), '50%');
-  });
-
-  file.respondWith(200, {
-    'Location': '/assets/public/ok.png',
-    'Content-Type': 'application/json'
-  }, {});
-
-  andThen(function () {
-    assert.equal(find('.photo').attr('src'), '/assets/public/ok.png');
-  });
+  let photo = server.db.photos[0];
+  assert.equal(photo.filename, 'smile.gif');
 });
 ```
 
-If the file is being read by the host application, then providing the file contents in the file object. The contents are wrapped in a promise to provide the ability to test the success state and error of a read() call.
+If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies for all types of files; encode them as a Base64 data url or read them from a file as a blob.
 
 ```javascript
-import { addFiles } from 'ember-file-uploader/test-helper';
+import upload from '../helpers/upload';
 
 moduleForAcceptance('/notes');
 
-test('showing a note', function (assert) {
-  let [file] = addFiles(this.application, 'photo-uploader', {
-    name: 'douglas_coupland.txt',
-    size: 2048,
-    text: Ember.RSVP.resolve('I can feel the money leaving my body')
-  });
+test('showing a note', async function (assert) {
+  let file = File.fromDataUrl('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
 
-  andThen(function () {
-    assert.equal(find('.note').text(), 'I can feel the money leaving my body');
-  });
+  await upload('#upload-note', file, 'douglas_coupland.txt');
+
+  assert.equal(find('.note').text(), 'I can feel the money leaving my body');
 });
 ```
 
