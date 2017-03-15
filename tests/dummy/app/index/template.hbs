@@ -15,8 +15,8 @@
   <section id="demo">
     <h2>Demo</h2>
     <div class="grid">
-      {{#window-pane title="Abduction Photos"}}
-        {{#file-dropzone id="cat-photos" name="photos" as |dropzone queue|}}
+      {{#window-pane title="Proof" class='upload'}}
+        {{#file-dropzone name="photos" as |dropzone queue|}}
           {{#if dropzone.supported}}
             <div class="emoji">
               {{#if dropzone.active}}
@@ -33,11 +33,11 @@
 
           <p>
             {{#if dropzone.supported}}
-              Drag your photos or
+              Drag your proof or
             {{/if}}
             {{#file-upload name="photos"
                            multiple=true
-                           onfileadd=(route-action "uploadImage")
+                           onfileadd=(route-action "uploadProof")
                            accept="image/*,video/*,audio/*"}}
               <a>select them</a>
             {{/file-upload}}
@@ -54,12 +54,16 @@
       <ul>
         {{#each model as |file|}}
           <li>
-            {{#if (equals file.type 'image')}}
-              <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
-            {{else if (equals file.type 'video')}}
-              <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
-            {{/if}}
-            {{file.filename}}
+            <div class="card">
+              {{#if file.file}}
+                <span>{{file.file.progress}}%</span>
+              {{else if (equals file.type 'image')}}
+                <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
+              {{else if (equals file.type 'video')}}
+                <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
+              {{/if}}
+              <span class="caption">{{file.filename}}</span>
+            </div>
           </li>
         {{/each}}
       </ul>

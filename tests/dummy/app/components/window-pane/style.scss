@@ -2,12 +2,19 @@
   margin: 0 auto;
   max-width: 500px;
 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  transition: all 250ms;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
 
   header {
     position: relative;
     background: $black;
     text-align: center;
+    text-shadow: none;
     height: 40px;
     padding: 0;
     line-height: 40px;
