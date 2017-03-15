@@ -1,28 +1,7 @@
 .grid {
-  display: -webkit-flex;
-  display:         flex;
-  margin: -1em 0 0 -1em;
-  padding-bottom: 1em;
-  -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
-
-  .half {
-    -webkit-flex: 1;
-            flex: 1;
-    margin: 1em 0 0 1em;
-  }
-
-  .half + .half {
-    -webkit-flex: none;
-            flex: none;
-    width: 66.66%;
-  }
-}
-
-@media (max-width: 800px) {
-  .grid .half,
-  .grid .half + .half {
-    -webkit-flex: 0 0 calc(100% - 1em);
-            flex: 0 0 calc(100% - 1em);
-  }
+  width: calc(100% - 40px);
+  max-width: 800px;
+  margin: 0 auto;
+  display: block;
+  padding-bottom: 40px;
 }

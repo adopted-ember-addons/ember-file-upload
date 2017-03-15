@@ -1,0 +1,9 @@
+<div class="window-pane {{if title 'has-title'}}">
+  <header>
+    <span class="close button"></span>
+    <span class="minimize button"></span>
+    <span class="maximize button"></span>
+    {{title}}
+  </header>
+  <div>{{yield this}}</div>
+</div>

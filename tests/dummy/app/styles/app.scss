@@ -2,20 +2,18 @@
 @import 'colors';
 @import 'code';
 @import 'grid';
-@import 'routes/index';
-@import 'components/window';
-@import 'components/console-window';
-@import 'components/app-window';
-@import 'components/app-layer';
+
+@import 'pod-styles';
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Lato, Helvetica, 'Helvetica Neue', Arial;
-}
-
-* {
-  box-sizing: border-box;
+  font-family: OfficeCodePro, Consolas, Inconsolata, monspace;
+  background: linear-gradient(#FFFFFF, #FFFFFF 50%, $primary-color 50%, $primary-color);
 }
 
 header {
@@ -70,7 +68,6 @@ header {
 }
 
 section {
-  max-width: 80%;
   margin: 0 auto;
 
   & > h2 {
@@ -109,6 +106,7 @@ pre, pre.hljs {
   border-bottom: 1px solid #DEDEDE;
   padding: 20px;
 }
+
 
 ::selection {
   background: #A9F76E;

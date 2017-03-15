@@ -7,64 +7,62 @@
 <main>
   <section id="installation">
     <h2>Installation</h2>
-    {{#console-window}}
+    {{#window-pane}}
       <span class="ps1">$ </span>ember install ember-file-upload
-    {{/console-window}}
+    {{/window-pane}}
   </section>
 
   <section id="demo">
     <h2>Demo</h2>
     <div class="grid">
-      <img src="/assets/images/gorbypuff.png">
-      <div class="half">
-        {{#app-window title="Photos of My Cat"}}
-          {{#file-dropzone id="cat-photos" name="photos" as |dropzone queue|}}
-            {{#if dropzone.supported}}
-              <div class="emoji">
-                {{#if dropzone.active}}
-                  {{#if dropzone.valid}}
-                    😻
-                  {{else}}
-                    🙀
-                  {{/if}}
+      {{#window-pane title="Abduction Photos"}}
+        {{#file-dropzone id="cat-photos" name="photos" as |dropzone queue|}}
+          {{#if dropzone.supported}}
+            <div class="emoji">
+              {{#if dropzone.active}}
+                {{#if dropzone.valid}}
+                  ✨👽✨
                 {{else}}
-                  😺
+                  🐮
                 {{/if}}
-              </div>
-            {{/if}}
-
-            <p>
-              {{#if dropzone.supported}}
-                Drag your photos or
+              {{else}}
+                👽
               {{/if}}
-              {{#file-upload name="photos"
-                             multiple=true
-                             onfileadd=(route-action "uploadImage")
-                             accept="image/*,video/*,audio/*"}}
-                <a>select them</a>
-              {{/file-upload}}
-              to upload.
-            </p>
+            </div>
+          {{/if}}
 
-            {{#if queue.files.length}}
-              Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+          <p>
+            {{#if dropzone.supported}}
+              Drag your photos or
             {{/if}}
-          {{/file-dropzone}}
-        {{/app-window}}
-        <h4>Events</h4>
-        <ul>
-          {{#each model as |file|}}
-            <li>
-              {{#if (equals file.type 'image')}}
-                <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
-              {{else if (equals file.type 'video')}}
-                <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
-              {{/if}}
-              {{file.filename}}
-            </li>
-          {{/each}}
-        </ul>
-      </div>
+            {{#file-upload name="photos"
+                           multiple=true
+                           onfileadd=(route-action "uploadImage")
+                           accept="image/*,video/*,audio/*"}}
+              <a>select them</a>
+            {{/file-upload}}
+            to upload.
+          </p>
+
+          {{#if queue.files.length}}
+            Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+          {{/if}}
+        {{/file-dropzone}}
+      {{/window-pane}}
+    </div>
+    <div class="grid">
+      <ul>
+        {{#each model as |file|}}
+          <li>
+            {{#if (equals file.type 'image')}}
+              <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
+            {{else if (equals file.type 'video')}}
+              <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
+            {{/if}}
+            {{file.filename}}
+          </li>
+        {{/each}}
+      </ul>
     </div>
   </section>
   </main>

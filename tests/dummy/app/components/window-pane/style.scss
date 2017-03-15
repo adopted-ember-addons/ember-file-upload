@@ -1,0 +1,80 @@
+.window-pane {
+  margin: 0 auto;
+  max-width: 500px;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+
+  header {
+    position: relative;
+    background: $black;
+    text-align: center;
+    height: 40px;
+    padding: 0;
+    line-height: 40px;
+    border-bottom: 1px solid #444;
+
+    .button {
+      transition: all .2s;
+      position: absolute;
+      border-radius: 6px;
+      width: 12px;
+      height: 12px;
+      top: 14px;
+    }
+
+    .close {
+      background-color: $red;
+      left: 10px;
+    }
+
+    .minimize {
+      background-color: $yellow;
+      left: 30px;
+    }
+
+    .maximize {
+      background-color: $green;
+      left: 50px;
+    }
+  }
+
+  & > div {
+    min-height: 250px;
+    background: $black;
+    color: #FFF;
+    padding: 20px;
+    overflow: auto;
+
+    .ps1 {
+      color: #9B9B9B;
+    }
+
+    code {
+      font-size: 1.1em;
+      display: block;
+    }
+
+    .ps1 {
+      color: #AAAAAA;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+    }
+  }
+}
+
+@media (max-width: 525px) {
+  .window-pane {
+    font-size: 0.9rem;
+  }
+  .window-pane.has-title .button {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .window-pane {
+    font-size: 0.8rem;
+  }
+}
