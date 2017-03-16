@@ -1,4 +1,75 @@
+@keyframes float {
+  0% {
+    top: -10px;
+  }
+  50% {
+    top: 0px;
+  }
+  60% {
+    top: -4px;
+  }
+  100% {
+    top: -10px;
+  }
+}
+
+@keyframes pulse {
+  10% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 1;
+  }
+}
+
 #index {
+  #saucers {
+    position: absolute;
+    z-index: 10;
+    left: 40px;
+
+    svg {
+      animation: pulse 2s infinite;
+      position: absolute;
+      left: -4px;
+      top: -29px;
+    }
+
+    img {
+      position: absolute;
+      animation: float 10s infinite;
+      max-width: 20px;
+
+      &:nth-child(10n + 1) {
+        left: 0;
+        animation-delay: -3s;
+        transform: rotate(-40deg);
+      }
+      &:nth-child(10n + 2) {
+        left: 30px;
+        animation-delay: -9s;
+        transform: rotate(40deg);
+      }
+      &:nth-child(10n + 3) {
+        left: -30px;
+        animation-delay: -7s;
+        transform: rotate(-40deg) translateY(40px);
+      }
+      &:nth-child(10n + 4) {
+        left: 50px;
+        animation-delay: -1s;
+        transform: rotate(20deg) translateY(40px);
+      }
+      &:nth-child(10n + 5) {
+        left: -40px;
+        animation-delay: -5s;
+        transform: rotate(10deg) translateX(60px);
+      }
+    }
+  }
   .hero {
     position: relative;
     font-size: 2.3rem;
@@ -71,6 +142,10 @@
   }
 
   .window-pane.upload {
+    header {
+      border-bottom: 1px solid darken($secondary-color, 7%);
+    }
+
     header, & > div {
       background: $secondary-color;
       color: $black;

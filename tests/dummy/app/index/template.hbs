@@ -1,4 +1,19 @@
 <div id="index">
+<div id="saucers">
+  <svg>
+    <linearGradient id="beam" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="rgba(0, 255, 23, 0.5)"/>
+      <stop offset="90%" stop-color="rgba(0, 255, 23, 0.1)"/>
+      <stop offset="100%" stop-color="rgba(0, 255, 23, 0)"/>
+    </linearGradient>
+    <polygon points="35,4 25,4 10,60 50,60" fill="url(#beam)"></polygon>
+  </svg>
+  {{#each ships as |file|}}
+    {{#if (equals file.type 'image')}}
+      <img src={{file.preview}}>
+    {{/if}}
+  {{/each}}
+</div>
 <div class="hero">
   <p>A file upload framework <br>for {{inline-svg "ember-logo" class="ember-logo" alt="ember"}} apps</p>
   <a class="more" href="#installation">{{inline-svg 'arrow'}}</a>
