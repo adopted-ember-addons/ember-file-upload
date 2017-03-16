@@ -115,6 +115,12 @@ export default class {
     evt.stopPropagation();
     let listener = this.findListener(evt);
     if (listener) {
+      if (this._listener !== listener) {
+        if (this._listener) {
+          this._listener.handlers.dragleave(evt);
+        }
+        listener.handlers.dragenter(evt);
+      }
       listener.handlers.dragover(evt);
     }
   }
