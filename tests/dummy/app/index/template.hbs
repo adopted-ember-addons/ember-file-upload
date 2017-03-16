@@ -75,9 +75,9 @@
               {{#if file.file}}
                 <span>{{file.file.progress}}%</span>
               {{else if (equals file.type 'image')}}
-                <img src={{file.preview}} alt={{file.filename}}/>
+                <img src={{file.preview}} alt="{{file.filename}}" />
               {{else if (equals file.type 'video')}}
-                <video src={{file.preview}} alt={{file.filename}} muted=true loop=true autoplay></video>
+                <video src={{file.preview}} alt="{{file.filename}}" muted=true loop=true autoplay></video>
               {{/if}}
               <span class="caption">{{file.filename}}</span>
             </div>
