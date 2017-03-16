@@ -11,6 +11,8 @@
   {{#each ships as |file|}}
     {{#if (equals file.type 'image')}}
       <img src={{file.preview}}>
+    {{else if (equals file.type 'video')}}
+      <video src={{file.preview}} muted=true loop=true autoplay></video>
     {{/if}}
   {{/each}}
 </div>
@@ -30,8 +32,8 @@
   <section id="demo">
     <h2>Demo</h2>
     <div class="grid">
-      {{#window-pane title="Proof" class='upload'}}
-        {{#file-dropzone name="photos" as |dropzone queue|}}
+      {{#file-dropzone name="photos" class='dropzone' as |dropzone queue|}}
+        {{#window-pane title="Proof" class=(concat 'upload ' (if dropzone.active 'active'))}}
           {{#if dropzone.supported}}
             <div class="emoji">
               {{#if dropzone.active}}
@@ -62,8 +64,8 @@
           {{#if queue.files.length}}
             Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
           {{/if}}
-        {{/file-dropzone}}
-      {{/window-pane}}
+        {{/window-pane}}
+      {{/file-dropzone}}
     </div>
     <div class="grid">
       <ul>
@@ -73,9 +75,9 @@
               {{#if file.file}}
                 <span>{{file.file.progress}}%</span>
               {{else if (equals file.type 'image')}}
-                <img src={{file.preview}} style="max-width: 200px; max-height: 200px">
+                <img src={{file.preview}} alt={{file.filename}}/>
               {{else if (equals file.type 'video')}}
-                <video src={{file.preview}} style="max-width: 200px; max-height: 200px" loop=true autoplay></video>
+                <video src={{file.preview}} alt={{file.filename}} muted=true loop=true autoplay></video>
               {{/if}}
               <span class="caption">{{file.filename}}</span>
             </div>

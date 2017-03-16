@@ -38,7 +38,7 @@
       top: -29px;
     }
 
-    img {
+    img, video {
       position: absolute;
       animation: float 10s infinite;
       max-width: 20px;
@@ -64,9 +64,9 @@
         transform: rotate(20deg) translateY(40px);
       }
       &:nth-child(10n + 5) {
-        left: -40px;
+        left: 20px;
         animation-delay: -5s;
-        transform: rotate(10deg) translateX(60px);
+        transform: rotate(10deg) translateY(20px);
       }
     }
   }
@@ -84,11 +84,11 @@
       transition: all 120ms;
       position: absolute;
       top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -60%);
-              transform: translate(-50%, -60%);
+      left: 20px;
+      -webkit-transform: translateY(-60%);
+              transform: translateY(-60%);
       line-height: 1.7em;
-      width: 500px;
+      width: calc(100% - 40px);
       text-align: center;
       font-weight: bold;
     }
@@ -167,9 +167,10 @@
       width: 33.333%;
 
       .card {
-        img {
+        img, video {
           margin: 0 auto;
           min-width: 100%;
+          max-width: 100%;
         }
         width: calc(100% - 20px);
         margin: 0 auto;

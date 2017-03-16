@@ -5,7 +5,7 @@
   transition: all 250ms;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 
-  &:hover {
+  &:hover, &.active {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-1px);
   }
