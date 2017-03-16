@@ -79,7 +79,9 @@ export default Ember.Component.extend({
       this.ondragleave(this[DATA_TRANSFER]);
       this[DATA_TRANSFER] = null;
     }
-    set(this, 'active', false);
+    if (!this.isDestroyed) {
+      set(this, 'active', false);
+    }
   },
 
   didDragOver(evt) {
