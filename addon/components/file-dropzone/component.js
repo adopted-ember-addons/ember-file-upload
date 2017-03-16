@@ -89,31 +89,38 @@ export default Ember.Component.extend({
   didDrop(evt) {
     // Testing support for dragging and dropping images
     // from other browser windows
-    let html, url;
+    let url;
 
     if (supportsHtml === null) {
       try {
-        html = evt.dataTransfer.getData('text/html');
+        evt.dataTransfer.getData('text/html');
         supportsHtml = true;
       } catch (e) {
         supportsHtml = false;
       }
     }
 
-    if (html) {
-      let img = $(html)[1];
-      if (img.tagName === 'IMG') {
-        url = img.src;
+    if (supportsHtml) {
+      let html = evt.dataTransfer.getData('text/html');
+      if (html) {
+        let img = $(html)[1];
+        if (img.tagName === 'IMG') {
+          url = img.src;
+        }
       }
     }
 
     if (supportsUrls === null) {
       try {
-        url = evt.dataTransfer.getData('text/uri-list');
+        evt.dataTransfer.getData('text/uri-list');
         supportsUrls = true;
       } catch (e) {
         supportsUrls = false;
       }
+    }
+
+    if (supportsUrls) {
+      url = evt.dataTransfer.getData('text/uri-list');
     }
 
     if (url) {
