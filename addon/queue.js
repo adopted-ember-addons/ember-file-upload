@@ -81,6 +81,7 @@ export default Ember.Object.extend({
    */
   remove(file) {
     file.queue = null;
+    get(this, 'fileQueue.files').removeObject(file);
     get(this, 'files').removeObject(file);
   },
 
