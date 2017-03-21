@@ -1,3 +1,4 @@
+/* global Uint8Array */
 import Ember from 'ember';
 import FileReader from 'ember-file-upload/system/file-reader';
 
@@ -26,11 +27,8 @@ let pipelines = {
     let reader = new FileReader();
     return reader.readAsArrayBuffer(file).then(function (buffer) {
       let data = new Uint8Array(buffer);
-      let bin = '';
       let duration = 0;
       for (let i = 0; i < data.length; i++) {
-        bin += String.fromCharCode(data[i]);
-
         // Find a Graphic Control Extension hex(21F904__ ____ __00)
         if (data[i] === 0x21 &&
             data[i + 1] === 0xF9 &&

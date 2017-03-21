@@ -109,7 +109,6 @@ test('successful send with a text/xml response', function (assert) {
     assert.equal(new XMLSerializer().serializeToString(response.body), xml);
   });
 
-  console.log(this.request.requestBody);
   assert.deepEqual(this.request.requestBody, {
     filename: 'rfc.md'
   });

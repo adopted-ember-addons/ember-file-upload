@@ -1,4 +1,4 @@
-/* global atob */
+/* global atob, Uint8Array */
 import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';

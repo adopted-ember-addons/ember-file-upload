@@ -1,3 +1,4 @@
+/* global Blob, Uint8Array */
 import Ember from 'ember';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
@@ -156,9 +157,11 @@ export default Ember.Component.extend({
           set(file, 'name', filename);
         }
       };
+      /* eslint-disable no-console */
       image.onerror = function (e) {
         console.log(e);
       };
+      /* eslint-enable no-console */
       image.src = url;
     }
 
