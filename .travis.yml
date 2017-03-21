@@ -39,7 +39,7 @@ install:
 
 after_success:
   - yarn global add codeclimate-test-reporter
-  - codeclimate-test-reporter < lcov.info
+  - codeclimate-test-reporter < coverage/lcov.info
 
 script:
   # Usually, it's ok to finish the test scenario without reverting
