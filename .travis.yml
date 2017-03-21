@@ -5,6 +5,10 @@ node_js:
 
 sudo: false
 
+addons:
+  code_climate:
+    secure: "bLudtldQHh+CPbrPCaPQaW3xTmpnCEo79j9Wm42FCx+eXadNI8kctK6L16Zvt+CgawqNsoFXxMsHLYrWMZVC7xi070TuSuRHwJ330VzlwbLYhTLXI2tGH1QcF8IJLcq4L2knym6rANOiLKMQ2wdk1J7WqYzmrit6R7UgTfi9gp0W9Qmr/ajj3aslJmHNMIVUt2WbRPzWldyG7iDTs4750z0Iane7m2I2Mu9Fu1iN1ahVaYrx40QT4geKst56+CYYY/R6W/3QtuIfFgXm4YOMdxANFZCTWl7emPWSauYlhWxTq8ngBnl5huzjBs3fzH3d9K3dVVsmQLtGRzZjdlhUzUyMaJEw+SRjhhOO7dHgySwT5PaVMxkuGs44VCpEJMLXbYWyK5nwTCwp7kA/5FA71Rq5LKLUrFon15t78lf3n5E2bb0rmboImEByQ/HWsW510zL3VNDQ3khH/TOLwU1PYTVuyNtLZbzaQenTbsA6H9mh3ZShqAGnnevdC1iqSm/MDyJk+Acm9lEIG7jkULcwsTwjSexVLBCj5pqD0LH4IAO9uYuDARCjSf3pWCwOPf2G0q+zLgWKvoDPYrDow2PhI49PFChp9iy1jm/tbCTZJSMBVLzte85WT8onoBBRGNsQkiAs4tkKGdEbO6M8TdCAW1muYJgpC2NFI1UYMgi+zME="
+
 cache:
   directories:
     - node_modules
@@ -36,4 +40,4 @@ install:
 script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
-  - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+  - COVERAGE=true ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
