@@ -149,6 +149,18 @@ test('successful send with a text/xml response', function (assert) {
   });
 });
 
+test(`succesful open with 'withCredentials: true'`, function (assert) {
+  this.subject = new HttpRequest({withCredentials: true});
+  this.subject.open('POST', 'http://emberjs.com');
+
+  assert.equal(this.request.withCredentials, true);
+});
+
+test(`confirm withCredentials: undefined by default`, function (assert) {
+  this.subject.open('POST', 'http://emberjs.com');
+  assert.equal(this.request.withCredentials, undefined);
+});
+
 skip('onprogress', function () {
 
 });
