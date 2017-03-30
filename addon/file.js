@@ -45,6 +45,8 @@ function normalizeOptions(file, url, options) {
 
   options.data[options.fileKey] = file.blob;
 
+  options.withCredentials = options.withCredentials || false;
+
   return options;
 }
 
@@ -216,7 +218,10 @@ export default Ember.Object.extend({
       }
     });
 
-    let request = new HTTPRequest({ label: `${options.method} ${get(this, 'name') } to ${options.url}` });
+    let request = new HTTPRequest({
+      withCredentials: options.withCredentials,
+      label: `${options.method} ${get(this, 'name') } to ${options.url}`
+    });
     request.open(options.method, options.url);
 
     Object.keys(options.headers).forEach(function (key) {
