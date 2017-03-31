@@ -93,7 +93,7 @@ export default Ember.Route.extend({
         filesize: get(file, 'size')
       });
 
-      file.read().then(function (url) {
+      file.readAsDataURL().then(function (url) {
         if (get(photo, 'url') == null) {
           set(photo, 'url', url);
         }
