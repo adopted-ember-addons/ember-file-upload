@@ -1,6 +1,6 @@
 {
   "name": "ember-file-upload",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.37",
   "directories": {
     "doc": "doc",
     "test": "tests"
