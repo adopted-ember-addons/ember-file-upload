@@ -2,7 +2,7 @@ import Ember from 'ember';
 import File from './file';
 import sumBy from './computed/sum-by';
 
-const { get, set, computed, observer } = Ember;
+const { get, set, computed, observer, run: { next } } = Ember;
 
 /**
   The Queue is a collection of files that
@@ -54,16 +54,25 @@ export default Ember.Object.extend({
     @method _addFiles
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
-  _addFiles(fileList) {
+  _addFiles(fileList, source) {
     let onfileadd = get(this, 'onfileadd');
+    let files = [];
 
-    for (let i = 0, len = fileList.length; i < len; i++) {
-      let file = File.fromBlob(fileList.item(i));
-      this.push(file);
-      if(onfileadd) {
-        onfileadd(file);
+    for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
+      let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
+      if (fileBlob instanceof Blob) {
+        let file = File.fromBlob(fileBlob, source);
+
+        files.push(file);
+        this.push(file);
+
+        if (onfileadd) {
+          next(onfileadd, file);
+        }
       }
     }
+
+    return files;
   },
 
   /**
@@ -72,6 +81,7 @@ export default Ember.Object.extend({
    */
   remove(file) {
     file.queue = null;
+    get(this, 'fileQueue.files').removeObject(file);
     get(this, 'files').removeObject(file);
   },
 
@@ -144,8 +154,10 @@ export default Ember.Object.extend({
   flushFilesWhenSettled: observer('files.@each.state', function () {
     let files = get(this, 'files');
     let allFilesHaveSettled = files.every(function (file) {
-      return ['uploaded', 'aborted'].indexOf(file.status) !== -1;
+      return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
     });
+
+    if (files.length === 0) { return; }
 
     if (allFilesHaveSettled) {
       get(this, 'files').forEach((file) => set(file, 'queue', null));
@@ -161,7 +173,7 @@ export default Ember.Object.extend({
     @type {Number}
     @default 0
    */
-  size: sumBy('files.@each.size'),
+  size: sumBy('files', 'size'),
 
   /**
     The aggregate amount of bytes that have been uploaded
@@ -172,7 +184,7 @@ export default Ember.Object.extend({
     @type {Number}
     @default 0
    */
-  loaded: sumBy('files.@each.loaded'),
+  loaded: sumBy('files', 'loaded'),
 
   /**
     The current upload progress of the queue, as a number from 0 to 100.

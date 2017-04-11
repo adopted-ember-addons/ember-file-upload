@@ -1,4 +1,4 @@
-import trim from 'ember-file-upload/system/trim';
+/* global require */
 import {
   module,
   test
@@ -6,10 +6,26 @@ import {
 
 module('trim');
 
-test('trims whitespace from strings', function (assert) {
-  assert.equal(trim('    trim me        '), 'trim me');
-});
+let unit = function (name) {
+  let module = {};
+  require.entries['ember-file-upload/system/trim'].callback(module);
+  let trim = module['default'];
 
-test('returns an empty string if null is provided', function (assert) {
-  assert.equal(trim(null), '');
-});
+  test(name + ' trims whitespace from strings', function (assert) {
+    assert.equal(trim('    trim me        '), 'trim me');
+  });
+
+  test(name + ' returns an empty string if null is provided', function (assert) {
+    assert.equal(trim(null), '');
+  });
+};
+
+if (''.trim) {
+  unit('native');
+  let trim = String.prototype.trim;
+  String.prototype.trim = null;
+  unit('polyfill');
+  String.prototype.trim = trim;
+} else {
+  unit('polyfill');
+}

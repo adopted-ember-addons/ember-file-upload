@@ -47,13 +47,18 @@ function parseResponse(request) {
   };
 }
 
-export default function () {
-  let { resolve, reject, promise } = RSVP.defer();
+export default function (options = {}) {
+  let { resolve, reject, promise } = RSVP.defer(`ember-file-upload: ${options.label}`);
   let request = new XMLHttpRequest();
 
-  let aborted = RSVP.defer();
+  request.withCredentials = options.withCredentials;
+
+  let aborted;
   promise.cancel = () => {
-    request.abort();
+    if (aborted == null) {
+      aborted = RSVP.defer(`ember-file-upload: Abort ${options.label}`);
+      request.abort();
+    }
     return aborted.promise;
   };
   request.onabort = bind(this, function () {

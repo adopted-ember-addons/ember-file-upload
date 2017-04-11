@@ -75,8 +75,10 @@ export default Ember.Service.extend({
   flushFilesWhenSettled: observer('files.@each.state', function () {
     let files = get(this, 'files');
     let allFilesHaveSettled = files.every(function (file) {
-      return ['uploaded', 'aborted'].indexOf(file.status) !== -1;
+      return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
     });
+
+    if (files.length === 0) { return; }
 
     if (allFilesHaveSettled) {
       get(this, 'files').forEach((file) => set(file, 'queue', null));
@@ -92,7 +94,7 @@ export default Ember.Service.extend({
     @default 0
     @readonly
    */
-  size: sumBy('files.@each.size'),
+  size: sumBy('files', 'size'),
 
   /**
     The number of bytes that have been uploaded to the server.
@@ -102,7 +104,7 @@ export default Ember.Service.extend({
     @default 0
     @readonly
    */
-  loaded: sumBy('files.@each.loaded'),
+  loaded: sumBy('files', 'loaded'),
 
   /**
     The current progress of all uploads, as a percentage in the

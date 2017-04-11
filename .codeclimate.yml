@@ -6,7 +6,6 @@ engines:
     enabled: true
 ratings:
   paths:
-  - "app/**"
   - "addon/**"
 exclude_paths:
 - "*.md"

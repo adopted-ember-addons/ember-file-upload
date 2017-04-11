@@ -1,4 +1,4 @@
-/* global atob */
+/* global atob, Uint8Array */
 import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
@@ -22,7 +22,9 @@ function normalizeOptions(file, url, options) {
   options.url = options.url || url;
   options.method = options.method || 'POST';
   options.accepts = options.accepts || ['application/json', 'text/javascript'];
-  options.contentType = options.contentType || get(file, 'type');
+  if (!options.hasOwnProperty('contentType')) {
+    options.contentType = get(file, 'type');
+  }
   options.headers = options.headers || {};
   options.data = options.data || {};
   options.fileKey = options.fileKey || 'file';
@@ -47,6 +49,8 @@ function normalizeOptions(file, url, options) {
   }
 
   options.data[options.fileKey] = file.blob;
+
+  options.withCredentials = options.withCredentials || false;
 
   return options;
 }
@@ -84,7 +88,14 @@ export default Ember.Object.extend({
     @property name
     @type {String}
    */
-  name: reads('blob.name'),
+  name: computed({
+    get() {
+      return get(this, 'blob.name');
+    },
+    set(_, name) {
+      return name;
+    }
+  }),
 
   /**
     The size of the file in bytes.
@@ -154,6 +165,46 @@ export default Ember.Object.extend({
    */
   state: 'queued',
 
+  /**
+    The source of the file. This is useful
+    for applications that want to gather
+    analytics about how users upload their
+    content.
+
+    This property can be one of the following:
+
+    - `browse`
+    - `drag-and-drop`
+    - `web`
+    - `data-url`
+    - `blob`
+
+    `browse` is the source when the file is created
+    using the native file picker.
+
+    `drag-and-drop` is the source when the file was
+    created using drag and drop from their desktop.
+
+    `web` is the source when the file was created
+    by dragging the file from another webpage.
+
+    `data-url` is the source when the file is created
+    from a data URL using the `fromDataURL` method for
+    files. This usually means that the file was created
+    manually by the developer on behalf of the user.
+
+    `blob` is the source when the file is created
+    from a blob using the `fromBlob` method for
+    files. This usually means that the file was created
+    manually by the developer.
+
+    @property source
+    @type {String}
+    @default ''
+    @readonly
+   */
+  source: '',
+
   upload(url, opts) {
     if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state')) === -1) {
       Ember.assert(`The file ${this.id} is in the state "${get(this, 'state')}" and cannot be requeued.`);
@@ -161,7 +212,11 @@ export default Ember.Object.extend({
 
     let options = normalizeOptions(this, url, opts);
 
-    let request = new HTTPRequest();
+    let request = new HTTPRequest({
+      withCredentials: options.withCredentials,
+      label: `${options.method} ${get(this, 'name') } to ${options.url}`
+    });
+
     request.open(options.method, options.url);
 
     Object.keys(options.headers).forEach(function (key) {
@@ -193,8 +248,7 @@ export default Ember.Object.extend({
     // Increment for Ember.Test
     inflightRequests++;
 
-    if(options.payloadType === 'form') {
-
+    if (options.payloadType === 'form') {
       // Build the form
       let form = new FormData();
 
@@ -217,9 +271,9 @@ export default Ember.Object.extend({
         inflightRequests--;
       });
 
-    } else if(options.payloadType === 'binary') {
+    } else if (options.payloadType === 'binary') {
+      let data = get(this, 'blob');
 
-      const data = get(this, 'blob');
       return request.send(data).then((result) => {
         set(this, 'state', 'uploaded');
         return result;
@@ -230,28 +284,29 @@ export default Ember.Object.extend({
         // Decrement for Ember.Test
         inflightRequests--;
       });
-
     }
-
-
-
   },
 
-  read(options={ as: 'data-url' }) {
-    let reader = new FileReader();
+  readAsArrayBuffer() {
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as an ArrayBuffer` });
+    return reader.readAsArrayBuffer(this.blob);
+  },
 
-    let blob = this.blob;
-    switch (options.as) {
-    case 'array-buffer':
-      return reader.readAsArrayBuffer(blob);
-    case 'data-url':
-      return reader.readAsDataURL(blob);
-    case 'binary-string':
-      return reader.readAsBinaryString(blob);
-    case 'text':
-      return reader.readAsText(blob);
-    }
+  readAsDataURL() {
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a Data URI` });
+    return reader.readAsDataURL(this.blob);
+  },
+
+  readAsBinaryString() {
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a binary string` });
+    return reader.readAsBinaryString(this.blob);
+  },
+
+  readAsText() {
+    let reader = new FileReader({ label: `Read ${get(this, 'name')} as text` });
+    return reader.readAsText(this.blob);
   }
+
 }).reopenClass({
 
   /**
@@ -260,20 +315,34 @@ export default Ember.Object.extend({
 
     @method fromBlob
     @param {Blob} blob The blob to create the file from.
+    @param {String} [source] The source that created the blob.
     @return {File} A file object
    */
-  fromBlob(blob) {
+  fromBlob(blob, source='blob') {
     let file = this.create();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
       value: blob
     });
+    Object.defineProperty(file, 'source', {
+      writeable: false,
+      value: source
+    });
 
     return file;
   },
 
-  fromDataURL(dataURL) {
+  /**
+    Creates a file object that can be read or uploaded to a
+    server from a data URL.
+
+    @method fromDataURL
+    @param {String} dataURL The data URL to create the file from.
+    @param {String} [source] The source of the data URL.
+    @return {File} A file object
+   */
+  fromDataURL(dataURL, source='data-url') {
     let [typeInfo, base64String] = dataURL.split(',');
     let mimeType = typeInfo.match(/:(.*?);/)[1];
 
@@ -286,6 +355,6 @@ export default Ember.Object.extend({
 
     let blob = new Blob([binaryData], { type: mimeType });
 
-    return this.fromBlob(blob);
+    return this.fromBlob(blob, source);
   }
 });

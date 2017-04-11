@@ -21,8 +21,10 @@
 
     .ember-logo {
       height: 50px;
+      width: 128px;
       position: relative;
-      top: 4px;
+      top: 2px;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
     }
 
     .more {
@@ -58,8 +60,8 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 30px;
-      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
+      height: 10px;
+      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02));
     }
   }
 
@@ -90,6 +92,7 @@
     }
     .ember-logo {
       height: 36px;
+      width: 100px;
     }
   }
 }
@@ -102,6 +105,7 @@
     }
     .ember-logo {
       height: 32px;
+      width: 82px;
     }
   }
 }
@@ -114,6 +118,7 @@
     }
     .ember-logo {
       height: 36px;
+      width: 100px;
     }
   }
 }
@@ -127,6 +132,7 @@
     }
     .ember-logo {
       height: 32px;
+      width: 82px;
     }
   }
 }

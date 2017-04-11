@@ -2,21 +2,18 @@
 @import 'colors';
 @import 'code';
 @import 'grid';
-@import 'routes/index';
-@import 'components/window';
-@import 'components/console-window';
-@import 'components/app-window';
-@import 'components/app-layer';
+
+@import 'pod-styles';
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Lato, Helvetica, 'Helvetica Neue', Arial;
+  font-family: OfficeCodePro, Consolas, Inconsolata, monspace;
   background: linear-gradient(#FFFFFF, #FFFFFF 50%, $primary-color 50%, $primary-color);
-}
-
-* {
-  box-sizing: border-box;
 }
 
 header {
@@ -31,9 +28,17 @@ header {
     font-size: 18px;
     margin: 0;
 
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+
     svg {
       position: relative;
       top: 2px;
+      path {
+        fill: $white;
+      }
     }
   }
 
@@ -55,7 +60,7 @@ header {
       transition: all 0.25s;
       opacity: 0.7;
 
-      &:hover {
+      &:hover, &.active {
         opacity: 1;
       }
     }
@@ -63,7 +68,6 @@ header {
 }
 
 section {
-  max-width: 80%;
   margin: 0 auto;
 
   & > h2 {
@@ -103,6 +107,7 @@ pre, pre.hljs {
   padding: 20px;
 }
 
+
 ::selection {
   background: #A9F76E;
 }
@@ -112,4 +117,17 @@ pre, pre.hljs {
 
 a {
   cursor: pointer;
+}
+
+.emoji {
+  font-size: 80px;
+  text-align: center;
+  padding-top: 40px;
+  pointer-events: none;
+  -webkit-select: none;
+}
+
+.dropzone {
+  margin: 0 auto;
+  max-width: 500px;
 }

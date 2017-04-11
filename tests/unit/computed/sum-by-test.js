@@ -10,7 +10,7 @@ module('computed:sum-by');
 test('property updates when objects are pushed onto the collection', function (assert) {
   let queue = Ember.Object.extend({
     files: Ember.A(),
-    size: sumBy('files.@each.size')
+    size: sumBy('files', 'size')
   }).create();
 
   assert.equal(queue.get('size'), 0);
@@ -40,7 +40,7 @@ test('property updates when the item property updates', function (assert) {
       { loaded: 0 },
       { loaded: 512 }
     ]),
-    loaded: sumBy('files.@each.loaded')
+    loaded: sumBy('files', 'loaded')
   }).create();
 
   assert.equal(queue.get('loaded'), 512);
@@ -50,30 +50,4 @@ test('property updates when the item property updates', function (assert) {
   });
 
   assert.equal(queue.get('loaded'), 640);
-});
-
-test('compatability with ArrayProxy', function (assert) {
-  let queue = Ember.ArrayProxy.extend({
-    size: sumBy('@each.size')
-  }).create({
-    content: Ember.A([])
-  });
-
-  assert.equal(queue.get('size'), 0);
-
-  Ember.run(function () {
-    queue.pushObject({
-      size: 256
-    });
-  });
-
-  assert.equal(queue.get('size'), 256);
-
-  Ember.run(function () {
-    queue.pushObject({
-      size: 512
-    });
-  });
-
-  assert.equal(queue.get('size'), 768);
 });

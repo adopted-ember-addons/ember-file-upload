@@ -1,3 +1,5 @@
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+/* global Uint8Array */
 let random = (function () {
   let crypto = window.crypto || window.msCrypto;
 

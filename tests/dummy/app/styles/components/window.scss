@@ -11,41 +11,42 @@
   position: relative;
   background: #D8D8D8;
   text-align: center;
-  height: 30px;
+  height: 36px;
   border-radius: 5px 5px 0 0;
-  line-height: 30px;
-  text-shadow: 0px 1px 1px #EFEFEF;
+  font-size: 0.9rem;
+  line-height: 36px;
   border-bottom: 1px solid #C8C8C8;
 
   .button {
     transition: all .2s;
     position: absolute;
     border-radius: 6px;
-    width: 10px;
-    height: 10px;
-    top: 10px;
+    width: 12px;
+    height: 12px;
+    top: 12px;
   }
 
   .close {
     background-color: $red;
     border: 1px solid #C6351C;
-    left: 10px;
+    left: 16px;
   }
 
   .minimize {
     background-color: $yellow;
     border: 1px solid #CB9803;
-    left: 30px;
+    left: 36px;
   }
 
   .maximize {
     background-color: $green;
     border: 1px solid #009452;
-    left: 50px;
+    left: 56px;
   }
 }
 
 .window_content {
+  position: relative;
   min-height: 250px;
   padding: 20px;
   overflow: auto;

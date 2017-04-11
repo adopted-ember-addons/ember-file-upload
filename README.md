@@ -12,19 +12,25 @@ exposes a variety of parameters for configuring file-uploader:
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `accept`            | a list of MIME types / extensions to accept by the input
+| `multiple`          | whether multiple files can be selected
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
+
+The `{{file-dropzone}}` component:
+
+| Attribute           | Definition
+|---------------------|------------------|
 | `ondragenter`       | the name of the action to be called when a file is added to a queue
 | `ondragleave`       | the name of the action to be called when a file is added to a queue
 | `ondrop`            | the name of the action to be called when a file is added to a queue
-| `for-dropzone`      | the ID of the dropzone. this is auto generated if not provided
-| `accept`            | a list of MIME types / extensions to accept by the input
-| `multiple`          | whether multiple files can be selected
+
 
 This configuration is for the uploader instance as a whole. Most of the configuration deals directly with the feel of the uploader. When the queued event is triggered, you will be given a file object that allows you to configure where the file is being uploaded:
 
 | Property            | Definition
 |---------------------|------------------|
 | `url`               | the URL to send the upload request to
+| `method`            | the HTTP method to use when uploading the file; defaults to `POST`
 | `headers`           | the headers to use when uploading the file. it defaults to using the `accept` attribute
 | `accepts`           | a string or array of accepted content types that the server can respond with. defaults to `['application/json', 'text/javascript']`
 | `contentType`       | correlates to the Content-Type header of the file. This will add a property 'Content-Type' to your data. This defaults to the type of the file
@@ -42,35 +48,30 @@ The cleanest approach to configure uploaders is to create a component that encap
 For example, creating an image uploader that uploads images to your API server would look like:
 
 ```handlebars
-{{#with (file-queue for="photos"
-                    accept="image/*"
-                    multiple=true
-                    onfileadd=(route-action "uploadImage")) as |queue|}}
-  {{#with (file-dropzone for="photos"
-                         queue=(file-queue for="photos")) as |dropzone|}}
-    <div id="photos">
-      {{#if dropzone.active}}
-        {{#if dropzone.valid}}
-          Drop to upload
-        {{else}}
-          Invalid
-        {{/if}}
-      {{else if queue.files.length}}
-        Uploading {{queue.files.length}} files. ({{queue.progress}}%)
-      {{else}}
-        <h4>Upload Images</h4>
-        <p>
-          {{#if dropzone.supported}}
-            Drag and drop images onto this area to upload them or
-          {{/if}}
-          {{#file-upload queue=(file-queue for="photos")}}
-            <a id="upload-image" tabindex=0>Add an Image.</a>
-          {{/file-upload}}
-        </p>
+{{#file-dropzone name="photos" as |dropzone queue|}}
+  {{#if dropzone.active}}
+    {{#if dropzone.valid}}
+      Drop to upload
+    {{else}}
+      Invalid
+    {{/if}}
+  {{else if queue.files.length}}
+    Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+  {{else}}
+    <h4>Upload Images</h4>
+    <p>
+      {{#if dropzone.supported}}
+        Drag and drop images onto this area to upload them or
       {{/if}}
-    </div>
-  {{/with}}
-{{/with}}
+      {{#file-upload name="photos"
+                     accept="image/*"
+                     multiple=true
+                     onfileadd=(route-action "uploadImage")}}
+        <a id="upload-image" tabindex=0>Add an Image.</a>
+      {{/file-upload}}
+    </p>
+  {{/if}}
+{{/file-dropzone}}
 ```
 
 ## Integration
@@ -94,7 +95,7 @@ export default Ember.Route.extend({
         filesize: get(file, 'size')
       });
 
-      file.read().then(function (url) {
+      file.readAsDataURL().then(function (url) {
         if (get(photo, 'url') == null) {
           set(photo, 'url', url);
         }
@@ -126,56 +127,51 @@ In addition to the file list, there are properties that indicate how many bytes 
 
 ## Acceptance Tests
 
-`ember-file-uploader` has a test helper called `addFiles` available to developers to fake adding files to their uploader. It needs a container or owner object (an application instance or container), the name of the uploader, and a JavaScript object that describes the basics of the file.
+`ember-file-upload` integrates with `ember-cli-mirage` for acceptance tests. This helper provides a way to realistically simulate file uploads, including progress events and failure states. The helper adds another method to the mirage server called `upload`, which will handle upload requests.
 
-This can be used to fake a file upload like so:
+
+`mirage/config.js`
+```javascript
+import { upload } from 'ember-file-upload/mirage';
+
+export default function () {
+  this.post('/photos/new', upload(function (db, file) {
+    let { name: filename, size: filesize, url } = file;
+    let photo = db.create('photo', { filename, filesize, url, uploadedAt: new Date() });
+    return photo;
+  });
+}
+```
 
 ```javascript
-import { addFiles } from 'ember-file-uploader/test-helper';
+import { upload } from '../../helpers/upload';
+import File from 'ember-file-upload/file';
 
 moduleForAcceptance('/photos');
 
-test('uploading an image', function (assert) {
-  let [file] = addFiles(this.application, 'photo-uploader', {
-    name: 'Tomster.png',
-    size: 2048
-  });
+test('uploading an image', async function (assert) {
+  let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
 
-  // The file has been added; now we can manipulate it
-  file.progress = 50;
+  await upload('#upload-photo', file, 'smile.gif');
 
-  andThen(function () {
-    assert.equal(find('.progress-bar').css('width'), '50%');
-  });
-
-  file.respondWith(200, {
-    'Location': '/assets/public/ok.png',
-    'Content-Type': 'application/json'
-  }, {});
-
-  andThen(function () {
-    assert.equal(find('.photo').attr('src'), '/assets/public/ok.png');
-  });
+  let photo = server.db.photos[0];
+  assert.equal(photo.filename, 'smile.gif');
 });
 ```
 
-If the file is being read by the host application, then providing the file contents in the file object. The contents are wrapped in a promise to provide the ability to test the success state and error of a read() call.
+If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies for all types of files; encode them as a Base64 data url or read them from a file as a blob.
 
 ```javascript
-import { addFiles } from 'ember-file-uploader/test-helper';
+import upload from '../helpers/upload';
 
 moduleForAcceptance('/notes');
 
-test('showing a note', function (assert) {
-  let [file] = addFiles(this.application, 'photo-uploader', {
-    name: 'douglas_coupland.txt',
-    size: 2048,
-    text: Ember.RSVP.resolve('I can feel the money leaving my body')
-  });
+test('showing a note', async function (assert) {
+  let file = File.fromDataUrl('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
 
-  andThen(function () {
-    assert.equal(find('.note').text(), 'I can feel the money leaving my body');
-  });
+  await upload('#upload-note', file, 'douglas_coupland.txt');
+
+  assert.equal(find('.note').text(), 'I can feel the money leaving my body');
 });
 ```
 
@@ -313,11 +309,12 @@ export default Ember.Route.extend({
 
 ## Running
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+* `ember serve`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ## Running Tests
 
+* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
@@ -330,4 +327,4 @@ Contributors are welcome! Please provide a reproducible test case. Details will 
 
 * `ember github-pages:commit --message "Releasing docs"`
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
