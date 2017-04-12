@@ -86,6 +86,9 @@ export default Ember.Component.extend({
   },
 
   didDragOver(evt) {
+    // TODO: Find out why this is called before didEnterDropzone
+    if (this[DATA_TRANSFER] == null) return;
+
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
   },
 
