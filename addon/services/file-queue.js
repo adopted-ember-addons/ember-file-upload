@@ -24,7 +24,7 @@ export default Ember.Service.extend({
     accessed by name via the `find` method.
    */
   init() {
-    set(this, 'queues', Ember.Map.create());
+    set(this, 'queues', Ember.A());
     set(this, 'files', Ember.A());
   },
 
@@ -45,7 +45,7 @@ export default Ember.Service.extend({
     @type {File[]}
     @default []
    */
-  files: [],
+  files: null,
 
   /**
     @private
@@ -130,7 +130,7 @@ export default Ember.Service.extend({
     @return {Queue} The queue or null if it doesn't exist yet.
    */
   find(name) {
-    return get(this, 'queues').get(name);
+    return get(this, 'queues').findBy('name', name);
   },
 
   /**
@@ -141,11 +141,10 @@ export default Ember.Service.extend({
     @return {Queue} The new queue.
    */
   create(name) {
-    let queues = get(this, 'queues');
-    Ember.assert(`Queue names are required to be unique. "${name}" has already been reserved.`, !queues.has(name));
+    Ember.assert(`Queue names are required to be unique. "${name}" has already been reserved.`, this.find(name) == null);
 
     let queue = Queue.create({ name, fileQueue: this });
-    queues.set(name, queue);
+    get(this, 'queues').pushObject(queue);
 
     return queue;
   }
