@@ -12,10 +12,9 @@ module.exports = function(defaults) {
     sassOptions: {
       includePaths: ['tests/dummy/app']
     },
-    svg: {
-      paths: [
-        'tests/dummy/public/assets/images'
-      ]
+    svgJar: {
+      strategy: 'inline',
+      sourceDirs: ['tests/dummy/public/assets/images']
     }
   });
 

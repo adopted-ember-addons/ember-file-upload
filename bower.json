@@ -1,8 +1,6 @@
 {
   "name": "ember-file-upload",
   "dependencies": {
-    "ember": "~2.9.0",
-    "ember-cli-shims": "0.1.3",
     "testdouble": "testdouble/testdouble.js#^1.4.2"
   }
 }
