@@ -132,6 +132,7 @@ export default class {
     let listener = this.findListener(evt);
     if (listener) {
       listener.handlers.drop(evt);
+      this._listener = null;
     }
   }
 }
