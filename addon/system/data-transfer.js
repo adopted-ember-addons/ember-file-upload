@@ -12,16 +12,17 @@ export default Ember.Object.extend({
   queue: null,
 
   getData(type) {
+    let dataTransfer = get(this, 'dataTransfer');
     if (getDataSupport[type] == null) {
       try {
-        let data = evt.dataTransfer.getData(type);
+        let data = dataTransfer.getData(type);
         getDataSupport[type] = true;
         return data;
       } catch (e) {
         getDataSupport[type] = false;
       }
     } else if (getDataSupport[type]) {
-      return evt.dataTransfer.getData(type);
+      return dataTransfer.getData(type);
     }
   },
 

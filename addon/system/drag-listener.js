@@ -131,8 +131,8 @@ export default class {
   dragover(evt) {
     evt.preventDefault();
     evt.stopPropagation();
+
     let listener = this.findListener(evt);
-    let lastListener = this._stack[this._stack.length - 1];
     if (listener) {
       if (this._listener) {
         this.scheduleEvent('dragleave', this._listener, evt);

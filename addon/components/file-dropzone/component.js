@@ -92,7 +92,7 @@ export default Ember.Component.extend({
     dragListener.removeEventListeners(`#${get(this, 'elementId')}`);
   },
 
-  isAllowed(evt) {
+  isAllowed() {
     return get(this, 'allowedSources').split(',').indexOf(get(this[DATA_TRANSFER], 'source')) !== -1;
   },
 
