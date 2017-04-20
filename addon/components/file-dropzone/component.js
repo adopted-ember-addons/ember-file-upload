@@ -52,6 +52,22 @@ export default Ember.Component.extend({
    */
   allowedSources: 'os',
 
+  /**
+    This is the type of cursor that should
+    be shown when a drag event happens.
+
+    This is one of the following:
+
+    - `copy`
+    - `move`
+    - `link`
+
+    @property dropEffect
+    @type String
+    @default null
+   */
+  dropEffect: 'copy',
+
   queue: computed('name', {
     get() {
       let queueName = get(this, 'name');
@@ -89,6 +105,7 @@ export default Ember.Component.extend({
     this[DATA_TRANSFER] = dataTransfer;
 
     if (this.isAllowed()) {
+      evt.dataTransfer.dropEffect = get(this, 'dropEffect');
       set(this, 'active', true);
       set(this, 'valid', get(dataTransfer, 'valid'));
 
@@ -101,6 +118,7 @@ export default Ember.Component.extend({
   didLeaveDropzone(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.isAllowed()) {
+      evt.dataTransfer.dropEffect = get(this, 'dropEffect');
       if (this.ondragleave) {
         this.ondragleave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
@@ -112,12 +130,16 @@ export default Ember.Component.extend({
 
   didDragOver(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    if (this.isAllowed()) {
+      evt.dataTransfer.dropEffect = get(this, 'dropEffect');
+    }
   },
 
   didDrop(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
 
     if (!this.isAllowed()) {
+      evt.dataTransfer.dropEffect = get(this, 'dropEffect');
       this[DATA_TRANSFER] = null;
       return;
     }
