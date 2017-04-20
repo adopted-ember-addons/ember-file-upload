@@ -16,9 +16,6 @@ let supported = (function () {
          'draggable' in document.createElement('span');
 }());
 
-let supportsHtml = null;
-let supportsUrls = null;
-
 const dragListener = new DragListener();
 
 export default Ember.Component.extend({
@@ -93,40 +90,24 @@ export default Ember.Component.extend({
   },
 
   didDrop(evt) {
+    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+
+    }
+
     // Testing support for dragging and dropping images
     // from other browser windows
     let url;
 
-    if (supportsHtml === null) {
-      try {
-        evt.dataTransfer.getData('text/html');
-        supportsHtml = true;
-      } catch (e) {
-        supportsHtml = false;
+    let html = this[DATA_TRANSFER].getData('text/html');
+    if (html) {
+      let img = $(html)[1];
+      if (img.tagName === 'IMG') {
+        url = img.src;
       }
     }
 
-    if (supportsHtml) {
-      let html = evt.dataTransfer.getData('text/html');
-      if (html) {
-        let img = $(html)[1];
-        if (img.tagName === 'IMG') {
-          url = img.src;
-        }
-      }
-    }
-
-    if (supportsUrls === null) {
-      try {
-        evt.dataTransfer.getData('text/uri-list');
-        supportsUrls = true;
-      } catch (e) {
-        supportsUrls = false;
-      }
-    }
-
-    if (supportsUrls) {
-      url = evt.dataTransfer.getData('text/uri-list');
+    if (url == null) {
+      url = this[DATA_TRANSFER].getData('text/uri-list');
     }
 
     if (url) {
@@ -168,7 +149,6 @@ export default Ember.Component.extend({
       image.src = url;
     }
 
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.ondrop) {
       this.ondrop(this[DATA_TRANSFER]);
     }
