@@ -32,6 +32,26 @@ export default Ember.Component.extend({
 
   fileQueue: service(),
 
+  /**
+    An allowed list of sources where
+    files can be dragged and dropped from.
+
+    Drag events will be categoried by their
+    location, and then allowed through or
+    not depending on their source.
+
+    The sources users can drag and drop from
+    are:
+
+    - `web`
+    - `os`
+
+    @property allowedSources
+    @type String
+    @default 'os'
+   */
+  allowedSources: 'os',
+
   queue: computed('name', {
     get() {
       let queueName = get(this, 'name');
@@ -56,42 +76,50 @@ export default Ember.Component.extend({
     dragListener.removeEventListeners(`#${get(this, 'elementId')}`);
   },
 
+  isAllowed(evt) {
+    return get(this, 'allowedSources').split(',').indexOf(get(this[DATA_TRANSFER], 'source')) !== -1;
+  },
+
   didEnterDropzone(evt) {
     let dataTransfer = DataTransfer.create({
       queue: get(this, 'queue'),
+      source: evt.source,
       dataTransfer: evt.dataTransfer
     });
     this[DATA_TRANSFER] = dataTransfer;
 
-    set(this, 'active', true);
-    set(this, 'valid', get(dataTransfer, 'valid'));
+    if (this.isAllowed()) {
+      set(this, 'active', true);
+      set(this, 'valid', get(dataTransfer, 'valid'));
 
-    if (this.ondragenter) {
-      this.ondragenter(dataTransfer);
+      if (this.ondragenter) {
+        this.ondragenter(dataTransfer);
+      }
     }
   },
 
   didLeaveDropzone(evt) {
-    if (this.ondragleave) {
-      set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
-      this.ondragleave(this[DATA_TRANSFER]);
-      this[DATA_TRANSFER] = null;
-    }
-    if (!this.isDestroyed) {
+    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    if (this.isAllowed()) {
+      if (this.ondragleave) {
+        this.ondragleave(this[DATA_TRANSFER]);
+        this[DATA_TRANSFER] = null;
+      }
+
       set(this, 'active', false);
     }
   },
 
   didDragOver(evt) {
-    // TODO: Find out why this is called before didEnterDropzone
-    if (this[DATA_TRANSFER] == null) return;
-
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
   },
 
   didDrop(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
 
+    if (!this.isAllowed()) {
+      this[DATA_TRANSFER] = null;
+      return;
     }
 
     // Testing support for dragging and dropping images
