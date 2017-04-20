@@ -3,11 +3,27 @@ import trim from './trim';
 
 const { get, computed } = Ember;
 
+const getDataSupport = {};
+
 export default Ember.Object.extend({
 
   dataTransfer: null,
 
   queue: null,
+
+  getData(type) {
+    if (getDataSupport[type] == null) {
+      try {
+        let data = evt.dataTransfer.getData(type);
+        getDataSupport[type] = true;
+        return data;
+      } catch (e) {
+        getDataSupport[type] = false;
+      }
+    } else if (getDataSupport[type]) {
+      return evt.dataTransfer.getData(type);
+    }
+  },
 
   valid: computed('dataTransfer.files', 'files', {
     get() {
