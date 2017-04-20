@@ -1,15 +1,15 @@
 import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 
-var { get } = Ember;
+var { get, run } = Ember;
 
 moduleFor('service:file-queue');
 
 test('the size of the queue is the aggregate of all queues', function (assert) {
   var queue = this.subject();
-  var queue1 = queue.create('queue1');
-  var queue2 = queue.create('queue2');
-  queue.create('queue3');
+  var queue1 = run(queue, 'create', 'queue1');
+  var queue2 = run(queue, 'create', 'queue2');
+  run(queue, 'create', 'queue3');
 
   assert.equal(get(queue, 'files.length'), 0);
   assert.equal(get(queue, 'size'), 0);
@@ -55,7 +55,7 @@ test('the size of the queue is the aggregate of all queues', function (assert) {
 
 test('the uploaded size of the queue is the aggregate of all queues', function (assert) {
   var queue = this.subject();
-  var queue1 = queue.create('queue1');
+  var queue1 = run(queue, 'create', 'queue1');
 
   assert.equal(get(queue, 'files.length'), 0);
   assert.equal(get(queue, 'size'), 0);
@@ -74,7 +74,7 @@ test('the uploaded size of the queue is the aggregate of all queues', function (
   assert.equal(get(queue, 'loaded'), 500);
   assert.equal(get(queue, 'progress'), 25);
 
-  var queue2 = queue.create('queue2');
+  var queue2 = run(queue, 'create', 'queue2');
 
   queue2.push({
     id: 'test1',
@@ -88,7 +88,7 @@ test('the uploaded size of the queue is the aggregate of all queues', function (
   assert.equal(get(queue, 'loaded'), 1000);
   assert.equal(get(queue, 'progress'), 18);
 
-  queue.create('queue3');
+  run(queue, 'create', 'queue3');
 
   queue2.push({
     id: 'test2',
@@ -105,7 +105,7 @@ test('the uploaded size of the queue is the aggregate of all queues', function (
 
 test('the queue is emptied when all files are completed', function (assert) {
   var queue = this.subject();
-  var queue1 = queue.create('queue1');
+  var queue1 = run(queue, 'create', 'queue1');
 
   queue1.push({
     id: 'test',
