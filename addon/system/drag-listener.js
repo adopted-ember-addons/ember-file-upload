@@ -1,11 +1,18 @@
 import Ember from 'ember';
 
-const { assert, run: { bind } } = Ember;
+const { run: { bind, next, cancel } } = Ember;
 
 export default class {
   constructor() {
     this._listeners = Ember.A();
-    this._entered = 0;
+    this._stack = [];
+
+    // Keep a stack of deferred actions to take
+    // on listeners to provide sane events.
+    // `dragleave` / `dragenter` are called on the
+    // same element back to back, which isn't what
+    // we want to provide as an API.
+    this._events = Ember.A();
   }
 
   beginListening() {
@@ -58,7 +65,7 @@ export default class {
 
     for (let i = 0, len = this._listeners.length; i < len; i++) {
       let listener = this._listeners[i];
-      assert(`Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`, document.querySelector(selector) !== document.querySelector(listener.selector));
+      Ember.assert(`Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`, document.querySelector(selector) !== document.querySelector(listener.selector));
 
       if (document.querySelector(`${listener.selector} ${selector}`)) {
         insertAt = i;
@@ -82,30 +89,41 @@ export default class {
     });
   }
 
+  getEventSource(evt) {
+    let types = evt.dataTransfer.types || [];
+    let areAllTypesFiles = true;
+    for (let i = 0, len = types.length; i < len; i++) {
+      if (types[i] !== 'Files' &&
+          types[i] !== 'application/x-moz-file') {
+        areAllTypesFiles = false;
+        break;
+      }
+    }
+    return areAllTypesFiles ? 'os' : 'web';
+  }
+
   dragenter(evt) {
     let listener = this.findListener(evt);
+    let lastListener = this._stack[this._stack.length - 1];
 
-    // Trigger a dragleave because the listener that
-    // matched isn't the same as the listener that was
-    // previously called for a dragenter
-    if (this._listener && listener !== this._listener) {
-      this._listener.handlers.dragleave(evt);
+    // Trigger dragleave on the previous listener
+    if (lastListener) {
+      this.scheduleEvent('dragleave', lastListener, evt);
     }
 
-    if (listener && listener !== this._listener) {
-      listener.handlers.dragenter(evt);
+    if (listener) {
+      this.scheduleEvent('dragenter', listener, {
+        source: this.getEventSource(evt),
+        dataTransfer: evt.dataTransfer
+      });
     }
-
     this._listener = listener;
-    this._entered++;
   }
 
   dragleave(evt) {
-    this._entered--;
-
     // Trigger a dragleave if the file leaves the browser
-    if (this._entered === 0 && this._listener) {
-      this._listener.handlers.dragleave(evt);
+    if (this._stack.length) {
+      this.scheduleEvent('dragleave', this._stack[0], evt);
       this._listener = null;
     }
   }
@@ -114,25 +132,73 @@ export default class {
     evt.preventDefault();
     evt.stopPropagation();
     let listener = this.findListener(evt);
+    let lastListener = this._stack[this._stack.length - 1];
     if (listener) {
-      if (this._listener !== listener) {
-        if (this._listener) {
-          this._listener.handlers.dragleave(evt);
-        }
-        listener.handlers.dragenter(evt);
+      if (this._listener) {
+        this.scheduleEvent('dragleave', this._listener, evt);
       }
-      listener.handlers.dragover(evt);
+      this.scheduleEvent('dragenter', listener, {
+        source: this.getEventSource(evt),
+        dataTransfer: evt.dataTransfer
+      });
+      if (this._stack.indexOf(listener) !== -1) {
+        listener.handlers.dragover(evt);
+      }
+    }
+    this._listener = listener;
+  }
+
+  scheduleEvent(eventName, listener, event) {
+    let isDuplicate = this._events.find(function (queuedEvent) {
+      return queuedEvent.eventName === eventName &&
+        queuedEvent.listener === listener;
+    });
+
+    let cancelledEvent = this._events.find(function (queuedEvent) {
+      return queuedEvent.listener === listener &&
+        (queuedEvent.eventName === 'dragleave' && eventName === 'dragenter') ||
+        (queuedEvent.eventName === 'dragenter' && eventName === 'dragleave');
+    });
+
+    if (cancelledEvent) {
+      this._events.removeObject(cancelledEvent);
+      if (this._events.length === 0) {
+        cancel(this._scheduled);
+        this._scheduled = null;
+      }
+    } else if (!isDuplicate) {
+      this._events.push({ eventName, listener, event });
+      if (!this._scheduled) {
+        this._scheduled = next(this, 'sendEvents');
+      }
     }
   }
 
+  sendEvents() {
+    this._events.forEach(({ eventName, listener, event }) => {
+      if (eventName === 'dragenter') {
+        this._stack.push(listener);
+      } else if (eventName === 'dragleave') {
+        this._stack.pop();
+      }
+      listener.handlers[eventName](event);
+    });
+
+    this._events = Ember.A();
+    this._scheduled = false;
+  }
+
   drop(evt) {
-    this._entered = 0;
+    this._stack = [];
+    this._events = Ember.A();
+    this._scheduled = false;
+    this._listener = null;
+
     evt.preventDefault();
     evt.stopPropagation();
     let listener = this.findListener(evt);
     if (listener) {
       listener.handlers.drop(evt);
-      this._listener = null;
     }
   }
 }
