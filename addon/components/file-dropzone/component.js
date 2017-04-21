@@ -33,24 +33,17 @@ export default Ember.Component.extend({
   fileQueue: service(),
 
   /**
-    An allowed list of sources where
-    files can be dragged and dropped from.
+    Whether users can upload content
+    from websites by dragging images from
+    another webpage and dropping it into
+    your app. The default is `false` to
+    prevent cross-site scripting issues.
 
-    Drag events will be categoried by their
-    location, and then allowed through or
-    not depending on their source.
-
-    The sources users can drag and drop from
-    are:
-
-    - `web`
-    - `os`
-
-    @property allowedSources
-    @type String
-    @default 'os'
+    @property allowUploadsFromWebsites
+    @type Boolean
+    @default false
    */
-  allowedSources: 'os',
+  allowUploadsFromWebsites: false,
 
   /**
     This is the type of cursor that should
@@ -93,7 +86,8 @@ export default Ember.Component.extend({
   },
 
   isAllowed() {
-    return get(this, 'allowedSources').split(',').indexOf(get(this[DATA_TRANSFER], 'source')) !== -1;
+    return get(this[DATA_TRANSFER], 'source') === 'os' ||
+           get(this, 'allowUploadsFromWebsites');
   },
 
   didEnterDropzone(evt) {
