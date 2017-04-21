@@ -61,7 +61,7 @@ export default Ember.Component.extend({
     @type String
     @default null
    */
-  cursor: 'copy',
+  cursor: null,
 
   queue: computed('name', {
     get() {
