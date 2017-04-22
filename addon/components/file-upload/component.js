@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './template';
 import uuid from '../../system/uuid';
+const { testing } = Ember;
 
 const { get, computed, setProperties, getProperties } = Ember;
 const { service } = Ember.inject;
@@ -59,7 +60,8 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    change(files) {
+    change(event) {
+      const files = testing ? event.testingFiles : event.target.files;
       get(this, 'queue')._addFiles(files, 'browse');
     }
   }
