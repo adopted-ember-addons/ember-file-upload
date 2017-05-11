@@ -14,6 +14,7 @@ exposes a variety of parameters for configuring file-uploader:
 |---------------------|------------------|
 | `accept`            | a list of MIME types / extensions to accept by the input
 | `multiple`          | whether multiple files can be selected
+| `disabled`          | if set, disables input and prevents files from being added to the queue
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
 
 The `{{file-dropzone}}` component:
