@@ -56,18 +56,21 @@ export default Ember.Object.extend({
    */
   _addFiles(fileList, source) {
     let onfileadd = get(this, 'onfileadd');
+    let disabled = get(this, 'disabled');
     let files = [];
 
-    for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
-      let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
-      if (fileBlob instanceof Blob) {
-        let file = File.fromBlob(fileBlob, source);
+    if (!disabled) {
+      for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
+        let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
+        if (fileBlob instanceof Blob) {
+          let file = File.fromBlob(fileBlob, source);
 
-        files.push(file);
-        this.push(file);
+          files.push(file);
+          this.push(file);
 
-        if (onfileadd) {
-          next(onfileadd, file);
+          if (onfileadd) {
+            next(onfileadd, file);
+          }
         }
       }
     }
