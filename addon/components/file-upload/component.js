@@ -32,7 +32,7 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     if (get(this, 'queue')) {
-      setProperties(get(this, 'queue'), getProperties(this, 'accept', 'multiple', 'onfileadd'));
+      setProperties(get(this, 'queue'), getProperties(this, 'accept', 'multiple', 'disabled', 'onfileadd'));
     }
   },
 
