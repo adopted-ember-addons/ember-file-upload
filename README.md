@@ -103,7 +103,7 @@ export default Ember.Route.extend({
       let response = yield file.upload('/api/images/upload');
       set(photo, 'url', response.headers.Location);
       yield photo.save();
-    } catch {
+    } catch (e) {
       photo.rollback();
     }
   }).maxConcurrency(3).enqueue(),
