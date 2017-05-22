@@ -2,6 +2,9 @@
 engines:
   eslint:
     enabled: true
+  ember-template-lint:
+    enabled: true
+    channel: beta
   fixme:
     enabled: true
 ratings:
