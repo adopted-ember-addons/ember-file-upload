@@ -27,11 +27,11 @@ export function upload(fn, options={ network: null, timeout: null }) {
     let loaded = 0;
     let total = file.value.size;
 
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise((resolve) => {
       let start = new Date().getTime();
       let metadata = extractFileMetadata(file.value);
 
-      function upload() {
+      let upload = () => {
         let timedOut = options.timeout && new Date().getTime() - start > options.timeout;
         if (timedOut || loaded >= total) {
           request.upload.onprogress({
@@ -40,7 +40,7 @@ export function upload(fn, options={ network: null, timeout: null }) {
             loaded: Math.min(loaded, total)
           });
 
-          metadata.then(function (metadata) {
+          metadata.then((metadata) => {
             let response = {
               requestBody: Object.assign({
                 [file.key]: metadata
@@ -50,7 +50,7 @@ export function upload(fn, options={ network: null, timeout: null }) {
               response.status = 408;
             }
 
-            resolve(fn(db, response));
+            resolve(fn.call(this, db, response));
           });
         } else {
           request.upload.onprogress({
