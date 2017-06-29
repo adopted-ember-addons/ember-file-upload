@@ -12,7 +12,7 @@ function localFilename(filename) {
 
 export default Ember.Route.extend({
   model() {
-    return $.get('/docs/data.json').then(function (docs) {
+    return $.get(`${location.pathname}docs/data.json`).then(function (docs) {
       docs.classitems.forEach(function (classitem) {
         docs.classes[classitem.class].classitems.push(classitem);
         docs.classes[classitem.class].file = remoteFilename(classitem.file);
