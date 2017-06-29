@@ -18,17 +18,50 @@ let supported = (function () {
 
 const dragListener = new DragListener();
 
+/**
+  @element file-dropzone
+  @interface Ember.Component
+ */
 export default Ember.Component.extend({
 
   layout,
 
+  /**
+    The name of the queue that files should be
+    added to when they get dropped.
+
+    @attribute name
+    @type {String}
+   */
   name: null,
 
   supported,
 
+  /**
+    `ondragenter` is called when a file has entered
+    the dropzone.
+
+    @attribute ondragenter
+    @type {Function}
+   */
   ondragenter: null,
 
+  /**
+    `ondragleave` is called when a file has left
+    the dropzone.
+
+    @attribute ondragleave
+    @type {Function}
+   */
   ondragleave: null,
+
+  /**
+    `ondrop` is called when a file has been dropped.
+
+    @attribute ondrop
+    @type {Function}
+   */
+  ondrop: null,
 
   fileQueue: service(),
 
@@ -39,7 +72,7 @@ export default Ember.Component.extend({
     your app. The default is `false` to
     prevent cross-site scripting issues.
 
-    @property allowUploadsFromWebsites
+    @attribute allowUploadsFromWebsites
     @type Boolean
     @default false
    */
@@ -57,7 +90,7 @@ export default Ember.Component.extend({
     - `move`
     - `link`
 
-    @property cursor
+    @attribute cursor
     @type String
     @default null
    */

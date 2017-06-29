@@ -12,9 +12,8 @@ const { get, set, computed, observer, run: { next } } = Ember;
   of uploads when a user navigates around your
   application.
 
-  @namespace ember-file-upload
   @class Queue
-  @extend Ember.Object
+  @extends Ember.Object
  */
 export default Ember.Object.extend({
 

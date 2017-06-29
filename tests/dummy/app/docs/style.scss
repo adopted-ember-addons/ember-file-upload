@@ -1,0 +1,92 @@
+#docs {
+  .warning {
+    background: $yellow;
+
+    ul {
+      position: relative;
+      list-style: none;
+      margin: 0 auto;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    svg {
+      position: absolute;
+      left: -1rem;
+    }
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    padding: 0;
+
+    nav {
+      padding: 0;
+      background: $black;
+      color: $white;
+      flex-shrink: 0;
+
+      h3 {
+        border-top: 1px solid $white;
+        border-bottom: 1px solid $white;
+        background: rgba($white, 0.25);
+        padding: 0.2rem 1rem;
+        margin-top: 0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0 1rem;
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+
+      a {
+        color: $white;
+      }
+    }
+  }
+
+  pre {
+    margin: 0 auto;
+    max-width: 500px;
+    border: 0;
+    margin-bottom: 2rem;
+
+    transition: all 250ms;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+    &:hover, &.active {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    background: $black;
+    color: #FFF;
+    padding: 20px;
+    overflow: auto;
+  }
+
+  .xml {
+    span {
+      color: $white;
+    }
+  }
+
+  .hljs-template-tag {
+    .hljs-name, .hljs-attr, .hljs-string {
+      color: lighten($green, 10%);
+    }
+  }
+
+  .hljs-built_in {
+    color: $white;
+  }
+
+  .language-js {
+    .hljs-keyword, .hljs-string {
+      color: lighten($green, 10%);
+    }
+  }
+}

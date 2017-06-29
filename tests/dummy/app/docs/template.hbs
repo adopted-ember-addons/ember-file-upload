@@ -1,3 +1,48 @@
-<div id="docs">
-
-</div>
+<main id="docs">
+  {{#if model.warnings}}
+    <div class='warning'>
+      <ul class='grid'>
+        {{#each model.warnings as |warning|}}
+          <li>b
+            <a href="vscode://open={{warning.file}}">
+              {{svg-jar 'warn-solid'}}
+              {{warning.line}}<br>
+              {{warning.message}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+  <div class='grid'>
+    <nav>
+      <h3>Components</h3>
+      <ul>
+        {{#each model.components as |component|}}
+          <li>{{#link-to 'docs.component' component.name}}{{concat '{{' component.name '}}'}}{{/link-to}}</li>
+      {{/each}}
+      </ul>
+      <h3>Helpers</h3>
+      <ul>
+        {{#each model.helpers as |helper|}}
+          <li>{{#link-to 'docs.helper' helper.name}}{{concat '{{' helper.name '}}'}}{{/link-to}}</li>
+      {{/each}}
+      </ul>
+      <h3>Services</h3>
+      <ul>
+        {{#each model.services as |service|}}
+          <li>{{#link-to 'docs.service' service.name}}{{service.name}}{{/link-to}}</li>
+        {{/each}}
+      </ul>
+      <h3>Objects</h3>
+      <ul>
+        {{#each model.objects as |object|}}
+          <li>{{#link-to 'docs.system' object.name}}{{object.name}}{{/link-to}}</li>
+        {{/each}}
+      </ul>
+    </nav>
+    <div>
+      {{outlet}}
+    </div>
+  </div>
+</main>

@@ -57,6 +57,13 @@ if (Ember.Test) {
   });
 }
 
+/**
+  Files provide a uniform interface for interacting
+  with data that can be uploaded or read.
+
+  @class File
+  @extends Ember.Object
+ */
 export default Ember.Object.extend({
 
   init() {
@@ -291,6 +298,7 @@ export default Ember.Object.extend({
     Creates a file object that can be read or uploaded to a
     server from a Blob object.
 
+    @static
     @method fromBlob
     @param {Blob} blob The blob to create the file from.
     @param {String} [source] The source that created the blob.
@@ -315,6 +323,7 @@ export default Ember.Object.extend({
     Creates a file object that can be read or uploaded to a
     server from a data URL.
 
+    @static
     @method fromDataURL
     @param {String} dataURL The data URL to create the file from.
     @param {String} [source] The source of the data URL.

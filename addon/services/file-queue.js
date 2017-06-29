@@ -13,13 +13,15 @@ const { get, set, computed, observer, run: { once } } = Ember;
   asking them whether they want to cancel
   the remaining uploads.
 
+  @class file-queue
   @extends Ember.Service
-  @for ember-file-upload
  */
 export default Ember.Service.extend({
 
   /**
     @private
+    @constructor
+    @method
     Setup a map of uploaders so they may be
     accessed by name via the `find` method.
    */

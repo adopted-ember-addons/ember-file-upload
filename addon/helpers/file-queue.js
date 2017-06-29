@@ -26,7 +26,6 @@ const { service } = Ember.inject;
   @public
   @method file-queue
   @return {Queue} A collection of all queues, or a specific queue.
-  @for Helpers
  */
 export default Ember.Helper.extend({
 
