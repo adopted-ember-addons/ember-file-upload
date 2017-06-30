@@ -21,9 +21,8 @@
     "node": ">= 0.12.0"
   },
   "devDependencies": {
+    "addon-docs": "*",
     "broccoli-asset-rev": "^2.4.5",
-    "broccoli-merge-trees": "^2.0.0",
-    "broccoli-yuidoc": "^3.0.0",
     "ember-cli": "2.12.1",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-code-coverage": "0.3.12",
@@ -42,8 +41,8 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-code-snippet": "1.7.0",
     "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-engines": "^0.5.8",
     "ember-load-initializers": "^0.6.0",
-    "ember-remarkable": "^3.6.1",
     "ember-resolver": "^2.0.3",
     "ember-route-action-helper": "2.0.0",
     "ember-source": "~2.12.0",
