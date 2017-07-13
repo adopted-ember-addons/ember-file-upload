@@ -76,8 +76,8 @@ const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'c
   });
   ```
 
-  @element file-upload
-  @interface Ember.Component
+  @class file-upload
+  @type Ember.Component
  */
 export default Ember.Component.extend({
   tagName: 'label',
@@ -96,14 +96,14 @@ export default Ember.Component.extend({
   /**
     A list of MIME types / extensions to be accepted by the input
     @attribute accept
-    @type String
+    @type string
    */
   accept: null,
 
   /**
     Whether multiple files can be selected when uploading.
     @attribute multiple
-    @type Boolean
+    @type boolean
    */
   multiple: null,
 
@@ -111,7 +111,7 @@ export default Ember.Component.extend({
     The name of the queue to upload the file to.
 
     @attribute name
-    @type String
+    @type string
     @required
    */
   name: null,
@@ -120,7 +120,7 @@ export default Ember.Component.extend({
     If set, disables input and prevents files from being added to the queue
 
     @attribute disabled
-    @type Boolean
+    @type boolean
     @default false
    */
   disabled: false,
@@ -132,7 +132,7 @@ export default Ember.Component.extend({
     is called once for every file that was selected.
 
     @attribute onfileadd
-    @type Function
+    @type function
     @required
    */
   onfileadd: null,
