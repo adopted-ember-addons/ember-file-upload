@@ -28,7 +28,6 @@ function normalizeOptions(file, url, options) {
   options.headers = options.headers || {};
   options.data = options.data || {};
   options.fileKey = options.fileKey || 'file';
-  options.payloadType = options.payloadType || 'form';
 
   if (options.headers.Accept == null) {
     if (!Array.isArray(options.accepts)) {
@@ -37,14 +36,10 @@ function normalizeOptions(file, url, options) {
     options.headers.Accept = options.accepts.join(',');
   }
 
-  if (options.payloadType === 'binary') {
-    options.headers['content-type'] = 'application/octet-stream';
-  }
-
   // Set Content-Type in the data payload
   // instead of the headers, since the header
   // for Content-Type will always be multipart/form-data
-  if (options.payloadType === 'form' && options.contentType) {
+  if (options.contentType) {
     options.data['Content-Type'] = options.contentType;
   }
 
@@ -53,6 +48,61 @@ function normalizeOptions(file, url, options) {
   options.withCredentials = options.withCredentials || false;
 
   return options;
+}
+
+function upload(file, url, opts, uploadFn) {
+  if (['queued', 'failed', 'timed_out'].indexOf(get(file, 'state')) === -1) {
+    Ember.assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
+  }
+
+  let options = normalizeOptions(file, url, opts);
+
+  let request = new HTTPRequest({
+    withCredentials: options.withCredentials,
+    label: `${options.method} ${get(file, 'name') } to ${options.url}`
+  });
+
+  request.open(options.method, options.url);
+
+  Object.keys(options.headers).forEach(function (key) {
+    request.setRequestHeader(key, options.headers[key]);
+  });
+
+  if (options.timeout) {
+    request.timeout = options.timeout;
+  }
+
+  request.onprogress = function (evt) {
+    if (evt.lengthComputable) {
+      set(file, 'loaded', evt.loaded);
+      set(file, 'size', evt.total);
+      set(file, 'progress', (evt.loaded / evt.total) * 100);
+    }
+  };
+
+  request.ontimeout = function () {
+    set(file, 'state', 'timed_out');
+  };
+
+  request.onabort = function () {
+    set(file, 'state', 'aborted');
+  };
+
+  set(file, 'state', 'uploading');
+
+  // Increment for Ember.Test
+  inflightRequests++;
+
+  return uploadFn(request, options).then(function (result) {
+    set(file, 'state', 'uploaded');
+    return result;
+  }, function (error) {
+    set(file, 'state', 'failed');
+    return RSVP.reject(error);
+  }).finally(function () {
+    // Decrement for Ember.Test
+    inflightRequests--;
+  });
 }
 
 let inflightRequests = 0;
@@ -212,50 +262,15 @@ export default Ember.Object.extend({
    */
   source: '',
 
+  uploadBinary(url, opts) {
+    opts.contentType = 'application/octet-stream';
+    return upload(this, url, opts, (request) => {
+      return request.send(get(this, 'blob'));
+    });
+  },
+
   upload(url, opts) {
-    if (['queued', 'failed', 'timed_out'].indexOf(get(this, 'state')) === -1) {
-      Ember.assert(`The file ${this.id} is in the state "${get(this, 'state')}" and cannot be requeued.`);
-    }
-
-    let options = normalizeOptions(this, url, opts);
-
-    let request = new HTTPRequest({
-      withCredentials: options.withCredentials,
-      label: `${options.method} ${get(this, 'name') } to ${options.url}`
-    });
-
-    request.open(options.method, options.url);
-
-    Object.keys(options.headers).forEach(function (key) {
-      request.setRequestHeader(key, options.headers[key]);
-    });
-
-    if (options.timeout) {
-      request.timeout = options.timeout;
-    }
-
-    request.onprogress = (evt) => {
-      if (evt.lengthComputable) {
-        set(this, 'loaded', evt.loaded);
-        set(this, 'size', evt.total);
-        set(this, 'progress', (evt.loaded / evt.total) * 100);
-      }
-    };
-
-    request.ontimeout = () => {
-      set(this, 'state', 'timed_out');
-    };
-
-    request.onabort = () => {
-      set(this, 'state', 'aborted');
-    };
-
-    set(this, 'state', 'uploading');
-
-    // Increment for Ember.Test
-    inflightRequests++;
-
-    if (options.payloadType === 'form') {
+    upload(this, url, opts, (request, options) => {
       // Build the form
       let form = new FormData();
 
@@ -267,31 +282,8 @@ export default Ember.Object.extend({
         }
       });
 
-      return request.send(form).then((result) => {
-        set(this, 'state', 'uploaded');
-        return result;
-      }, (error) => {
-        set(this, 'state', 'failed');
-        return RSVP.reject(error);
-      }).finally(function () {
-        // Decrement for Ember.Test
-        inflightRequests--;
-      });
-
-    } else if (options.payloadType === 'binary') {
-      let data = get(this, 'blob');
-
-      return request.send(data).then((result) => {
-        set(this, 'state', 'uploaded');
-        return result;
-      }, (error) => {
-        set(this, 'state', 'failed');
-        return RSVP.reject(error);
-      }).finally(function () {
-        // Decrement for Ember.Test
-        inflightRequests--;
-      });
-    }
+      return request.send(form);
+    });
   },
 
   readAsArrayBuffer() {
