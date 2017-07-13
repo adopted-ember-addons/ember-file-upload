@@ -37,10 +37,9 @@ This configuration is for the uploader instance as a whole. Most of the configur
 | `contentType`       | correlates to the Content-Type header of the file. This will add a property 'Content-Type' to your data. This defaults to the type of the file
 | `data`              | multipart params to send along with the upload
 | `fileKey`           | the name of the parameter to send the file as. defaults to `file`
-| `payloadType`       | how to send the file payload. Defaults to 'form' (multipart/form-data encoding) but 'binary' (just a file blob as application/octet-stream) is also an option.
 
 
-The function signature of `upload` is `upload(url, [settings])`, or `upload(settings)`.
+The function signature of `upload` is `upload(url, [settings])`, or `upload(settings)`. If you want to send your file to your server unencoded (as a binary file), you can do so using `uploadBinary`. This will transmit the content using `application/octet-stream` instead of `multipart/form-data`.
 
 ## Recipes
 
