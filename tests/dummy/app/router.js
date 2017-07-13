@@ -6,8 +6,11 @@ const Router = Ember.Router.extend({
   rootURL: config.rootURL
 });
 
-Router.map(function() {
-  this.mount('addon-docs', { path: '/docs' });
+Router.map(function () {
+  if (this.mount) {
+    this.mount('addon-docs', { path: '/docs' });
+  }
+
   this.route('recipes');
   this.route('aws');
 });
