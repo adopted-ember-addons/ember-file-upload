@@ -34,7 +34,7 @@ export default Ember.Object.extend({
     The FileQueue service.
 
     @property fileQueue
-    @type {FileQueue}
+    @type FileQueue
    */
   fileQueue: null,
 
@@ -104,7 +104,7 @@ export default Ember.Object.extend({
     is a dynamic segment that is generated from the artwork id.
 
     @property name
-    @type {String}
+    @type string
     @default null
    */
   name: null,
@@ -123,14 +123,12 @@ export default Ember.Object.extend({
     considered to be in a settled state.
 
     @property files
-    @type {File[]}
+    @type File[]
     @default []
    */
   files: [],
 
   /**
-    @private
-
     Flushes the `files` property when they have settled. This
     will only flush files when all files have arrived at a terminus
     of their state chart.
@@ -151,6 +149,7 @@ export default Ember.Object.extend({
     Files *may* be requeued by the uesr in the `failed` or `timed_out`
     states.
 
+    @private
     @method flushFilesWhenSettled
    */
   flushFilesWhenSettled: observer('files.@each.state', function () {
@@ -172,7 +171,7 @@ export default Ember.Object.extend({
 
     @property size
     @readonly
-    @type {Number}
+    @type number
     @default 0
    */
   size: sumBy('files', 'size'),
@@ -183,7 +182,7 @@ export default Ember.Object.extend({
 
     @property loaded
     @readonly
-    @type {Number}
+    @type number
     @default 0
    */
   loaded: sumBy('files', 'loaded'),
@@ -193,7 +192,7 @@ export default Ember.Object.extend({
 
     @property progress
     @readonly
-    @type {Number}
+    @type number
     @default 0
    */
   progress: computed('size', 'loaded', {

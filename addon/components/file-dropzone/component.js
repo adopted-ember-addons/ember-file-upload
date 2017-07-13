@@ -19,8 +19,8 @@ let supported = (function () {
 const dragListener = new DragListener();
 
 /**
-  @element file-dropzone
-  @interface Ember.Component
+  @class file-dropzone
+  @type Ember.Component
  */
 export default Ember.Component.extend({
 
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
     added to when they get dropped.
 
     @attribute name
-    @type {String}
+    @type string
    */
   name: null,
 
@@ -42,7 +42,7 @@ export default Ember.Component.extend({
     the dropzone.
 
     @attribute ondragenter
-    @type {Function}
+    @type function
    */
   ondragenter: null,
 
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
     the dropzone.
 
     @attribute ondragleave
-    @type {Function}
+    @type function
    */
   ondragleave: null,
 
@@ -59,7 +59,7 @@ export default Ember.Component.extend({
     `ondrop` is called when a file has been dropped.
 
     @attribute ondrop
-    @type {Function}
+    @type function
    */
   ondrop: null,
 
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
     prevent cross-site scripting issues.
 
     @attribute allowUploadsFromWebsites
-    @type Boolean
+    @type boolean
     @default false
    */
   allowUploadsFromWebsites: false,
@@ -91,7 +91,7 @@ export default Ember.Component.extend({
     - `link`
 
     @attribute cursor
-    @type String
+    @type string
     @default null
    */
   cursor: null,
