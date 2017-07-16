@@ -270,7 +270,7 @@ export default Ember.Object.extend({
   },
 
   upload(url, opts) {
-    upload(this, url, opts, (request, options) => {
+    return upload(this, url, opts, (request, options) => {
       // Build the form
       let form = new FormData();
 
