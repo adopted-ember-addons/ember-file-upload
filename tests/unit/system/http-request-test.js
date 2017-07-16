@@ -118,7 +118,7 @@ test('successful send with a text/xml response', function (assert) {
   return promise;
 });
 
-['application/json', 'text/javascript', 'application/javascript'].forEach(function (contentType) {
+['application/json', 'application/vnd.api+json', 'text/javascript', 'application/javascript'].forEach(function (contentType) {
   test(`successful send with a ${contentType} response`, function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject.send({
