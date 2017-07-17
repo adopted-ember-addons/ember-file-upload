@@ -35,6 +35,7 @@ function parseResponse(request) {
   } else if (contentType.indexOf('text/xml') !== -1) {
     body = $.parseXML(body);
   } else if (contentType.indexOf('application/json') !== -1 ||
+             contentType.indexOf('application/vnd.api+json') !== -1 ||
              contentType.indexOf('text/javascript') !== -1 ||
              contentType.indexOf('application/javascript') !== -1) {
     body = $.parseJSON(body);
