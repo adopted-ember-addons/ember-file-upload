@@ -170,6 +170,7 @@ export default Ember.Component.extend({
   actions: {
     change(files) {
       get(this, 'queue')._addFiles(files, 'browse');
+      this.$().children('input').val(null);
     }
   }
 });
