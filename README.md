@@ -87,9 +87,11 @@ const { get, set } = Ember;
 export default Ember.Route.extend({
 
   uploadPhoto: task(function * (file) {
+    let photo;
+    
     try {
       let product = this.modelFor('product');
-      let photo = this.store.createRecord('photo', {
+      photo = this.store.createRecord('photo', {
         product,
         filename: get(file, 'name'),
         filesize: get(file, 'size')
