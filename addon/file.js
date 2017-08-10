@@ -1,116 +1,12 @@
 /* global atob, Uint8Array */
 import Ember from 'ember';
 import FileReader from './system/file-reader';
-import HTTPRequest from './system/http-request';
-import RSVP from 'rsvp';
 import uuid from './system/uuid';
 
 import get from 'ember-metal/get';
-import set from 'ember-metal/set';
 
 const { computed } = Ember;
 const { reads } = computed;
-
-function normalizeOptions(file, url, options) {
-  if (typeof url === 'object') {
-    options = url;
-    url = null;
-  }
-
-  options = options || {};
-
-  options.url = options.url || url;
-  options.method = options.method || 'POST';
-  options.accepts = options.accepts || ['application/json', 'text/javascript'];
-  if (!options.hasOwnProperty('contentType')) {
-    options.contentType = get(file, 'type');
-  }
-  options.headers = options.headers || {};
-  options.data = options.data || {};
-  options.fileKey = options.fileKey || 'file';
-
-  if (options.headers.Accept == null) {
-    if (!Array.isArray(options.accepts)) {
-      options.accepts = [options.accepts];
-    }
-    options.headers.Accept = options.accepts.join(',');
-  }
-
-  // Set Content-Type in the data payload
-  // instead of the headers, since the header
-  // for Content-Type will always be multipart/form-data
-  if (options.contentType) {
-    options.data['Content-Type'] = options.contentType;
-  }
-
-  options.data[options.fileKey] = file.blob;
-
-  options.withCredentials = options.withCredentials || false;
-
-  return options;
-}
-
-function upload(file, url, opts, uploadFn) {
-  if (['queued', 'failed', 'timed_out'].indexOf(get(file, 'state')) === -1) {
-    Ember.assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
-  }
-
-  let options = normalizeOptions(file, url, opts);
-
-  let request = new HTTPRequest({
-    withCredentials: options.withCredentials,
-    label: `${options.method} ${get(file, 'name') } to ${options.url}`
-  });
-
-  request.open(options.method, options.url);
-
-  Object.keys(options.headers).forEach(function (key) {
-    request.setRequestHeader(key, options.headers[key]);
-  });
-
-  if (options.timeout) {
-    request.timeout = options.timeout;
-  }
-
-  request.onprogress = function (evt) {
-    if (evt.lengthComputable) {
-      set(file, 'loaded', evt.loaded);
-      set(file, 'size', evt.total);
-      set(file, 'progress', (evt.loaded / evt.total) * 100);
-    }
-  };
-
-  request.ontimeout = function () {
-    set(file, 'state', 'timed_out');
-  };
-
-  request.onabort = function () {
-    set(file, 'state', 'aborted');
-  };
-
-  set(file, 'state', 'uploading');
-
-  // Increment for Ember.Test
-  inflightRequests++;
-
-  return uploadFn(request, options).then(function (result) {
-    set(file, 'state', 'uploaded');
-    return result;
-  }, function (error) {
-    set(file, 'state', 'failed');
-    return RSVP.reject(error);
-  }).finally(function () {
-    // Decrement for Ember.Test
-    inflightRequests--;
-  });
-}
-
-let inflightRequests = 0;
-if (Ember.Test) {
-  Ember.Test.registerWaiter(null, function () {
-    return inflightRequests === 0;
-  });
-}
 
 /**
   Files provide a uniform interface for interacting
@@ -120,7 +16,6 @@ if (Ember.Test) {
   @extends Ember.Object
  */
 export default Ember.Object.extend({
-
   init() {
     this._super();
     Object.defineProperty(this, 'id', {
@@ -262,28 +157,22 @@ export default Ember.Object.extend({
    */
   source: '',
 
-  uploadBinary(url, opts) {
-    opts.contentType = 'application/octet-stream';
-    return upload(this, url, opts, (request) => {
-      return request.send(get(this, 'blob'));
-    });
+  /**
+    The uploader to lookup
+
+    @property
+    @type {String}
+    @default 'uploader:file-data'
+   */
+  uploader: 'uploader:application',
+
+  upload(url, options, uploader) {
+    return this.getUploader(uploader).upload(this, url, options);
   },
 
-  upload(url, opts) {
-    return upload(this, url, opts, (request, options) => {
-      // Build the form
-      let form = new FormData();
-
-      Object.keys(options.data).forEach((key) => {
-        if (key === options.fileKey) {
-          form.append(key, options.data[key], get(this, 'name'));
-        } else {
-          form.append(key, options.data[key]);
-        }
-      });
-
-      return request.send(form);
-    });
+  getUploader(uploader) {
+    let uploaderString = uploader || this.get('uploader');
+    return this.get('owner').lookup(uploaderString);
   },
 
   readAsArrayBuffer() {
@@ -304,6 +193,10 @@ export default Ember.Object.extend({
   readAsText() {
     let reader = new FileReader({ label: `Read ${get(this, 'name')} as text` });
     return reader.readAsText(this.blob);
+  },
+
+  updateState(state) {
+    this.set('state', state);
   }
 
 }).reopenClass({
@@ -318,8 +211,8 @@ export default Ember.Object.extend({
     @param {String} [source] The source that created the blob.
     @return {File} A file object
    */
-  fromBlob(blob, source='blob') {
-    let file = this.create();
+  fromBlob(blob, source='blob', owner) {
+    let file = this.create({owner});
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,

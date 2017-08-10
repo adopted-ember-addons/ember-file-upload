@@ -62,7 +62,7 @@ export default Ember.Object.extend({
       for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
         let fileBlob = fileList.item ? fileList.item(i) : fileList[i];
         if (fileBlob instanceof Blob) {
-          let file = File.fromBlob(fileBlob, source);
+          let file = File.fromBlob(fileBlob, source, this.get('owner'));
 
           files.push(file);
           this.push(file);

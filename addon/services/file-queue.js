@@ -2,7 +2,7 @@ import Ember from 'ember';
 import Queue from '../queue';
 import sumBy from '../computed/sum-by';
 
-const { get, set, computed, observer, run: { once } } = Ember;
+const { get, set, computed, observer, getOwner, run: { once } } = Ember;
 
 /**
   The file queue service is a global file
@@ -145,7 +145,7 @@ export default Ember.Service.extend({
   create(name) {
     Ember.assert(`Queue names are required to be unique. "${name}" has already been reserved.`, this.find(name) == null);
 
-    let queue = Queue.create({ name, fileQueue: this });
+    let queue = Queue.create({ name, fileQueue: this, owner: getOwner(this) });
     get(this, 'queues').push(queue);
     once(this, 'notifyPropertyChange', 'queues');
 
