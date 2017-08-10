@@ -26,7 +26,7 @@ export default Ember.Object.extend({
     }
 
     options = this.normalizeOptions(file, url, options);
-    let request = this._createRequest(options, file);
+    let request = this._createRequest(file, url, options);
 
     file.updateState('uploading');
 
@@ -53,6 +53,8 @@ export default Ember.Object.extend({
       url = null;
     }
 
+    options.url = options.url || url;
+
     let defaultOptions = this.get('defaultOptions');
     options = assign({}, defaultOptions, options);
     options.headers = assign({}, defaultOptions.headers, options.headers);
@@ -64,7 +66,7 @@ export default Ember.Object.extend({
     return file.get('blob');
   },
 
-  _createRequest(options, file) {
+  _createRequest(file, url, options) {
     let request = new HTTPRequest({
       withCredentials: options.withCredentials,
       label: `${options.method} ${file.get('name')} to ${options.url}`
