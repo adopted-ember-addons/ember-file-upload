@@ -3,7 +3,7 @@ import FormDataUploader from 'ember-file-upload/uploaders/base';
 /**
   BinaryUploader
 
-  @class FormDataUploader
+  @class BinaryUploader
   @extends Ember.Object
  */
 export default FormDataUploader.extend({
