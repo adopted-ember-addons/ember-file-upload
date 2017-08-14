@@ -55,6 +55,7 @@ export default Ember.Object.extend({
 
     options.url = options.url || url;
 
+    // Override default options with passed in options
     let defaultOptions = this.get('defaultOptions');
     options = assign({}, defaultOptions, options);
     options.headers = assign({}, defaultOptions.headers, options.headers);

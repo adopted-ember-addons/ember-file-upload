@@ -21,6 +21,7 @@ export default BaseUploader.extend({
 
   normalizeOptions(file, url, options) {
     options = this._super(...arguments);
+
     if (!options.hasOwnProperty('contentType')) {
       options.contentType = get(file, 'type');
     }
