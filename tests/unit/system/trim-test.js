@@ -1,4 +1,4 @@
-/* global require */
+/* global requirejs */
 import {
   module,
   test
@@ -8,7 +8,7 @@ module('trim');
 
 let unit = function (name) {
   let module = {};
-  require.entries['ember-file-upload/system/trim'].callback(module);
+  requirejs.entries['ember-file-upload/system/trim'].callback(module);
   let trim = module['default'];
 
   test(name + ' trims whitespace from strings', function (assert) {

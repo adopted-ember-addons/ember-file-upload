@@ -1,4 +1,4 @@
-/* global require */
+/* global requirejs */
 import {
   module,
   test
@@ -8,7 +8,7 @@ module('uuid');
 
 let unit = function (name) {
   let module = {};
-  require.entries['ember-file-upload/system/uuid'].callback(module);
+  requirejs.entries['ember-file-upload/system/uuid'].callback(module);
   let uuid = module['default'];
 
   test(name + ' long', function (assert) {
