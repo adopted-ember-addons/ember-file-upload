@@ -1,10 +1,10 @@
 /* eslint-env node */
 'use strict';
 
-const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
-  let app = new EmberAddon(defaults, {
+  var app = new EmberAddon(defaults, {
     // Add options here
     fingerprint: {
       extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'eot', 'ttf', 'woff', 'woff2', 'svg'],
