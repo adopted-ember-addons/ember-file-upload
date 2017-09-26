@@ -1,7 +1,5 @@
 # {{file-upload}} [![Build Status](https://travis-ci.org/tim-evans/ember-file-upload.svg)](https://travis-ci.org/tim-evans/ember-file-upload) [![Code Climate](https://codeclimate.com/github/tim-evans/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/tim-evans/ember-file-upload) [![Ember Observer Score](http://emberobserver.com/badges/ember-file-upload.svg)](http://emberobserver.com/addons/ember-file-upload)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/tim-evans/ember-file-upload.svg)](https://greenkeeper.io/)
-
 {{file-upload}} is an ember component that provides an API for file uploads. Uploads are persistent accross routes in your application (they continue in the background).
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
