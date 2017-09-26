@@ -320,7 +320,7 @@ export default Ember.Route.extend({
 
 # Contributing
 
-Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-file-upload/blob/master/CONDUCT.md).
+Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-file-upload/blob/latest/CONDUCT.md).
 
 
 ## Publishing
