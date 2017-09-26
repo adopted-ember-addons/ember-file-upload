@@ -147,7 +147,9 @@ export default Ember.Component.extend({
   didLeaveDropzone(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = get(this, 'cursor');
+      if (evt.dataTransfer) {
+        evt.dataTransfer.dropEffect = get(this, 'cursor');
+      }
       if (this.ondragleave) {
         this.ondragleave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
