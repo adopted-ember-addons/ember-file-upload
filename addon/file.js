@@ -94,7 +94,7 @@ function upload(file, url, opts, uploadFn) {
   inflightRequests++;
 
   let uploadPromise = uploadFn(request, options);
-  
+
   uploadPromise.then(function (result) {
     set(file, 'state', 'uploaded');
     return result;
@@ -105,7 +105,7 @@ function upload(file, url, opts, uploadFn) {
     // Decrement for Ember.Test
     inflightRequests--;
   });
-  
+
   return uploadPromise;
 }
 
