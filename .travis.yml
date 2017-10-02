@@ -13,6 +13,7 @@ addons:
   chrome: stable
 
 cache:
+  default_branch: latest
   yarn: true
 
 env:
