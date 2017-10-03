@@ -21,9 +21,9 @@ The `{{file-dropzone}}` component:
 
 | Attribute           | Definition
 |---------------------|------------------|
-| `ondragenter`       | the name of the action to be called when a file is added to a queue
-| `ondragleave`       | the name of the action to be called when a file is added to a queue
-| `ondrop`            | the name of the action to be called when a file is added to a queue
+| `ondragenter`       | the name of the action to be called when a file has entered the dropzone
+| `ondragleave`       | the name of the action to be called when a file has left the dropzone
+| `ondrop`            | the name of the action to be called when a file has been dropped in the dropzone
 
 
 This configuration is for the uploader instance as a whole. Most of the configuration deals directly with the feel of the uploader. When the queued event is triggered, you will be given a file object that allows you to configure where the file is being uploaded:
