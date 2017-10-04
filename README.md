@@ -139,7 +139,7 @@ export default function () {
     let { name: filename, size: filesize, url } = file;
     let photo = db.create('photo', { filename, filesize, url, uploadedAt: new Date() });
     return photo;
-  });
+  }));
 }
 ```
 
