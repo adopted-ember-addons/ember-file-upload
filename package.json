@@ -24,7 +24,7 @@
     "addon-docs": "tim-evans/addon-docs",
     "broccoli-asset-rev": "^2.4.5",
     "ember-cli": "2.15.1",
-    "ember-cli-code-coverage": "0.4.1",
+    "ember-cli-code-coverage": "0.4.2",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.0.0",
     "ember-cli-github-pages": "0.1.2",
