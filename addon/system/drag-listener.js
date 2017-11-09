@@ -95,7 +95,7 @@ export default class {
     for (let i = 0, len = types.length; i < len; i++) {
       if (types[i] === 'Files' ||
           types[i] === 'application/x-moz-file') {
-        areAllTypesFiles = true;
+        areSomeTypesFiles = true;
         break;
       }
     }
