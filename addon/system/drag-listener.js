@@ -91,15 +91,15 @@ export default class {
 
   getEventSource(evt) {
     let types = evt.dataTransfer.types || [];
-    let areAllTypesFiles = true;
+    let areSomeTypesFiles = false;
     for (let i = 0, len = types.length; i < len; i++) {
-      if (types[i] !== 'Files' &&
-          types[i] !== 'application/x-moz-file') {
-        areAllTypesFiles = false;
+      if (types[i] === 'Files' ||
+          types[i] === 'application/x-moz-file') {
+        areSomeTypesFiles = true;
         break;
       }
     }
-    return areAllTypesFiles ? 'os' : 'web';
+    return areSomeTypesFiles ? 'os' : 'web';
   }
 
   dragenter(evt) {
