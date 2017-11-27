@@ -95,7 +95,7 @@ function upload(file, url, opts, uploadFn) {
 
   let uploadPromise = uploadFn(request, options);
 
-  uploadPromise.then(function (result) {
+  uploadPromise = uploadPromise.then(function (result) {
     set(file, 'state', 'uploaded');
     return result;
   }, function (error) {
