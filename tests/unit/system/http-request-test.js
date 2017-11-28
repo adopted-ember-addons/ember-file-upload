@@ -161,6 +161,19 @@ test(`confirm withCredentials: undefined by default`, function (assert) {
   assert.equal(this.request.withCredentials, undefined);
 });
 
+test('promise is cancellable', function (assert) {
+  this.subject.open('PUT', 'http://emberjs.com');
+  let promise = this.subject.send();
+  assert.ok(typeof promise.cancel === 'function', 'returned promise should have a cancel() method');
+
+  let promise2 = promise
+    .then(function() { })
+    .catch(function() { })
+    .finally(function() { });
+
+  assert.ok(typeof promise2.cancel === 'function', 'chained promise should have a cancel() method');
+});
+
 skip('onprogress', function () {
 
 });
