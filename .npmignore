@@ -11,6 +11,7 @@
 .eslintrc.js
 .watchmanconfig
 .travis.yml
+.node_modules.ember-try
 bower.json
 ember-cli-build.js
 testem.js
