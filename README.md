@@ -135,24 +135,25 @@ In addition to the file list, there are properties that indicate how many bytes 
 import { upload } from 'ember-file-upload/mirage';
 
 export default function () {
-  this.post('/photos/new', upload(function (db, file) {
+  this.post('/photos/new', upload(function ({ db }, request, file) {
     let { name: filename, size: filesize, url } = file;
-    let photo = db.create('photo', { filename, filesize, url, uploadedAt: new Date() });
-    return photo;
+    return db.create('photo', { filename, filesize, url, uploadedAt: new Date() });
   }));
 }
 ```
 
 ```javascript
 import { upload } from '../../helpers/upload';
-import File from 'ember-file-upload/file';
+import { dataUrlToBlob } from 'ember-file-upload/file';
 
 moduleForAcceptance('/photos');
 
 test('uploading an image', async function (assert) {
-  let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
-
-  await upload('#upload-photo', file, 'smile.gif');
+  
+  let blob = dataUrlToBlob('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
+  let file = new File([ blob ], 'smile.gif');
+  
+  await upload('#upload-photo', file);
 
   let photo = server.db.photos[0];
   assert.equal(photo.filename, 'smile.gif');
@@ -162,14 +163,14 @@ test('uploading an image', async function (assert) {
 If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies to all types of files; encode them as a Base64 data url or read them from a file as a blob.
 
 ```javascript
-import upload from '../helpers/upload';
+import { upload } from '../helpers/upload';
 
 moduleForAcceptance('/notes');
 
 test('showing a note', async function (assert) {
-  let file = File.fromDataUrl('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
+  let file = new File([ 'I can feel the money leaving my body' ], 'douglas_coupland.txt')
 
-  await upload('#upload-note', file, 'douglas_coupland.txt');
+  await upload('#upload-note', file);
 
   assert.equal(find('.note').text(), 'I can feel the money leaving my body');
 });

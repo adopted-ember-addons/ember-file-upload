@@ -8,6 +8,20 @@ import uuid from './system/uuid';
 const { computed, get, set } = Ember;
 const { reads } = computed;
 
+export function dataUrlToBlob(dataURL) {
+  let [typeInfo, base64String] = dataURL.split(',');
+  let mimeType = typeInfo.match(/:(.*?);/)[1];
+
+  let binaryString = atob(base64String);
+  let binaryData = new Uint8Array(binaryString.length);
+
+  for (let i = 0, len = binaryString.length; i < len; i++) {
+    binaryData[i] = binaryString.charCodeAt(i);
+  }
+
+  return new Blob([binaryData], { type: mimeType });
+}
+
 function normalizeOptions(file, url, options) {
   if (typeof url === 'object') {
     options = url;
@@ -345,18 +359,6 @@ export default Ember.Object.extend({
     @return {File} A file object
    */
   fromDataURL(dataURL, source='data-url') {
-    let [typeInfo, base64String] = dataURL.split(',');
-    let mimeType = typeInfo.match(/:(.*?);/)[1];
-
-    let binaryString = atob(base64String);
-    let binaryData = new Uint8Array(binaryString.length);
-
-    for (let i = 0, len = binaryString.length; i < len; i++) {
-      binaryData[i] = binaryString.charCodeAt(i);
-    }
-
-    let blob = new Blob([binaryData], { type: mimeType });
-
-    return this.fromBlob(blob, source);
+    return this.fromBlob(dataUrlToBlob(dataURL, source), source);
   }
 });

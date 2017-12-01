@@ -1,9 +1,8 @@
 /*global triggerEvent, find */
 
-export default function (selector, file, filename) {
-  let input = findWithAssert(selector)[0];
-
-  file.name = filename;
+export function upload(selector, file) {
+  let upload = find(selector).closest('.file-upload');
+  let input = findWithAssert('input[type=file]', upload)[0];
 
   // This hack is here since we can't mock out the
   // FileList API easily; we're taking advantage
@@ -15,5 +14,5 @@ export default function (selector, file, filename) {
   };
   input.files.size = files.length;
 
-  return triggerEvent(selector, 'change');
+  return triggerEvent(input, 'change');
 }
