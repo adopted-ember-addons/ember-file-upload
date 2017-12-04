@@ -62,6 +62,12 @@ export default function (options = {}) {
     }
     return aborted.promise;
   };
+  promise.then = function(...args) {
+    let newPromise = RSVP.Promise.prototype.then.apply(this, args);
+    newPromise.cancel = promise.cancel;
+    newPromise.then = promise.then;
+    return newPromise;
+  };
   request.onabort = bind(this, function () {
     this.onabort();
     aborted.resolve();
