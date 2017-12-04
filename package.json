@@ -33,7 +33,7 @@
     "ember-cli-mirage": "0.4.0",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-release": "1.0.0-beta.2",
-    "ember-cli-sass": "7.1.1",
+    "ember-cli-sass": "7.1.2",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-testdouble": "0.1.0",
     "ember-cli-uglify": "^1.2.0",
