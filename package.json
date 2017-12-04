@@ -21,7 +21,6 @@
     "node": "^4.5 || 6.* || >= 7.*"
   },
   "devDependencies": {
-    "addon-docs": "tim-evans/addon-docs",
     "broccoli-asset-rev": "^2.4.5",
     "ember-cli": "2.16.1",
     "ember-cli-code-coverage": "0.4.2",
@@ -38,13 +37,16 @@
     "ember-cli-testdouble": "0.1.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-disable-prototype-extensions": "^1.1.2",
-    "ember-engines": "^0.5.8",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-route-action-helper": "2.0.0",
     "ember-source": "~2.15.0",
     "ember-svg-jar": "^0.11.1",
     "loader.js": "^4.2.3"
+  },
+  "optionalDependencies": {
+    "addon-docs": "tim-evans/addon-docs",
+    "ember-engines": "^0.5.12"
   },
   "dependencies": {
     "ember-cli-babel": "^6.3.0",
