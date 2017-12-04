@@ -1,6 +1,6 @@
 # {{file-upload}} [![Build Status](https://travis-ci.org/tim-evans/ember-file-upload.svg)](https://travis-ci.org/tim-evans/ember-file-upload) [![Code Climate](https://codeclimate.com/github/tim-evans/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/tim-evans/ember-file-upload) [![Ember Observer Score](http://emberobserver.com/badges/ember-file-upload.svg)](http://emberobserver.com/addons/ember-file-upload)
 
-{{file-upload}} is an ember component that provides an API for file uploads. Uploads are persistent accross routes in your application (they continue in the background).
+{{file-upload}} is an ember component that provides an API for file uploads. Uploads are persistent across routes in your application (they continue in the background).
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
@@ -12,7 +12,7 @@ exposes a variety of parameters for configuring file-uploader:
 
 | Attribute           | Definition
 |---------------------|------------------|
-| `accept`            | a list of MIME types / extensions to accept by the input
+| `accept`            | a list of MIME types/extensions to accept by input
 | `multiple`          | whether multiple files can be selected
 | `disabled`          | if set, disables input and prevents files from being added to the queue
 | `onfileadd`         | the name of the action to be called when a file is added to a queue
@@ -159,7 +159,7 @@ test('uploading an image', async function (assert) {
 });
 ```
 
-If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies for all types of files; encode them as a Base64 data url or read them from a file as a blob.
+If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies to all types of files; encode them as a Base64 data url or read them from a file as a blob.
 
 ```javascript
 import upload from '../helpers/upload';
