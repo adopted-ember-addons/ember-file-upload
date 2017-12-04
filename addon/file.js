@@ -5,10 +5,7 @@ import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
 import uuid from './system/uuid';
 
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
-
-const { computed } = Ember;
+const { computed, get, set } = Ember;
 const { reads } = computed;
 
 function normalizeOptions(file, url, options) {
@@ -95,7 +92,7 @@ function upload(file, url, opts, uploadFn) {
 
   let uploadPromise = uploadFn(request, options);
 
-  uploadPromise.then(function (result) {
+  uploadPromise = uploadPromise.then(function (result) {
     set(file, 'state', 'uploaded');
     return result;
   }, function (error) {

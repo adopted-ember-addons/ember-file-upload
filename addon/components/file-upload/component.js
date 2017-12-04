@@ -10,7 +10,7 @@ const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'c
                     'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
                     'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
                     'svg', 'time', 'var', 'video', 'wbr',
-                    'path', 'g', 'use'];
+                    'path', 'g', 'use', 'circle'];
 
 /**
   `{{file-upload}}` is an element that will open a dialog for
