@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Mirage from 'ember-cli-mirage';
 import { extractFormData, extractFileMetadata } from './utils';
 import './shim';
 
@@ -23,13 +24,13 @@ export function upload(fn, options={ network: null, timeout: null }) {
       speed = NETWORK[options.network] * 1024;
     }
 
-    let { file, data } = extractFormData(request.requestBody);
+    let { file } = extractFormData(request.requestBody);
     let loaded = 0;
     let total = file.value.size;
 
     return new RSVP.Promise((resolve) => {
       let start = new Date().getTime();
-      let metadata = extractFileMetadata(file.value);
+      let extractMetadata = extractFileMetadata(file.value);
 
       let upload = () => {
         let timedOut = options.timeout && new Date().getTime() - start > options.timeout;
@@ -40,17 +41,12 @@ export function upload(fn, options={ network: null, timeout: null }) {
             loaded: Math.min(loaded, total)
           });
 
-          metadata.then((metadata) => {
-            let response = {
-              requestBody: Object.assign({
-                [file.key]: metadata
-              }, data)
-            };
+          extractMetadata.then((metadata) => {
             if (timedOut) {
-              response.status = 408;
+              resolve(new Mirage.Response(408));
+            } else {
+              resolve(fn.call(this, db, request, metadata));
             }
-
-            resolve(fn.call(this, db, response));
           });
         } else {
           request.upload.onprogress({
@@ -62,7 +58,7 @@ export function upload(fn, options={ network: null, timeout: null }) {
           loaded += speed / 20;
           setTimeout(upload, 50);
         }
-      }
+      };
       upload();
     });
   };
