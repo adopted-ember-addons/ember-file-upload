@@ -1,10 +1,13 @@
 <header>
-  <h1>{{#link-to "index"}}{{svg-jar 'icon'}} ember-file-upload{{/link-to}}</h1><nav>
-    {{#link-to "addon-docs"}}Docs{{/link-to}}
-    {{#link-to "recipes"}}Recipes{{/link-to}}
-    {{#link-to "aws"}}AWS Integration{{/link-to}}
-    <a href="https://github.com/tim-evans/ember-file-upload" target="__blank">GitHub</a>
-  </nav>
+  <h1>{{#link-to "index"}}{{svg-jar 'icon'}} ember-file-upload{{/link-to}}</h1>
+  {{#if displayNavigation}}
+    <nav>
+      {{#link-to "addon-docs"}}Docs{{/link-to}}
+      {{#link-to "recipes"}}Recipes{{/link-to}}
+      {{#link-to "aws"}}AWS Integration{{/link-to}}
+      <a href="https://github.com/tim-evans/ember-file-upload" target="__blank">GitHub</a>
+    </nav>
+  {{/if}}
 </header>
 
 {{outlet}}

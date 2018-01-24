@@ -276,10 +276,14 @@ export default Ember.Object.extend({
       let form = new FormData();
 
       Object.keys(options.data).forEach((key) => {
+        const value = options.data[key];
+
         if (key === options.fileKey) {
-          form.append(key, options.data[key], get(this, 'name'));
+          const blob = value.blob || value;
+
+          form.append(key, blob, get(this, 'name'));
         } else {
-          form.append(key, options.data[key]);
+          form.append(key, value);
         }
       });
 

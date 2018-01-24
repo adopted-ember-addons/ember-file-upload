@@ -1,0 +1,10 @@
+<img id="the-image" src="{{src}}">
+
+{{#file-upload
+  id="upload-image"
+  name="photos"
+  accept="image/*"
+  multiple=false
+  onfileadd=(action "uploadImage")}}
+  <a tabindex="0">Add an Image.</a>
+{{/file-upload}}

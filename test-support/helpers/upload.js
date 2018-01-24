@@ -1,7 +1,10 @@
-/*global triggerEvent, find */
+/* global global, upload, window */
+import Ember from 'ember';
 
-export default function (selector, file, filename) {
-  let input = findWithAssert(selector)[0];
+Ember.Test.registerAsyncHelper('upload', (app, selector, file, filename) => {
+  const { findWithAssert, triggerEvent } = app.testHelpers;
+
+  const input = findWithAssert(selector)[0];
 
   file.name = filename;
 
@@ -9,11 +12,25 @@ export default function (selector, file, filename) {
   // FileList API easily; we're taking advantage
   // that we can mutate the FileList DOM API at
   // runtime to allow us to push files into the <input>
-  let files = [file];
-  input.files.item = function (idx) {
+  const files = [file];
+
+  input.files.item = function(idx) {
     return files[idx];
   };
+
   input.files.size = files.length;
 
   return triggerEvent(selector, 'change');
+});
+
+export default function(selector, file, filename) {
+  const scope = window || global;
+  const fakeApplicationFromScope = {
+    testHelpers: {
+      findWithAssert: scope.findWithAssert,
+      triggerEvent: scope.triggerEvent,
+    }
+  };
+
+  return upload(fakeApplicationFromScope, selector, file, filename);
 }

@@ -11,6 +11,7 @@ Router.map(function () {
     this.mount('addon-docs', { path: '/docs' });
   }
 
+  this.route('example');
   this.route('recipes');
   this.route('aws');
 });
