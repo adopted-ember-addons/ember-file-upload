@@ -14,44 +14,43 @@
   "repository": "https://github.com/tim-evans/ember-file-upload",
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "start": "ember serve",
     "test": "ember try:each"
   },
-  "engines": {
-    "node": "^4.5 || 6.* || >= 7.*"
+  "dependencies": {
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.1",
+    "rsvp": "^4.0.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
-    "ember-cli": "2.16.1",
+    "ember-cli": "~2.18.1",
     "ember-cli-code-coverage": "0.4.2",
     "ember-cli-dependency-checker": "^2.0.0",
-    "ember-cli-eslint": "^4.0.0",
+    "ember-cli-eslint": "^4.2.1",
     "ember-cli-github-pages": "0.1.2",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
-    "ember-cli-inject-live-reload": "^1.6.1",
+    "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-mirage": "0.4.1",
-    "ember-cli-qunit": "^4.0.0",
+    "ember-cli-qunit": "^4.1.1",
     "ember-cli-release": "1.0.0-beta.2",
     "ember-cli-sass": "7.1.2",
-    "ember-cli-shims": "^1.1.0",
+    "ember-cli-shims": "^1.2.0",
     "ember-cli-testdouble": "0.1.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-route-action-helper": "2.0.0",
-    "ember-source": "~2.15.0",
+    "ember-source": "~2.18.0",
     "ember-svg-jar": "^0.11.1",
+    "eslint-plugin-ember": "^5.0.0",
+    "eslint-plugin-node": "^5.2.1",
     "loader.js": "^4.2.3"
   },
-  "optionalDependencies": {
-    "addon-docs": "tim-evans/addon-docs",
-    "ember-engines": "^0.5.12"
-  },
-  "dependencies": {
-    "ember-cli-babel": "^6.3.0",
-    "ember-cli-htmlbars": "^2.0.1",
-    "rsvp": "^4.0.1"
+  "engines": {
+    "node": "^4.5 || 6.* || >= 7.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
