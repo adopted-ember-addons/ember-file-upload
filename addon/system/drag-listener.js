@@ -1,10 +1,10 @@
-import Ember from 'ember';
-
-const { run: { bind, next, cancel } } = Ember;
+import { assert } from '@ember/debug';
+import { A } from '@ember/array';
+import { cancel, next, bind } from '@ember/runloop';
 
 export default class {
   constructor() {
-    this._listeners = Ember.A();
+    this._listeners = A();
     this._stack = [];
 
     // Keep a stack of deferred actions to take
@@ -12,7 +12,7 @@ export default class {
     // `dragleave` / `dragenter` are called on the
     // same element back to back, which isn't what
     // we want to provide as an API.
-    this._events = Ember.A();
+    this._events = A();
   }
 
   beginListening() {
@@ -65,7 +65,7 @@ export default class {
 
     for (let i = 0, len = this._listeners.length; i < len; i++) {
       let listener = this._listeners[i];
-      Ember.assert(`Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`, document.querySelector(selector) !== document.querySelector(listener.selector));
+      assert(`Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`, document.querySelector(selector) !== document.querySelector(listener.selector));
 
       if (document.querySelector(`${listener.selector} ${selector}`)) {
         insertAt = i;
@@ -184,13 +184,13 @@ export default class {
       listener.handlers[eventName](event);
     });
 
-    this._events = Ember.A();
+    this._events = A();
     this._scheduled = false;
   }
 
   drop(evt) {
     this._stack = [];
-    this._events = Ember.A();
+    this._events = A();
     this._scheduled = false;
     this._listener = null;
 

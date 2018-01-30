@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import { bind } from '@ember/runloop';
+import RSVP from 'rsvp';
+import $ from 'jquery';
 import trim from './trim';
-
-const { RSVP, $ } = Ember;
-const { bind } = Ember.run;
 
 function getHeader(headers, header) {
   let headerKeys = Object.keys(headers);

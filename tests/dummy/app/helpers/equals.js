@@ -1,5 +1,5 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
-export default Ember.Helper.helper(function ([a, b]) {
+export default helper(function ([a, b]) {
   return a === b;
 });

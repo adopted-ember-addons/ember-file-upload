@@ -1,6 +1,4 @@
-import Ember from 'ember';
-
-var { get, computed } = Ember;
+import { computed, get } from '@ember/object';
 
 export default function (collectionKey, itemKey) {
   return computed(`${collectionKey}.@each.${itemKey}`, function () {

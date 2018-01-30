@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import Route from '@ember/routing/route';
+import { setProperties, get } from '@ember/object';
 
-const { get, setProperties } = Ember;
-
-export default Ember.Route.extend({
+export default Route.extend({
   model() {
-    return Ember.A([{
+    return A([{
       filename: 'little-green-men.jpg',
       preview: '/assets/images/little-green-men.jpg',
       type: 'image'
