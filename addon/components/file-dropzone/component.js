@@ -1,13 +1,14 @@
 /* global Blob, Uint8Array */
-import Ember from 'ember';
+import Component from '@ember/component';
+
+import { inject as service } from '@ember/service';
+import { bind } from '@ember/runloop';
+import $ from 'jquery';
+import { computed, set, get } from '@ember/object';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
 import DragListener from '../../system/drag-listener';
-
-const { $, get, set, computed } = Ember;
-const { bind } = Ember.run;
-const { service } = Ember.inject;
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
@@ -22,7 +23,7 @@ const dragListener = new DragListener();
   @class file-dropzone
   @type Ember.Component
  */
-export default Ember.Component.extend({
+export default Component.extend({
 
   layout,
 

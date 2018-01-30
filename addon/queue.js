@@ -1,8 +1,13 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import EmberObject, {
+  observer,
+  computed,
+  set,
+  get
+} from '@ember/object';
+import { next } from '@ember/runloop';
 import File from './file';
 import sumBy from './computed/sum-by';
-
-const { get, set, computed, observer, run: { next } } = Ember;
 
 /**
   The Queue is a collection of files that
@@ -15,11 +20,11 @@ const { get, set, computed, observer, run: { next } } = Ember;
   @class Queue
   @extends Ember.Object
  */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 
   init() {
-    set(this, 'files', Ember.A());
-    set(this, '_dropzones', Ember.A());
+    set(this, 'files', A());
+    set(this, '_dropzones', A());
     this._super();
   },
 
@@ -27,7 +32,7 @@ export default Ember.Object.extend({
     this._super();
     get(this, 'fileQueue.queues').delete(get(this, 'name'));
     get(this, 'files').forEach((file) => set(file, 'queue', null));
-    set(this, 'files', Ember.A());
+    set(this, 'files', A());
   },
 
   /**
@@ -126,7 +131,7 @@ export default Ember.Object.extend({
     @type File[]
     @default []
    */
-  files: [],
+  files: null,
 
   /**
     Flushes the `files` property when they have settled. This
@@ -162,7 +167,7 @@ export default Ember.Object.extend({
 
     if (allFilesHaveSettled) {
       get(this, 'files').forEach((file) => set(file, 'queue', null));
-      set(this, 'files', Ember.A());
+      set(this, 'files', A());
     }
   }),
 

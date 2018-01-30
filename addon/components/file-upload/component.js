@@ -1,9 +1,14 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import {
+  getProperties,
+  setProperties,
+  computed,
+  get
+} from '@ember/object';
 import layout from './template';
 import uuid from '../../system/uuid';
-
-const { get, computed, setProperties, getProperties } = Ember;
-const { service } = Ember.inject;
 
 const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
                     'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
@@ -79,7 +84,7 @@ const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'c
   @class file-upload
   @type Ember.Component
  */
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'label',
   classNames: ['file-upload'],
 
@@ -158,11 +163,11 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     let id = get(this, 'for');
-    Ember.assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
+    assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
     this.$('*').each(function (_, element) {
       if (element.id !== id &&
           VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
-        Ember.assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
+        assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
       }
     });
   },

@@ -1,11 +1,14 @@
 /* global atob, Uint8Array */
+import { registerWaiter } from '@ember/test';
+
+import { assert } from '@ember/debug';
+import EmberObject, { set, get, computed } from '@ember/object';
 import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
 import uuid from './system/uuid';
 
-const { computed, get, set } = Ember;
 const { reads } = computed;
 
 function normalizeOptions(file, url, options) {
@@ -49,7 +52,7 @@ function normalizeOptions(file, url, options) {
 
 function upload(file, url, opts, uploadFn) {
   if (['queued', 'failed', 'timed_out'].indexOf(get(file, 'state')) === -1) {
-    Ember.assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
+    assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
   }
 
   let options = normalizeOptions(file, url, opts);
@@ -108,7 +111,7 @@ function upload(file, url, opts, uploadFn) {
 
 let inflightRequests = 0;
 if (Ember.Test) {
-  Ember.Test.registerWaiter(null, function () {
+  registerWaiter(null, function () {
     return inflightRequests === 0;
   });
 }
@@ -120,7 +123,7 @@ if (Ember.Test) {
   @class File
   @extends Ember.Object
  */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 
   init() {
     this._super();

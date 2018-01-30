@@ -1,16 +1,12 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL
 });
 
 Router.map(function () {
-  if (this.mount) {
-    this.mount('addon-docs', { path: '/docs' });
-  }
-
   this.route('example');
   this.route('recipes');
   this.route('aws');

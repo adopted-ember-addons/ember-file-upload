@@ -1,8 +1,9 @@
-import Ember from 'ember';
-import { extractFormData, extractFileMetadata } from './utils';
+import RSVP from 'rsvp';
+import {
+  extractFormData,
+  extractFileMetadata
+} from './utils';
 import './shim';
-
-const { RSVP } = Ember;
 
 const NETWORK = {
   'wired': 50000, // 500 Mb/s

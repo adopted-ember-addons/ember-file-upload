@@ -1,11 +1,10 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import EmberObject, { computed, get } from '@ember/object';
 import trim from './trim';
-
-const { get, computed } = Ember;
 
 const getDataSupport = {};
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
 
   dataTransfer: null,
 
@@ -39,7 +38,7 @@ export default Ember.Object.extend({
     }
   }),
 
-  files: computed('queue.multiple', 'queue.accept', 'dataTransfer', {
+  files: computed('queue.{accept,multiple}', 'dataTransfer', {
     get() {
       let fileList = get(this, 'dataTransfer.files');
       let itemList = get(this, 'dataTransfer.items');
@@ -54,7 +53,7 @@ export default Ember.Object.extend({
         return null;
       }
 
-      let files = Ember.A();
+      let files = A();
       if (!get(this, 'queue.multiple') && fileList.length > 1) {
         files.push(fileList[0]);
       } else {
@@ -68,13 +67,13 @@ export default Ember.Object.extend({
         return files;
       }
 
-      let tokens = Ember.A(accept.split(',').map(function (token) {
+      let tokens = A(accept.split(',').map(function (token) {
         return trim(token).toLowerCase();
       }));
-      let extensions = Ember.A(tokens.filter(function (token) {
+      let extensions = A(tokens.filter(function (token) {
         return token.indexOf('.') === 0;
       }));
-      let mimeTypes = Ember.A(Ember.A(tokens.filter(function (token) {
+      let mimeTypes = A(A(tokens.filter(function (token) {
         return token.indexOf('.') !== 0;
       })).map(function (mimeType) {
         return new RegExp(mimeType);

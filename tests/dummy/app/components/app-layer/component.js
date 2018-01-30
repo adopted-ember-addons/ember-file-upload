@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
+import { scheduleOnce } from '@ember/runloop';
+import { merge } from '@ember/polyfills';
+import Component from '@ember/component';
+import { set, get, observer } from '@ember/object';
 
-const { get, set } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['app-layer'],
   classNameBindings: ['active:active'],
 
@@ -12,7 +14,7 @@ export default Ember.Component.extend({
   },
 
   updateToken(diff={}) {
-    let token = Ember.merge({
+    let token = merge({
       id: get(this, 'elementId'),
       title: get(this, 'title') || ' ',
       replace: get(this, 'replace'),
@@ -33,15 +35,15 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    Ember.run.scheduleOnce('afterRender', () => {
+    scheduleOnce('afterRender', () => {
       if (!get(this, 'title')) { return; }
       this.updateToken();
     });
   },
 
-  titleDidChange: Ember.observer('title', function () {
+  titleDidChange: observer('title', function () {
     this.updateToken();
-    Ember.run.scheduleOnce('afterRender', () => {
+    scheduleOnce('afterRender', () => {
       get(this, 'app').titleDidChange();
     });
   }),
@@ -53,7 +55,7 @@ export default Ember.Component.extend({
     } else {
       get(this, 'app.tokenList.tokens').setEach('active', false);
       let components = get(this, 'app.tokenList.tokens').getEach('component');
-      Ember.A(components).setEach('active', false);
+      A(components).setEach('active', false);
       set(this, 'active', true);
       this.updateToken();
     }
