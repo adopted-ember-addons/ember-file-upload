@@ -1,7 +1,6 @@
-import Ember from 'ember';
-
-const { get } = Ember;
-const { service } = Ember.inject;
+import Helper from '@ember/component/helper';
+import { inject as service } from '@ember/service';
+import { get } from '@ember/object';
 
 /**
   `file-queue` is one of the core primitives of ember-file-upload.
@@ -28,7 +27,7 @@ const { service } = Ember.inject;
   @param {string} [name] The name of the queue to get information on
   @returns {Queue} A collection of all queues, or a specific queue.
  */
-export default Ember.Helper.extend({
+export default Helper.extend({
 
   fileQueue: service(),
 

@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { get, computed } from '@ember/object';
 
-const { computed, get } = Ember;
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   ships: computed('model.[]', {
     get() {
       return get(this, 'model').slice(-5);

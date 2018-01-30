@@ -1,8 +1,7 @@
 /* global Uint8Array */
-import Ember from 'ember';
-import FileReader from 'ember-file-upload/system/file-reader';
+import RSVP from 'rsvp';
 
-const { RSVP } = Ember;
+import FileReader from 'ember-file-upload/system/file-reader';
 
 export function extractFormData(formData) {
   let data = {};

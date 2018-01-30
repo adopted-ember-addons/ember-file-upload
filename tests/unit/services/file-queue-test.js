@@ -1,7 +1,6 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import { run } from '@ember/runloop';
 import { moduleFor, test } from 'ember-qunit';
-
-var { get, run } = Ember;
 
 moduleFor('service:file-queue');
 

@@ -1,8 +1,10 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import { A } from '@ember/array';
+import Service from '@ember/service';
+import { observer, computed, set, get } from '@ember/object';
+import { once } from '@ember/runloop';
 import Queue from '../queue';
 import sumBy from '../computed/sum-by';
-
-const { get, set, computed, observer, run: { once } } = Ember;
 
 /**
   The file queue service is a global file
@@ -16,7 +18,7 @@ const { get, set, computed, observer, run: { once } } = Ember;
   @class file-queue
   @extends Ember.Service
  */
-export default Ember.Service.extend({
+export default Service.extend({
 
   /**
     @private
@@ -26,8 +28,8 @@ export default Ember.Service.extend({
     accessed by name via the `find` method.
    */
   init() {
-    set(this, 'queues', Ember.A());
-    set(this, 'files', Ember.A());
+    set(this, 'queues', A());
+    set(this, 'files', A());
   },
 
   /**
@@ -84,7 +86,7 @@ export default Ember.Service.extend({
 
     if (allFilesHaveSettled) {
       get(this, 'files').forEach((file) => set(file, 'queue', null));
-      set(this, 'files', Ember.A());
+      set(this, 'files', A());
     }
   }),
 
@@ -143,7 +145,7 @@ export default Ember.Service.extend({
     @return {Queue} The new queue.
    */
   create(name) {
-    Ember.assert(`Queue names are required to be unique. "${name}" has already been reserved.`, this.find(name) == null);
+    assert(`Queue names are required to be unique. "${name}" has already been reserved.`, this.find(name) == null);
 
     let queue = Queue.create({ name, fileQueue: this });
     get(this, 'queues').push(queue);
