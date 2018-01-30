@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { get } from '@ember/object';
 import layout from './template';
 
 const RETURN = 13;
@@ -14,14 +15,14 @@ export default Component.extend({
   attributeBindings: ['disabled', 'tabindex'],
 
   click() {
-    this.attrs.action();
+    get(this, 'action')();
   },
 
   keyUp(evt) {
     let code = evt.keyCode || evt.which;
     switch (code) {
     case RETURN:
-      this.attrs.action();
+      get(this, 'action')();
     }
   }
 });

@@ -131,7 +131,7 @@ export default EmberObject.extend({
     @type File[]
     @default []
    */
-  files: [],
+  files: null,
 
   /**
     Flushes the `files` property when they have settled. This

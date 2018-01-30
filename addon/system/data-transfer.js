@@ -38,7 +38,7 @@ export default EmberObject.extend({
     }
   }),
 
-  files: computed('queue.multiple', 'queue.accept', 'dataTransfer', {
+  files: computed('queue.{accept,multiple}', 'dataTransfer', {
     get() {
       let fileList = get(this, 'dataTransfer.files');
       let itemList = get(this, 'dataTransfer.items');
