@@ -1,90 +1,90 @@
 <div id="index">
-<div id="saucers">
-  <svg>
-    <linearGradient id="beam" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%" stop-color="rgba(0, 255, 23, 0.5)"/>
-      <stop offset="90%" stop-color="rgba(0, 255, 23, 0.1)"/>
-      <stop offset="100%" stop-color="rgba(0, 255, 23, 0)"/>
-    </linearGradient>
-    <polygon points="35,4 25,4 10,60 50,60" fill="url(#beam)"></polygon>
-  </svg>
-  {{#each ships as |file|}}
-    {{#if (equals file.type 'image')}}
-      <img src={{file.preview}}>
-    {{else if (equals file.type 'video')}}
-      <video src={{file.preview}} muted=true loop=true autoplay></video>
-    {{/if}}
-  {{/each}}
-</div>
-<div class="hero">
-  <p>A file upload framework <br>for {{svg-jar "ember-logo" class="ember-logo" alt="ember"}} apps</p>
-  <a class="more" href="#installation">{{svg-jar 'arrow'}}</a>
-</div>
+  <div id="saucers">
+    <svg>
+      <linearGradient id="beam" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="rgba(0, 255, 23, 0.5)"/>
+        <stop offset="90%" stop-color="rgba(0, 255, 23, 0.1)"/>
+        <stop offset="100%" stop-color="rgba(0, 255, 23, 0)"/>
+      </linearGradient>
+      <polygon points="35,4 25,4 10,60 50,60" fill="url(#beam)"></polygon>
+    </svg>
+    {{#each ships as |file|}}
+      {{#if (equals file.type 'image')}}
+        <img src={{file.preview}} alt="{{file.filename}}">
+      {{else if (equals file.type 'video')}}
+        <video src={{file.preview}} muted=true loop=true autoplay></video>
+      {{/if}}
+    {{/each}}
+  </div>
+  <div class="hero">
+    <p>A file upload framework <br>for {{svg-jar "ember-logo" class="ember-logo" alt="ember"}} apps</p>
+    <a class="more" href="#installation">{{svg-jar 'arrow'}}</a>
+  </div>
 
-<main>
-  <section id="installation">
-    <h2>Installation</h2>
-    {{#window-pane}}
-      <span class="ps1">$ </span>ember install ember-file-upload
-    {{/window-pane}}
-  </section>
+  <main>
+    <section id="installation">
+      <h2>Installation</h2>
+      {{#window-pane}}
+        <span class="ps1">$ </span>ember install ember-file-upload
+      {{/window-pane}}
+    </section>
 
-  <section id="demo">
-    <h2>Demo</h2>
-    <div class="grid">
-      {{#file-dropzone name="photos" class='dropzone' as |dropzone queue|}}
-        {{#window-pane title="Proof" class=(concat 'upload ' (if dropzone.active 'active'))}}
-          {{#if dropzone.supported}}
-            <div class="emoji">
-              {{#if dropzone.active}}
-                {{#if dropzone.valid}}
-                  ✨👽✨
-                {{else}}
-                  🐮
-                {{/if}}
-              {{else}}
-                👽
-              {{/if}}
-            </div>
-          {{/if}}
-
-          <p>
+    <section id="demo">
+      <h2>Demo</h2>
+      <div class="grid">
+        {{#file-dropzone name="photos" class='dropzone' as |dropzone queue|}}
+          {{#window-pane title="Proof" class=(concat 'upload ' (if dropzone.active 'active'))}}
             {{#if dropzone.supported}}
-              Drag your proof or
+              <div class="emoji">
+                {{#if dropzone.active}}
+                  {{#if dropzone.valid}}
+                    ✨👽✨
+                  {{else}}
+                    🐮
+                  {{/if}}
+                {{else}}
+                  👽
+                {{/if}}
+              </div>
             {{/if}}
-            {{#file-upload name="photos"
-                           multiple=true
-                           onfileadd=(route-action "uploadProof")
-                           accept="image/*,video/*,audio/*"}}
-              <a>select them</a>
-            {{/file-upload}}
-            to upload.
-          </p>
 
-          {{#if queue.files.length}}
-            Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
-          {{/if}}
-        {{/window-pane}}
-      {{/file-dropzone}}
-    </div>
-    <div class="grid">
-      <ul>
-        {{#each model as |file|}}
-          <li>
-            <div class="card">
-              {{#if file.file}}
-                <span>{{file.file.progress}}%</span>
-              {{else if (equals file.type 'image')}}
-                <img src={{file.preview}} alt="{{file.filename}}" />
-              {{else if (equals file.type 'video')}}
-                <video src={{file.preview}} alt="{{file.filename}}" muted=true loop=true autoplay></video>
+            <p>
+              {{#if dropzone.supported}}
+                Drag your proof or
               {{/if}}
-              <span class="caption">{{file.filename}}</span>
-            </div>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-  </section>
+              {{#file-upload name="photos"
+                             multiple=true
+                             onfileadd=(route-action "uploadProof")
+                             accept="image/*,video/*,audio/*"}}
+                <a>select them</a>
+              {{/file-upload}}
+              to upload.
+            </p>
+
+            {{#if queue.files.length}}
+              Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+            {{/if}}
+          {{/window-pane}}
+        {{/file-dropzone}}
+      </div>
+      <div class="grid">
+        <ul>
+          {{#each model as |file|}}
+            <li>
+              <div class="card">
+                {{#if file.file}}
+                  <span>{{file.file.progress}}%</span>
+                {{else if (equals file.type 'image')}}
+                  <img src={{file.preview}} alt="{{file.filename}}">
+                {{else if (equals file.type 'video')}}
+                  <video src={{file.preview}} alt="{{file.filename}}" muted=true loop=true autoplay></video>
+                {{/if}}
+                <span class="caption">{{file.filename}}</span>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </section>
   </main>
 </div>
