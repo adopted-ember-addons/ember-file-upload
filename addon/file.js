@@ -110,11 +110,9 @@ function upload(file, url, opts, uploadFn) {
 }
 
 let inflightRequests = 0;
-if (Ember.Test) {
-  registerWaiter(null, function () {
-    return inflightRequests === 0;
-  });
-}
+registerWaiter(null, function () {
+  return inflightRequests === 0;
+});
 
 /**
   Files provide a uniform interface for interacting
