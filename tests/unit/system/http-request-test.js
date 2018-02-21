@@ -9,10 +9,11 @@ import {
 module('http-request', {
   beforeEach() {
     this._XMLHttpRequest = window.XMLHttpRequest;
-    window.XMLHttpRequest = () => {
+    let test = this;
+    window.XMLHttpRequest = function () {
       let request = new FakeXMLHttpRequest();
-      this.request = request;
-      this.respond = function (...args) {
+      test.request = request;
+      test.respond = function (...args) {
         request.respond(...args);
       };
       return request;
