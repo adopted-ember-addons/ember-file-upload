@@ -3,7 +3,6 @@ import { registerWaiter } from '@ember/test';
 
 import { assert } from '@ember/debug';
 import EmberObject, { set, get, computed } from '@ember/object';
-import Ember from 'ember';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
