@@ -23,52 +23,53 @@ const FakeFileReader = {
   }
 };
 
-module('file-reader', {
-  beforeEach() {
+module('file-reader', function(hooks) {
+  hooks.beforeEach(function() {
     this._FileReader = window.FileReader;
     window.FileReader = function () {
       return FakeFileReader;
     };
     this.subject = new FileReader();
-  },
-  afterEach() {
+  });
+
+  hooks.afterEach(function() {
     this.subject = null;
     window.FileReader = this._FileReader;
+  });
+
+  function testReadAs(name, blob='test') {
+    test(`readAs${name}`, function (assert) {
+      FakeFileReader.trigger = 'onload';
+      FakeFileReader.result = 'ok';
+
+      let promise = this.subject['readAs' + name](blob);
+      return promise.then(function (result) {
+        assert.equal(result, 'ok');
+      });
+    });
+
+    test(`readAs${name} errored`, function (assert) {
+      FakeFileReader.trigger = 'onerror';
+      FakeFileReader.error = 'not ok';
+
+      let promise = this.subject['readAs' + name](blob);
+      return promise.then(null, function (error) {
+        assert.equal(error, 'not ok');
+      });
+    });
+
+    test(`readAs${name} cancelled`, function (assert) {
+      FakeFileReader.trigger = 'onabort';
+
+      let promise = this.subject['readAs' + name](blob);
+      return promise.cancel().then(function () {
+        assert.ok(true);
+      });
+    });
   }
+
+  testReadAs('ArrayBuffer');
+  testReadAs('DataURL');
+  testReadAs('BinaryString');
+  testReadAs('Text');
 });
-
-function testReadAs(name, blob='test') {
-  test(`readAs${name}`, function (assert) {
-    FakeFileReader.trigger = 'onload';
-    FakeFileReader.result = 'ok';
-
-    let promise = this.subject['readAs' + name](blob);
-    return promise.then(function (result) {
-      assert.equal(result, 'ok');
-    });
-  });
-
-  test(`readAs${name} errored`, function (assert) {
-    FakeFileReader.trigger = 'onerror';
-    FakeFileReader.error = 'not ok';
-
-    let promise = this.subject['readAs' + name](blob);
-    return promise.then(null, function (error) {
-      assert.equal(error, 'not ok');
-    });
-  });
-
-  test(`readAs${name} cancelled`, function (assert) {
-    FakeFileReader.trigger = 'onabort';
-
-    let promise = this.subject['readAs' + name](blob);
-    return promise.cancel().then(function () {
-      assert.ok(true);
-    });
-  });
-}
-
-testReadAs('ArrayBuffer');
-testReadAs('DataURL');
-testReadAs('BinaryString');
-testReadAs('Text');
