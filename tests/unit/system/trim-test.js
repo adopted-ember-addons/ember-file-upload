@@ -4,28 +4,28 @@ import {
   test
 } from 'qunit';
 
-module('trim');
+module('trim', function() {
+  let unit = function (name) {
+    let module = {};
+    requirejs.entries['ember-file-upload/system/trim'].callback(module);
+    let trim = module['default'];
 
-let unit = function (name) {
-  let module = {};
-  requirejs.entries['ember-file-upload/system/trim'].callback(module);
-  let trim = module['default'];
+    test(name + ' trims whitespace from strings', function (assert) {
+      assert.equal(trim('    trim me        '), 'trim me');
+    });
 
-  test(name + ' trims whitespace from strings', function (assert) {
-    assert.equal(trim('    trim me        '), 'trim me');
-  });
+    test(name + ' returns an empty string if null is provided', function (assert) {
+      assert.equal(trim(null), '');
+    });
+  };
 
-  test(name + ' returns an empty string if null is provided', function (assert) {
-    assert.equal(trim(null), '');
-  });
-};
-
-if (''.trim) {
-  unit('native');
-  let trim = String.prototype.trim;
-  String.prototype.trim = null;
-  unit('polyfill');
-  String.prototype.trim = trim;
-} else {
-  unit('polyfill');
-}
+  if (''.trim) {
+    unit('native');
+    let trim = String.prototype.trim;
+    String.prototype.trim = null;
+    unit('polyfill');
+    String.prototype.trim = trim;
+  } else {
+    unit('polyfill');
+  }
+});
