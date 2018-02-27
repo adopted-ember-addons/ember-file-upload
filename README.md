@@ -167,7 +167,7 @@ import upload from '../helpers/upload';
 moduleForAcceptance('/notes');
 
 test('showing a note', async function (assert) {
-  let file = File.fromDataUrl('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
+  let file = File.fromDataURL('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
 
   await upload('#upload-note', file, 'douglas_coupland.txt');
 
