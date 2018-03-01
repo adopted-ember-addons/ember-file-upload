@@ -105,7 +105,7 @@ export function extractFileMetadata(file) {
     name: file.name,
     size: file.size,
     type: file.type,
-    extension: file.name.match(/\.(.*)$/)[1]
+    extension: ( file.name.match(/\.(.*)$/) || [] )[1]
   };
 
   let reader = new FileReader();
