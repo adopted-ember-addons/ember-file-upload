@@ -1,5 +1,6 @@
 /* global atob, Uint8Array */
 import { registerWaiter } from '@ember/test';
+import { DEBUG } from '@glimmer/env';
 
 import { assert } from '@ember/debug';
 import EmberObject, { set, get, computed } from '@ember/object';
@@ -109,9 +110,11 @@ function upload(file, url, opts, uploadFn) {
 }
 
 let inflightRequests = 0;
-registerWaiter(null, function () {
-  return inflightRequests === 0;
-});
+if (DEBUG) {
+  registerWaiter(null, function () {
+    return inflightRequests === 0;
+  });
+}
 
 /**
   Files provide a uniform interface for interacting
