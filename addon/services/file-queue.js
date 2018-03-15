@@ -28,6 +28,8 @@ export default Service.extend({
     accessed by name via the `find` method.
    */
   init() {
+    this._super(...arguments);
+    
     set(this, 'queues', A());
     set(this, 'files', A());
   },
