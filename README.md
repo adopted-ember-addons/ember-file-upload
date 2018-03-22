@@ -74,6 +74,22 @@ For example, creating an image uploader that uploads images to your API server w
 {{/file-dropzone}}
 ```
 
+It is also possible for you to create a simple file upload button which yields the queue:
+
+```handlebars
+{{#file-upload name="photos"
+               accept="image/*"
+               onfileadd=(action "uploadImage") as |queue|}}
+  <a class="button">
+    {{#if queue.files.length}}
+      Uploading...
+    {{else}}
+      Upload file
+    {{/if}}
+  </a>
+{{/file-upload}}
+```
+
 ## Integration
 
 The addon emits an event when a file is queued for upload. You may trigger the upload by calling the `upload` function on the file, which returns a promise that is resolved when the file has finished uploading and is rejected if the file couldn't be uploaded.
@@ -93,7 +109,7 @@ export default Ember.Route.extend({
       filename: get(file, 'name'),
       filesize: get(file, 'size')
     });
-    
+
     try {
       file.readAsDataURL().then(function (url) {
         if (get(photo, 'url') == null) {
