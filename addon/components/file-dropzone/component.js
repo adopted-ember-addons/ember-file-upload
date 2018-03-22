@@ -130,7 +130,8 @@ export default Component.extend({
     let dataTransfer = DataTransfer.create({
       queue: get(this, 'queue'),
       source: evt.source,
-      dataTransfer: evt.dataTransfer
+      dataTransfer: evt.dataTransfer,
+      itemDetails: evt.itemDetails
     });
     this[DATA_TRANSFER] = dataTransfer;
 

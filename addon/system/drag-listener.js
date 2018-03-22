@@ -102,6 +102,18 @@ export default class {
     return areSomeTypesFiles ? 'os' : 'web';
   }
 
+  getDataTransferItemDetails(evt) {
+    let itemDetails = [];
+    for(let i = 0; i < evt.dataTransfer.items.length; i++) {
+      let item = evt.dataTransfer.items[i];
+      itemDetails.push({
+        kind: item.kind,
+        type: item.type
+      })
+    }
+    return itemDetails;
+  }
+
   dragenter(evt) {
     let listener = this.findListener(evt);
     let lastListener = this._stack[this._stack.length - 1];
@@ -114,7 +126,8 @@ export default class {
     if (listener) {
       this.scheduleEvent('dragenter', listener, {
         source: this.getEventSource(evt),
-        dataTransfer: evt.dataTransfer
+        dataTransfer: evt.dataTransfer,
+        itemDetails: this.getDataTransferItemDetails(evt)
       });
     }
     this._listener = listener;
@@ -139,7 +152,8 @@ export default class {
       }
       this.scheduleEvent('dragenter', listener, {
         source: this.getEventSource(evt),
-        dataTransfer: evt.dataTransfer
+        dataTransfer: evt.dataTransfer,
+        itemDetails: this.getDataTransferItemDetails(evt)
       });
       if (this._stack.indexOf(listener) !== -1) {
         listener.handlers.dragover(evt);
