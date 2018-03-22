@@ -7,6 +7,7 @@ const getDataSupport = {};
 export default EmberObject.extend({
 
   dataTransfer: null,
+  itemDetails: null,
 
   queue: null,
 
@@ -25,7 +26,7 @@ export default EmberObject.extend({
     }
   },
 
-  valid: computed('dataTransfer.files', 'files', {
+  valid: computed('dataTransfer.files', 'files', 'itemDetails', {
     get() {
       if (get(this, 'files') == null) {
         return true;
@@ -33,20 +34,28 @@ export default EmberObject.extend({
 
       return (
         get(this, 'dataTransfer.items.length') ||
-        get(this, 'dataTransfer.files.length')
+        get(this, 'dataTransfer.files.length') ||
+        get(this, 'itemDetails.length')
       ) === get(this, 'files.length');
     }
   }),
 
-  files: computed('queue.{accept,multiple}', 'dataTransfer', {
+  files: computed('queue.{accept,multiple}', 'dataTransfer', 'itemDetails', {
     get() {
       let fileList = get(this, 'dataTransfer.files');
       let itemList = get(this, 'dataTransfer.items');
+      let itemDetails = get(this, 'itemDetails');
 
       if ((fileList == null && itemList) ||
           (itemList != null && fileList != null &&
            itemList.length > fileList.length)) {
         fileList = itemList;
+      }
+
+      if ((fileList == null && itemDetails) ||
+          (itemDetails != null && fileList != null &&
+           itemDetails.length > fileList.length)) {
+        fileList = itemDetails;
       }
 
       if (fileList == null) {
