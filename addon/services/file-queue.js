@@ -29,7 +29,6 @@ export default Service.extend({
    */
   init() {
     this._super(...arguments);
-    
     set(this, 'queues', A());
     set(this, 'files', A());
   },
