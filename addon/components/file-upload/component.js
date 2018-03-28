@@ -164,7 +164,7 @@ export default Component.extend({
   didInsertElement() {
     let id = get(this, 'for');
     assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
-    this.$('*').each(function (_, element) {
+    this.element.querySelector('*').each(function (_, element) {
       if (element.id !== id &&
           VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
         assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
@@ -175,7 +175,7 @@ export default Component.extend({
   actions: {
     change(files) {
       get(this, 'queue')._addFiles(files, 'browse');
-      this.$().children('input').val(null);
+      this.element.querySelector('input').value = null;
     }
   }
 });

@@ -3,7 +3,6 @@ import Component from '@ember/component';
 
 import { inject as service } from '@ember/service';
 import { bind } from '@ember/runloop';
-import $ from 'jquery';
 import { computed, set, get } from '@ember/object';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
@@ -183,8 +182,9 @@ export default Component.extend({
 
     let html = this[DATA_TRANSFER].getData('text/html');
     if (html) {
-      let img = $(html)[1];
-      if (img.tagName === 'IMG') {
+      let parsedHtml = new DOMParser().parseFromString(html, 'text/html');
+      let img = parsedHtml.getElementsByTagName('img')[0];
+      if (img) {
         url = img.src;
       }
     }
