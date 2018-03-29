@@ -1,6 +1,7 @@
 import { assert } from '@ember/debug';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { DEBUG } from '@glimmer/env';
 import {
   getProperties,
   setProperties,
@@ -9,13 +10,6 @@ import {
 } from '@ember/object';
 import layout from './template';
 import uuid from '../../system/uuid';
-
-const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
-                    'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
-                    'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
-                    'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
-                    'svg', 'time', 'var', 'video', 'wbr',
-                    'path', 'g', 'use', 'circle'];
 
 /**
   `{{file-upload}}` is an element that will open a dialog for
@@ -84,7 +78,7 @@ const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'c
   @class file-upload
   @type Ember.Component
  */
-export default Component.extend({
+const component = Component.extend({
   tagName: 'label',
   classNames: ['file-upload'],
 
@@ -161,17 +155,6 @@ export default Component.extend({
     }
   }),
 
-  didInsertElement() {
-    let id = get(this, 'for');
-    assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
-    this.element.querySelector('*').each(function (_, element) {
-      if (element.id !== id &&
-          VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
-        assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
-      }
-    });
-  },
-
   actions: {
     change(files) {
       get(this, 'queue')._addFiles(files, 'browse');
@@ -179,3 +162,27 @@ export default Component.extend({
     }
   }
 });
+
+if (DEBUG) {
+  const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
+                      'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
+                      'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
+                      'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
+                      'svg', 'time', 'var', 'video', 'wbr',
+                      'path', 'g', 'use', 'circle'];
+
+  component.reopen({
+    didInsertElement() {
+      let id = get(this, 'for');
+      assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
+      this.element.querySelectorAll('*').forEach(function (element) {
+        if (element.id !== id &&
+            VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
+          assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
+        }
+      });
+    }
+  });
+}
+
+export default component;
