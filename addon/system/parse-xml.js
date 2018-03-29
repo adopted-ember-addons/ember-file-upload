@@ -6,20 +6,20 @@ import { DEBUG } from '@glimmer/env';
 
 export default function parseXML(data) {
     let xml;
-    if (!data || typeof data !== "string" ) {
+    if (!data || typeof data !== 'string') {
       return null;
     }
 
     // Support: IE 9 - 11 only
     // IE throws on parseFromString with invalid input.
     try {
-      xml = (new window.DOMParser()).parseFromString( data, "text/xml" );
-    } catch ( e ) {
+      xml = (new window.DOMParser()).parseFromString(data, 'text/xml');
+    } catch(e) {
       xml = undefined;
     }
 
     if (DEBUG) {
-      if (!xml || xml.getElementsByTagName( "parsererror" ).length) {
+      if (!xml || xml.getElementsByTagName('parsererror').length) {
         assert(`Invalid XML: ${data}`);
       }
     }
