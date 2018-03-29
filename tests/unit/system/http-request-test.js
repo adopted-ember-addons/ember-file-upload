@@ -85,7 +85,7 @@ module('http-request', function(hooks) {
       assert.deepEqual(response.headers, {
         'Content-Type': 'text/html'
       });
-      assert.equal(response.body.body.textContent, 'ok');
+      assert.equal(response.body[0].textContent, 'ok');
     });
 
     assert.deepEqual(this.request.requestBody, {

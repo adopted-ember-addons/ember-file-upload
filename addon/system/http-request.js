@@ -1,6 +1,9 @@
 import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
 import trim from './trim';
+import parseHTML from './parse-html';
+import parseXML from './parse-xml';
+import parseJSON from './parse-json';
 
 function getHeader(headers, header) {
   let headerKeys = Object.keys(headers);
@@ -28,19 +31,15 @@ function parseResponse(request) {
   let contentType = (getHeader(headers, 'Content-Type') || '').split(';');
 
   // Parse body according to the Content-Type received by the server
-  try {
-    if (contentType.indexOf('text/html') !== -1) {
-      body = new DOMParser().parseFromString(body, 'text/html');
-    } else if (contentType.indexOf('text/xml') !== -1) {
-      body = new DOMParser().parseFromString(body, 'text/xml');
-    } else if (contentType.indexOf('application/json') !== -1 ||
-              contentType.indexOf('application/vnd.api+json') !== -1 ||
-              contentType.indexOf('text/javascript') !== -1 ||
-              contentType.indexOf('application/javascript') !== -1) {
-      body = JSON.parse(body);
-    }
-  } catch(e) {
-    body = undefined;
+  if (contentType.indexOf('text/html') !== -1) {
+    body = parseHTML(body);
+  } else if (contentType.indexOf('text/xml') !== -1) {
+    body = parseXML(body);
+  } else if (contentType.indexOf('application/json') !== -1 ||
+            contentType.indexOf('application/vnd.api+json') !== -1 ||
+            contentType.indexOf('text/javascript') !== -1 ||
+            contentType.indexOf('application/javascript') !== -1) {
+    body = parseJSON(body);
   }
 
   return {
