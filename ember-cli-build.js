@@ -15,6 +15,9 @@ module.exports = function(defaults) {
     svgJar: {
       strategy: 'inline',
       sourceDirs: ['tests/dummy/public/assets/images']
+    },
+    vendorFiles: {
+      'jquery.js': null
     }
   });
 
