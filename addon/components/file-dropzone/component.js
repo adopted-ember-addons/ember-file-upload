@@ -3,11 +3,11 @@ import Component from '@ember/component';
 
 import { inject as service } from '@ember/service';
 import { bind } from '@ember/runloop';
-import $ from 'jquery';
 import { computed, set, get } from '@ember/object';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
+import parseHTML from '../../system/parse-html';
 import DragListener from '../../system/drag-listener';
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
@@ -183,8 +183,9 @@ export default Component.extend({
 
     let html = this[DATA_TRANSFER].getData('text/html');
     if (html) {
-      let img = $(html)[1];
-      if (img.tagName === 'IMG') {
+      let parsedHtml = parseHTML(html);
+      let img = parsedHtml.getElementsByTagName('img')[0];
+      if (img) {
         url = img.src;
       }
     }
