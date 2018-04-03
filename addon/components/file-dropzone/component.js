@@ -20,6 +20,50 @@ let supported = (function () {
 const dragListener = new DragListener();
 
 /**
+  `{{file-dropzone}}` is an element that will allow users to upload files by
+   drag and drop.
+
+  ```htmlbars
+  {{{#file-dropzone name="photos" as |dropzone queue|}}
+    {{#if dropzone.active}}
+      {{#if dropzone.valid}}
+        Drop to upload
+      {{else}}
+        Invalid
+      {{/if}}
+    {{else if queue.files.length}}
+      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+    {{else}}
+      <h4>Upload Images</h4>
+      <p>
+        {{#if dropzone.supported}}
+          Drag and drop images onto this area to upload them or
+        {{/if}}
+        {{#file-upload name="photos"
+                      accept="image/*"
+                      multiple=true
+                      onfileadd=(action "uploadImage")}}
+          <a id="upload-image" tabindex=0>Add an Image.</a>
+        {{/file-upload}}
+      </p>
+    {{/if}}
+  {{/file-dropzone}}
+  ```
+
+  ```js
+  import Controller from '@ember/controller';
+
+  export default Ember.Route.extend({
+    actions: {
+      uploadImage(file) {
+       file.upload(URL, options).then((response) => {
+          ...
+       });
+      }
+    }
+  });
+  ```
+
   @class file-dropzone
   @type Ember.Component
  */
