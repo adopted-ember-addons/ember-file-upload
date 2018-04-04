@@ -7,7 +7,7 @@ import { get } from '@ember/object';
   It has three different flavors of invocation. The first is
   a bare call, which will return the master queue:
 
-  ```handlebars
+  ```hbs
   {{#with (file-queue) as |queue|}}
     {{queue.progress}}%
   {{/with}}
@@ -16,16 +16,14 @@ import { get } from '@ember/object';
   If called with a `name` property, it will return the queue
   of that name:
 
-  ```handlebars
+  ```hbs
   {{#with (file-queue name="photos") as |queue|}}
     {{queue.progress}}%
   {{/with}}
   ```
 
-  @public
-  @method file-queue
   @param {string} [name] The name of the queue to get information on
-  @returns {Queue} A collection of all queues, or a specific queue.
+  @return {Queue} A collection of all queues, or a specific queue.
  */
 export default Helper.extend({
 

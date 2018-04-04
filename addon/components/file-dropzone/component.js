@@ -23,7 +23,7 @@ const dragListener = new DragListener();
   `{{file-dropzone}}` is an element that will allow users to upload files by
    drag and drop.
 
-  ```htmlbars
+  ```hbs
   {{{#file-dropzone name="photos" as |dropzone queue|}}
     {{#if dropzone.active}}
       {{#if dropzone.valid}}
@@ -64,8 +64,13 @@ const dragListener = new DragListener();
   });
   ```
 
-  @class file-dropzone
+  @class FileDropzone
   @type Ember.Component
+  @yield {Hash} dropzone
+  @yield {boolean} dropzone.supported
+  @yield {boolean} dropzone.active
+  @yield {valid} dropzone.valid
+  @yield {Queue} queue
  */
 export default Component.extend({
 
@@ -75,8 +80,8 @@ export default Component.extend({
     The name of the queue that files should be
     added to when they get dropped.
 
-    @attribute name
-    @type string
+    @argument name
+    @type {string}
    */
   name: null,
 
@@ -86,8 +91,8 @@ export default Component.extend({
     `ondragenter` is called when a file has entered
     the dropzone.
 
-    @attribute ondragenter
-    @type function
+    @argument ondragenter
+    @type {function}
    */
   ondragenter: null,
 
@@ -95,16 +100,16 @@ export default Component.extend({
     `ondragleave` is called when a file has left
     the dropzone.
 
-    @attribute ondragleave
-    @type function
+    @argument ondragleave
+    @type {function}
    */
   ondragleave: null,
 
   /**
     `ondrop` is called when a file has been dropped.
 
-    @attribute ondrop
-    @type function
+    @argument ondrop
+    @type {function}
    */
   ondrop: null,
 
@@ -117,8 +122,8 @@ export default Component.extend({
     your app. The default is `false` to
     prevent cross-site scripting issues.
 
-    @attribute allowUploadsFromWebsites
-    @type boolean
+    @argument allowUploadsFromWebsites
+    @type {boolean}
     @default false
    */
   allowUploadsFromWebsites: false,
@@ -135,8 +140,8 @@ export default Component.extend({
     - `move`
     - `link`
 
-    @attribute cursor
-    @type string
+    @argument cursor
+    @type {string}
     @default null
    */
   cursor: null,
