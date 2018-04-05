@@ -27,7 +27,8 @@ if (FormData.prototype.get == null) {
 
 function FormDataIterator(formdata) {
   this.formdata = formdata;
-  this.index = 0;}
+  this.index = 0;
+}
 
 FormDataIterator.prototype.next = function () {
   let keys = this.formdata[KEYS];

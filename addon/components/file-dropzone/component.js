@@ -161,8 +161,8 @@ export default Component.extend({
     dragListener.addEventListeners(`#${get(this, 'elementId')}`, {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
-      dragover:  bind(this, 'didDragOver'),
-      drop:      bind(this, 'didDrop')
+      dragover: bind(this, 'didDragOver'),
+      drop: bind(this, 'didDrop')
     });
   },
 
@@ -261,9 +261,9 @@ export default Component.extend({
             set(file, 'name', filename);
           });
         } else {
-          let binStr = atob(canvas.toDataURL().split(',')[1]),
-              len = binStr.length,
-              arr = new Uint8Array(len);
+          let binStr = atob(canvas.toDataURL().split(',')[1]);
+          let len = binStr.length;
+          let arr = new Uint8Array(len);
 
           for (var i=0; i<len; i++ ) {
             arr[i] = binStr.charCodeAt(i);
