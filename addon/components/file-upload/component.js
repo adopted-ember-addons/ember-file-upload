@@ -169,11 +169,11 @@ const component = Component.extend({
 
 if (DEBUG) {
   const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
-                      'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
-                      'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
-                      'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
-                      'svg', 'time', 'var', 'video', 'wbr',
-                      'path', 'g', 'use', 'circle'];
+    'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
+    'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
+    'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
+    'svg', 'time', 'var', 'video', 'wbr',
+    'path', 'g', 'use', 'circle'];
 
   component.reopen({
     didInsertElement() {

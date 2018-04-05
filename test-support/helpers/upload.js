@@ -1,4 +1,4 @@
-/*global triggerEvent, find */
+/*global triggerEvent, find, findWithAssert */
 
 export default function (selector, file, filename) {
   let input = findWithAssert(selector)[0];
