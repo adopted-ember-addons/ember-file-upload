@@ -137,7 +137,7 @@ export default EmberObject.extend({
   /**
     A unique id generated for this file.
 
-    @property
+    @property id
     @type {String}
     @readonly
    */
@@ -146,7 +146,7 @@ export default EmberObject.extend({
   /**
     The file name.
 
-    @property name
+    @accessor name
     @type {String}
    */
   name: computed({
@@ -161,7 +161,7 @@ export default EmberObject.extend({
   /**
     The size of the file in bytes.
 
-    @property size
+    @accessor size
     @type {Number}
     @readonly
    */
@@ -172,7 +172,7 @@ export default EmberObject.extend({
 
     For a image file this may be `image/png`.
 
-    @property type
+    @accessor type
     @type {String}
     @readonly
    */
@@ -182,7 +182,7 @@ export default EmberObject.extend({
     Returns the appropriate file extension of
     the file according to the type
 
-    @property extension
+    @accessor extension
     @type {String}
     @readonly
    */
@@ -193,7 +193,7 @@ export default EmberObject.extend({
   }),
 
   /**
-    @property loaded
+    @accessor loaded
     @type {Number}
     @default 0
     @readonly
@@ -201,7 +201,7 @@ export default EmberObject.extend({
   loaded: 0,
 
   /**
-    @property progress
+    @accessor progress
     @type {Number}
     @default 0
     @readonly
@@ -219,7 +219,7 @@ export default EmberObject.extend({
     - `uploaded`
     - `failed`
 
-    @property state
+    @accessor state
     @type {String}
     @default 'queued'
     @readonly
@@ -259,13 +259,21 @@ export default EmberObject.extend({
     files. This usually means that the file was created
     manually by the developer.
 
-    @property source
+    @accessor source
     @type {String}
     @default ''
     @readonly
    */
   source: '',
 
+  /**
+   * Upload file with `application/octet-stream` content type.
+   *
+   * @method uploadBinary
+   * @param {String} url Your server endpoint where to upload the file
+   * @param {hash} opts
+   * @return {Promise}
+   */
   uploadBinary(url, opts) {
     opts.contentType = 'application/octet-stream';
     return upload(this, url, opts, (request) => {
@@ -273,6 +281,14 @@ export default EmberObject.extend({
     });
   },
 
+  /**
+   * Upload file to your server
+   *
+   * @method upload
+   * @param {String} url Your server endpoint where to upload the file
+   * @param {Hash} opts { fileKey: string, data: { key: string } }
+   * @return {Promise}
+   */
   upload(url, opts) {
     return upload(this, url, opts, (request, options) => {
       // Build the form
@@ -290,21 +306,45 @@ export default EmberObject.extend({
     });
   },
 
+  /**
+   * Resolves with Blob as ArrayBuffer
+   *
+   * @method readAsArrayBuffer
+   * @return {Promise}
+   */
   readAsArrayBuffer() {
     let reader = new FileReader({ label: `Read ${get(this, 'name')} as an ArrayBuffer` });
     return reader.readAsArrayBuffer(this.blob);
   },
 
+  /**
+   * Resolves with Blob as DataURL
+   *
+   * @method readAsDataURL
+   * @return {Promise}
+   */
   readAsDataURL() {
     let reader = new FileReader({ label: `Read ${get(this, 'name')} as a Data URI` });
     return reader.readAsDataURL(this.blob);
   },
 
+  /**
+   * Resolves with Blob as binary string
+   *
+   * @method readAsBinaryString
+   * @return {Promise}
+   */
   readAsBinaryString() {
     let reader = new FileReader({ label: `Read ${get(this, 'name')} as a binary string` });
     return reader.readAsBinaryString(this.blob);
   },
 
+  /**
+   * Resolves with Blob as plain text
+   *
+   * @method readAsText
+   * @return {Promise}
+   */
   readAsText() {
     let reader = new FileReader({ label: `Read ${get(this, 'name')} as text` });
     return reader.readAsText(this.blob);
