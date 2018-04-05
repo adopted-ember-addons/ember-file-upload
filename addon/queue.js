@@ -55,7 +55,6 @@ export default EmberObject.extend({
 
   /**
     @private
-    @method _addFiles
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
   _addFiles(fileList, source) {
@@ -155,7 +154,6 @@ export default EmberObject.extend({
     states.
 
     @private
-    @method flushFilesWhenSettled
    */
   flushFilesWhenSettled: observer('files.@each.state', function () {
     let files = get(this, 'files');
@@ -174,7 +172,7 @@ export default EmberObject.extend({
   /**
     The aggregate size (in bytes) of all files in the queue.
 
-    @property size
+    @accessor size
     @readonly
     @type number
     @default 0
@@ -185,7 +183,7 @@ export default EmberObject.extend({
     The aggregate amount of bytes that have been uploaded
     to the server for all files in the queue.
 
-    @property loaded
+    @accessor loaded
     @readonly
     @type number
     @default 0
@@ -195,7 +193,7 @@ export default EmberObject.extend({
   /**
     The current upload progress of the queue, as a number from 0 to 100.
 
-    @property progress
+    @accessor progress
     @readonly
     @type number
     @default 0
