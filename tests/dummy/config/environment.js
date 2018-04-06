@@ -5,7 +5,8 @@ module.exports = function(environment) {
     modulePrefix: 'dummy',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true, // ember-router-scroll
     'ember-cli-mirage': {
       enabled: true
     },
