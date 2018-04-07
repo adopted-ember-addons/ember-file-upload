@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ember-file-upload</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="/ember-file-upload/assets/images/icon-52d2099853b4c03084ab14f32b9c46f1.png">
+
+    
+<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/ember-file-upload/%22%2C%22locationType%22%3A%22hash%22%2C%22historySupportMiddleware%22%3Atrue%2C%22ember-cli-mirage%22%3A%7B%22enabled%22%3Atrue%2C%22usingProxy%22%3Afalse%2C%22useDefaultPassthroughs%22%3Atrue%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%7D%2C%22ember-component-css%22%3A%7B%22namespacing%22%3Afalse%7D%2C%22ember-cli-addon-docs%22%3A%7B%22packageJson%22%3A%7B%22name%22%3A%22ember-file-upload%22%2C%22version%22%3A%222.4.1%22%2C%22description%22%3A%22An%20uploader%20component%20for%20Ember%20apps%22%2C%22keywords%22%3A%5B%22ember-addon%22%2C%22file-upload%22%5D%2C%22license%22%3A%22MIT%22%2C%22author%22%3A%22Tim%20Evans%22%2C%22directories%22%3A%7B%22test%22%3A%22tests%22%7D%2C%22repository%22%3A%22https%3A//github.com/tim-evans/ember-file-upload%22%2C%22scripts%22%3A%7B%22build%22%3A%22ember%20build%22%2C%22lint%3Ajs%22%3A%22eslint%20./*.js%20addon%20addon-test-support%20app%20config%20lib%20server%20test-support%20tests%22%2C%22start%22%3A%22ember%20serve%22%2C%22test%22%3A%22ember%20try%3Aeach%22%7D%2C%22dependencies%22%3A%7B%22ember-cli-babel%22%3A%22%5E6.12.0%22%2C%22ember-cli-htmlbars%22%3A%22%5E2.0.1%22%7D%2C%22devDependencies%22%3A%7B%22broccoli-asset-rev%22%3A%22%5E2.4.5%22%2C%22ember-cli%22%3A%22%7E3.0.0%22%2C%22ember-cli-addon-docs%22%3A%22https%3A//github.com/ember-learn/ember-cli-addon-docs.git%22%2C%22ember-cli-addon-docs-yuidoc%22%3A%22%5E0.1.1%22%2C%22ember-cli-code-coverage%22%3A%220.4.2%22%2C%22ember-cli-dependency-checker%22%3A%22%5E2.0.0%22%2C%22ember-cli-deploy%22%3A%22%5E1.0.2%22%2C%22ember-cli-deploy-build%22%3A%22%5E1.1.1%22%2C%22ember-cli-deploy-git%22%3A%22%5E1.3.3%22%2C%22ember-cli-deploy-git-ci%22%3A%22%5E1.0.1%22%2C%22ember-cli-eslint%22%3A%22%5E4.2.1%22%2C%22ember-cli-github-pages%22%3A%220.1.2%22%2C%22ember-cli-htmlbars-inline-precompile%22%3A%22%5E1.0.0%22%2C%22ember-cli-inject-live-reload%22%3A%22%5E1.4.1%22%2C%22ember-cli-mirage%22%3A%220.4.1%22%2C%22ember-cli-qunit%22%3A%22%5E4.1.1%22%2C%22ember-cli-release%22%3A%221.0.0-beta.2%22%2C%22ember-cli-sass%22%3A%227.2.0%22%2C%22ember-cli-shims%22%3A%22%5E1.2.0%22%2C%22ember-cli-uglify%22%3A%22%5E2.0.0%22%2C%22ember-load-initializers%22%3A%22%5E1.0.0%22%2C%22ember-maybe-import-regenerator%22%3A%22%5E0.1.6%22%2C%22ember-resolver%22%3A%22%5E4.0.0%22%2C%22ember-router-scroll%22%3A%22%5E0.6.0%22%2C%22ember-source%22%3A%22%7E3.0.0%22%2C%22ember-source-channel-url%22%3A%22%5E1.0.1%22%2C%22ember-try%22%3A%22%5E0.2.23%22%2C%22eslint-plugin-ember%22%3A%22%5E5.0.0%22%2C%22eslint-plugin-node%22%3A%22%5E5.2.1%22%2C%22loader.js%22%3A%22%5E4.2.3%22%7D%2C%22engines%22%3A%7B%22node%22%3A%22%5E4.5%20%7C%7C%206.*%20%7C%7C%20%3E%3D%207.*%22%7D%2C%22ember-addon%22%3A%7B%22configPath%22%3A%22tests/dummy/config%22%2C%22demoURL%22%3A%22https%3A//tim-evans.github.io/ember-file-upload/%22%7D%2C%22homepage%22%3A%22https%3A//tim-evans.github.io/ember-file-upload%22%7D%7D%2C%22ember-modal-dialog%22%3A%7B%22hasEmberTether%22%3A%221.0.0-beta.2%22%7D%7D" />
+
+    <link integrity="" rel="stylesheet" href="/ember-file-upload/assets/vendor-319a934ad59b2ab9fd52957ad53c6ec2.css">
+    <link integrity="" rel="stylesheet" href="/ember-file-upload/assets/dummy-38a33560f3a7a2224bc4f0c6c4eddb35.css">
+
+    
+  </head>
+  <body id="body">
+    <!-- Start Single Page Apps for GitHub Pages -->
+<script type="text/javascript">
+  // Single Page Apps for GitHub Pages
+  // https://github.com/rafrex/spa-github-pages
+  // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+  // ----------------------------------------------------------------------
+  // This script checks to see if a redirect is present in the query string
+  // and converts it back into the correct url and adds it to the
+  // browser's history using window.history.replaceState(...),
+  // which won't cause the browser to attempt to load the new url.
+  // When the single page app is loaded further down in this file,
+  // the correct url will be waiting in the browser's history for
+  // the single page app to route accordingly.
+  (function(l) {
+    if (l.search) {
+      var q = {};
+      l.search.slice(1).split('&').forEach(function(v) {
+        var a = v.split('=');
+        q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+      });
+      if (q.p !== undefined) {
+        window.history.replaceState(null, null,
+          l.pathname.slice(0, -1) + (q.p || '') +
+          (q.q ? ('?' + q.q) : '') +
+          l.hash
+        );
+      }
+    }
+  }(window.location))
+</script>
+<!-- End Single Page Apps for GitHub Pages -->
+
+
+    <script src="/ember-file-upload/assets/vendor-0ff085ff51560d4c24839289a4ba664e.js"></script>
+    <script src="/ember-file-upload/assets/dummy-2f35f454a66b754d4b8f585e0a9c6724.js"></script>
+
+    
+  </body>
+</html>
