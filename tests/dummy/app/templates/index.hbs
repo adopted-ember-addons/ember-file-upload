@@ -1,0 +1,73 @@
+{{docs-hero
+  logo='ember'
+  slimHeading='File'
+  strongHeading='Upload'
+  byline='A file upload framework for Ember apps.'}}
+
+<div class='docs-container docs-md'>
+  <section class='max-w-md mx-auto pb-4'>
+    <div class="my-16 text-center">
+      {{#link-to 'docs' class='bg-grey-darkest hover:bg-black text-white py-2 px-4 no-underline rounded'}}
+        Get started →
+      {{/link-to}}
+    </div>
+  </section>
+
+  <section class="max-w-md mx-auto">
+    <div class="my-16 text-center">
+      <h1 class="my-8">Demo</h1>
+      {{#file-dropzone name="photos" class='demo-dropzone' as |dropzone queue|}}
+        <div class="dropzone-upload-area" class={{concat 'upload ' (if dropzone.active 'active')}}>
+          {{#if dropzone.supported}}
+            <div class="emoji mb-16">
+              {{#if dropzone.active}}
+                {{#if dropzone.valid}}
+                  ✨👽✨
+                {{else}}
+                  🐮
+                {{/if}}
+              {{else}}
+                👽
+              {{/if}}
+            </div>
+          {{/if}}
+
+          <p>
+            {{#if dropzone.supported}}
+              Drag your proof or
+            {{/if}}
+            {{#file-upload name="photos"
+                            multiple=true
+                            onfileadd=(action "uploadProof")
+                            accept="image/*,video/*,audio/*"}}
+              <a>select them</a>
+            {{/file-upload}}
+            to upload.
+          </p>
+
+          {{#if queue.files.length}}
+            Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
+          {{/if}}
+        </div>
+      {{/file-dropzone}}
+    </div>
+    <div class="my-16">
+      <ul class="demo-uploaded-files-list">
+        {{#each model as |file|}}
+          <li>
+            <div class="card text-center">
+              {{#if file.file}}
+                <div class="mb-4">{{file.file.progress}}%</div>
+              {{else if (equals file.type 'image')}}
+                <img src={{file.preview}} alt="{{file.filename}}">
+              {{else if (equals file.type 'video')}}
+                <video src={{file.preview}} alt="{{file.filename}}" muted=true loop=true autoplay></video>
+              {{/if}}
+              <span class="caption">{{file.filename}}</span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
+</div>

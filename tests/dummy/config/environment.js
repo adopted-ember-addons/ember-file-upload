@@ -5,7 +5,8 @@ module.exports = function(environment) {
     modulePrefix: 'dummy',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true, // ember-router-scroll
     'ember-cli-mirage': {
       enabled: true
     },
@@ -47,6 +48,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    // Allow ember-cli-addon-docs to update the rootURL in compiled assets
+    ENV.rootURL = 'ADDON_DOCS_ROOT_URL';
     ENV.locationType = 'hash';
     ENV.rootURL = '/ember-file-upload/';
 
