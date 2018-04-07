@@ -19,8 +19,8 @@ export default class {
     let handlers = this._handlers = {
       dragenter: bind(this, 'dragenter'),
       dragleave: bind(this, 'dragleave'),
-      dragover:  bind(this, 'dragover'),
-      drop:      bind(this, 'drop')
+      dragover: bind(this, 'dragover'),
+      drop: bind(this, 'drop')
     };
 
     let body = document.body;
@@ -104,12 +104,12 @@ export default class {
 
   getDataTransferItemDetails(evt) {
     let itemDetails = [];
-    for(let i = 0; i < evt.dataTransfer.items.length; i++) {
+    for (let i = 0; i < evt.dataTransfer.items.length; i++) {
       let item = evt.dataTransfer.items[i];
       itemDetails.push({
         kind: item.kind,
         type: item.type
-      })
+      });
     }
     return itemDetails;
   }

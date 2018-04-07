@@ -12,10 +12,6 @@ module.exports = function(defaults) {
     sassOptions: {
       includePaths: ['tests/dummy/app']
     },
-    svgJar: {
-      strategy: 'inline',
-      sourceDirs: ['tests/dummy/public/assets/images']
-    },
     vendorFiles: {
       'jquery.js': null
     }

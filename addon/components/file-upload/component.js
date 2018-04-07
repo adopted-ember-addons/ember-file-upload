@@ -26,7 +26,7 @@ import uuid from '../../system/uuid';
   For this example, we'll look at a relatively standard profile form
   using [`ember-changeset`](https://github.com/DockYard/ember-changeset) to keep track of changes made to the form:
 
-  ```htmlbars
+  ```hbs
   {{#with (changeset model) as |changeset|}}
     <form submit={{action 'submit' changeset}}>
       <label for='name'>
@@ -34,7 +34,7 @@ import uuid from '../../system/uuid';
 
       {{#file-upload name="avatar"
                      accept="image/*"
-                     onfileadd=(route-action 'setAvatar' changeset)}}
+                     onfileadd=(action 'setAvatar' changeset)}}
         {{#if changeset.avatar}}
           <img src={{changeset.avatar.url}}
           <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
@@ -47,36 +47,40 @@ import uuid from '../../system/uuid';
   ```
 
   ```js
-  import Ember from 'ember';
+  import Controller from '@ember/controller';
 
-  export default Ember.Route.extend({
+  export default Controller.extend({
     actions: {
-      submit: async function (changeset) {
+      submit(changeset) {
         if (changeset.avatar) {
           let file = changeset.avatar;
-          let response = await file.upload('/upload');
-          changeset.set('avatar', {
-            name: file.get('name'),
-            url: response.headers.Location
+          file.upload('/upload').then((response) => {
+            changeset.set('avatar', {
+              name: file.get('name'),
+              url: response.headers.Location
+            });
           });
         }
-        this.currentModel.setProperties(changeset.get('change'));
 
+        this.currentModel.setProperties(changeset.get('change'));
         return this.currentModel.save();
       },
-      setAvatar: async function (changeset, file) {
+
+      setAvatar(changeset, file) {
         changeset.set('avatar', file);
 
         // Set the URL so we can see a preview
-        let url = await file.readAsDataURL();
-        file.set('url', url);
+        file.readAsDataURL().then((url) => {
+          changeset.set('url', url);
+        });
       }
     }
   });
   ```
 
-  @class file-upload
+  @class FileUpload
   @type Ember.Component
+  @yield {Queue} queue
  */
 const component = Component.extend({
   tagName: 'label',
@@ -94,23 +98,23 @@ const component = Component.extend({
 
   /**
     A list of MIME types / extensions to be accepted by the input
-    @attribute accept
-    @type string
+    @argument accept
+    @type {string}
    */
   accept: null,
 
   /**
     Whether multiple files can be selected when uploading.
-    @attribute multiple
-    @type boolean
+    @argument multiple
+    @type {boolean}
    */
   multiple: null,
 
   /**
     The name of the queue to upload the file to.
 
-    @attribute name
-    @type string
+    @argument name
+    @type {string}
     @required
    */
   name: null,
@@ -118,8 +122,8 @@ const component = Component.extend({
   /**
     If set, disables input and prevents files from being added to the queue
 
-    @attribute disabled
-    @type boolean
+    @argument disabled
+    @type {boolean}
     @default false
    */
   disabled: false,
@@ -130,8 +134,8 @@ const component = Component.extend({
     When multiple files are selected, this function
     is called once for every file that was selected.
 
-    @attribute onfileadd
-    @type function
+    @argument onfileadd
+    @type {function}
     @required
    */
   onfileadd: null,
@@ -165,11 +169,11 @@ const component = Component.extend({
 
 if (DEBUG) {
   const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
-                      'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
-                      'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
-                      'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
-                      'svg', 'time', 'var', 'video', 'wbr',
-                      'path', 'g', 'use', 'circle'];
+    'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
+    'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
+    'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
+    'svg', 'time', 'var', 'video', 'wbr',
+    'path', 'g', 'use', 'circle'];
 
   component.reopen({
     didInsertElement() {

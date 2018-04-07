@@ -10,7 +10,7 @@ import RSVP from 'rsvp';
   let reader = new FileReader();
   let file = File.fromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAACNJREFUCB1jYICC6dOn/4exwTRMAEYzwBnoOmASMBpuDLIAAIVVFiE0cg0oAAAAAElFTkSuQmCC');
 
-  reader.readAsDataURL(file.blob).then(function (url) {
+  reader.readAsDataURL(file.blob).then((url) => {
     return url;
   }, function (err) {
     console.error(err);
@@ -21,13 +21,13 @@ import RSVP from 'rsvp';
 
   ```js
   let promise = reader.readAsDataURL(file.blob);
-  promise.then(function (url) {
+  promise.then((url) => {
     return url;
-  }, function (err) {
+  }, (err) => {
     console.error(err);
   });
 
-  promise.abort().then(function () {
+  promise.abort().then(() => {
     console.error('cancelled reading file');
   });
   ```

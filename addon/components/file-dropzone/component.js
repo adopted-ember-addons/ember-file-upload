@@ -20,8 +20,57 @@ let supported = (function () {
 const dragListener = new DragListener();
 
 /**
-  @class file-dropzone
+  `{{file-dropzone}}` is an element that will allow users to upload files by
+   drag and drop.
+
+  ```hbs
+  {{{#file-dropzone name="photos" as |dropzone queue|}}
+    {{#if dropzone.active}}
+      {{#if dropzone.valid}}
+        Drop to upload
+      {{else}}
+        Invalid
+      {{/if}}
+    {{else if queue.files.length}}
+      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+    {{else}}
+      <h4>Upload Images</h4>
+      <p>
+        {{#if dropzone.supported}}
+          Drag and drop images onto this area to upload them or
+        {{/if}}
+        {{#file-upload name="photos"
+                      accept="image/*"
+                      multiple=true
+                      onfileadd=(action "uploadImage")}}
+          <a id="upload-image" tabindex=0>Add an Image.</a>
+        {{/file-upload}}
+      </p>
+    {{/if}}
+  {{/file-dropzone}}
+  ```
+
+  ```js
+  import Controller from '@ember/controller';
+
+  export default Ember.Route.extend({
+    actions: {
+      uploadImage(file) {
+       file.upload(URL, options).then((response) => {
+          ...
+       });
+      }
+    }
+  });
+  ```
+
+  @class FileDropzone
   @type Ember.Component
+  @yield {Hash} dropzone
+  @yield {boolean} dropzone.supported
+  @yield {boolean} dropzone.active
+  @yield {valid} dropzone.valid
+  @yield {Queue} queue
  */
 export default Component.extend({
 
@@ -31,8 +80,8 @@ export default Component.extend({
     The name of the queue that files should be
     added to when they get dropped.
 
-    @attribute name
-    @type string
+    @argument name
+    @type {string}
    */
   name: null,
 
@@ -42,8 +91,8 @@ export default Component.extend({
     `ondragenter` is called when a file has entered
     the dropzone.
 
-    @attribute ondragenter
-    @type function
+    @argument ondragenter
+    @type {function}
    */
   ondragenter: null,
 
@@ -51,16 +100,16 @@ export default Component.extend({
     `ondragleave` is called when a file has left
     the dropzone.
 
-    @attribute ondragleave
-    @type function
+    @argument ondragleave
+    @type {function}
    */
   ondragleave: null,
 
   /**
     `ondrop` is called when a file has been dropped.
 
-    @attribute ondrop
-    @type function
+    @argument ondrop
+    @type {function}
    */
   ondrop: null,
 
@@ -73,8 +122,8 @@ export default Component.extend({
     your app. The default is `false` to
     prevent cross-site scripting issues.
 
-    @attribute allowUploadsFromWebsites
-    @type boolean
+    @argument allowUploadsFromWebsites
+    @type {boolean}
     @default false
    */
   allowUploadsFromWebsites: false,
@@ -91,8 +140,8 @@ export default Component.extend({
     - `move`
     - `link`
 
-    @attribute cursor
-    @type string
+    @argument cursor
+    @type {string}
     @default null
    */
   cursor: null,
@@ -112,8 +161,8 @@ export default Component.extend({
     dragListener.addEventListeners(`#${get(this, 'elementId')}`, {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
-      dragover:  bind(this, 'didDragOver'),
-      drop:      bind(this, 'didDrop')
+      dragover: bind(this, 'didDragOver'),
+      drop: bind(this, 'didDrop')
     });
   },
 
@@ -212,9 +261,9 @@ export default Component.extend({
             set(file, 'name', filename);
           });
         } else {
-          let binStr = atob(canvas.toDataURL().split(',')[1]),
-              len = binStr.length,
-              arr = new Uint8Array(len);
+          let binStr = atob(canvas.toDataURL().split(',')[1]);
+          let len = binStr.length;
+          let arr = new Uint8Array(len);
 
           for (var i=0; i<len; i++ ) {
             arr[i] = binStr.charCodeAt(i);
