@@ -49,8 +49,10 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // Allow ember-cli-addon-docs to update the rootURL in compiled assets
-    ENV.rootURL = 'ADDON_DOCS_ROOT_URL';
-    ENV.locationType = 'hash';
+    // TODO check if we need this, currently we have manually setup rootURL
+    // and prepending /ember-file-upload in ember-cli-build.js to assets
+    // ENV.rootURL = 'ADDON_DOCS_ROOT_URL';
+
     ENV.rootURL = '/ember-file-upload/';
 
   }
