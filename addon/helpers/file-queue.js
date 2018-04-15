@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { get } from '@ember/object';
 
 /**
-  `file-queue` is one of the core primitives of ember-file-upload.
+  `file-queue` helper is one of the core primitives of ember-file-upload.
   It has three different flavors of invocation. The first is
   a bare call, which will return the master queue:
 
@@ -22,6 +22,7 @@ import { get } from '@ember/object';
   {{/with}}
   ```
 
+  @class FileQueue
   @param {string} [name] The name of the queue to get information on
   @return {Queue} A collection of all queues, or a specific queue.
  */
