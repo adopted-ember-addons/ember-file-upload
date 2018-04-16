@@ -25,8 +25,8 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
     "ember-cli": "~3.0.0",
-    "ember-cli-addon-docs": "https://github.com/ember-learn/ember-cli-addon-docs.git",
-    "ember-cli-addon-docs-yuidoc": "^0.1.1",
+    "ember-cli-addon-docs": "^0.4.0",
+    "ember-cli-addon-docs-yuidoc": "^0.2.0",
     "ember-cli-code-coverage": "0.4.2",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-deploy": "^1.0.2",
