@@ -26,8 +26,8 @@ let random = (function () {
       }
 
       numbers[i] = r >>> ((i & 0x03) << 3) & 0xFF;
-      return numbers;
     }
+    return numbers;
   };
 })();
 

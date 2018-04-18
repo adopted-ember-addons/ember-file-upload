@@ -11,13 +11,15 @@ module('uuid', function() {
     let uuid = module['default'];
 
     test(name + ' long', function (assert) {
-      assert.equal(uuid().length, 36);
-      assert.notEqual(uuid(), uuid());
+      assert.equal(uuid().length, 36, 'length');
+      assert.ok(/^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/.test(uuid()), 'looks like a full uuid');
+      assert.notEqual(uuid(), uuid(), 'each uuid is unique');
     });
 
     test(name + ' short', function (assert) {
-      assert.equal(uuid.short().length, 5);
-      assert.notEqual(uuid.short(), uuid.short());
+      assert.equal(uuid.short().length, 5, 'length');
+      assert.ok(/^[a-f\d]{5}$/.test(uuid.short()), 'looks like a short uuid');
+      assert.notEqual(uuid.short(), uuid.short(), 'each short uuid is unique');
     });
   };
 
