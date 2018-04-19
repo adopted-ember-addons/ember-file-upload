@@ -6,9 +6,15 @@
     "name": "2.4.2"
   },
   "latest": {
-    "sha": "c5246b2354b6b59914cf79b0ce2d67685ff6a330",
-    "tag": null,
+    "sha": "da9ed18fa608d16cac8cbf3a798af9095327d46f",
+    "tag": "2.4.3",
     "path": "latest",
     "name": "latest"
+  },
+  "2.4.3": {
+    "sha": "da9ed18fa608d16cac8cbf3a798af9095327d46f",
+    "tag": "2.4.3",
+    "path": "2.4.3",
+    "name": "2.4.3"
   }
 }
