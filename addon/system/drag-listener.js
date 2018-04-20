@@ -104,13 +104,17 @@ export default class {
 
   getDataTransferItemDetails(evt) {
     let itemDetails = [];
-    for (let i = 0; i < evt.dataTransfer.items.length; i++) {
-      let item = evt.dataTransfer.items[i];
-      itemDetails.push({
-        kind: item.kind,
-        type: item.type
-      });
+
+    if (evt.dataTransfer.items){
+      for (let i = 0; i < evt.dataTransfer.items.length; i++) {
+        let item = evt.dataTransfer.items[i];
+        itemDetails.push({
+          kind: item.kind,
+          type: item.type
+        });
+      }
     }
+
     return itemDetails;
   }
 
