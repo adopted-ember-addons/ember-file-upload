@@ -179,12 +179,14 @@ if (DEBUG) {
     didInsertElement() {
       let id = get(this, 'for');
       assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
-      this.element.querySelectorAll('*').forEach(function (element) {
+      let elements = this.element.querySelectorAll('*');
+      for (let i = 0; i < elements.length; i++){
+        let element = elements[i];
         if (element.id !== id &&
             VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
           assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
         }
-      });
+      }
     }
   });
 }
