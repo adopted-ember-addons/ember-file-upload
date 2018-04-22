@@ -9378,8 +9378,9 @@ t.addEventListener("dragenter",e.dragenter,{passive:!0}),t.addEventListener("dra
 e.removeEventListener("dragenter",t.dragenter,{passive:!0}),e.removeEventListener("dragleave",t.dragleave,{passive:!0}),e.removeEventListener("dragover",t.dragover,{passive:!1}),e.removeEventListener("drop",t.drop,{passive:!1})}},{key:"addEventListeners",value:function(e,t){0===this._listeners.length&&this.beginListening()
 for(var n=this._listeners.length,r=0,a=this._listeners.length;r<a;r++){var i=this._listeners[r]
 document.querySelector(i.selector+" "+e)&&(n=r)}this._listeners.splice(n,0,{selector:e,handlers:t})}},{key:"removeEventListeners",value:function(e){this._listeners.removeObject(this._listeners.findBy("selector",e)),0===this._listeners.length&&this.endListening()}},{key:"findListener",value:function(e){return this._listeners.find(function(t){var n=t.selector,r=document.querySelector(n)
-return r===e.target||r.contains(e.target)})}},{key:"getEventSource",value:function(e){for(var t=e.dataTransfer.types||[],n=!1,r=0,a=t.length;r<a;r++)if("Files"===t[r]||"application/x-moz-file"===t[r]){n=!0
-break}return n?"os":"web"}},{key:"getDataTransferItemDetails",value:function(e){for(var t=[],n=0;n<e.dataTransfer.items.length;n++){var r=e.dataTransfer.items[n]
+return r===e.target||r.contains(e.target)||e.target.contains(r)})}},{key:"getEventSource",value:function(e){for(var t=e.dataTransfer.types||[],n=!1,r=0,a=t.length;r<a;r++)if("Files"===t[r]||"application/x-moz-file"===t[r]){n=!0
+break}return n?"os":"web"}},{key:"getDataTransferItemDetails",value:function(e){var t=[]
+if(e.dataTransfer.items)for(var n=0;n<e.dataTransfer.items.length;n++){var r=e.dataTransfer.items[n]
 t.push({kind:r.kind,type:r.type})}return t}},{key:"dragenter",value:function(e){var t=this.findListener(e),n=this._stack[this._stack.length-1]
 n&&this.scheduleEvent("dragleave",n,e),t&&this.scheduleEvent("dragenter",t,{source:this.getEventSource(e),dataTransfer:e.dataTransfer,itemDetails:this.getDataTransferItemDetails(e)}),this._listener=t}},{key:"dragleave",value:function(e){this._stack.length&&(this.scheduleEvent("dragleave",this._stack[0],e),this._listener=null)}},{key:"dragover",value:function(e){e.preventDefault(),e.stopPropagation()
 var t=this.findListener(e)
