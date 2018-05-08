@@ -11,7 +11,8 @@ export default Controller.extend({
 
       this.model.pushObject(asset);
 
-      return file.upload('/photos/new').then(({ body: { filename, url, type } }) => {
+      return file.upload('/photos/new').then(response => {
+        let { filename, url, type } = response.body.data.attributes;
         setProperties(asset, {
           filename,
           preview: url,

@@ -14,6 +14,10 @@ module.exports = {
   env: {
     browser: true
   },
+  globals: {
+    // Mirage server
+    server: true,
+  },
   rules: {
     'ember/no-jquery': 2,
     'comma-dangle': [1, 'never'],
@@ -62,15 +66,16 @@ module.exports = {
     // node files
     {
       files: [
+        'ember-cli-build.js',
         'index.js',
         'testem.js',
-        'ember-cli-build.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
-        'app/**',
         'addon/**',
+        'addon-test-support/**',
+        'app/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {
