@@ -64,10 +64,11 @@ For example, creating an image uploader that uploads images to your API server w
         Drag and drop images onto this area to upload them or
       {{/if}}
       {{#file-upload name="photos"
+                     for="upload-photo"
                      accept="image/*"
                      multiple=true
                      onfileadd=(route-action "uploadImage")}}
-        <a id="upload-image" tabindex=0>Add an Image.</a>
+        <a tabindex=0>Add an Image.</a>
       {{/file-upload}}
     </p>
   {{/if}}
@@ -160,18 +161,25 @@ export default function () {
 ```
 
 ```javascript
-import { upload } from '../../helpers/upload';
+import { upload } from 'ember-file-upload/test-support';
 import File from 'ember-file-upload/file';
 
 moduleForAcceptance('/photos');
 
 test('uploading an image', async function (assert) {
-  let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
+  let data = new Uint8Array([
+    137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82,0,0,0,8,0,0,
+    0,8,8,2,0,0,0,75,109,41,220,0,0,0,34,73,68,65,84,8,215,99,120,
+    173,168,135,21,49,0,241,255,15,90,104,8,33,129,83,7,97,163,136,
+    214,129,93,2,43,2,0,181,31,90,179,225,252,176,37,0,0,0,0,73,69,
+    78,68,174,66,96,130
+  ]);
 
-  await upload('#upload-photo', file, 'smile.gif');
+  let photo = new File([data], 'image.png', { type: 'image/png'});
+  await upload('#upload-photo', photo);
 
-  let photo = server.db.photos[0];
-  assert.equal(photo.filename, 'smile.gif');
+  let uploadedPhoto = server.db.photos[0];
+  assert.equal(uploadedPhoto.name, 'image.png');
 });
 ```
 
@@ -183,9 +191,8 @@ import upload from '../helpers/upload';
 moduleForAcceptance('/notes');
 
 test('showing a note', async function (assert) {
-  let file = File.fromDataURL('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
-
-  await upload('#upload-note', file, 'douglas_coupland.txt');
+  let file = new File(["I can feel the money leaving my body"], 'douglas_coupland.txt', { type: 'text/plain'});
+  await upload('#upload-note', file);
 
   assert.equal(find('.note').text(), 'I can feel the money leaving my body');
 });
