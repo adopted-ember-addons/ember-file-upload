@@ -1,4 +1,5 @@
 import RSVP from 'rsvp';
+import Response from 'ember-cli-mirage/response';
 import {
   extractFormData,
   extractFileMetadata
@@ -48,7 +49,8 @@ export function upload(fn, options={ network: null, timeout: null }) {
               }, data)
             };
             if (timedOut) {
-              response.status = 408;
+              resolve(new Response(408));
+              return;
             }
 
             resolve(fn.call(this, db, response));

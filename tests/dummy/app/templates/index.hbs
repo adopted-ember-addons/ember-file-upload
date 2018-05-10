@@ -37,6 +37,7 @@
               Drag your proof or
             {{/if}}
             {{#file-upload name="photos"
+                           for="upload-photo"
                             multiple=true
                             onfileadd=(action "uploadProof")
                             accept="image/*,video/*,audio/*"}}
