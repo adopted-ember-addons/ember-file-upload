@@ -3,6 +3,7 @@ import config from '../config/environment';
 
 export default function () {
   this.passthrough('/write-coverage');
+  this.passthrough('/versions.json');
   this.passthrough(`${config.rootURL}docs/ember-file-upload.json`);
   this.post('/photos/new', upload(function (db, request) {
     let { type, name, size, url } = request.requestBody.file;
