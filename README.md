@@ -162,7 +162,6 @@ export default function () {
 
 ```javascript
 import { upload } from 'ember-file-upload/test-support';
-import File from 'ember-file-upload/file';
 
 moduleForAcceptance('/photos');
 
@@ -186,7 +185,7 @@ test('uploading an image', async function (assert) {
 If the file isn't uploaded to the server, you don't need to use the mirage helper. The same approach applies to all types of files; encode them as a Base64 data url or read them from a file as a blob.
 
 ```javascript
-import upload from '../helpers/upload';
+import { upload } from 'ember-file-upload/test-support';
 
 moduleForAcceptance('/notes');
 
