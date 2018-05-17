@@ -9757,11 +9757,11 @@ return!!e&&e.get("isFastBoot")}),willTransition:function(){this._super.apply(thi
 return n}return Array.from(e)}(r))),Ember.get(this,"isFastBoot"))||(Ember.get(this,"service.delayScrollTop")?this.get("scheduler").scheduleWork("afterContentPaint",function(){t.updateScrollPosition(e)}):Ember.run.scheduleOnce("render",this,function(){return t.updateScrollPosition(e)}))},updateScrollPosition:function(e){var t=e[e.length-1],n=void 0
 n=void 0!==Ember.get(t,"handler._router")?"handler._router":"handler.router"
 var r=Ember.get(t,n+".currentURL"),a=r?document.getElementById(r.split("#").pop()):null,i=void 0
-i=r&&r.indexOf("#")>-1&&a?{x:a.offsetLeft,y:a.offsetTop}:Ember.get(this,"service.position")
-var o=Ember.get(this,"service.scrollElement")
-if(!Ember.get(t,"handler.controller.preserveScrollPosition"))if("window"===o)window.scrollTo(i.x,i.y)
+if(i=r&&r.indexOf("#")>-1&&a?{x:a.offsetLeft,y:a.offsetTop}:Ember.get(this,"service.position"),!Ember.get(t,"handler.controller.preserveScrollPosition")){var o=Ember.get(this,"service.scrollElement")
+if(Ember.get(this,"service.targetElement"))window.scrollTo(i.x,i.y)
+else if("window"===o)window.scrollTo(i.x,i.y)
 else if("#"===o.charAt(0)){var s=document.getElementById(o.substring(1))
-s&&(s.scrollLeft=i.x,s.scrollTop=i.y)}}})}),define("ember-router-scroll/locations/router-scroll",["exports"],function(e){"use strict"
+s&&(s.scrollLeft=i.x,s.scrollTop=i.y)}}}})}),define("ember-router-scroll/locations/router-scroll",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0})
 var t=function(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(e){var t=16*Math.random()|0
 return("x"===e?t:3&t|8).toString(16)})}
@@ -9769,16 +9769,18 @@ e.default=Ember.HistoryLocation.extend({pushState:function(e){var n={path:e,uuid
 Ember.get(this,"history").pushState(n,null,e),Ember.set(this,"_previousURL",this.getURL())},replaceState:function(e){var n={path:e,uuid:t()}
 Ember.get(this,"history").replaceState(n,null,e),Ember.set(this,"_previousURL",this.getURL())}})}),define("ember-router-scroll/services/router-scroll",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=Ember.Service.extend({isFastBoot:Ember.computed(function(){var e=Ember.getOwner(this).lookup("service:fastboot")
-return!!e&&e.get("isFastBoot")}),scrollElement:"window",delayScrollTop:!1,init:function(){this._super.apply(this,arguments),this._loadConfig(),Ember.set(this,"scrollMap",{}),Ember.set(this,"key",null)},update:function(){var e=Ember.get(this,"scrollElement"),t=Ember.get(this,"scrollMap"),n=Ember.get(this,"key"),r=void 0,a=void 0
-if("window"===e)r=window.scrollX,a=window.scrollY
+return!!e&&e.get("isFastBoot")}),scrollElement:"window",targetElement:null,delayScrollTop:!1,init:function(){this._super.apply(this,arguments),this._loadConfig(),Ember.set(this,"scrollMap",{default:{x:0,y:0}}),Ember.set(this,"key",null)},update:function(){var e=Ember.get(this,"scrollElement"),t=Ember.get(this,"targetElement"),n=Ember.get(this,"scrollMap"),r=Ember.get(this,"key"),a=void 0,i=void 0
+if(t){if(Ember.get(this,"isFastBoot"))return
+var o=document.querySelector(t)
+o&&(a=o.offsetLeft,i=o.offsetTop,Ember.set(n,"default",{x:a,y:i}))}else if("window"===e)a=window.scrollX,i=window.scrollY
 else if("#"===e.charAt(0)){if(Ember.get(this,"isFastBoot"))return
-var i=document.getElementById(e.substring(1))
-i&&(r=i.scrollLeft,a=i.scrollTop)}n&&"number"===Ember.typeOf(r)&&"number"===Ember.typeOf(a)&&Ember.set(t,n,{x:r,y:a})},position:Ember.computed(function(){var e=Ember.get(this,"scrollMap"),t=Ember.get(window,"history.state.uuid")
+var s=document.getElementById(e.substring(1))
+s&&(a=s.scrollLeft,i=s.scrollTop)}r&&"number"===Ember.typeOf(a)&&"number"===Ember.typeOf(i)&&Ember.set(n,r,{x:a,y:i})},position:Ember.computed(function(){var e=Ember.get(this,"scrollMap"),t=Ember.get(window,"history.state.uuid")
 Ember.set(this,"key",t)
 var n=Ember.getWithDefault(this,"key","-1")
-return Ember.getWithDefault(e,n,{x:0,y:0})}).volatile(),_loadConfig:function(){var e=Ember.getOwner(this).resolveRegistration("config:environment")
-if(e&&e.routerScroll&&e.routerScroll.scrollElement){var t=e.routerScroll.scrollElement
-"string"===Ember.typeOf(t)&&Ember.set(this,"scrollElement",t),!0===e.routerScroll.delayScrollTop&&Ember.set(this,"delayScrollTop",!0)}}})}),define("ember-svg-jar/utils/make-helper",["exports"],function(e){"use strict"
+return Ember.getWithDefault(e,n,e.default)}).volatile(),_loadConfig:function(){var e=Ember.getOwner(this).resolveRegistration("config:environment")
+if(e&&e.routerScroll){var t=e.routerScroll.scrollElement,n=e.routerScroll.targetElement
+"string"===Ember.typeOf(t)&&Ember.set(this,"scrollElement",t),"string"===Ember.typeOf(n)&&Ember.set(this,"targetElement",n),!0===e.routerScroll.delayScrollTop&&Ember.set(this,"delayScrollTop",!0)}}})}),define("ember-svg-jar/utils/make-helper",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){var n=void 0
 n=Ember.Helper&&Ember.Helper.helper?Ember.Helper.helper(function(n,r){var a=t(n,1),i=a[0]
 return e(i,r)}):Ember.Handlebars.makeBoundHelper(function(t,n){return e(t,n.hash||{})})
