@@ -12,6 +12,7 @@ exposes a variety of parameters for configuring file-uploader:
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `name`              | The name of the queue to use
 | `accept`            | a list of MIME types/extensions to accept by input
 | `multiple`          | whether multiple files can be selected
 | `disabled`          | if set, disables input and prevents files from being added to the queue
@@ -21,6 +22,7 @@ The `{{file-dropzone}}` component:
 
 | Attribute           | Definition
 |---------------------|------------------|
+| `name`              | The name of the queue to use
 | `ondragenter`       | the name of the action to be called when a file has entered the dropzone
 | `ondragleave`       | the name of the action to be called when a file has left the dropzone
 | `ondrop`            | the name of the action to be called when a file has been dropped in the dropzone
