@@ -1,6 +1,5 @@
 /* global Blob, Uint8Array */
 import Component from '@ember/component';
-
 import { inject as service } from '@ember/service';
 import { bind } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
@@ -9,6 +8,7 @@ import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
 import parseHTML from '../../system/parse-html';
 import DragListener from '../../system/drag-listener';
+import RSVP from 'rsvp';
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
@@ -288,7 +288,58 @@ export default Component.extend({
 
     // Add file(s) to upload queue.
     set(this, 'active', false);
-    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
-    this[DATA_TRANSFER] = null;
+
+    var items = this[DATA_TRANSFER].dataTransfer.items;
+    if (items && items.length && items[0].webkitGetAsEntry) {
+      let root = items[0].webkitGetAsEntry();
+      walkDir(root, root.name).then((files)=> {
+        get(this, 'queue')._addFiles(files, 'drag-and-drop');
+      })
+      .catch((e)=> {
+        console.log(e);
+      })
+      .finally(()=> {
+        this[DATA_TRANSFER] = null;
+      });
+    } else {
+      get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
+      this[DATA_TRANSFER] = null;
+    }
   }
 });
+
+function walkDir(entry, path = '', ret = []) {
+  if (entry.isFile) {
+    return (new RSVP.Promise(function(resolve, reject) {
+      entry.file(resolve, reject);
+    }))
+    .then((file)=> {
+      file.fullPath = path + '/' + file.name;
+      ret.push(file);
+      return ret;
+    });
+  } else if (entry.isDirectory) {
+    let dirReader = entry.createReader();
+    let getEntries = function() {
+      return new RSVP.Promise(function(resolve, reject) {
+        dirReader.readEntries(resolve, reject);
+      });
+    };
+
+    let allEntries = [];
+    function getAllEntries() {
+      return getEntries().then(function(entries) {
+        if (entries.length) {
+          allEntries = allEntries.concat(entries);
+          return getAllEntries();
+        }
+      });
+    }
+
+    return getAllEntries().then(function() {
+      return RSVP.all(allEntries.map(function(entry) {
+        return walkDir(entry, path, ret);
+      }));
+    }).then(()=> ret);
+  }
+}
