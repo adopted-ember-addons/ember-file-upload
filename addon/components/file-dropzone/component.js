@@ -19,6 +19,45 @@ let supported = (function () {
 
 const dragListener = new DragListener();
 
+function walkDir(entry, path = '', ret = []) {
+  if (entry.isFile) {
+    return (new RSVP.Promise(function(resolve, reject) {
+      entry.file(resolve, reject);
+    }))
+      .then((file)=> {
+        if (file.name[0] !== '.') { // not hidden files
+          file.fullPath = path + '/' + file.name;
+          ret.push(file);
+        }
+        return ret;
+      });
+  } else if (entry.isDirectory) {
+    let dirReader = entry.createReader();
+    let getEntries = function() {
+      return new RSVP.Promise(function(resolve, reject) {
+        dirReader.readEntries(resolve, reject);
+      });
+    };
+
+    let allEntries = [];
+    let getAllEntries = function() {
+      return getEntries().then(function(entries) {
+        if (entries.length) {
+          allEntries = allEntries.concat(entries);
+          return getAllEntries();
+        }
+      });
+    };
+
+    return getAllEntries().then(function() {
+      return RSVP.all(allEntries.map(function(e) {
+        return walkDir(e, path + '/' + entry.name, ret);
+      }));
+    }).then(()=> ret);
+  }
+}
+
+
 /**
   `{{file-dropzone}}` is an element that will allow users to upload files by
    drag and drop.
@@ -291,55 +330,29 @@ export default Component.extend({
 
     var items = this[DATA_TRANSFER].dataTransfer.items;
     if (items && items.length && items[0].webkitGetAsEntry) {
-      let root = items[0].webkitGetAsEntry();
-      walkDir(root, root.name).then((files)=> {
-        get(this, 'queue')._addFiles(files, 'drag-and-drop');
-      })
-      .catch((e)=> {
-        console.log(e);
-      })
-      .finally(()=> {
-        this[DATA_TRANSFER] = null;
-      });
+      let promises = [];
+      for (var i = 0; i < items.length; i++) {
+        let root = items[i].webkitGetAsEntry();
+        promises[i] = walkDir(root);
+      };
+
+      RSVP.all(promises)
+        .then((files)=> {
+          files.forEach((files)=> {
+            get(this, 'queue')._addFiles(files, 'drag-and-drop');
+          });
+        })
+        .catch((e)=> {
+          /* eslint-disable no-console */
+          console.log(e);
+          /* eslint-enable no-console */
+        })
+        .finally(()=> {
+          this[DATA_TRANSFER] = null;
+        });
     } else {
       get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
       this[DATA_TRANSFER] = null;
     }
   }
 });
-
-function walkDir(entry, path = '', ret = []) {
-  if (entry.isFile) {
-    return (new RSVP.Promise(function(resolve, reject) {
-      entry.file(resolve, reject);
-    }))
-    .then((file)=> {
-      file.fullPath = path + '/' + file.name;
-      ret.push(file);
-      return ret;
-    });
-  } else if (entry.isDirectory) {
-    let dirReader = entry.createReader();
-    let getEntries = function() {
-      return new RSVP.Promise(function(resolve, reject) {
-        dirReader.readEntries(resolve, reject);
-      });
-    };
-
-    let allEntries = [];
-    function getAllEntries() {
-      return getEntries().then(function(entries) {
-        if (entries.length) {
-          allEntries = allEntries.concat(entries);
-          return getAllEntries();
-        }
-      });
-    }
-
-    return getAllEntries().then(function() {
-      return RSVP.all(allEntries.map(function(entry) {
-        return walkDir(entry, path, ret);
-      }));
-    }).then(()=> ret);
-  }
-}
