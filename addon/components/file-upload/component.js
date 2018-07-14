@@ -1,7 +1,7 @@
-import { assert } from '@ember/debug';
+// import { assert } from '@ember/debug';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { DEBUG } from '@glimmer/env';
+// import { DEBUG } from '@glimmer/env';
 import {
   getProperties,
   setProperties,
@@ -83,10 +83,10 @@ import uuid from '../../system/uuid';
   @yield {Queue} queue
  */
 const component = Component.extend({
-  tagName: 'label',
-  classNames: ['file-upload'],
+  tagName: '',
+  // classNames: ['file-upload'],
 
-  attributeBindings: ['for'],
+  // attributeBindings: ['for'],
 
   for: computed({
     get() {
@@ -160,35 +160,36 @@ const component = Component.extend({
   }),
 
   actions: {
-    change(files) {
+    change(target) {
+      let files = target.files;
       get(this, 'queue')._addFiles(files, 'browse');
-      this.element.querySelector('input').value = null;
+      target.value = null;
     }
   }
 });
 
-if (DEBUG) {
-  const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
-    'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
-    'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
-    'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
-    'svg', 'time', 'var', 'video', 'wbr',
-    'path', 'g', 'use', 'circle'];
+// if (DEBUG) {
+//   const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 'cite',
+//     'code', 'command', 'datalist', 'del', 'dfn', 'em', 'embed', 'i',
+//     'iframe', 'img', 'kbd', 'mark', 'math', 'noscript', 'object', 'q',
+//     'ruby', 'samp', 'script', 'small', 'span', 'strong', 'sub', 'sup',
+//     'svg', 'time', 'var', 'video', 'wbr',
+//     'path', 'g', 'use', 'circle'];
 
-  component.reopen({
-    didInsertElement() {
-      let id = get(this, 'for');
-      assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
-      let elements = this.element.querySelectorAll('*');
-      for (let i = 0; i < elements.length; i++){
-        let element = elements[i];
-        if (element.id !== id &&
-            VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
-          assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
-        }
-      }
-    }
-  });
-}
+//   component.reopen({
+//     didInsertElement() {
+//       let id = get(this, 'for');
+//       assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
+//       let elements = this.element.querySelectorAll('*');
+//       for (let i = 0; i < elements.length; i++){
+//         let element = elements[i];
+//         if (element.id !== id &&
+//             VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
+//           assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
+//         }
+//       }
+//     }
+//   });
+// }
 
 export default component;
