@@ -9699,7 +9699,7 @@ var r=Ember.RSVP.Promise.prototype.then.apply(this,t)
 return r.cancel=a.cancel,r.then=a.then,r},o.onabort=Ember.run.bind(this,function(){this.onabort(),s.resolve()}),this.setRequestHeader=function(e,t){o.setRequestHeader(e,t)},this.open=function(e,t,n){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"",a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:""
 o.open(e,t,!0,r,a)},this.send=function(e){return o.send(e),a},this.onprogress=this.onprogress||function(){},this.ontimeout=this.ontimeout||function(){},this.onabort=this.onabort||function(){},o.onloadstart=o.onprogress=o.onloadend=Ember.run.bind(this,function(e){this.onprogress(e)}),o.upload&&(o.upload.onprogress=o.onprogress),o.onload=Ember.run.bind(this,function(){var e=i(o)
 1===Math.floor(e.status/200)?n(e):r(e)}),o.onerror=Ember.run.bind(this,function(){r(i(o))}),Object.defineProperty(this,"timeout",{get:function(){return o.timeout},set:function(e){o.timeout=e},enumerable:!0,configurable:!1}),o.ontimeout=Ember.run.bind(this,function(){this.ontimeout(),r(i(o))})}}),define("ember-file-upload/system/parse-html",["exports"],function(e){"use strict"
-Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){var t=document.implementation.createHTMLDocument()
+Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){var t=document.implementation.createHTMLDocument("")
 return t.body.innerHTML=e,[t.body]}}),define("ember-file-upload/system/parse-json",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e){var t=null
 try{t=JSON.parse(e)}catch(e){}return t}}),define("ember-file-upload/system/parse-xml",["exports"],function(e){"use strict"
