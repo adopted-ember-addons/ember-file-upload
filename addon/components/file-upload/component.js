@@ -104,6 +104,14 @@ const component = Component.extend({
   accept: null,
 
   /**
+    Specify capture devices which the user may select for file input.
+    @see https://www.w3.org/TR/html-media-capture/
+    @argument accept
+    @type {string}
+   */
+  capture: null,
+
+  /**
     Whether multiple files can be selected when uploading.
     @argument multiple
     @type {boolean}
