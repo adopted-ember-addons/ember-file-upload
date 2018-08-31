@@ -104,7 +104,8 @@ const component = Component.extend({
   accept: null,
 
   /**
-    Capture devices which the user may select for file input.
+    Specify capture devices which the user may select for file input.
+    @see https://www.w3.org/TR/html-media-capture/
     @argument accept
     @type {string}
    */
