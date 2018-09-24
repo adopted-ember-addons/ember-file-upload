@@ -151,6 +151,7 @@ const component = Component.extend({
   fileQueue: service(),
 
   didReceiveAttrs() {
+    this._super(...arguments);
     if (get(this, 'queue')) {
       setProperties(get(this, 'queue'), getProperties(this, 'accept', 'multiple', 'disabled', 'onfileadd'));
     }
