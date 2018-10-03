@@ -1,10 +1,7 @@
 import { assert } from '@ember/debug';
-import Component from '@ember/component';
-import { inject as service } from '@ember/service';
+import BaseComponent from '../base-component';
 import { DEBUG } from '@glimmer/env';
 import {
-  getProperties,
-  setProperties,
   computed,
   get
 } from '@ember/object';
@@ -82,7 +79,7 @@ import uuid from '../../system/uuid';
   @type Ember.Component
   @yield {Queue} queue
  */
-const component = Component.extend({
+const component = BaseComponent.extend({
   tagName: 'label',
   classNames: ['file-upload'],
 
@@ -97,76 +94,12 @@ const component = Component.extend({
   layout,
 
   /**
-    A list of MIME types / extensions to be accepted by the input
-    @argument accept
-    @type {string}
-   */
-  accept: null,
-
-  /**
     Specify capture devices which the user may select for file input.
     @see https://www.w3.org/TR/html-media-capture/
     @argument accept
     @type {string}
    */
   capture: null,
-
-  /**
-    Whether multiple files can be selected when uploading.
-    @argument multiple
-    @type {boolean}
-   */
-  multiple: null,
-
-  /**
-    The name of the queue to upload the file to.
-
-    @argument name
-    @type {string}
-    @required
-   */
-  name: null,
-
-  /**
-    If set, disables input and prevents files from being added to the queue
-
-    @argument disabled
-    @type {boolean}
-    @default false
-   */
-  disabled: false,
-
-  /**
-    `onfileadd` is called when a file is selected.
-
-    When multiple files are selected, this function
-    is called once for every file that was selected.
-
-    @argument onfileadd
-    @type {function}
-    @required
-   */
-  onfileadd: null,
-
-  fileQueue: service(),
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    if (get(this, 'queue')) {
-      setProperties(get(this, 'queue'), getProperties(this, 'accept', 'multiple', 'disabled', 'onfileadd'));
-    }
-  },
-
-  queue: computed('name', {
-    get() {
-      let queueName = get(this, 'name');
-      if (queueName != null) {
-        let queues = get(this, 'fileQueue');
-        return queues.find(queueName) ||
-               queues.create(queueName);
-      }
-    }
-  }),
 
   actions: {
     change(files) {
