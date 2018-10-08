@@ -15,7 +15,7 @@ export default class {
     this._events = A();
   }
 
-  beginListening() {
+  beginListening(selector) {
     let handlers = this._handlers = {
       dragenter: bind(this, 'dragenter'),
       dragleave: bind(this, 'dragleave'),
@@ -23,7 +23,7 @@ export default class {
       drop: bind(this, 'drop')
     };
 
-    let body = document.body;
+    let body = document.querySelector(selector);
     body.addEventListener('dragenter', handlers.dragenter, {
       passive: true
     });
@@ -57,7 +57,7 @@ export default class {
 
   addEventListeners(selector, handlers) {
     if (this._listeners.length === 0) {
-      this.beginListening();
+      this.beginListening(selector);
     }
 
     // Listeners are ordered by most specific to least specific
