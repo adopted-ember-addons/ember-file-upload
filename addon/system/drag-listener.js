@@ -85,7 +85,7 @@ export default class {
   findListener(evt) {
     return this._listeners.find(function ({ selector }) {
       let element = document.querySelector(selector);
-      return element === evt.target || element.contains(evt.target) || evt.target.contains(element);
+      return element === evt.target || element.contains(evt.target);
     });
   }
 
