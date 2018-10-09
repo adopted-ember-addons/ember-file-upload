@@ -183,7 +183,7 @@ if (DEBUG) {
     'noscript', 'object', 'q', 'radialGradient', 'rect', 'ruby', 'samp', 
     'script', 'small', 'span', 'strong', 'sub', 'sup', 'svg', 'time', 'var', 
     'video', 'wbr', 'path', 'polygon', 'polyline', 
-    'g', 'use', 'circle'];
+    'g', 'use'];
 
   component.reopen({
     didInsertElement() {
