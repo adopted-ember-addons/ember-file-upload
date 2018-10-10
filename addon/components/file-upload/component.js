@@ -177,12 +177,12 @@ const component = Component.extend({
 });
 
 if (DEBUG) {
-  const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas', 
-    'cite', 'circle', 'clipPath', 'code', 'command', 'datalist', 'del', 'dfn', 
-    'em', 'embed', 'i', 'iframe', 'img', 'kbd', 'line', 'mark', 'mask', 'math', 
-    'noscript', 'object', 'q', 'radialGradient', 'rect', 'ruby', 'samp', 
-    'script', 'small', 'span', 'strong', 'sub', 'sup', 'svg', 'time', 'var', 
-    'video', 'wbr', 'path', 'polygon', 'polyline', 
+  const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas',
+    'cite', 'circle', 'clipPath', 'code', 'command', 'datalist', 'del', 'dfn',
+    'em', 'embed', 'i', 'iframe', 'img', 'kbd', 'line', 'mark', 'mask', 'math',
+    'noscript', 'object', 'q', 'radialGradient', 'rect', 'ruby', 'samp',
+    'script', 'small', 'span', 'strong', 'sub', 'sup', 'svg', 'time', 'var',
+    'video', 'wbr', 'path', 'polygon', 'polyline',
     'g', 'use'];
 
   component.reopen({
