@@ -19,16 +19,20 @@ export default function () {
 ```javascript
 import { upload } from 'ember-file-upload/test-support';
 import File from 'ember-file-upload/file';
+import { module } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('/photos');
+module('/photos', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('uploading an image', async function (assert) {
-  let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
+  test('uploading an image', async function (assert) {
+    let file = File.fromDataURL('data:image/gif;base64,R0lGODdhCgAKAIAAAAEBAf///ywAAAAACgAKAAACEoyPBhp7vlySqVVFL8oWg89VBQA7');
 
-  await upload('#upload-photo', file, 'smile.gif');
+    await upload('#upload-photo', file, 'smile.gif');
 
-  let photo = server.db.photos[0];
-  assert.equal(photo.filename, 'smile.gif');
+    let photo = server.db.photos[0];
+    assert.equal(photo.filename, 'smile.gif');
+  });
 });
 ```
 
@@ -36,14 +40,18 @@ If the file isn't uploaded to the server, you don't need to use the mirage helpe
 
 ```javascript
 import { upload } from 'ember-file-upload/test-support';
+import { module } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('/notes');
+module('/notes', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('showing a note', async function (assert) {
-  let file = File.fromDataURL('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
+  test('showing a note', async function (assert) {
+    let file = File.fromDataURL('data:text/plain;base64,SSBjYW4gZmVlbCB0aGUgbW9uZXkgbGVhdmluZyBteSBib2R5');
 
-  await upload('#upload-note', file, 'douglas_coupland.txt');
+    await upload('#upload-note', file, 'douglas_coupland.txt');
 
-  assert.equal(find('.note').text(), 'I can feel the money leaving my body');
+    assert.equal(find('.note').text(), 'I can feel the money leaving my body');
+  });
 });
 ```
