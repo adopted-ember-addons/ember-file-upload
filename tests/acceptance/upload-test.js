@@ -3,6 +3,7 @@ import { visit, findAll } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { upload } from 'ember-file-upload/test-support';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | upload', function(hooks) {
   setupApplicationTest(hooks);
