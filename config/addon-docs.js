@@ -1,7 +1,7 @@
 /* eslint-env node */
 'use strict';
 
-const AddonDocsConfig = require('ember-cli-addon-docs/lib/config');
+const AddonDocsConfig = require('ember-cli-addon-docs/lib/config'); // eslint-disable-line node/no-unpublished-require
 
 module.exports = class extends AddonDocsConfig {
   // See https://ember-learn.github.io/ember-cli-addon-docs/latest/docs/deploying
