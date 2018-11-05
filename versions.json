@@ -2,37 +2,49 @@
   "2.4.2": {
     "sha": "ec4d5c91ddd9c694eefcad1472b5b406bd70bed7",
     "tag": "2.4.2",
-    "path": "2.4.2",
-    "name": "2.4.2"
-  },
-  "latest": {
-    "path": "latest",
-    "name": "latest",
-    "sha": "7c0665908bb36b874a3f269d93e82c880ae78682",
-    "tag": "2.5.1"
+    "path": "versions/2.4.2",
+    "name": "2.4.2",
+    "oldPath": "2.4.2"
   },
   "2.4.3": {
     "sha": "da9ed18fa608d16cac8cbf3a798af9095327d46f",
     "tag": "2.4.3",
-    "path": "2.4.3",
-    "name": "2.4.3"
+    "path": "versions/2.4.3",
+    "name": "2.4.3",
+    "oldPath": "2.4.3"
   },
   "2.4.4": {
-    "path": "2.4.4",
+    "path": "versions/2.4.4",
     "name": "2.4.4",
     "sha": "ed45a4f40205f94f48ff9588345887a3ab55423f",
-    "tag": "2.4.4"
+    "tag": "2.4.4",
+    "oldPath": "2.4.4"
   },
   "2.5.0": {
-    "path": "2.5.0",
+    "path": "versions/2.5.0",
     "name": "2.5.0",
     "sha": "5ed3112c63703dd5bc6a48ad7428114daea6dcb0",
-    "tag": "2.5.0"
+    "tag": "2.5.0",
+    "oldPath": "2.5.0"
   },
   "2.5.1": {
-    "path": "2.5.1",
+    "path": "versions/2.5.1",
     "name": "2.5.1",
     "sha": "7c0665908bb36b874a3f269d93e82c880ae78682",
-    "tag": "2.5.1"
+    "tag": "2.5.1",
+    "oldPath": "2.5.1"
+  },
+  "-latest": {
+    "path": "",
+    "name": "Latest",
+    "sha": "7c0665908bb36b874a3f269d93e82c880ae78682",
+    "tag": "2.5.1",
+    "oldPath": "latest"
+  },
+  "latest": {
+    "path": "versions/latest",
+    "name": "latest",
+    "sha": "9cde0a418afe97458192f37eb671fc7d8c2b0f5f",
+    "tag": null
   }
 }
