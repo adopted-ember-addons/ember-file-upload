@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
   root: true,
   parserOptions: {
@@ -16,7 +17,7 @@ module.exports = {
   },
   globals: {
     // Mirage server
-    server: true,
+    server: true
   },
   rules: {
     'ember/no-jquery': 2,
