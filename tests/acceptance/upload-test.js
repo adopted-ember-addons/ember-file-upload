@@ -1,10 +1,12 @@
 import { module, test } from 'qunit';
 import { visit, findAll } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { upload } from 'ember-file-upload/test-support';
 
 module('Acceptance | upload', function(hooks) {
   setupApplicationTest(hooks);
+  setupMirage(hooks);
 
   test('upload works', async function(assert) {
     await visit('/');
