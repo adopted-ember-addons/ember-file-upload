@@ -46,6 +46,10 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
+    - stage: "Deploy"
+      name: "Deploy"
+      if: (branch = latest or tag is present) and type = push
+      script: node_modules/.bin/ember deploy production
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -57,8 +61,3 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-
-after_success:
-  - if [[ ($TRAVIS_BRANCH == latest || -n $TRAVIS_TAG) && $EMBER_TRY_SCENARIO == ember-default ]]; then
-      node_modules/.bin/ember deploy production;
-    fi
