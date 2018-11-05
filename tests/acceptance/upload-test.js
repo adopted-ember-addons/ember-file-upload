@@ -22,7 +22,7 @@ module('Acceptance | upload', function(hooks) {
     let photo = new File([data], 'image.png', { type: 'image/png'});
     await upload('#upload-photo', photo);
 
-    let uploadedPhoto = server.db.photos[0];
+    let uploadedPhoto = this.server.db.photos[0];
     assert.equal(uploadedPhoto.filename, 'image.png');
     assert.equal(uploadedPhoto.filesize, 91);
     assert.equal(uploadedPhoto.type, 'image');
