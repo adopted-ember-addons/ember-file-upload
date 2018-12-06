@@ -6,7 +6,7 @@
     "ember-addon",
     "file-upload"
   ],
-  "repository": "https://github.com/tim-evans/ember-file-upload",
+  "repository": "https://github.com/adopted-ember-addons/ember-file-upload/",
   "license": "MIT",
   "author": "Tim Evans",
   "directories": {
