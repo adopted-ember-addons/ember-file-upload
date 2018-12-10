@@ -51,7 +51,7 @@ function normalizeOptions(file, url, options) {
 }
 
 function upload(file, url, opts, uploadFn) {
-  if (['queued', 'failed', 'timed_out'].indexOf(get(file, 'state')) === -1) {
+  if (['queued', 'failed', 'timed_out', 'aborted'].indexOf(get(file, 'state')) === -1) {
     assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
   }
 
