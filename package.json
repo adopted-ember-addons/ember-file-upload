@@ -6,9 +6,10 @@
     "ember-addon",
     "file-upload"
   ],
-  "repository": "https://github.com/tim-evans/ember-file-upload",
+  "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "license": "MIT",
-  "author": "Tim Evans",
+  "author": {"name": "Alon Bukai", "email": "alonzorz@gmail.com", "url": "https://github.com/Alonski"},
+  "contributors": [{"name": "Tim Evans"}],
   "directories": {
     "test": "tests"
   },
@@ -63,7 +64,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "https://tim-evans.github.io/ember-file-upload/"
+    "demoURL": "https://adopted-ember-addons.github.io/ember-file-upload/"
   },
-  "homepage": "https://tim-evans.github.io/ember-file-upload"
+  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload"
 }
