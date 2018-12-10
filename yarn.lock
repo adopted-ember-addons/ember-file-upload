@@ -2422,6 +2422,17 @@ broccoli-sass-source-maps@^2.1.0:
     object-assign "^2.0.0"
     rsvp "^3.0.6"
 
+broccoli-sass-source-maps@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli-sass-source-maps/-/broccoli-sass-source-maps-4.0.0.tgz#1ee4c10a810b10955b0502e28f85ab672f5961a2"
+  integrity sha512-Bjgg0Q626pPwiPU+Sk7jJNjblPEwhceuTzMPw2F5XY+FzdTBMYQKuJYlJ4x2DdsubE95e3rVQeSZ68jA13Nhzg==
+  dependencies:
+    broccoli-caching-writer "^3.0.3"
+    include-path-searcher "^0.1.0"
+    mkdirp "^0.3.5"
+    object-assign "^2.0.0"
+    rsvp "^3.0.6"
+
 broccoli-slow-trees@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/broccoli-slow-trees/-/broccoli-slow-trees-3.0.1.tgz#9bf2a9e2f8eb3ed3a3f2abdde988da437ccdc9b4"
@@ -3915,7 +3926,7 @@ ember-cli-addon-docs-yuidoc@^0.2.1:
     lodash "^4.17.5"
     yuidocjs "^0.10.2"
 
-ember-cli-addon-docs@^0.6.0:
+ember-cli-addon-docs@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/ember-cli-addon-docs/-/ember-cli-addon-docs-0.6.1.tgz#940e7ba6318cb60b9c6e783eb93ba52ee25d59ce"
   integrity sha512-qaeLJM06RFaVFFQZUZOkQ9ezOMCMf27tu5gvphLjrQgLux4E0BfJsbSB+0hrx2YIbzaTirTtzXxVIJayakVNKQ==
@@ -4294,14 +4305,14 @@ ember-cli-sass@7.1.7:
     broccoli-sass-source-maps "^2.1.0"
     ember-cli-version-checker "^2.1.0"
 
-ember-cli-sass@7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-sass/-/ember-cli-sass-7.2.0.tgz#293d1a94c43c1fdbb3835378e43d255e8ad5c961"
-  integrity sha512-X4BNBYuCyfRMGJ/Bjjk/gQw4eT6ixIXNltDQ8kapymilCqKEBZ6Rlx6noEfVzeh2nK7VP0e4rQ4DBj+TK6EDzA==
+ember-cli-sass@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-sass/-/ember-cli-sass-8.0.1.tgz#22730bb8eee1eedc6ddd0cf2e51f5405a09b9139"
+  integrity sha512-sJQiBJo51tReuJmDLHkJ/zIbqSslEjJB2zRPH+6bbhzfznzUfhCLXHthpHCS3SqnVq2rnzZQ8ifdmAX7mRWJ7w==
   dependencies:
     broccoli-funnel "^1.0.0"
     broccoli-merge-trees "^1.1.0"
-    broccoli-sass-source-maps "^2.1.0"
+    broccoli-sass-source-maps "^4.0.0"
     ember-cli-version-checker "^2.1.0"
 
 ember-cli-string-helpers@^1.9.0:
@@ -10800,7 +10811,7 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass@^1.14.1:
+sass@^1.14.1, sass@^1.15.2:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.15.2.tgz#539f464a61e29a9e4f560ec9dc2ccc5236db8474"
   integrity sha512-YFncPpx3ewKEhMg9sWdCxKUpPN/jwVLa0Q9iO2tcV5Y5Z/YAlFV6k6JaQwq3tmbN6FXKjUYElXRHcG0g4D1zkQ==
