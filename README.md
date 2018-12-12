@@ -1,4 +1,4 @@
-# {{file-upload}} [![Build Status](https://travis-ci.org/tim-evans/ember-file-upload.svg)](https://travis-ci.org/tim-evans/ember-file-upload) [![Code Climate](https://codeclimate.com/github/tim-evans/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/tim-evans/ember-file-upload) [![Ember Observer Score](https://emberobserver.com/badges/ember-file-upload.svg)](https://emberobserver.com/addons/ember-file-upload)
+# {{file-upload}} [![Build Status](https://travis-ci.org/adopted-ember-addons/ember-file-upload.svg)](https://travis-ci.org/adopted-ember-addons/ember-file-upload) [![Code Climate](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload) [![Ember Observer Score](https://emberobserver.com/badges/ember-file-upload.svg)](https://emberobserver.com/addons/ember-file-upload)
 
 {{file-upload}} is an ember component that provides an API for file uploads. Uploads are persistent across routes in your application (they continue in the background).
 
@@ -355,7 +355,7 @@ export default Ember.Route.extend({
 
 # Contributing
 
-Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/tim-evans/ember-file-upload/blob/latest/CONDUCT.md).
+Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/adopted-ember-addons/ember-file-upload/blob/latest/CONDUCT.md).
 
 
 ## Publishing
