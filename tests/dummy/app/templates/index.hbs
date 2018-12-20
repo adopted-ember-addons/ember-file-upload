@@ -35,6 +35,7 @@
               {{/if}}
             </div>
           {{/if}}
+
           <p>
             {{#if dropzone.supported}}
               Drag your proof or
@@ -50,6 +51,7 @@
             {{/file-upload}}
             to upload.
           </p>
+
           {{#if queue.files.length}}
             Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
           {{/if}}
