@@ -7,9 +7,6 @@ module.exports = function(defaults) {
     // Add options here
     sassOptions: {
       includePaths: ['tests/dummy/app']
-    },
-    vendorFiles: {
-      'jquery.js': null
     }
   });
 
