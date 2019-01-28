@@ -4,7 +4,7 @@ import { assert } from '@ember/debug';
 export async function upload(selector, file) {
   let input = find(selector);
   assert(`Selector '${selector}' is not input element.`, input.tagName === 'INPUT');
-  assert(`File must be instance of File type`, file instanceof File);
+  assert(`File must be instance of File/Blob type`, file instanceof Blob);
 
   // This hack is here since we can't mock out the
   // FileList API easily; we're taking advantage
