@@ -25,7 +25,7 @@
       var segmentCount = 1;
       var l = window.location;
       var segments = l.pathname.split('/');
-      var redirects = {"2.4.2":"versions/2.4.2","2.4.3":"versions/2.4.3","2.4.4":"versions/2.4.4","2.5.0":"versions/2.5.0","2.5.1":"versions/2.5.1","latest":""};
+      var redirects = {"2.4.2":"versions/2.4.2","2.4.3":"versions/2.4.3","2.4.4":"versions/2.4.4","2.5.0":"versions/2.5.0","2.5.1":"versions/2.5.1"};
 
       var firstLocalSegment = segments[segmentCount+1];
       if (redirects[firstLocalSegment] != null) {
