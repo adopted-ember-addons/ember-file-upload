@@ -69,7 +69,7 @@ For example, creating an image uploader that uploads images to your API server w
                      for="upload-photo"
                      accept="image/*"
                      multiple=true
-                     onfileadd=(route-action "uploadImage")}}
+                     onfileadd=(action "uploadImage")}}
         <a tabindex=0>Add an Image.</a>
       {{/file-upload}}
     </p>
@@ -96,7 +96,7 @@ It is also possible for you to create a simple file upload button which yields t
 The examples above using angle bracket invocation, available in Ember 3.4+
 
 ```handlebars
-<FileDropzone @name={{"photos"}} as |dropzone queue|>
+<FileDropzone @name="photos" as |dropzone queue|>
   {{#if dropzone.active}}
     {{#if dropzone.valid}}
       Drop to upload
@@ -115,7 +115,7 @@ The examples above using angle bracket invocation, available in Ember 3.4+
                   @for={{"upload-photo"}}
                   @accept={{"image/*"}}
                   @multiple={{true}}
-                  @onfileadd={{route-action "uploadImage"}} >
+                  @onfileadd={{action "uploadImage"}} >
         <a tabindex=0>Add an Image.</a>
       </FileUpload>
     </p>
@@ -126,7 +126,7 @@ The examples above using angle bracket invocation, available in Ember 3.4+
 ```handlebars
 <FileUpload @name={{"photos"}}
             @accept={{"image/*"}}
-            @onfileadd={{(action "uploadImage") as |queue|}}>
+            @onfileadd={{action "uploadImage"}} as |queue|>
   <a class="button">
     {{#if queue.files.length}}
       Uploading...
