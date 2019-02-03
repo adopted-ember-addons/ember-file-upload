@@ -93,6 +93,49 @@ It is also possible for you to create a simple file upload button which yields t
 {{/file-upload}}
 ```
 
+The examples above using angle bracket invocation, available in Ember 3.4+
+
+```handlebars
+<FileDropzone @name={{"photos"}} as |dropzone queue|>
+  {{#if dropzone.active}}
+    {{#if dropzone.valid}}
+      Drop to upload
+    {{else}}
+      Invalid
+    {{/if}}
+  {{else if queue.files.length}}
+    Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+  {{else}}
+    <h4>Upload Images</h4>
+    <p>
+      {{#if dropzone.supported}}
+        Drag and drop images onto this area to upload them or
+      {{/if}}
+      <FileUpload @name={{"photos"}}
+                  @for={{"upload-photo"}}
+                  @accept={{"image/*"}}
+                  @multiple={{true}}
+                  @onfileadd={{route-action "uploadImage"}} >
+        <a tabindex=0>Add an Image.</a>
+      </FileUpload>
+    </p>
+  {{/if}}
+</FileDropzone>
+```
+
+```handlebars
+<FileUpload @name={{"photos"}}
+            @accept={{"image/*"}}
+            @onfileadd={{(action "uploadImage") as |queue|}}>
+  <a class="button">
+    {{#if queue.files.length}}
+      Uploading...
+    {{else}}
+      Upload file
+    {{/if}}
+  </a>
+</FileUpload>
+```
 ## Integration
 
 The addon emits an event when a file is queued for upload. You may trigger the upload by calling the `upload` function on the file, which returns a promise that is resolved when the file has finished uploading and is rejected if the file couldn't be uploaded.
