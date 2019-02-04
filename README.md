@@ -111,9 +111,9 @@ The examples above using angle bracket invocation, available in Ember 3.4+
       {{#if dropzone.supported}}
         Drag and drop images onto this area to upload them or
       {{/if}}
-      <FileUpload @name={{"photos"}}
-                  @for={{"upload-photo"}}
-                  @accept={{"image/*"}}
+      <FileUpload @name="photos"
+                  @for="upload-photo"
+                  @accept="image/*"
                   @multiple={{true}}
                   @onfileadd={{action "uploadImage"}} >
         <a tabindex=0>Add an Image.</a>
@@ -124,8 +124,8 @@ The examples above using angle bracket invocation, available in Ember 3.4+
 ```
 
 ```handlebars
-<FileUpload @name={{"photos"}}
-            @accept={{"image/*"}}
+<FileUpload @name="photos"
+            @accept="image/*"
             @onfileadd={{action "uploadImage"}} as |queue|>
   <a class="button">
     {{#if queue.files.length}}
