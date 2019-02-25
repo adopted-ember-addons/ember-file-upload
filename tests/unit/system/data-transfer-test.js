@@ -177,4 +177,50 @@ module('data-transfer', function(hooks) {
     }]);
     assert.notOk(this.subject.get('valid'));
   });
+
+  test('less common mime types', function (assert) {
+    this.subject.set('dataTransfer', {
+      items: [{
+        type: 'image/jpeg'
+      }, {
+        type: 'image/svg+xml'
+      }, {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      }]
+    });
+    this.subject.set('queue', {
+      multiple: true,
+      accept: 'image/svg+xml, application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    });
+
+    assert.equal(this.subject.get('files.length'), 2);
+    assert.deepEqual(this.subject.get('files'), [{
+      type: 'image/svg+xml'
+    }, {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    }]);
+    assert.notOk(this.subject.get('valid'));
+  });
+
+  test('mime type case sensitivity', function (assert) {
+    this.subject.set('dataTransfer', {
+      items: [{
+        type: 'image/jPeG'
+      }, {
+        type: 'VIdeo/mp4'
+      }]
+    });
+    this.subject.set('queue', {
+      multiple: true,
+      accept: 'image/JpEg, viDEO/mp4'
+    });
+
+    assert.equal(this.subject.get('files.length'), 2);
+    assert.deepEqual(this.subject.get('files'), [{
+      type: 'image/jPeG'
+    }, {
+      type: 'VIdeo/mp4'
+    }]);
+    assert.ok(this.subject.get('valid'));
+  });
 });
