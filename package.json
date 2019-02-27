@@ -19,6 +19,7 @@
     }
   ],
   "directories": {
+    "doc": "doc",
     "test": "tests"
   },
   "scripts": {

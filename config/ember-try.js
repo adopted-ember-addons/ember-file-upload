@@ -9,6 +9,7 @@ module.exports = function() {
     getChannelURL('canary')
   ]).then((urls) => {
     return {
+      useYarn: true,
       scenarios: [
         {
           name: 'ember-lts-2.16',
@@ -17,8 +18,8 @@ module.exports = function() {
           },
           npm: {
             devDependencies: {
-              'ember-source': '~2.16.0',
-              'ember-native-dom-event-dispatcher': '^0.6.4'
+              '@ember/jquery': '^0.5.1',
+              'ember-source': '~2.16.0'
             }
           }
         },
@@ -29,8 +30,8 @@ module.exports = function() {
           },
           npm: {
             devDependencies: {
-              'ember-source': '~2.18.0',
-              'ember-native-dom-event-dispatcher': '^0.6.4'
+              '@ember/jquery': '^0.5.1',
+              'ember-source': '~2.18.0'
             }
           }
         },

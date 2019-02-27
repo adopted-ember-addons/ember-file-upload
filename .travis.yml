@@ -13,8 +13,7 @@ addons:
 
 cache:
   default_branch: latest
-  directories:
-    - $HOME/.npm
+  yarn: true
 
 env:
   global:
@@ -32,10 +31,16 @@ jobs:
 
     - stage: "Tests"
       name: "Tests"
+      install:
+        - yarn install --non-interactive
       script:
-        - npm run lint:hbs
-        - npm run lint:js
-        - npm test
+        - yarn lint:hbs
+        - yarn lint:js
+        - yarn test
+
+    - name: "Floating Dependencies"
+      script:
+        - yarn test
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
@@ -56,8 +61,15 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --no-lockfile --non-interactive
+
 script:
-  - COVERAGE=true node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+  - COVERAGE=true node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
