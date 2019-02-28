@@ -82,10 +82,16 @@ export default EmberObject.extend({
       let extensions = A(tokens.filter(function (token) {
         return token.indexOf('.') === 0;
       }));
-      let mimeTypes = A(A(tokens.filter(function (token) {
+      let mimeTypeTests = A(A(tokens.filter(function (token) {
         return token.indexOf('.') !== 0;
       })).map(function (mimeType) {
-        return new RegExp(mimeType);
+        return function(type) {
+          if (A([ 'audio/*', 'video/*', 'image/*' ]).includes(mimeType)) {
+            return type.split('/')[0] === mimeType.split('/')[0];
+          } else {
+            return type === mimeType;
+          }
+        };
       }));
 
       return files.filter(function (file) {
@@ -95,8 +101,8 @@ export default EmberObject.extend({
         }
 
         let type = file.type.toLowerCase();
-        return mimeTypes.find(function (mimeType) {
-          return mimeType.test(type);
+        return mimeTypeTests.find(function (mimeTypeTest) {
+          return mimeTypeTest(type);
         }) || extensions.indexOf(extension) !== -1;
       });
     }
