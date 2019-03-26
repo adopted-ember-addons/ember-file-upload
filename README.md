@@ -4,6 +4,26 @@
 
 To use the uploader, you must provide a name (for proper queueing and bundling of resources), and an upload URL.
 
+## Table of Contents
+
+<!-- toc -->
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Recipes](#recipes)
+- [Integration](#integration)
+- [Access to the global list of uploading files](#access-to-the-global-list-of-uploading-files)
+- [Acceptance Tests](#acceptance-tests)
+- [S3 Direct uploads](#s3-direct-uploads)
+- [Contributing](#contributing)
+- [Publishing](#publishing)
+
+<!-- tocstop -->
+
+## Installation
+
+* `ember install ember-file-upload`
+
 ## Configuration
 
 The `{{file-upload}}` component is configured with a single property: a queue. A queue is configured with options that
@@ -378,27 +398,10 @@ export default Ember.Route.extend({
 });
 ```
 
-# Installation
 
-* `ember install ember-file-upload`
+## Contributing
 
-## Running
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-## Running Tests
-
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-* `ember test` – Runs the test suite on the current Ember version
-* `ember test --server` – Runs the test suite in "watch mode"
-* `ember try:each` – Runs the test suite against multiple Ember versions
-
-# Contributing
-
-Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see the [code of conduct](https://github.com/adopted-ember-addons/ember-file-upload/blob/latest/CONDUCT.md).
+Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see [Contributing](CONTRIBUTING.md) and [code of conduct](CONDUCT.md).
 
 
 ## Publishing
