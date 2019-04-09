@@ -52,7 +52,7 @@
     "ember-cli-htmlbars-inline-precompile": "1.0.5",
     "ember-cli-inject-live-reload": "1.10.2",
     "ember-cli-mirage": "0.4.10",
-    "ember-cli-sass": "8.0.1",
+    "ember-cli-sass": "10.0.0",
     "ember-cli-template-lint": "1.0.0-beta.2",
     "ember-cli-uglify": "2.1.0",
     "ember-cli-update": "0.27.3",
