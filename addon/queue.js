@@ -150,7 +150,7 @@ export default EmberObject.extend({
            `-------------------------------`
     ```
 
-    Files *may* be requeued by the uesr in the `failed` or `timed_out`
+    Files *may* be requeued by the user in the `failed` or `timed_out`
     states.
 
     @private
