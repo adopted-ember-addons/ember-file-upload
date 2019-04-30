@@ -75,7 +75,7 @@ export default Service.extend({
 
     @type {Observer}
    */
-  flushFilesWhenSettled: observer('files.@each.state', function () {
+  flushFilesWhenSettled: observer('files.@each.state', function () { // eslint-disable-line ember/no-observers
     let files = get(this, 'files');
     let allFilesHaveSettled = files.every(function (file) {
       return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
