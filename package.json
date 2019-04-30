@@ -59,7 +59,7 @@
     "ember-cli-update": "0.33.2",
     "ember-load-initializers": "1.1.0",
     "ember-maybe-import-regenerator": "0.1.6",
-    "ember-qunit": "3.5.3",
+    "ember-qunit": "4.4.1",
     "ember-resolver": "5.0.1",
     "ember-router-scroll": "1.1.0",
     "ember-source": "3.5.1",
