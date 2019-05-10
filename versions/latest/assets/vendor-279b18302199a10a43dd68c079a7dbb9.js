@@ -6415,19 +6415,19 @@ e.serializerFor(t.modelName).serializeIntoHash(r,t,n,{includeId:!0})
 var a=this.buildURL(t.modelName,n.id,n,"updateRecord")
 return this.ajax(a,"PATCH",{data:r})}})
 e.default=r}),define("ember-data/adapters/rest",["exports","ember-data/adapter","ember-data/-private"],function(e,t,n){"use strict"
-Object.defineProperty(e,"__esModule",{value:!0}),e.fetchOptions=c,e.default=void 0
-var r=Ember.RSVP.Promise,a="undefined"!=typeof jQuery?jQuery:void 0
-function i(e,t,n,a){var i
-try{i=e.handleResponse(a.status,a.headers,t,n)}catch(o){return r.reject(o)}return i&&i.isAdapterError?r.reject(i):i}function o(e,t,r,a){var i
+Object.defineProperty(e,"__esModule",{value:!0}),e.fetchOptions=d,e.default=void 0
+var r=Ember.RSVP.Promise,a="undefined"!=typeof jQuery,i="undefined"!=typeof najax
+function o(e,t,n,a){var i
+try{i=e.handleResponse(a.status,a.headers,t,n)}catch(o){return r.reject(o)}return i&&i.isAdapterError?r.reject(i):i}function s(e,t,r,a){var i
 if(a.errorThrown instanceof Error)i=a.errorThrown
 else if("timeout"===a.textStatus)i=new n.TimeoutError
 else if("abort"===a.textStatus||0===a.status)i=function(e,t){var r=e.method,a=e.url,i=e.errorThrown,o=t.status,s=[{title:"Adapter Error",detail:("Request failed: "+r+" "+a+" "+(i||"")).trim(),status:o}]
 return new n.AbortError(s)}(r,a)
-else try{i=e.handleResponse(a.status,a.headers,t||a.errorThrown,r)}catch(o){i=o}return i}function s(e){return{status:e.status,textStatus:e.textStatus,headers:u(e.headers)}}function l(e){return{status:e.status,textStatus:e.statusText,headers:(0,n.parseResponseHeaders)(e.getAllResponseHeaders())}}function u(e){var t={}
-return e&&e.forEach(function(e,n){return t[n]=e}),t}function c(e,t){if(e.credentials="same-origin",e.data)if("GET"===e.method||"HEAD"===e.method){if(Object.keys(e.data).length){var r=e.url.indexOf("?")>-1?"&":"?"
+else try{i=e.handleResponse(a.status,a.headers,t||a.errorThrown,r)}catch(o){i=o}return i}function l(e){return{status:e.status,textStatus:e.textStatus,headers:c(e.headers)}}function u(e){return{status:e.status,textStatus:e.statusText,headers:(0,n.parseResponseHeaders)(e.getAllResponseHeaders())}}function c(e){var t={}
+return e&&e.forEach(function(e,n){return t[n]=e}),t}function d(e,t){if(e.credentials="same-origin",e.data)if("GET"===e.method||"HEAD"===e.method){if(Object.keys(e.data).length){var r=e.url.indexOf("?")>-1?"&":"?"
 e.url+=""+r+(0,n.serializeQueryParams)(e.data)}}else e.body=JSON.stringify(e.data)
-return e}var d=t.default.extend(n.BuildURLMixin,{defaultSerializer:"-rest",fastboot:Ember.computed(function(){return Ember.getOwner(this).lookup("service:fastboot")}),useFetch:Ember.computed(function(){var e=Ember.getOwner(this).resolveRegistration("config:environment")
-return!1===(e&&e._JQUERY_INTEGRATION)||void 0===a}),sortQueryParams:function(e){var t=Object.keys(e),n=t.length
+return e}var p=t.default.extend(n.BuildURLMixin,{defaultSerializer:"-rest",fastboot:Ember.computed(function(){return Ember.getOwner(this).lookup("service:fastboot")}),useFetch:Ember.computed(function(){var e=Ember.getOwner(this).resolveRegistration("config:environment")
+return!!(e&&e.EmberENV&&!1===e.EmberENV._JQUERY_INTEGRATION)||!i&&!a}),sortQueryParams:function(e){var t=Object.keys(e),n=t.length
 if(n<2)return e
 for(var r={},a=t.sort(),i=0;i<n;i++)r[a[i]]=e[a[i]]
 return r},coalesceFindRequests:!1,findRecord:function(e,t,n,r){var a=this.buildURL(t.modelName,n,r,"findRecord"),i=this.buildQuery(r)
@@ -6458,22 +6458,22 @@ switch(e){case 401:return new n.UnauthorizedError(i,o)
 case 403:return new n.ForbiddenError(i,o)
 case 404:return new n.NotFoundError(i,o)
 case 409:return new n.ConflictError(i,o)
-default:if(e>=500)return new n.ServerError(i,o)}return new n.AdapterError(i,o)},isSuccess:function(e,t,n){return e>=200&&e<300||304===e},isInvalid:function(e,t,n){return 422===e},ajax:function(e,t,a){var u=this,c=Ember.get(this,"useFetch"),d={url:e,method:t},p=u.ajaxOptions(e,t,a)
+default:if(e>=500)return new n.ServerError(i,o)}return new n.AdapterError(i,o)},isSuccess:function(e,t,n){return e>=200&&e<300||304===e},isInvalid:function(e,t,n){return 422===e},ajax:function(e,t,a){var i=this,c=Ember.get(this,"useFetch"),d={url:e,method:t},p=i.ajaxOptions(e,t,a)
 return c?this._fetchRequest(p).then(function(e){return Ember.RSVP.hash({response:e,payload:(0,n.determineBodyPromise)(e,d)})},function(e){throw e}).then(function(e){var t=e.response,n=e.payload
-if(t.ok)return function(e,t,n,r){var a=s(n)
-return i(e,t,r,a)}(u,n,t,d)
-throw function(e,t,n,r,a){var i=s(n)
-return i.errorThrown=r,o(e,t,a,i)}(u,n,t,null,d)}):new r(function(e,t){p.success=function(t,n,r){var a=function(e,t,n,r){var a=l(n)
-return i(e,t,r,a)}(u,t,r,d)
-Ember.run.join(null,e,a)},p.error=function(e,n,r){var a=function(e,t,n,r){var a=l(t)
+if(t.ok)return function(e,t,n,r){var a=l(n)
+return o(e,t,r,a)}(i,n,t,d)
+throw function(e,t,n,r,a){var i=l(n)
+return i.errorThrown=r,s(e,t,a,i)}(i,n,t,null,d)}):new r(function(e,t){p.success=function(t,n,r){var a=function(e,t,n,r){var a=u(n)
+return o(e,t,r,a)}(i,t,r,d)
+Ember.run.join(null,e,a)},p.error=function(e,n,r){var a=function(e,t,n,r){var a=u(t)
 a.errorThrown=n
 var i=e.parseErrorResponse(t.responseText)
-return o(e,i,r,a)}(u,e,r,d)
-Ember.run.join(null,t,a)},u._ajax(p)},"DS: RESTAdapter#ajax "+t+" to "+e)},_ajaxRequest:function(e){a.ajax(e)},_najaxRequest:function(e){if("undefined"==typeof najax)throw new Error("najax does not seem to be defined in your app. Did you override it via `addOrOverrideSandboxGlobals` in the fastboot server?")
+return s(e,i,r,a)}(i,e,r,d)
+Ember.run.join(null,t,a)},i._ajax(p)},"DS: RESTAdapter#ajax "+t+" to "+e)},_ajaxRequest:function(e){jQuery.ajax(e)},_najaxRequest:function(e){if(!i)throw new Error("najax does not seem to be defined in your app. Did you override it via `addOrOverrideSandboxGlobals` in the fastboot server?")
 najax(e)},_fetchRequest:function(e){return(0,n.fetch)(e.url,e)},_ajax:function(e){Ember.get(this,"useFetch")?this._fetchRequest(e):Ember.get(this,"fastboot.isFastBoot")?this._najaxRequest(e):this._ajaxRequest(e)},ajaxOptions:function(e,t,n){n=Ember.assign({url:e,method:t,type:t},n)
 var r=Ember.get(this,"headers")
 if(void 0!==r?n.headers=Ember.assign({},n.headers,r):n.headers||(n.headers={}),n.data&&"GET"!==n.type){var a=n.contentType||"application/json; charset=utf-8"
-n.headers["content-type"]=a}return(n=Ember.get(this,"useFetch")?c(n,this):function(e,t){e.dataType="json",e.context=t,e.data&&"GET"!==e.type&&(e.data=JSON.stringify(e.data),e.contentType="application/json; charset=utf-8")
+n.headers["content-type"]=a}return(n=Ember.get(this,"useFetch")?d(n,this):function(e,t){e.dataType="json",e.context=t,e.data&&"GET"!==e.type&&(e.data=JSON.stringify(e.data),e.contentType="application/json; charset=utf-8")
 return e.beforeSend=function(t){Object.keys(e.headers).forEach(function(n){return t.setRequestHeader(n,e.headers[n])})},e}(n,this)).url=this._ajaxURL(n.url),n},_ajaxURL:function(e){if(Ember.get(this,"fastboot.isFastBoot")){var t=Ember.get(this,"fastboot.request.protocol"),n=Ember.get(this,"fastboot.request.host")
 if(/^\/\//.test(e))return""+t+e
 if(!/^https?:\/\//.test(e))try{return t+"//"+n+e}catch(r){throw new Error("You are using Ember Data with no host defined in your adapter. This will attempt to use the host of the FastBoot request, which is not configured for the current host of this request. Please set the hostWhitelist property for in your environment.js. FastBoot Error: "+r.message)}}return e},parseErrorResponse:function(e){var t=e
@@ -6481,7 +6481,7 @@ try{t=JSON.parse(e)}catch(n){}return t},normalizeErrorResponse:function(e,t,n){r
 return a="text/html"===i&&n.length>250?"[Omitted Lengthy HTML]":n,["Ember Data Request "+(r.method+" "+r.url)+" returned a "+e,"Payload ("+i+")",a].join("\n")},buildQuery:function(e){var t={}
 if(e){var n=e.include
 n&&(t.include=n)}return t}})
-e.default=d}),define("ember-data/attr",["exports","ember-data/-private"],function(e,t){"use strict"
+e.default=p}),define("ember-data/attr",["exports","ember-data/-private"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.attr}})}),define("ember-data/index",["exports","ember-data/-private","ember-inflector","ember-data/setup-container","ember-data/initialize-store-service","ember-data/transforms/transform","ember-data/transforms/number","ember-data/transforms/date","ember-data/transforms/string","ember-data/transforms/boolean","ember-data/adapter","ember-data/adapters/json-api","ember-data/adapters/rest","ember-data/serializer","ember-data/serializers/json-api","ember-data/serializers/json","ember-data/serializers/rest","ember-data/serializers/embedded-records-mixin","ember-data/attr"],function(e,t,n,r,a,i,o,s,l,u,c,d,p,f,h,m,g,v,y){"use strict"
 if(Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0,Ember.VERSION.match(/^1\.([0-9]|1[0-2])\./))throw new Ember.Error("Ember Data requires at least Ember 1.13.0, but you have "+Ember.VERSION+". Please upgrade your version of Ember, then upgrade Ember Data.")
 t.DS.Store=t.Store,t.DS.PromiseArray=t.PromiseArray,t.DS.PromiseObject=t.PromiseObject,t.DS.PromiseManyArray=t.PromiseManyArray,t.DS.Model=t.Model,t.DS.RootState=t.RootState,t.DS.attr=y.default,t.DS.Errors=t.Errors,t.DS.InternalModel=t.InternalModel,t.DS.Snapshot=t.Snapshot,t.DS.Adapter=c.default,t.DS.AdapterError=t.AdapterError,t.DS.InvalidError=t.InvalidError,t.DS.TimeoutError=t.TimeoutError,t.DS.AbortError=t.AbortError,t.DS.UnauthorizedError=t.UnauthorizedError,t.DS.ForbiddenError=t.ForbiddenError,t.DS.NotFoundError=t.NotFoundError,t.DS.ConflictError=t.ConflictError,t.DS.ServerError=t.ServerError,t.DS.errorsHashToArray=t.errorsHashToArray,t.DS.errorsArrayToHash=t.errorsArrayToHash,t.DS.Serializer=f.default,t.DS.DebugAdapter=t.DebugAdapter,t.DS.RecordArray=t.RecordArray,t.DS.AdapterPopulatedRecordArray=t.AdapterPopulatedRecordArray,t.DS.ManyArray=t.ManyArray,t.DS.RecordArrayManager=t.RecordArrayManager,t.DS.RESTAdapter=p.default,t.DS.BuildURLMixin=t.BuildURLMixin
@@ -6674,7 +6674,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var t=Ember.Object.extend({serialize:null,deserialize:null})
 e.default=t}),define("ember-data/version",["exports"],function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-e.default="3.9.2"}),define("ember-fetch-adapter/-private/add-query-params",["exports","ember-fetch/mixins/adapter-fetch"],function(e,t){"use strict"
+e.default="3.9.3"}),define("ember-fetch-adapter/-private/add-query-params",["exports","ember-fetch/mixins/adapter-fetch"],function(e,t){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(e,n){if(n&&Object.keys(n).length){n=(0,t.serializeQueryParams)(n)
 var r=e.indexOf("?")>-1?"&":"?"
 return""+e+r+n}return e}}),define("ember-fetch-adapter/-private/headers-to-object",["exports"],function(e){"use strict"
