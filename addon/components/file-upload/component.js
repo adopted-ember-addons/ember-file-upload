@@ -91,6 +91,9 @@ const component = Component.extend({
   for: computed({
     get() {
       return `file-input-${uuid.short()}`;
+    },
+    set(key, value) {
+      return value;
     }
   }),
 
