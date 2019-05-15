@@ -32,9 +32,9 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "@babel/core": "7.4.4",
-    "ember-cli-babel": "7.7.3",
-    "ember-cli-htmlbars": "3.0.1"
+    "@babel/core": "^7.4.4",
+    "ember-cli-babel": "^7.7.3",
+    "ember-cli-htmlbars": "^3.0.1"
   },
   "devDependencies": {
     "@ember/optional-features": "0.7.0",
