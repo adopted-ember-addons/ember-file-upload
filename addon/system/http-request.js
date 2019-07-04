@@ -22,7 +22,7 @@ function parseResponse(request) {
 
   var headers = rawHeaders.reduce(function (E, header) {
     var parts = header.split(/^([0-9A-Za-z_-]*:)/);
-    if (parts.length > 0){
+    if (parts.length > 0 && parts[1] && parts[2]){
       E[parts[1].slice(0, -1)] = trim(parts[2]);
     }
     return E;
