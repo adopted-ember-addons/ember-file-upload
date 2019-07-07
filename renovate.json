@@ -1,5 +1,32 @@
 {
   "extends": [
     "config:js-lib"
+  ],
+  "ignoreDeps": [
+    "@ember/jquery",
+    "@ember/optional-features",
+    "broccoli-asset-rev",
+    "ember-ajax",
+    "ember-cli-app-version",
+    "ember-cli-babel",
+    "ember-cli-dependency-checker",
+    "ember-cli-eslint",
+    "ember-cli-htmlbars-inline-precompile",
+    "ember-cli-htmlbars",
+    "ember-cli-inject-live-reload",
+    "ember-cli-sri",
+    "ember-cli-template-lint",
+    "ember-cli-uglify",
+    "ember-cli",
+    "ember-data",
+    "ember-export-application-global",
+    "ember-load-initializers",
+    "ember-maybe-import-regenerator",
+    "ember-qunit",
+    "ember-resolver",
+    "ember-source",
+    "eslint-plugin-ember",
+    "loader.js",
+    "qunit-dom"
   ]
 }
