@@ -27,6 +27,6 @@
     "ember-source",
     "eslint-plugin-ember",
     "loader.js",
-    "qunit-dom",
+    "qunit-dom"
   ]
 }
