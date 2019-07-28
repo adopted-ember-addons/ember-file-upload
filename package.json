@@ -79,5 +79,8 @@
     "configPath": "tests/dummy/config",
     "demoURL": "https://adopted-ember-addons.github.io/ember-file-upload/"
   },
-  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload"
+  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload",
+  "resolutions": {
+    "ember-cli-template-lint/**/ember-template-lint": "^1.4.0"
+  }
 }
