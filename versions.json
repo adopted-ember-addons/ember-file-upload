@@ -43,7 +43,7 @@
   "latest": {
     "path": "versions/latest",
     "name": "latest",
-    "sha": "839c486c7b0f816cc3325268a30c42ecb9ec4a80",
+    "sha": "d93b28adb68e59f412205003fbaef36d0114bb04",
     "tag": null
   },
   "v2.6.0": {
