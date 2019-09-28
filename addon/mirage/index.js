@@ -43,17 +43,15 @@ export function upload(fn, options={ network: null, timeout: null }) {
           });
 
           metadata.then((metadata) => {
-            let response = {
-              requestBody: Object.assign({
-                [file.key]: metadata
-              }, data)
-            };
+            request.requestBody = Object.assign({
+              [file.key]: metadata
+            }, data);
             if (timedOut) {
               resolve(new Response(408));
               return;
             }
 
-            resolve(fn.call(this, db, response));
+            resolve(fn.call(this, db, request));
           });
         } else {
           request.upload.onprogress({
