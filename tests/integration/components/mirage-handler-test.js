@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { upload as uploadHandler } from 'ember-file-upload/mirage';
 import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import Ember from 'ember';
 
 module('Integration | Component | mirage-handler', function(hooks) {
   setupRenderingTest(hooks);
@@ -48,5 +49,52 @@ module('Integration | Component | mirage-handler', function(hooks) {
     await upload('input', file);
 
     assert.verifySteps(['mirage-handler']);
+  });
+
+  test('upload handler throws if invalid image is provided', async function(assert) {
+    let orgOnerror = Ember.onerror;
+
+    let errorCount = 0;
+    Ember.onerror = (error) => {
+      // expect two errors:
+      // 1. error thrown by our upload handler
+      // 2. error thrown by 500 response that includes the first error as body
+      if (errorCount === 0) {
+        // error thrown by our mirage handler
+        assert.step('error thrown');
+        assert.ok(error.message.includes('invalid image'));
+      } else {
+        // error from 500 response
+        assert.step('500 response');
+        assert.equal(error.status, 500);
+        assert.ok(error.body.error.includes('invalid image'));
+      }
+
+      errorCount++;
+    };
+
+    this.server.post('/image', uploadHandler(() => {}));
+
+    this.set('uploadImage', (file) => {
+      return file.upload('/image');
+    });
+    await render(hbs`
+      {{#file-upload
+        name="file"
+        onfileadd=uploadImage
+      }}
+        <a class="button">
+          Upload file
+        </a>
+      {{/file-upload}}
+    `);
+
+    let file = new File(['invalid-data-for-an-image'], 'image.png', { type: 'image/png' });
+    await upload('input', file);
+
+    assert.verifySteps(['error thrown', '500 response']);
+
+    // restore error handler
+    Ember.onerror = orgOnerror;
   });
 });

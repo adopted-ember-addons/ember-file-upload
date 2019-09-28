@@ -50,10 +50,19 @@ let pipelines = {
   },
 
   image(file, metadata) {
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       let img = new Image();
       img.onload = function () {
         resolve(img);
+      };
+      img.onerror = function () {
+        reject(
+          new Error(
+            'You tried to upload an invalid image. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid images. ' +
+            'Please make sure that your image is valid and could be parsed by browser.'
+          )
+        );
       };
       img.src = metadata.url;
     }).then(function (img) {
