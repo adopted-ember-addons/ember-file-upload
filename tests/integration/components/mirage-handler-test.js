@@ -1,15 +1,18 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, resetOnerror, setupOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { upload as uploadHandler } from 'ember-file-upload/mirage';
 import { upload } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import Ember from 'ember';
 
 module('Integration | Component | mirage-handler', function(hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
+
+  hooks.afterEach(function() {
+    resetOnerror();
+  });
 
   test('upload handler passes schema and request through providing additional file metadata as request body', async function(assert) {
     let self = this;
@@ -52,10 +55,8 @@ module('Integration | Component | mirage-handler', function(hooks) {
   });
 
   test('upload handler throws if invalid image is provided', async function(assert) {
-    let orgOnerror = Ember.onerror;
-
     let errorCount = 0;
-    Ember.onerror = (error) => {
+    setupOnerror((error) => {
       // expect two errors:
       // 1. error thrown by our upload handler
       // 2. error thrown by 500 response that includes the first error as body
@@ -71,7 +72,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
       }
 
       errorCount++;
-    };
+    });
 
     this.server.post('/image', uploadHandler(() => {}));
 
@@ -93,8 +94,5 @@ module('Integration | Component | mirage-handler', function(hooks) {
     await upload('input', file);
 
     assert.verifySteps(['error thrown', '500 response']);
-
-    // restore error handler
-    Ember.onerror = orgOnerror;
   });
 });
