@@ -8,7 +8,9 @@ import {
   getProperties
 } from '@ember/object';
 
-
+/**
+  @class BaseComponent
+*/
 export default Component.extend({
   /**
     Whether multiple files can be selected when uploading.
