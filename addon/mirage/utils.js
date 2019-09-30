@@ -75,8 +75,17 @@ let pipelines = {
 
   video(file, metadata) {
     let video = document.createElement('video');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       video.addEventListener('loadeddata', resolve);
+      video.onerror = () => {
+        reject(
+          new Error(
+            'You tried to upload an invalid video. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid videos. ' +
+            'Please make sure that your video is valid and could be parsed by browser.'
+          )
+        );
+      };
       video.src = metadata.url;
       document.body.appendChild(video);
       video.load();
@@ -93,8 +102,17 @@ let pipelines = {
 
   audio(file, metadata) {
     let audio = document.createElement('audio');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       audio.addEventListener('loadeddata', resolve);
+      audio.onerror = () => {
+        reject(
+          new Error(
+            'You tried to upload an invalid audio. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid audios. ' +
+            'Please make sure that your audio is valid and could be parsed by browser.'
+          )
+        );
+      };
       audio.src = metadata.url;
       document.body.appendChild(audio);
       audio.load();

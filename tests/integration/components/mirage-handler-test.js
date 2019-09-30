@@ -54,45 +54,51 @@ module('Integration | Component | mirage-handler', function(hooks) {
     assert.verifySteps(['mirage-handler']);
   });
 
-  test('upload handler throws if invalid image is provided', async function(assert) {
-    let errorCount = 0;
-    setupOnerror((error) => {
-      // expect two errors:
-      // 1. error thrown by our upload handler
-      // 2. error thrown by 500 response that includes the first error as body
-      if (errorCount === 0) {
-        // error thrown by our mirage handler
-        assert.step('error thrown');
-        assert.ok(error.message.includes('invalid image'));
-      } else {
-        // error from 500 response
-        assert.step('500 response');
-        assert.equal(error.status, 500);
-        assert.ok(error.body.error.includes('invalid image'));
-      }
+  const SCENARIOS = {
+    audio: new File(['invalid-data-for-a-video'], 'audio.mp3', { type: 'audio/mpeg' }),
+    image: new File(['invalid-data-for-an-image'], 'image.png', { type: 'image/png' }),
+    video: new File(['invalid-data-for-a-video'], 'video.webm', { type: 'video/webm' }),
+  };
+  for (let [type, file] of Object.entries(SCENARIOS)) {
+    test(`upload handler throws if invalid ${type} is provided`, async function(assert) {
+      let errorCount = 0;
+      setupOnerror((error) => {
+        // expect two errors:
+        // 1. error thrown by our upload handler
+        // 2. error thrown by 500 response that includes the first error as body
+        if (errorCount === 0) {
+          // error thrown by our mirage handler
+          assert.step('error thrown');
+          assert.ok(error.message.includes(`invalid ${type}`));
+        } else {
+          // error from 500 response
+          assert.step('500 response');
+          assert.equal(error.status, 500);
+          assert.ok(error.body.error.includes(`invalid ${type}`));
+        }
 
-      errorCount++;
+        errorCount++;
+      });
+
+      this.server.post('/image', uploadHandler(() => {}));
+
+      this.set('uploadImage', (file) => {
+        return file.upload('/image');
+      });
+      await render(hbs`
+        {{#file-upload
+          name="file"
+          onfileadd=uploadImage
+        }}
+          <a class="button">
+            Upload file
+          </a>
+        {{/file-upload}}
+      `);
+
+      await upload('input', file);
+
+      assert.verifySteps(['error thrown', '500 response']);
     });
-
-    this.server.post('/image', uploadHandler(() => {}));
-
-    this.set('uploadImage', (file) => {
-      return file.upload('/image');
-    });
-    await render(hbs`
-      {{#file-upload
-        name="file"
-        onfileadd=uploadImage
-      }}
-        <a class="button">
-          Upload file
-        </a>
-      {{/file-upload}}
-    `);
-
-    let file = new File(['invalid-data-for-an-image'], 'image.png', { type: 'image/png' });
-    await upload('input', file);
-
-    assert.verifySteps(['error thrown', '500 response']);
-  });
+  }
 });
