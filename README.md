@@ -135,7 +135,7 @@ The examples above using angle bracket invocation, available in Ember 3.4+
                   @for="upload-photo"
                   @accept="image/*"
                   @multiple={{true}}
-                  @onfileadd={{action "uploadImage"}} >
+                  @onfileadd={{action this.uploadImage}}>
         <a tabindex=0>Add an Image.</a>
       </FileUpload>
     </p>
@@ -146,7 +146,7 @@ The examples above using angle bracket invocation, available in Ember 3.4+
 ```handlebars
 <FileUpload @name="photos"
             @accept="image/*"
-            @onfileadd={{action "uploadImage"}} as |queue|>
+            @onfileadd={{action this.uploadImage}} as |queue|>
   <a class="button">
     {{#if queue.files.length}}
       Uploading...
