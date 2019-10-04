@@ -3,6 +3,7 @@ import BaseComponent from '../base-component';
 
 import { bind } from '@ember/runloop';
 import { set, get } from '@ember/object';
+import { getOwner } from '@ember/application';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
@@ -68,7 +69,7 @@ const dragListener = new DragListener();
   @yield {Hash} dropzone
   @yield {boolean} dropzone.supported
   @yield {boolean} dropzone.active
-  @yield {valid} dropzone.valid
+  @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
 export default BaseComponent.extend({
@@ -76,6 +77,8 @@ export default BaseComponent.extend({
   layout,
 
   supported,
+  active: false,
+  valid: true,
 
   /**
     `ondragenter` is called when a file has entered
@@ -150,7 +153,10 @@ export default BaseComponent.extend({
   },
 
   isAllowed() {
-    return get(this[DATA_TRANSFER], 'source') === 'os' ||
+    const { environment } = getOwner(this).resolveRegistration('config:environment');
+
+    return environment === 'test' ||
+           get(this[DATA_TRANSFER], 'source') === 'os' ||
            get(this, 'allowUploadsFromWebsites');
   },
 
@@ -185,6 +191,9 @@ export default BaseComponent.extend({
         this[DATA_TRANSFER] = null;
       }
 
+      if (get(this, 'isDestroyed')) {
+        return;
+      }
       set(this, 'active', false);
     }
   },
