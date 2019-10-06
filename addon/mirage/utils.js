@@ -60,7 +60,7 @@ let pipelines = {
           new Error(
             'You tried to upload an invalid image. The upload handler for mirage ' +
             'shipped with ember-file-upload does not support invalid images. ' +
-            'Please make sure that your image is valid and could be parsed by browser.'
+            'Please make sure that your image is valid and can be parsed by browsers.'
           )
         );
       };
@@ -82,7 +82,7 @@ let pipelines = {
           new Error(
             'You tried to upload an invalid video. The upload handler for mirage ' +
             'shipped with ember-file-upload does not support invalid videos. ' +
-            'Please make sure that your video is valid and could be parsed by browser.'
+            'Please make sure that your video is valid and can be parsed by browsers.'
           )
         );
       };
@@ -107,9 +107,9 @@ let pipelines = {
       audio.onerror = () => {
         reject(
           new Error(
-            'You tried to upload an invalid audio. The upload handler for mirage ' +
-            'shipped with ember-file-upload does not support invalid audios. ' +
-            'Please make sure that your audio is valid and could be parsed by browser.'
+            'You tried to upload an invalid audio file. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid audio files. ' +
+            'Please make sure that your audio is valid and can be parsed by browsers.'
           )
         );
       };

@@ -1,6 +1,6 @@
 # Acceptance Tests
 
-`ember-file-upload` provides a `upload` helper for acceptance and integration tests:
+`ember-file-upload` provides an `upload` helper for acceptance and integration tests:
 
 ```javascript
 import { upload } from 'ember-file-upload/test-support';
