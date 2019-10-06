@@ -1,9 +1,9 @@
 /* global Blob, Uint8Array */
-import Component from '@ember/component';
+import BaseComponent from '../base-component';
 
-import { inject as service } from '@ember/service';
 import { bind } from '@ember/runloop';
-import { computed, set, get } from '@ember/object';
+import { set, get } from '@ember/object';
+import { getOwner } from '@ember/application';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
 import uuid from '../../system/uuid';
@@ -69,23 +69,16 @@ const dragListener = new DragListener();
   @yield {Hash} dropzone
   @yield {boolean} dropzone.supported
   @yield {boolean} dropzone.active
-  @yield {valid} dropzone.valid
+  @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
-export default Component.extend({
+export default BaseComponent.extend({
 
   layout,
 
-  /**
-    The name of the queue that files should be
-    added to when they get dropped.
-
-    @argument name
-    @type {string}
-   */
-  name: null,
-
   supported,
+  active: false,
+  valid: true,
 
   /**
     `ondragenter` is called when a file has entered
@@ -112,8 +105,6 @@ export default Component.extend({
     @type {function}
    */
   ondrop: null,
-
-  fileQueue: service(),
 
   /**
     Whether users can upload content
@@ -146,15 +137,6 @@ export default Component.extend({
    */
   cursor: null,
 
-  queue: computed('name', {
-    get() {
-      let queueName = get(this, 'name');
-      let queues = get(this, 'fileQueue');
-      return queues.find(queueName) ||
-             queues.create(queueName);
-    }
-  }),
-
   didInsertElement() {
     this._super();
 
@@ -171,7 +153,10 @@ export default Component.extend({
   },
 
   isAllowed() {
-    return get(this[DATA_TRANSFER], 'source') === 'os' ||
+    const { environment } = getOwner(this).resolveRegistration('config:environment');
+
+    return environment === 'test' ||
+           get(this[DATA_TRANSFER], 'source') === 'os' ||
            get(this, 'allowUploadsFromWebsites');
   },
 
@@ -206,6 +191,9 @@ export default Component.extend({
         this[DATA_TRANSFER] = null;
       }
 
+      if (get(this, 'isDestroyed')) {
+        return;
+      }
       set(this, 'active', false);
     }
   },
