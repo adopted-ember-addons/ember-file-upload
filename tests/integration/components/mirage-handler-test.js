@@ -10,7 +10,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('upload handler passed schema and request.params throw', async function(assert) {
+  test('upload handler passes schema and request through providing additional file metadata as request body', async function(assert) {
     let self = this;
     this.server.post('/folder/:id/file', uploadHandler(function(schema, request) {
       assert.step('mirage-handler');
@@ -18,6 +18,16 @@ module('Integration | Component | mirage-handler', function(hooks) {
       assert.equal(schema, self.server.schema, 'schema is provided');
       assert.ok(typeof request.params === 'object', 'params property on request is an object');
       assert.equal(request.params.id, '1', 'value of dynamic segment is present on params object');
+      assert.deepEqual(request.requestBody, {
+        'Content-Type': 'text/plain',
+        file: {
+          extension: 'txt',
+          name: 'text.txt',
+          size: 9,
+          type: 'text/plain',
+          url: 'data:text/plain;base64,c29tZS1kYXRh'
+        }
+      });
     }));
 
     this.set('uploadImage', (file) => {
