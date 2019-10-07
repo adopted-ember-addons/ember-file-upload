@@ -6932,14 +6932,14 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var t=Ember.Helper.extend({fileQueue:Ember.inject.service(),compute:function(e,t){var n=Ember.get(this,"fileQueue"),r=t.name
 return r?n.find(r)||n.create(r):n}})
 e.default=t}),define("ember-file-upload/mirage/index",["exports","ember-cli-mirage/response","ember-file-upload/mirage/utils","ember-file-upload/mirage/shim"],function(e,t,n,r){"use strict"
-function a(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}Object.defineProperty(e,"__esModule",{value:!0}),e.upload=function(e){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{network:null,timeout:null}
-return function(o,s){var l=this,u=1/0
-i[r.network]&&(u=1024*i[r.network])
-var c=(0,n.extractFormData)(s.requestBody),d=c.file,p=c.data,f=0,h=d.value.size
-return new Ember.RSVP.Promise(function(i){var c=(new Date).getTime(),m=(0,n.extractFileMetadata)(d.value);(function n(){var g=r.timeout&&(new Date).getTime()-c>r.timeout
-g||f>=h?(s.upload.onprogress({lengthComputable:!0,total:h,loaded:Math.min(f,h)}),m.then(function(n){var r={requestBody:Object.assign(a({},d.key,n),p)}
-i(g?new t.default(408):e.call(l,o,r))})):(s.upload.onprogress({lengthComputable:!0,total:h,loaded:f}),f+=u/20,setTimeout(n,50))})()})}}
-var i={wired:5e4,wifi:15e3,dsl:1e3,"4g":3e3,"3g":250,"2g":50,gprs:20,offline:0}}),define("ember-file-upload/mirage/shim",["ember-file-upload/system/uuid"],function(e){"use strict"
+Object.defineProperty(e,"__esModule",{value:!0}),e.upload=function(e){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{network:null,timeout:null}
+return function(i,o){var s=this,l=1/0
+a[r.network]&&(l=1024*a[r.network])
+var u=(0,n.extractFormData)(o.requestBody),c=u.file,d=u.data,p=0,f=c.value.size
+return new Ember.RSVP.Promise(function(a){var u=(new Date).getTime(),h=(0,n.extractFileMetadata)(c.value);(function n(){var m=r.timeout&&(new Date).getTime()-u>r.timeout
+m||p>=f?(o.upload.onprogress({lengthComputable:!0,total:f,loaded:Math.min(p,f)}),h.then(function(n){o.requestBody=Object.assign(function(e,t,n){t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n
+return e}({},c.key,n),d),a(m?new t.default(408):e.call(s,i,o))})):(o.upload.onprogress({lengthComputable:!0,total:f,loaded:p}),p+=l/20,setTimeout(n,50))})()})}}
+var a={wired:5e4,wifi:15e3,dsl:1e3,"4g":3e3,"3g":250,"2g":50,gprs:20,offline:0}}),define("ember-file-upload/mirage/shim",["ember-file-upload/system/uuid"],function(e){"use strict"
 var t="map_"+e.default.short(),n="keys_"+e.default.short()
 if(null==FormData.prototype.get){var r=FormData.prototype.append
 FormData.prototype.append=function(){null==this[t]&&(this[t]={}),null==this[n]&&(this[n]=[])
