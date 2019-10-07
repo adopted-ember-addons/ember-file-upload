@@ -57,7 +57,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
   const SCENARIOS = {
     audio: new File(['invalid-data-for-a-video'], 'audio.mp3', { type: 'audio/mpeg' }),
     image: new File(['invalid-data-for-an-image'], 'image.png', { type: 'image/png' }),
-    video: new File(['invalid-data-for-a-video'], 'video.webm', { type: 'video/webm' }),
+    video: new File(['invalid-data-for-a-video'], 'video.webm', { type: 'video/webm' })
   };
   for (let [type, file] of Object.entries(SCENARIOS)) {
     test(`upload handler throws if invalid ${type} is provided`, async function(assert) {
