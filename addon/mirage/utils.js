@@ -50,10 +50,19 @@ let pipelines = {
   },
 
   image(file, metadata) {
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       let img = new Image();
       img.onload = function () {
         resolve(img);
+      };
+      img.onerror = function () {
+        reject(
+          new Error(
+            'You tried to upload an invalid image. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid images. ' +
+            'Please make sure that your image is valid and can be parsed by browsers.'
+          )
+        );
       };
       img.src = metadata.url;
     }).then(function (img) {
@@ -66,8 +75,17 @@ let pipelines = {
 
   video(file, metadata) {
     let video = document.createElement('video');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       video.addEventListener('loadeddata', resolve);
+      video.onerror = () => {
+        reject(
+          new Error(
+            'You tried to upload an invalid video. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid videos. ' +
+            'Please make sure that your video is valid and can be parsed by browsers.'
+          )
+        );
+      };
       video.src = metadata.url;
       document.body.appendChild(video);
       video.load();
@@ -84,8 +102,17 @@ let pipelines = {
 
   audio(file, metadata) {
     let audio = document.createElement('audio');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve, reject) {
       audio.addEventListener('loadeddata', resolve);
+      audio.onerror = () => {
+        reject(
+          new Error(
+            'You tried to upload an invalid audio file. The upload handler for mirage ' +
+            'shipped with ember-file-upload does not support invalid audio files. ' +
+            'Please make sure that your audio is valid and can be parsed by browsers.'
+          )
+        );
+      };
       audio.src = metadata.url;
       document.body.appendChild(audio);
       audio.load();

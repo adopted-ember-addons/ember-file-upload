@@ -52,6 +52,8 @@ export function upload(fn, options={ network: null, timeout: null }) {
             }
 
             resolve(fn.call(this, db, request));
+          }).catch((error) => {
+            resolve(new Response(500, {}, { error: error.message }));
           });
         } else {
           request.upload.onprogress({
