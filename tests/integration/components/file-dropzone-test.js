@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { dragAndDrop, dragEnter, dragLeave } from 'ember-file-upload/test-support';
 
-module('Integration | Component | file-dropzone', function(hooks) {
+module('Integration | Component | FileDropzone', function(hooks) {
   setupRenderingTest(hooks);
 
   test('dropping a file calls ondrop', async function(assert) {
@@ -13,10 +13,10 @@ module('Integration | Component | file-dropzone', function(hooks) {
     };
 
     await render(hbs`
-      {{file-dropzone
+      <FileDropzone
         class="test-dropzone"
-        name="test"
-        ondrop=(action this.onDrop)}}
+        @name="test"
+        @ondrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
@@ -30,10 +30,10 @@ module('Integration | Component | file-dropzone', function(hooks) {
     };
 
     await render(hbs`
-      {{file-dropzone
+      <FileDropzone
         class="test-dropzone"
-        name="test"
-        ondrop=(action this.onDrop)}}
+        @name="test"
+        @ondrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop(
@@ -51,11 +51,11 @@ module('Integration | Component | file-dropzone', function(hooks) {
     };
 
     await render(hbs`
-      {{file-dropzone
+      <FileDropzone
         class="test-dropzone"
-        name="test"
-        multiple=true
-        ondrop=(action this.onDrop)}}
+        @name="test"
+        @multiple={{true}}
+        @ondrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop(
@@ -71,10 +71,10 @@ module('Integration | Component | file-dropzone', function(hooks) {
     this.onDragEnter = () => assert.step('onDragEnter');
 
     await render(hbs`
-      {{file-dropzone
+      <FileDropzone
         class="test-dropzone"
-        name="test"
-        ondragenter=(action this.onDragEnter)}}
+        @name="test"
+        @ondragenter={{action this.onDragEnter}} />
     `);
 
     await dragEnter('.test-dropzone');
@@ -86,10 +86,10 @@ module('Integration | Component | file-dropzone', function(hooks) {
     this.onDragLeave = () => assert.step('onDragLeave');
 
     await render(hbs`
-      {{file-dropzone
+      <FileDropzone
         class="test-dropzone"
-        name="test"
-        ondragleave=(action this.onDragLeave)}}
+        @name="test"
+        @ondragleave={{action this.onDragLeave}} />
     `);
 
     await dragEnter('.test-dropzone', new File([], 'dingus.txt'));
@@ -100,14 +100,12 @@ module('Integration | Component | file-dropzone', function(hooks) {
 
   test('yielded properties', async function(assert) {
     await render(hbs`
-      {{#file-dropzone
-        name="test"
-        as |dropzone queue|}}
+      <FileDropzone @name="test" as |dropzone queue|>
         <div class="supported">{{dropzone.supported}}</div>
         <div class="active">{{dropzone.active}}</div>
         <div class="valid">{{dropzone.valid}}</div>
         <div class="queue-name">{{queue.name}}</div>
-      {{/file-dropzone}}
+      </FileDropzone>
     `);
 
     assert.dom('.supported').hasText('true');

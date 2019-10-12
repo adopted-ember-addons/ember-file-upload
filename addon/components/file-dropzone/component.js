@@ -20,7 +20,7 @@ let supported = (function () {
 const dragListener = new DragListener();
 
 /**
-  `{{file-dropzone}}` is an element that will allow users to upload files by
+  `FileDropzone` is a component that will allow users to upload files by
    drag and drop.
 
   ```hbs
