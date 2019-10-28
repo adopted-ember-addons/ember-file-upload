@@ -23,7 +23,7 @@ The following CORS configuration should be sufficient for most cases:
 
 Exposing `Location` to clients is important, since S3 will return the URL of the object where it's stored. This is accessible in the promise resolution as `response.headers.Location`. You may choose to expose more headers for debugging purposes (see [S3 Documentation](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonResponseHeaders.html))
 
-To properly upload a file to S3 directly from the browser, you need to provide a presigned URL. A simple ruby class for S3 direct upload parameter signing is provided below as an example:
+To properly upload a file to S3 directly from the browser, you need to provide a preassigned URL. A simple ruby class for S3 direct upload parameter signing is provided below as an example:
 
 ```ruby
 require 'openssl'
