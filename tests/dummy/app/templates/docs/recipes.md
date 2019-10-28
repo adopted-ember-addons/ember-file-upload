@@ -4,8 +4,8 @@ The cleanest approach to configure uploaders is to create a component that encap
 
 For example, creating an image uploader that uploads images to your API server would look like:
 
-```hbs
-{{#file-dropzone name="photos" as |dropzone queue|}}
+```handlebars
+<FileDropzone @name="photos" as |dropzone queue|>
   {{#if dropzone.active}}
     {{#if dropzone.valid}}
       Drop to upload
@@ -20,23 +20,23 @@ For example, creating an image uploader that uploads images to your API server w
       {{#if dropzone.supported}}
         Drag and drop images onto this area to upload them or
       {{/if}}
-      {{#file-upload name="photos"
-                     accept="image/*"
-                     multiple=true
-                     onfileadd=(route-action "uploadImage")}}
-        <a id="upload-image" tabindex=0>Add an Image.</a>
-      {{/file-upload}}
+      <FileUpload @name="photos"
+                  @for="upload-photo"
+                  @accept="image/*"
+                  @multiple={{true}}
+                  @onfileadd={{action this.uploadImage}}>
+        <a tabindex=0>Add an Image.</a>
+      </FileUpload>
     </p>
   {{/if}}
-{{/file-dropzone}}
+</FileDropzone>
 ```
-
 It is also possible for you to create a simple file upload button which yields the queue:
 
-```hbs
-{{#file-upload name="photos"
-               accept="image/*"
-               onfileadd=(action "uploadImage") as |queue|}}
+```handlebars
+<FileUpload @name="photos"
+            @accept="image/*"
+            @onfileadd={{action this.uploadImage}} as |queue|>
   <a class="button">
     {{#if queue.files.length}}
       Uploading...
@@ -44,5 +44,7 @@ It is also possible for you to create a simple file upload button which yields t
       Upload file
     {{/if}}
   </a>
-{{/file-upload}}
+</FileUpload>
 ```
+
+Ember FileUpload also supports classic curly component invocation.

@@ -9,10 +9,10 @@ import layout from './template';
 import uuid from '../../system/uuid';
 
 /**
-  `{{file-upload}}` is an element that will open a dialog for
+  `FileUpload` is a component that will open a dialog for
   users to browse their device for files that they want to upload.
 
-  For the component to work at its best, each `{{file-upload}}`
+  For the component to work at its best, each `FileUpload`
   should be named so the upload can be persisted across pages and
   show the correct upload percentage when a user visits the page.
 
@@ -85,6 +85,51 @@ const component = BaseComponent.extend({
 
   attributeBindings: ['for'],
 
+  /**
+    Whether multiple files can be selected when uploading.
+    @argument multiple
+    @type {boolean}
+   */
+  multiple: null,
+
+  /**
+    The name of the queue to upload the file to.
+
+    @argument name
+    @type {string}
+    @required
+   */
+  name: null,
+
+  /**
+    If set, disables input and prevents files from being added to the queue
+
+    @argument disabled
+    @type {boolean}
+    @default false
+   */
+  disabled: false,
+
+
+  /**
+    A list of MIME types / extensions to be accepted by the input
+    @argument accept
+    @type {string}
+   */
+  accept: null,
+
+  /**
+    `onfileadd` is called when a file is selected.
+
+    When multiple files are selected, this function
+    is called once for every file that was selected.
+
+    @argument onfileadd
+    @type {function}
+    @required
+   */
+  onfileadd: null,
+
   for: computed({
     get() {
       return `file-input-${uuid.short()}`;
@@ -99,7 +144,7 @@ const component = BaseComponent.extend({
   /**
     Specify capture devices which the user may select for file input.
     @see https://www.w3.org/TR/html-media-capture/
-    @argument accept
+    @argument capture
     @type {string}
    */
   capture: null,
@@ -124,13 +169,13 @@ if (DEBUG) {
   component.reopen({
     didInsertElement() {
       let id = get(this, 'for');
-      assert(`Changing the tagName of {{file-upload}} to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
+      assert(`Changing the tagName of FileUpload to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
       let elements = this.element.querySelectorAll('*');
       for (let i = 0; i < elements.length; i++){
         let element = elements[i];
         if (element.id !== id &&
             VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
-          assert(`"${element.outerHTML}" is not allowed as a child of {{file-upload}}.`);
+          assert(`"${element.outerHTML}" is not allowed as a child of FileUpload.`);
         }
       }
     }

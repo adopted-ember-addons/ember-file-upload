@@ -8,53 +8,11 @@ import {
   getProperties
 } from '@ember/object';
 
-/**
-  @class BaseComponent
-*/
 export default Component.extend({
-  /**
-    Whether multiple files can be selected when uploading.
-    @argument multiple
-    @type {boolean}
-   */
   multiple: null,
-
-  /**
-    The name of the queue to upload the file to.
-
-    @argument name
-    @type {string}
-    @required
-   */
   name: null,
-
-  /**
-    If set, disables input and prevents files from being added to the queue
-
-    @argument disabled
-    @type {boolean}
-    @default false
-   */
   disabled: false,
-
-
-  /**
-    A list of MIME types / extensions to be accepted by the input
-    @argument accept
-    @type {string}
-   */
   accept: null,
-
-  /**
-    `onfileadd` is called when a file is selected.
-
-    When multiple files are selected, this function
-    is called once for every file that was selected.
-
-    @argument onfileadd
-    @type {function}
-    @required
-   */
   onfileadd: null,
 
   fileQueue: service(),

@@ -4,13 +4,13 @@ import { render, setupOnerror, resetOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { upload } from 'ember-file-upload/test-support';
 
-module('Integration | Component | file-upload', function(hooks) {
+module('Integration | Component | FileUpload', function(hooks) {
   setupRenderingTest(hooks);
 
   test('uploading a file calls onfileadd', async function(assert) {
     this.onFileAdd = (file) => assert.step(file.get('name'));
 
-    await render(hbs`{{file-upload name="test" onfileadd=(action this.onFileAdd)}}`);
+    await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
 
     await upload('input[type="file"]', new File([], 'dingus.txt'));
 
@@ -20,7 +20,7 @@ module('Integration | Component | file-upload', function(hooks) {
   test('uploading multiple files calls onfileadd multiple times', async function(assert) {
     this.onFileAdd = (file) => assert.step(file.get('name'));
 
-    await render(hbs`{{file-upload name="test" onfileadd=(action this.onFileAdd)}}`);
+    await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
 
     await upload(
       'input[type="file"]',
@@ -32,14 +32,14 @@ module('Integration | Component | file-upload', function(hooks) {
   });
 
   test('assigns attributes to input', async function(assert) {
-    await render(hbs`{{file-upload
-      name="test"
-      for="test-id"
-      accept="image/*"
-      capture=true
-      multiple=true
-      disabled=true
-    }}`);
+    await render(hbs`<FileUpload
+      @name="test"
+      @for="test-id"
+      @accept="image/*"
+      @capture={{true}}
+      @multiple={{true}}
+      @disabled={{true}}
+    />`);
 
     assert.dom('input[type="file"]').hasAttribute('id', 'test-id');
     assert.dom('input[type="file"]').hasAttribute('accept', 'image/*');
@@ -55,25 +55,25 @@ module('Integration | Component | file-upload', function(hooks) {
 
     test('throws when tagName is changed', async function(assert) {
       setupOnerror((error) => {
-        assert.equal(error.message, 'Assertion Failed: Changing the tagName of {{file-upload}} to "div" will break interactions.');
+        assert.equal(error.message, 'Assertion Failed: Changing the tagName of FileUpload to "div" will break interactions.');
         assert.step('error');
       });
 
-      await render(hbs`{{file-upload name="test" tagName="div"}}`);
+      await render(hbs`<FileUpload @name="test" @tagName="div" />`);
 
       assert.verifySteps(['error']);
     });
 
     test('throws when wrapping an invalid child', async function(assert) {
       setupOnerror((error) => {
-        assert.equal(error.message, 'Assertion Failed: "<div></div>" is not allowed as a child of {{file-upload}}.');
+        assert.equal(error.message, 'Assertion Failed: "<div></div>" is not allowed as a child of FileUpload.');
         assert.step('error');
       });
 
       await render(hbs`
-        {{#file-upload name="test"}}
+        <FileUpload @name="test">
           <div></div>
-        {{/file-upload}}
+        </FileUpload>
       `);
 
       assert.verifySteps(['error']);
