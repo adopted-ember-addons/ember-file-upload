@@ -12,7 +12,7 @@ addons:
   chrome: stable
 
 cache:
-  default_branch: latest
+  default_branch: master
   yarn: true
 
 env:
@@ -52,7 +52,7 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
     - stage: "Deploy"
       name: "Deploy"
-      if: (branch = latest or tag is present) and type = push
+      if: (branch = master or tag is present) and type = push
       script: node_modules/.bin/ember deploy production
 
 before_script:
