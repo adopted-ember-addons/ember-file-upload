@@ -48,7 +48,7 @@
   "devDependencies": {
     "@ember/optional-features": "0.7.0",
     "broccoli-asset-rev": "2.7.0",
-    "ember-angle-bracket-invocation-polyfill": "^2.0.2",
+    "ember-angle-bracket-invocation-polyfill": "2.0.2",
     "ember-cli": "3.5.1",
     "ember-cli-addon-docs": "0.6.10",
     "ember-cli-addon-docs-yuidoc": "0.2.1",
