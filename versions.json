@@ -57,5 +57,11 @@
     "name": "v2.6.1",
     "sha": "780657b87af63ab9a038a8a2c010f8d41e15d4fc",
     "tag": "v2.6.1"
+  },
+  "master": {
+    "path": "versions/master",
+    "name": "master",
+    "sha": "5ad79eccef5f96a08227d08d152738bbd4a7e95f",
+    "tag": null
   }
 }
