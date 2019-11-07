@@ -9,12 +9,6 @@ import {
 } from '@ember/object';
 
 export default Component.extend({
-  multiple: null,
-  name: null,
-  disabled: false,
-  accept: null,
-  onfileadd: null,
-
   fileQueue: service(),
 
   didReceiveAttrs() {
