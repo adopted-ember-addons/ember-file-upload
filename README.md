@@ -1,4 +1,4 @@
-# Ember FileUpload [![Build Status](https://travis-ci.org/adopted-ember-addons/ember-file-upload.svg?branch=latest)](https://travis-ci.org/adopted-ember-addons/ember-file-upload) [![Code Climate](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload) [![Ember Observer Score](https://emberobserver.com/badges/ember-file-upload.svg)](https://emberobserver.com/addons/ember-file-upload)
+# Ember FileUpload [![Build Status](https://travis-ci.org/adopted-ember-addons/ember-file-upload.svg?branch=master)](https://travis-ci.org/adopted-ember-addons/ember-file-upload) [![Code Climate](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload/badges/gpa.svg)](https://codeclimate.com/github/adopted-ember-addons/ember-file-upload) [![Ember Observer Score](https://emberobserver.com/badges/ember-file-upload.svg)](https://emberobserver.com/addons/ember-file-upload)
 
 Ember FileUpload is an ember addon that makes uploading files easy.
 
