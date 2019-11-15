@@ -24,7 +24,7 @@ const dragListener = new DragListener();
    drag and drop.
 
   ```hbs
-  {{{#file-dropzone name="photos" as |dropzone queue|}}
+  {{#file-dropzone name="photos" as |dropzone queue|}}
     {{#if dropzone.active}}
       {{#if dropzone.valid}}
         Drop to upload
