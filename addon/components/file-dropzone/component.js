@@ -24,7 +24,7 @@ const dragListener = new DragListener();
    drag and drop.
 
   ```hbs
-  {{{#file-dropzone name="photos" as |dropzone queue|}}
+  <FileDropzone @name="photos" as |dropzone queue|>
     {{#if dropzone.active}}
       {{#if dropzone.valid}}
         Drop to upload
@@ -39,15 +39,15 @@ const dragListener = new DragListener();
         {{#if dropzone.supported}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        {{#file-upload name="photos"
-                      accept="image/*"
-                      multiple=true
-                      onfileadd=(action "uploadImage")}}
+        <FileUpload name="photos"
+                    accept="image/*"
+                    multiple=true
+                    @onfileadd={{action "uploadImage"}}>
           <a id="upload-image" tabindex=0>Add an Image.</a>
-        {{/file-upload}}
+        </FileUpload>
       </p>
     {{/if}}
-  {{/file-dropzone}}
+  </FileDropzone>
   ```
 
   ```js
