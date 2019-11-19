@@ -39,7 +39,7 @@ const dragListener = new DragListener();
         {{#if dropzone.supported}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        <FileUpload name="photos"
+        <FileUpload @name="photos"
                     accept="image/*"
                     multiple=true
                     @onfileadd={{action "uploadImage"}}>
