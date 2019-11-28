@@ -40,8 +40,8 @@ const dragListener = new DragListener();
           Drag and drop images onto this area to upload them or
         {{/if}}
         <FileUpload @name="photos"
-                    accept="image/*"
-                    multiple=true
+                    @accept="image/*"
+                    @multiple=true
                     @onfileadd={{action "uploadImage"}}>
           <a id="upload-image" tabindex=0>Add an Image.</a>
         </FileUpload>

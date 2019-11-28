@@ -29,8 +29,8 @@ import uuid from '../../system/uuid';
       <label for='name'>
       {{input type='string' value=changeset.name id='name'}}
 
-      <FileUpload name="avatar"
-                  accept="image/*"
+      <FileUpload @name="avatar"
+                  @accept="image/*"
                   @onfileadd={{action 'setAvatar' changeset}}
         {{#if changeset.avatar}}
           <img src={{changeset.avatar.url}}
