@@ -54,9 +54,13 @@ yarn install
 npm install
 ```
 
-* And last (but not least 😁) do your release:
+* And last (but not least 😁) do your release. It requires a
+  [GitHub personal access token](https://github.com/settings/tokens) as
+  `$GITHUB_AUTH` environment variable. Only "repo" access is needed; no "admin"
+  or other scopes are required.
 
 ```
+export GITHUB_AUTH="f941e0..."
 release-it
 ```
 
