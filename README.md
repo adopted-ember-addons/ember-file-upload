@@ -6,6 +6,12 @@ Uploads continue in the background, even after a page transition. In other words
 
 [View the docs here.](https://adopted-ember-addons.github.io/ember-file-upload/docs/)
 
+## Compatibility
+
+Ember.js v2.18 or above
+Ember CLI v2.13 or above
+Node.js v10 or above
+
 ## Installation
 
 * `ember install ember-file-upload`
