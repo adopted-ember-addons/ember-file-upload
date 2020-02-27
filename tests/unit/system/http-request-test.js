@@ -1,4 +1,4 @@
-/* global FakeXMLHttpRequest, XMLSerializer */
+import FakeXMLHttpRequest from 'fake-xml-http-request';
 import HttpRequest from 'ember-file-upload/system/http-request';
 import {
   module,
@@ -107,7 +107,7 @@ module('http-request', function(hooks) {
       assert.deepEqual(response.headers, {
         'Content-Type': 'text/xml'
       });
-      assert.equal(new XMLSerializer().serializeToString(response.body), xml);
+      assert.equal(new window.XMLSerializer().serializeToString(response.body), xml);
     });
 
     assert.deepEqual(this.request.requestBody, {
