@@ -139,9 +139,13 @@ module('service:file-queue', function(hooks) {
     assert.equal(get(queue, 'files.length'), 3);
 
     queue1.set('files.0.state', 'aborted');
+    queue1.flush();
+
     assert.equal(get(queue, 'files.length'), 3);
 
     queue1.set('files.1.state', 'uploaded');
+    queue1.flush();
+
     assert.equal(get(queue, 'files.length'), 0);
     assert.equal(get(queue1, 'files.length'), 0);
   });
