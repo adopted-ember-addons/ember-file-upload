@@ -78,7 +78,7 @@
     "ember-try": "1.1.0",
     "eslint": "5.16.0",
     "eslint-plugin-ember": "6.4.1",
-    "eslint-plugin-node": "8.0.1",
+    "eslint-plugin-node": "11.0.0",
     "fake-xml-http-request": "2.1.1",
     "loader.js": "4.7.0",
     "qunit-dom": "0.8.5",
