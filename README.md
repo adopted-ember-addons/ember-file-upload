@@ -8,9 +8,9 @@ Uploads continue in the background, even after a page transition. In other words
 
 ## Compatibility
 
-Ember.js v2.18 or above
-Ember CLI v2.13 or above
-Node.js v10 or above
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
 
 ## Installation
 
