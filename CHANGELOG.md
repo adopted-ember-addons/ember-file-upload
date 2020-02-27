@@ -1,4 +1,246 @@
-# ember-file-upload Changelog
+# Ember FileUpload Changelog
+
+## v2.7.0 (2019-05-15)
+
+#### :bug: Bug Fix
+* [#236](https://github.com/adopted-ember-addons/ember-file-upload/pull/236) Fix computed-property.override deprecation ([@andreyfel](https://github.com/andreyfel))
+* [#231](https://github.com/adopted-ember-addons/ember-file-upload/pull/231) Fix MIME type checks ([@bendemboski](https://github.com/bendemboski))
+
+#### :memo: Documentation
+* [#208](https://github.com/adopted-ember-addons/ember-file-upload/pull/208) Angle brackets ([@maxwondercorn](https://github.com/maxwondercorn))
+
+#### :house: Internal
+* [#233](https://github.com/adopted-ember-addons/ember-file-upload/pull/233) add CONTRIBUTING.md and Table of Contents ([@hakilebara](https://github.com/hakilebara))
+
+#### Committers: 6
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Andrey Fel ([@andreyfel](https://github.com/andreyfel))
+- Ben Demboski ([@bendemboski](https://github.com/bendemboski))
+- Frédéric Soumaré ([@hakilebara](https://github.com/hakilebara))
+- Raido Kuli ([@raido](https://github.com/raido))
+- maxwondercorn ([@maxwondercorn](https://github.com/maxwondercorn))
+
+
+## v2.6.0 (2019-01-30)
+
+#### :bug: Bug Fix
+* [#204](https://github.com/adopted-ember-addons/ember-file-upload/pull/204) Added a possibility to run tests that use 'upload' test-helper in Microsoft browsers ([@kazimirchuk](https://github.com/kazimirchuk))
+* [#200](https://github.com/adopted-ember-addons/ember-file-upload/pull/200) files that were cancelled can be uploaded again ([@toovy](https://github.com/toovy))
+
+#### :house: Internal
+* [#199](https://github.com/adopted-ember-addons/ember-file-upload/pull/199) Adopt addon under new ownership ([@Alonski](https://github.com/Alonski))
+
+#### Committers: 3
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Leks Kazimirchuk ([@kazimirchuk](https://github.com/kazimirchuk))
+- Tobias Braner ([@toovy](https://github.com/toovy))
+
+
+## 2.2.5 (2018-03-01)
+
+#### :bug: Bug Fix
+* [#111](https://github.com/adopted-ember-addons/ember-file-upload/pull/111) Support for files without extension. e.g: "FILE" ([@janmisek](https://github.com/janmisek))
+
+#### Committers: 2
+- Jan Míšek ([@janmisek](https://github.com/janmisek))
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+
+
+## 2.2.4 (2017-11-30)
+
+#### :bug: Bug Fix
+* [#87](https://github.com/adopted-ember-addons/ember-file-upload/pull/87) fix upload promise not being cancellable ([@dwickern](https://github.com/dwickern))
+* [#88](https://github.com/adopted-ember-addons/ember-file-upload/pull/88) fix deprecated ember-metal imports ([@dwickern](https://github.com/dwickern))
+
+#### Committers: 1
+- Derek Wickern ([@dwickern](https://github.com/dwickern))
+
+
+## 2.2.1 (2017-11-27)
+
+#### :bug: Bug Fix
+* [#82](https://github.com/adopted-ember-addons/ember-file-upload/pull/82) uploadPromise.then was lost as it was not returned ([@janmisek](https://github.com/janmisek))
+
+#### Committers: 2
+- Jan Míšek ([@janmisek](https://github.com/janmisek))
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+
+
+## 2.2.0 (2017-11-09)
+
+#### :bug: Bug Fix
+* [#79](https://github.com/adopted-ember-addons/ember-file-upload/pull/79) Fix for #42 -- Changed logic on file type array ([@donaldwasserman](https://github.com/donaldwasserman))
+
+#### Committers: 3
+- Donald Wasserman ([@donaldwasserman](https://github.com/donaldwasserman))
+- Felipe Buenaño ([@fesebuv](https://github.com/fesebuv))
+- Tristan Toye ([@TristanToye](https://github.com/TristanToye))
+
+
+## 2.1.3 (2017-10-26)
+
+#### :rocket: Enhancement
+* [#74](https://github.com/adopted-ember-addons/ember-file-upload/pull/74) Add support for circle svg element ([@dbbk](https://github.com/dbbk))
+
+#### :bug: Bug Fix
+* [#60](https://github.com/adopted-ember-addons/ember-file-upload/pull/60) file.upload returns the promise created in http-request.js ([@bartocc](https://github.com/bartocc))
+
+#### :memo: Documentation
+* [#66](https://github.com/adopted-ember-addons/ember-file-upload/pull/66) fix syntax error on acceptance test code example ([@hakilebara](https://github.com/hakilebara))
+* [#65](https://github.com/adopted-ember-addons/ember-file-upload/pull/65) fix definitions of {{file-dropzone}} attributes ([@hakilebara](https://github.com/hakilebara))
+
+#### Committers: 3
+- Ben King ([@dbbk](https://github.com/dbbk))
+- Frédéric Soumaré ([@hakilebara](https://github.com/hakilebara))
+- Julien Palmas ([@bartocc](https://github.com/bartocc))
+
+
+## 2.1.2 (2017-09-26)
+
+#### :bug: Bug Fix
+* [#63](https://github.com/adopted-ember-addons/ember-file-upload/pull/63) FF does not seem to have `dataTransfer` on dragleave ([@topaxi](https://github.com/topaxi))
+
+#### :memo: Documentation
+* [#55](https://github.com/adopted-ember-addons/ember-file-upload/pull/55) Replace references to service 'uploader' with 'fileQueue' ([@Subtletree](https://github.com/Subtletree))
+* [#49](https://github.com/adopted-ember-addons/ember-file-upload/pull/49) Update README.md - fix integration example ([@bartocc](https://github.com/bartocc))
+
+#### Committers: 3
+- Damian Senn ([@topaxi](https://github.com/topaxi))
+- Julien Palmas ([@bartocc](https://github.com/bartocc))
+- Ryan Scott ([@Subtletree](https://github.com/Subtletree))
+
+
+## 2.1.1 (2017-07-17)
+
+#### :bug: Bug Fix
+* [#48](https://github.com/adopted-ember-addons/ember-file-upload/pull/48) Add ability to upload same file twice in a row ([@mickeysanchez](https://github.com/mickeysanchez))
+
+#### Committers: 1
+- Mickey Sanchez ([@mickeysanchez](https://github.com/mickeysanchez))
+
+
+## 2.1.0 (2017-07-16)
+
+#### :rocket: Enhancement
+* [#47](https://github.com/adopted-ember-addons/ember-file-upload/pull/47) feat(http-request): add jsonapi content type ([@shuriu](https://github.com/shuriu))
+
+#### Committers: 1
+- Ștefan Rotariu ([@shuriu](https://github.com/shuriu))
+
+
+## 2.0.1 (2017-07-16)
+
+#### :bug: Bug Fix
+* [#46](https://github.com/adopted-ember-addons/ember-file-upload/pull/46) fix(file): file.upload() returns a promise ([@shuriu](https://github.com/shuriu))
+
+#### Committers: 1
+- Ștefan Rotariu ([@shuriu](https://github.com/shuriu))
+
+
+## 2.0.0 (2017-07-12)
+
+#### :rocket: Enhancement
+* [#12](https://github.com/adopted-ember-addons/ember-file-upload/pull/12) Add payloadType option to file ([@jlevycpa](https://github.com/jlevycpa))
+
+#### Committers: 1
+- [@jlevycpa](https://github.com/jlevycpa)
+
+
+## 2.0.0-beta.42 (2017-06-05)
+
+#### :memo: Documentation
+* [#40](https://github.com/adopted-ember-addons/ember-file-upload/pull/40) fix try catch example ([@bbtb1982](https://github.com/bbtb1982))
+
+#### Committers: 1
+- Brandon Richards  ([@bbtb1982](https://github.com/bbtb1982))
+
+
+## 2.0.0-beta.41 (2017-05-11)
+
+#### :rocket: Enhancement
+* [#37](https://github.com/adopted-ember-addons/ember-file-upload/pull/37) 'disabled' attribute for file-upload ([@XaserAcheron](https://github.com/XaserAcheron))
+
+#### Committers: 1
+- Xaser Acheron ([@XaserAcheron](https://github.com/XaserAcheron))
+
+
+## 2.0.0-beta.39 (2017-04-21)
+
+#### :bug: Bug Fix
+* [#32](https://github.com/adopted-ember-addons/ember-file-upload/pull/32) nullify _listener after file drop ([@EnotPoloskun](https://github.com/EnotPoloskun))
+
+#### Committers: 1
+- Pavel ([@EnotPoloskun](https://github.com/EnotPoloskun))
+
+
+## 2.0.0-beta.37 (2017-03-31)
+
+#### :rocket: Enhancement
+* [#28](https://github.com/adopted-ember-addons/ember-file-upload/pull/28) Permit setting withCredentials on the XMLHttpRequest for file-upload ([@zacharyhamm](https://github.com/zacharyhamm))
+
+#### Committers: 1
+- Zachary Hamm ([@zacharyhamm](https://github.com/zacharyhamm))
+
+
+## 2.0.0-beta.36 (2017-03-21)
+
+#### :rocket: Enhancement
+* [#27](https://github.com/adopted-ember-addons/ember-file-upload/pull/27) Fix remove to clear file from fileQueue also ([@dkorenblyum](https://github.com/dkorenblyum))
+
+#### Committers: 1
+- Dmitriy Korenblyum ([@dkorenblyum](https://github.com/dkorenblyum))
+
+
+## 2.0.0-beta.35 (2017-03-17)
+
+#### :bug: Bug Fix
+* [#26](https://github.com/adopted-ember-addons/ember-file-upload/pull/26) Do not call set on a destroyed object ([@dkorenblyum](https://github.com/dkorenblyum))
+
+#### Committers: 1
+- Dmitriy Korenblyum ([@dkorenblyum](https://github.com/dkorenblyum))
+
+
+## 2.0.0-beta.27 (2017-02-05)
+
+#### :bug: Bug Fix
+* [#22](https://github.com/adopted-ember-addons/ember-file-upload/pull/22) Closes [#21](https://github.com/adopted-ember-addons/ember-file-upload/issues/21) Drag-and-drop isn't working with IE11 ([@chrisdpeters](https://github.com/chrisdpeters))
+
+#### Committers: 2
+- Chris Peters ([@chrisdpeters](https://github.com/chrisdpeters))
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+
+
+## 2.0.0-beta.19 (2016-10-17)
+
+#### :bug: Bug Fix
+* [#15](https://github.com/adopted-ember-addons/ember-file-upload/pull/15) Closes [#14](https://github.com/adopted-ember-addons/ember-file-upload/issues/14) (Maximum call stack size exceeded) ([@Padchi](https://github.com/Padchi))
+
+#### Committers: 2
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+- Timmie Sarjanen ([@Padchi](https://github.com/Padchi))
+
+
+## 2.0.0-beta.17 (2016-09-22)
+
+#### :bug: Bug Fix
+* [#11](https://github.com/adopted-ember-addons/ember-file-upload/pull/11) Add null check for onfileadded callback ([@jlevycpa](https://github.com/jlevycpa))
+
+#### Committers: 1
+- [@jlevycpa](https://github.com/jlevycpa)
+
+
+## 2.0.0-beta.16 (2016-08-04)
+
+#### :rocket: Enhancement
+* [#8](https://github.com/adopted-ember-addons/ember-file-upload/pull/8) Get progress from `request.upload.onprogress` as well. ([@ryanto](https://github.com/ryanto))
+
+#### :memo: Documentation
+* [#6](https://github.com/adopted-ember-addons/ember-file-upload/pull/6) Fix installation instructions ([@kylemellander](https://github.com/kylemellander))
+
+#### Committers: 2
+- Kyle Mellander ([@kylemellander](https://github.com/kylemellander))
+- Ryan T ([@ryanto](https://github.com/ryanto))
+
 
 ## 1.13.13 (March 15, 2016)
 * Add an API for mocking out file.read() for `ember-plupload/test-helpers`.
