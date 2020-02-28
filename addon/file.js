@@ -102,6 +102,7 @@ function upload(file, url, opts, uploadFn) {
     set(file, 'state', 'failed');
     return RSVP.reject(error);
   }).finally(function () {
+    get(file, 'queue').flush();
     // Decrement for Ember.Test
     inflightRequests--;
   });
@@ -218,6 +219,8 @@ export default EmberObject.extend({
     - `aborted`
     - `uploaded`
     - `failed`
+
+    Implementers should call flush() on the file's queue after mutating this property.
 
     @accessor state
     @type {String}

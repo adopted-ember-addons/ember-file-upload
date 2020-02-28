@@ -1,10 +1,10 @@
 import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import { observer, computed, set, get } from '@ember/object';
+import { set, get } from '@ember/object';
 import { once } from '@ember/runloop';
 import Queue from '../queue';
-import sumBy from '../computed/sum-by';
+import WithFiles from '../mixins/with-files';
 
 /**
   The file queue service is a global file
@@ -18,7 +18,7 @@ import sumBy from '../computed/sum-by';
   @class FileQueue
   @extends Ember.Service
  */
-export default Service.extend({
+export default Service.extend(WithFiles, {
 
   /**
     Setup a map of uploaders so they may be
@@ -51,79 +51,6 @@ export default Service.extend({
     @default []
    */
   files: null,
-
-  /**
-    Flushes the `files` property when they have settled. This
-    will only flush files when all files have arrived at a terminus
-    of their state chart.
-
-    ```
-        .------.     .---------.     .--------.
-    o--| queued |-->| uploading |-->| uploaded |
-        `------`     `---------`     `--------`
-           ^              |    .-------.
-           |              |`->| aborted |
-           |              |    `-------`
-           |  .------.    |    .---------.
-           `-| failed |<-` `->| timed_out |-.
-           |  `------`         `---------`  |
-           `-------------------------------`
-    ```
-
-    Files *may* be requeued by the user in the `failed` or `timed_out`
-    states.
-
-    @type {Observer}
-   */
-  flushFilesWhenSettled: observer('files.@each.state', function () { // eslint-disable-line ember/no-observers
-    let files = get(this, 'files');
-    let allFilesHaveSettled = files.every(function (file) {
-      return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
-    });
-
-    if (files.length === 0) { return; }
-
-    if (allFilesHaveSettled) {
-      get(this, 'files').forEach((file) => set(file, 'queue', null));
-      set(this, 'files', A());
-    }
-  }),
-
-  /**
-    The total size of all files currently being uploaded in bytes.
-
-    @computed size
-    @type Number
-    @default 0
-    @readonly
-   */
-  size: sumBy('files', 'size'),
-
-  /**
-    The number of bytes that have been uploaded to the server.
-
-    @computed loaded
-    @type Number
-    @default 0
-    @readonly
-   */
-  loaded: sumBy('files', 'loaded'),
-
-  /**
-    The current progress of all uploads, as a percentage in the
-    range of 0 to 100.
-
-    @computed progress
-    @type Number
-    @default 0
-    @readonly
-   */
-  progress: computed('size', 'loaded', {
-    get() {
-      let percent = get(this, 'loaded') / get(this, 'size') || 0;
-      return Math.floor(percent * 100);
-    }
-  }),
 
   /**
     Returns a queue with the given name
