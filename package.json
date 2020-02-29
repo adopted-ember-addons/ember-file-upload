@@ -6,6 +6,7 @@
     "ember-addon",
     "file-upload"
   ],
+  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload",
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "license": "MIT",
   "author": {
@@ -32,13 +33,16 @@
     "test": "tests"
   },
   "scripts": {
-    "postversion": "git push && git push --tags",
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "ember test",
-    "test:all": "ember try:each"
+    "test:all": "ember try:each",
+    "postversion": "git push && git push --tags"
+  },
+  "resolutions": {
+    "ember-cli-template-lint/**/ember-template-lint": "^1.4.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -81,17 +85,32 @@
     "fake-xml-http-request": "2.1.1",
     "loader.js": "4.7.0",
     "qunit-dom": "0.8.5",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "sass": "1.26.1"
   },
   "engines": {
     "node": "10.* || >= 12"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "demoURL": "https://adopted-ember-addons.github.io/ember-file-upload/"
   },
-  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload",
-  "resolutions": {
-    "ember-cli-template-lint/**/ember-template-lint": "^1.4.0"
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
