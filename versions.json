@@ -63,5 +63,11 @@
     "name": "master",
     "sha": "54139d922ddbadfdea856dbe799a0abecbf48eac",
     "tag": null
+  },
+  "fix-docs": {
+    "path": "versions/fix-docs",
+    "name": "fix-docs",
+    "sha": "54139d922ddbadfdea856dbe799a0abecbf48eac",
+    "tag": null
   }
 }
