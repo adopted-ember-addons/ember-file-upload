@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, resetOnerror, setupOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { upload as uploadHandler } from 'ember-file-upload/mirage';
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Integration | Component | mirage-handler', function(hooks) {
@@ -49,7 +49,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
     `);
 
     let file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
-    await upload('input', file);
+    await selectFiles('input', file);
 
     assert.verifySteps(['mirage-handler']);
   });
@@ -96,7 +96,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
         {{/file-upload}}
       `);
 
-      await upload('input', file);
+      await selectFiles('input', file);
 
       assert.verifySteps(['error thrown', '500 response']);
     });
