@@ -20,8 +20,4 @@ Uploads continue in the background, even after a page transition. In other words
 
 Contributors are welcome! Please provide a reproducible test case. Details will be worked out on a case-per-case basis. Maintainers will get in touch when they can, so delays are possible. For contribution guidelines, see [Contributing](CONTRIBUTING.md) and [code of conduct](CONDUCT.md).
 
-## Publishing
-
-* `ember github-pages:commit --message "Releasing docs"`
-
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
