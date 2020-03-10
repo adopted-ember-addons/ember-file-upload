@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, setupOnerror, resetOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 
 module('Integration | Component | FileUpload', function(hooks) {
   setupRenderingTest(hooks);
@@ -12,7 +12,7 @@ module('Integration | Component | FileUpload', function(hooks) {
 
     await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
 
-    await upload('input[type="file"]', new File([], 'dingus.txt'));
+    await selectFiles('input[type="file"]', new File([], 'dingus.txt'));
 
     assert.verifySteps(['dingus.txt']);
   });
@@ -22,7 +22,7 @@ module('Integration | Component | FileUpload', function(hooks) {
 
     await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
 
-    await upload(
+    await selectFiles(
       'input[type="file"]',
       new File([], 'dingus.txt'),
       new File([], 'dingus.png')

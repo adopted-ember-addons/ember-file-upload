@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, findAll } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 
 function getImageBlob() {
   return new Promise((resolve) => {
@@ -20,7 +20,7 @@ module('Acceptance | upload', function(hooks) {
 
     let data = await getImageBlob();
     let photo = new File([data], 'image.png', { type: 'image/png'});
-    await upload('#upload-photo', photo);
+    await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
     assert.equal(uploadedPhoto.filename, 'image.png');
@@ -36,7 +36,7 @@ module('Acceptance | upload', function(hooks) {
     let photo = await getImageBlob();
     photo.name = 'image.png';
 
-    await upload('#upload-photo', photo);
+    await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
     assert.equal(uploadedPhoto.filename, 'image.png');
