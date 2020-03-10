@@ -1,4 +1,16 @@
 {
+  "-latest": {
+    "path": "",
+    "name": "Latest",
+    "sha": "780657b87af63ab9a038a8a2c010f8d41e15d4fc",
+    "tag": "v2.6.1"
+  },
+  "master": {
+    "path": "versions/master",
+    "name": "master",
+    "sha": "54139d922ddbadfdea856dbe799a0abecbf48eac",
+    "tag": null
+  },
   "2.4.2": {
     "sha": "ec4d5c91ddd9c694eefcad1472b5b406bd70bed7",
     "tag": "2.4.2",
@@ -34,18 +46,6 @@
     "tag": "2.5.1",
     "oldPath": "2.5.1"
   },
-  "-latest": {
-    "path": "",
-    "name": "Latest",
-    "sha": "780657b87af63ab9a038a8a2c010f8d41e15d4fc",
-    "tag": "v2.6.1"
-  },
-  "latest": {
-    "path": "versions/latest",
-    "name": "latest",
-    "sha": "5bb1d6585ae805376deb43d7449936f87af9a58f",
-    "tag": null
-  },
   "v2.6.0": {
     "path": "versions/v2.6.0",
     "name": "v2.6.0",
@@ -57,17 +57,5 @@
     "name": "v2.6.1",
     "sha": "780657b87af63ab9a038a8a2c010f8d41e15d4fc",
     "tag": "v2.6.1"
-  },
-  "master": {
-    "path": "versions/master",
-    "name": "master",
-    "sha": "54139d922ddbadfdea856dbe799a0abecbf48eac",
-    "tag": null
-  },
-  "fix-docs": {
-    "path": "versions/fix-docs",
-    "name": "fix-docs",
-    "sha": "54139d922ddbadfdea856dbe799a0abecbf48eac",
-    "tag": null
   }
 }
