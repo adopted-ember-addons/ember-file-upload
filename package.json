@@ -42,7 +42,7 @@
     "postversion": "git push && git push --tags"
   },
   "resolutions": {
-    "ember-cli-template-lint/**/ember-template-lint": "^1.4.0"
+    "ember-cli-template-lint/**/ember-template-lint": "^2.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
