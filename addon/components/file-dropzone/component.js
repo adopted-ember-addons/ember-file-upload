@@ -42,7 +42,7 @@ const dragListener = new DragListener();
         {{#file-upload name="photos"
                       accept="image/*"
                       multiple=true
-                      onfileadd=(action "uploadImage")}}
+                      onFileAdd=(action "uploadImage")}}
           <a id="upload-image" tabindex=0>Add an Image.</a>
         {{/file-upload}}
       </p>
@@ -114,42 +114,42 @@ export default BaseComponent.extend({
   accept: null,
 
   /**
-    `onfileadd` is called when a file is selected.
+    `onFileAdd` is called when a file is selected.
 
     When multiple files are selected, this function
     is called once for every file that was selected.
 
-    @argument onfileadd
+    @argument onFileAdd
     @type {function}
     @required
    */
-  onfileadd: null,
+  onFileAdd: null,
 
   /**
-    `ondragenter` is called when a file has entered
+    `onDragEnter` is called when a file has entered
     the dropzone.
 
-    @argument ondragenter
+    @argument onDragEnter
     @type {function}
    */
-  ondragenter: null,
+  onDragEnter: null,
 
   /**
-    `ondragleave` is called when a file has left
+    `onDragLeave` is called when a file has left
     the dropzone.
 
-    @argument ondragleave
+    @argument onDragLeave
     @type {function}
    */
-  ondragleave: null,
+  onDragLeave: null,
 
   /**
-    `ondrop` is called when a file has been dropped.
+    `onDrop` is called when a file has been dropped.
 
-    @argument ondrop
+    @argument onDrop
     @type {function}
    */
-  ondrop: null,
+  onDrop: null,
 
   /**
     Whether users can upload content
@@ -219,8 +219,8 @@ export default BaseComponent.extend({
       set(this, 'active', true);
       set(this, 'valid', get(dataTransfer, 'valid'));
 
-      if (this.ondragenter) {
-        this.ondragenter(dataTransfer);
+      if (this.onDragEnter) {
+        this.onDragEnter(dataTransfer);
       }
     }
   },
@@ -231,8 +231,8 @@ export default BaseComponent.extend({
       if (evt.dataTransfer) {
         evt.dataTransfer.dropEffect = get(this, 'cursor');
       }
-      if (this.ondragleave) {
-        this.ondragleave(this[DATA_TRANSFER]);
+      if (this.onDragLeave) {
+        this.onDragLeave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
       }
 
@@ -315,8 +315,8 @@ export default BaseComponent.extend({
       image.src = url;
     }
 
-    if (this.ondrop) {
-      this.ondrop(this[DATA_TRANSFER]);
+    if (this.onDrop) {
+      this.onDrop(this[DATA_TRANSFER]);
     }
 
     // Add file(s) to upload queue.

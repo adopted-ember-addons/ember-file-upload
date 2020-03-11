@@ -7,10 +7,10 @@ import { selectFiles } from 'ember-file-upload/test-support';
 module('Integration | Component | FileUpload', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('uploading a file calls onfileadd', async function(assert) {
+  test('uploading a file calls onFileAdd', async function(assert) {
     this.onFileAdd = (file) => assert.step(file.get('name'));
 
-    await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
+    await render(hbs`<FileUpload @name="test" @onFileAdd={{action this.onFileAdd}} />`);
 
     await selectFiles('input[type="file"]', new File([], 'dingus.txt'));
 
@@ -20,7 +20,7 @@ module('Integration | Component | FileUpload', function(hooks) {
   test('uploading multiple files calls onfileadd multiple times', async function(assert) {
     this.onFileAdd = (file) => assert.step(file.get('name'));
 
-    await render(hbs`<FileUpload @name="test" @onfileadd={{action this.onFileAdd}} />`);
+    await render(hbs`<FileUpload @name="test" @onFileAdd={{action this.onFileAdd}} />`);
 
     await selectFiles(
       'input[type="file"]',

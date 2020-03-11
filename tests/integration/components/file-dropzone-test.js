@@ -7,7 +7,7 @@ import { dragAndDrop, dragEnter, dragLeave } from 'ember-file-upload/test-suppor
 module('Integration | Component | FileDropzone', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('dropping a file calls ondrop', async function(assert) {
+  test('dropping a file calls onDrop', async function(assert) {
     this.onDrop = (dataTransfer) => {
       dataTransfer.get('files').forEach((file) => assert.step(file.name));
     };
@@ -16,7 +16,7 @@ module('Integration | Component | FileDropzone', function(hooks) {
       <FileDropzone
         class="test-dropzone"
         @name="test"
-        @ondrop={{action this.onDrop}} />
+        @onDrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
@@ -24,7 +24,7 @@ module('Integration | Component | FileDropzone', function(hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
-  test('dropping multiple files calls ondrop with one file', async function(assert) {
+  test('dropping multiple files calls onDrop with one file', async function(assert) {
     this.onDrop = (dataTransfer) => {
       dataTransfer.get('files').forEach((file) => assert.step(file.name));
     };
@@ -33,7 +33,7 @@ module('Integration | Component | FileDropzone', function(hooks) {
       <FileDropzone
         class="test-dropzone"
         @name="test"
-        @ondrop={{action this.onDrop}} />
+        @onDrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop(
@@ -45,7 +45,7 @@ module('Integration | Component | FileDropzone', function(hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
-  test('multiple=true dropping multiple files calls ondrop with both files', async function(assert) {
+  test('multiple=true dropping multiple files calls onDrop with both files', async function(assert) {
     this.onDrop = (dataTransfer) => {
       dataTransfer.get('files').forEach((file) => assert.step(file.name));
     };
@@ -55,7 +55,7 @@ module('Integration | Component | FileDropzone', function(hooks) {
         class="test-dropzone"
         @name="test"
         @multiple={{true}}
-        @ondrop={{action this.onDrop}} />
+        @onDrop={{action this.onDrop}} />
     `);
 
     await dragAndDrop(
@@ -67,14 +67,14 @@ module('Integration | Component | FileDropzone', function(hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
-  test('ondragenter is called when a file is dragged over', async function(assert) {
+  test('onDragEnter is called when a file is dragged over', async function(assert) {
     this.onDragEnter = () => assert.step('onDragEnter');
 
     await render(hbs`
       <FileDropzone
         class="test-dropzone"
         @name="test"
-        @ondragenter={{action this.onDragEnter}} />
+        @onDragEnter={{action this.onDragEnter}} />
     `);
 
     await dragEnter('.test-dropzone');
@@ -82,14 +82,14 @@ module('Integration | Component | FileDropzone', function(hooks) {
     assert.verifySteps(['onDragEnter']);
   });
 
-  test('ondragleave is called when a file is dragged out', async function(assert) {
+  test('onDragLeave is called when a file is dragged out', async function(assert) {
     this.onDragLeave = () => assert.step('onDragLeave');
 
     await render(hbs`
       <FileDropzone
         class="test-dropzone"
         @name="test"
-        @ondragleave={{action this.onDragLeave}} />
+        @onDragLeave={{action this.onDragLeave}} />
     `);
 
     await dragEnter('.test-dropzone', new File([], 'dingus.txt'));

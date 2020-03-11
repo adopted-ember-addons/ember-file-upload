@@ -40,7 +40,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
     await render(hbs`
       {{#file-upload
         name="file"
-        onfileadd=uploadImage
+        onFileAdd=uploadImage
       }}
         <a class="button">
           Upload file
@@ -88,7 +88,7 @@ module('Integration | Component | mirage-handler', function(hooks) {
       await render(hbs`
         {{#file-upload
           name="file"
-          onfileadd=uploadImage
+          onFileAdd=uploadImage
         }}
           <a class="button">
             Upload file
