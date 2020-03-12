@@ -54,6 +54,7 @@ export default EmberObject.extend(WithFiles, {
 
   /**
     @private
+    @method _addFiles
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
   _addFiles(fileList, source) {

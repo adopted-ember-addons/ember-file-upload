@@ -20,13 +20,6 @@ import WithFiles from '../mixins/with-files';
  */
 export default Service.extend(WithFiles, {
 
-  /**
-    Setup a map of uploaders so they may be
-    accessed by name via the `find` method.
-
-    @constructor
-   */
-
   init() {
     this._super(...arguments);
     set(this, 'queues', A());

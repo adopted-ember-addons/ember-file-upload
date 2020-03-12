@@ -25,7 +25,7 @@ export default Mixin.create({
     Files *may* be requeued by the user in the `failed` or `timed_out`
     states.
 
-    @type {function}
+    @method flush
    */
   flush() {
     let fileQueue = get(this, 'fileQueue');
