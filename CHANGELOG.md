@@ -23,6 +23,8 @@ The new `selectFiles` test helper expects a selector as first and one or many fi
 await selectFiles('#selector', new File([], 'empty.txt'));
 ```
 
+Please find more details in the [updated documentation for testing](https://adopted-ember-addons.github.io/ember-file-upload/docs/testing).
+
 #### :boom: Breaking Change
 * [#319](https://github.com/adopted-ember-addons/ember-file-upload/pull/319) Drop official support for Internet Explorer 11 ([@jelhan](https://github.com/jelhan))
 * [#322](https://github.com/adopted-ember-addons/ember-file-upload/pull/322) Renamed `upload` test helper to `selectFiles` and dropped support for legacy import at `app/tests/helpers/upload` ([@gilest](https://github.com/gilest))
