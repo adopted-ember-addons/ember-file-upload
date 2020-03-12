@@ -1,17 +1,42 @@
 ## v3.0.0 (2020-03-12)
 
+### Upgrade Guide
+
+`upload` test helper has been renamed to `selectFiles` and could only be imported from `ember-file-upload/test-support`.
+
+These imports are not supported anymore:
+
+```js
+import { upload } from 'ember-file-upload/test-support';
+import upload from '<app-name>/tests/helpers/upload';
+```
+
+Please change both of them to:
+
+```js
+import { selectFiles } from 'ember-file-upload/test-support';
+```
+
+The new `selectFiles` test helper expects a selector as first and one or many files as additional arguments. It does not take a file name as an argument. Please set the file name on the `File` instance:
+
+```js
+await selectFiles('#selector', new File([], 'empty.txt'));
+```
+
+Please find more details in the [updated documentation for testing](https://adopted-ember-addons.github.io/ember-file-upload/docs/testing).
+
 #### :boom: Breaking Change
-* [#319](https://github.com/adopted-ember-addons/ember-file-upload/pull/319) drop official support for ie11 ([@jelhan](https://github.com/jelhan))
+* [#319](https://github.com/adopted-ember-addons/ember-file-upload/pull/319) Drop official support for Internet Explorer 11 ([@jelhan](https://github.com/jelhan))
 * [#322](https://github.com/adopted-ember-addons/ember-file-upload/pull/322) Renamed `upload` test helper to `selectFiles` and dropped support for legacy import at `app/tests/helpers/upload` ([@gilest](https://github.com/gilest))
 * [#308](https://github.com/adopted-ember-addons/ember-file-upload/pull/308) Drop support for node 8 ([@gilest](https://github.com/gilest))
-* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
-* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Closes [#174](https://github.com/adopted-ember-addons/ember-file-upload/issues/174) - Enable dropdown without upload (v2) ([@gilest](https://github.com/gilest))
+* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) Drop support for Ember 2.16 / helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Enable dropdown without upload ([@gilest](https://github.com/gilest))
 * [#257](https://github.com/adopted-ember-addons/ember-file-upload/pull/257) Drop Node 6 support ([@Alonski](https://github.com/Alonski))
 
 #### :rocket: Enhancement
 * [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
 * [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
-* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Closes [#174](https://github.com/adopted-ember-addons/ember-file-upload/issues/174) - Enable dropdown without upload (v2) ([@gilest](https://github.com/gilest))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Enable dropdown without upload ([@gilest](https://github.com/gilest))
 
 #### :bug: Bug Fix
 * [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
@@ -25,8 +50,7 @@
 * [#277](https://github.com/adopted-ember-addons/ember-file-upload/pull/277) Fix Travis CI Badge URL ([@gilest](https://github.com/gilest))
 
 #### :house: Internal
-* [#321](https://github.com/adopted-ember-addons/ember-file-upload/pull/321) Reconfigure addon-docs ([@gilest](https://github.com/gilest))
-* [#294](https://github.com/adopted-ember-addons/ember-file-upload/pull/294) fix: Remove DisableGPU from Testem ([@Alonski](https://github.com/Alonski))
+* [#294](https://github.com/adopted-ember-addons/ember-file-upload/pull/294) Remove DisableGPU from Testem ([@Alonski](https://github.com/Alonski))
 * [#309](https://github.com/adopted-ember-addons/ember-file-upload/pull/309) automate releases ([@jelhan](https://github.com/jelhan))
 * [#307](https://github.com/adopted-ember-addons/ember-file-upload/pull/307) Remove observers ([@gilest](https://github.com/gilest))
 * [#305](https://github.com/adopted-ember-addons/ember-file-upload/pull/305) Update dependencies in attempt to fix Ember Try test builds ([@gilest](https://github.com/gilest))
