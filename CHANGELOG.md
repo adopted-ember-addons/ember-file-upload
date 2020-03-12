@@ -1,3 +1,47 @@
+## v3.0.0 (2020-03-12)
+
+#### :boom: Breaking Change
+* [#319](https://github.com/adopted-ember-addons/ember-file-upload/pull/319) drop official support for ie11 ([@jelhan](https://github.com/jelhan))
+* [#322](https://github.com/adopted-ember-addons/ember-file-upload/pull/322) Renamed `upload` test helper to `selectFiles` and dropped support for legacy import at `app/tests/helpers/upload` ([@gilest](https://github.com/gilest))
+* [#308](https://github.com/adopted-ember-addons/ember-file-upload/pull/308) Drop support for node 8 ([@gilest](https://github.com/gilest))
+* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Closes [#174](https://github.com/adopted-ember-addons/ember-file-upload/issues/174) - Enable dropdown without upload (v2) ([@gilest](https://github.com/gilest))
+* [#257](https://github.com/adopted-ember-addons/ember-file-upload/pull/257) Drop Node 6 support ([@Alonski](https://github.com/Alonski))
+
+#### :rocket: Enhancement
+* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Closes [#174](https://github.com/adopted-ember-addons/ember-file-upload/issues/174) - Enable dropdown without upload (v2) ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#254](https://github.com/adopted-ember-addons/ember-file-upload/pull/254) Prevent trying to call splice on an array key that might not exist ([@happydude](https://github.com/happydude))
+
+#### :memo: Documentation
+* [#321](https://github.com/adopted-ember-addons/ember-file-upload/pull/321) Reconfigure addon-docs ([@gilest](https://github.com/gilest))
+* [#296](https://github.com/adopted-ember-addons/ember-file-upload/pull/296) fixed missing closing bracket in documentation ([@maximilianmeier](https://github.com/maximilianmeier))
+* [#291](https://github.com/adopted-ember-addons/ember-file-upload/pull/291) fix triple curly in file-dropzone doc ([@mcfiredrill](https://github.com/mcfiredrill))
+* [#281](https://github.com/adopted-ember-addons/ember-file-upload/pull/281) Update addon docs and remove docs from readme ([@gilest](https://github.com/gilest))
+* [#277](https://github.com/adopted-ember-addons/ember-file-upload/pull/277) Fix Travis CI Badge URL ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#321](https://github.com/adopted-ember-addons/ember-file-upload/pull/321) Reconfigure addon-docs ([@gilest](https://github.com/gilest))
+* [#294](https://github.com/adopted-ember-addons/ember-file-upload/pull/294) fix: Remove DisableGPU from Testem ([@Alonski](https://github.com/Alonski))
+* [#309](https://github.com/adopted-ember-addons/ember-file-upload/pull/309) automate releases ([@jelhan](https://github.com/jelhan))
+* [#307](https://github.com/adopted-ember-addons/ember-file-upload/pull/307) Remove observers ([@gilest](https://github.com/gilest))
+* [#305](https://github.com/adopted-ember-addons/ember-file-upload/pull/305) Update dependencies in attempt to fix Ember Try test builds ([@gilest](https://github.com/gilest))
+* [#287](https://github.com/adopted-ember-addons/ember-file-upload/pull/287) Dedup default property values in BaseComponent ([@gilest](https://github.com/gilest))
+* [#285](https://github.com/adopted-ember-addons/ember-file-upload/pull/285) Set default branch to Master ([@Alonski](https://github.com/Alonski))
+* [#278](https://github.com/adopted-ember-addons/ember-file-upload/pull/278) convert line endings CRLF -> LF ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 6
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Jason Davis ([@happydude](https://github.com/happydude))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- Maximilian Meier ([@maximilianmeier](https://github.com/maximilianmeier))
+- Tony Miller ([@mcfiredrill](https://github.com/mcfiredrill))
+
 # Ember FileUpload Changelog
 
 ## v2.7.0 (2019-05-15)
