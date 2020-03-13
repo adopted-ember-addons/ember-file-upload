@@ -7096,16 +7096,7 @@ ember-router-generator@^2.0.0:
     "@babel/traverse" "^7.4.5"
     recast "^0.18.1"
 
-ember-router-scroll@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/ember-router-scroll/-/ember-router-scroll-1.2.1.tgz#47c2293d4cb32d47ea7c103dc6af597af6eee4a7"
-  integrity sha512-QgZ7wzCLuV52ctudjcxiNLScE2uqv8z+8AX1RVfWGcMqoSYv+FqtlvEMx0zJyXwEpQH2Oy1yDABMKeFiFP4VXg==
-  dependencies:
-    ember-app-scheduler "^1.0.5"
-    ember-cli-babel "^7.1.2"
-    ember-compatibility-helpers "^1.1.2"
-
-ember-router-scroll@^1.3.3:
+ember-router-scroll@1.3.3, ember-router-scroll@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/ember-router-scroll/-/ember-router-scroll-1.3.3.tgz#411991a671bd970497f5ce757baa627e850ae6e0"
   integrity sha512-SwGsX7kceLXd3AZtKFcM/Ggl5lw37/a1v2rYHwWKZNMiyICBctJmWeEvALLQpiNzT8YMJrJHBkucHFmG07JPXQ==
