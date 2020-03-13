@@ -1,3 +1,12 @@
+## v3.0.1 (2020-03-13)
+
+#### :memo: Documentation
+* [#327](https://github.com/adopted-ember-addons/ember-file-upload/pull/327) Improve YUIDoc comments and fix build warnings ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+
 ## v3.0.0 (2020-03-12)
 
 ### Upgrade Guide
