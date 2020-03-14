@@ -1,3 +1,14 @@
+## v3.0.2 (2020-03-14)
+
+#### :bug: Bug Fix
+* [#333](https://github.com/adopted-ember-addons/ember-file-upload/pull/333) Add edge to build targets for docs app ([@ndekeister-us](https://github.com/ndekeister-us))
+
+#### :memo: Documentation
+* [#333](https://github.com/adopted-ember-addons/ember-file-upload/pull/333) Add edge to build targets for docs app ([@ndekeister-us](https://github.com/ndekeister-us))
+
+#### Committers: 1
+- Nathanaël Dekeister ([@ndekeister-us](https://github.com/ndekeister-us))
+
 ## v3.0.1 (2020-03-13)
 
 #### :memo: Documentation
