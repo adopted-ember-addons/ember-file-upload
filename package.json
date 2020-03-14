@@ -52,7 +52,7 @@
   "devDependencies": {
     "@ember/optional-features": "0.7.0",
     "broccoli-asset-rev": "2.7.0",
-    "ember-angle-bracket-invocation-polyfill": "^2.0.2",
+    "ember-angle-bracket-invocation-polyfill": "2.0.2",
     "ember-auto-import": "1.5.3",
     "ember-cli": "3.5.1",
     "ember-cli-addon-docs": "0.6.16",
@@ -85,8 +85,8 @@
     "fake-xml-http-request": "2.1.1",
     "loader.js": "4.7.0",
     "qunit-dom": "0.8.5",
-    "release-it": "^12.2.1",
-    "release-it-lerna-changelog": "^1.0.3",
+    "release-it": "12.6.1",
+    "release-it-lerna-changelog": "1.0.3",
     "sass": "1.26.1"
   },
   "engines": {

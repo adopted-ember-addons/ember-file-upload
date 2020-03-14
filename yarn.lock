@@ -6001,7 +6001,7 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-ember-angle-bracket-invocation-polyfill@^2.0.2:
+ember-angle-bracket-invocation-polyfill@2.0.2, ember-angle-bracket-invocation-polyfill@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ember-angle-bracket-invocation-polyfill/-/ember-angle-bracket-invocation-polyfill-2.0.2.tgz#117ab5238305f11046a2eb3a5bc026c98d2cf5c1"
   integrity sha512-HkG0xyTHtAhWVjU0Q5V/i4xe4FRvNIOaiUEgIvN815F3TIUboV/J0xhYgivm0uDZp9lAYUVF+U5PI1sCnlC3Og==
@@ -13380,7 +13380,7 @@ regjsparser@^0.6.0:
   dependencies:
     jsesc "~0.5.0"
 
-release-it-lerna-changelog@^1.0.3:
+release-it-lerna-changelog@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-1.0.3.tgz#41532f10ff1209c6aeae9839fa7b2ca77a7ea646"
   integrity sha512-zyblh1FN5xepJ2Jb9Sezn2I4we3DStpO6oPbNr673qMc0WR/22wym+AAn0dK80CCLNDKl+a/zzP3AOK8ZkGlkA==
@@ -13388,7 +13388,7 @@ release-it-lerna-changelog@^1.0.3:
     lerna-changelog "^0.8.2"
     release-it "^12.0.1"
 
-release-it@^12.0.1, release-it@^12.2.1:
+release-it@12.6.1, release-it@^12.0.1:
   version "12.6.1"
   resolved "https://registry.yarnpkg.com/release-it/-/release-it-12.6.1.tgz#85136c07751308d67225da16c4dc6ff5db9b683f"
   integrity sha512-6sXt4TkmYuOnp2IY3DUKW2L/XEy+Xh9ylLtqmRWe5SIimvDLufGwQ1iPVjUvEaOdLrUV/mnGT5Vvuf6TcfgDQw==
