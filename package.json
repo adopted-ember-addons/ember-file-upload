@@ -85,7 +85,7 @@
     "fake-xml-http-request": "^2.1.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.5",
-    "release-it": "^12.2.1",
+    "release-it": "^13.0.0",
     "release-it-lerna-changelog": "^1.0.3",
     "sass": "^1.26.1"
   },
