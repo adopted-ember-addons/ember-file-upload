@@ -1,3 +1,14 @@
+## v3.0.3 (2020-04-15)
+
+#### :bug: Bug Fix
+* [#346](https://github.com/adopted-ember-addons/ember-file-upload/pull/346) build targets for doc app should cover a wider browser range ([@jelhan](https://github.com/jelhan))
+
+#### :house: Internal
+* [#320](https://github.com/adopted-ember-addons/ember-file-upload/pull/320) do not pin dependencies ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 1
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+
 ## v3.0.2 (2020-03-14)
 
 #### :bug: Bug Fix
