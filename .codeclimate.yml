@@ -14,6 +14,7 @@ exclude_paths:
 - "*.md"
 - "blueprints/**/*"
 - "config/**/*"
+- "tests/dummy/config/**/*"
 - "dist/**/*"
 - "vendor/**/*"
 - "node_modules/**/*"
