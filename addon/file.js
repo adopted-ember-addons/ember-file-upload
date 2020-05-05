@@ -102,7 +102,12 @@ function upload(file, url, opts, uploadFn) {
     set(file, 'state', 'failed');
     return RSVP.reject(error);
   }).finally(function () {
-    get(file, 'queue').flush();
+    let queue = get(file, 'queue');
+
+    if (queue) {
+      get(file, 'queue').flush();
+    }
+
     // Decrement for Ember.Test
     inflightRequests--;
   });
