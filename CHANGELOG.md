@@ -1,3 +1,11 @@
+## v3.0.4 (2020-05-06)
+
+#### :bug: Bug Fix
+* [#355](https://github.com/adopted-ember-addons/ember-file-upload/pull/355) fix: allow uploading a File without a Queue ([@alexlafroscia](https://github.com/alexlafroscia))
+
+#### Committers: 1
+- Alex LaFroscia ([@alexlafroscia](https://github.com/alexlafroscia))
+
 ## v3.0.3 (2020-04-15)
 
 #### :bug: Bug Fix
