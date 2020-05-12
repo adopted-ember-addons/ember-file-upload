@@ -12,7 +12,7 @@ module('/notes', function(hooks) {
 
   test('showing a note', async function (assert) {
     let file = new File(['I can feel the money leaving my body'], 'douglas_coupland.txt', { type: 'text/plain' });
-    await selectFiles('#upload-note', file, 'douglas_coupland.txt');
+    await selectFiles('#upload-note', file);
 
     assert.dom('.note').hasText('I can feel the money leaving my body');
   });
@@ -54,7 +54,7 @@ module('/photos', function(hooks) {
       78,68,174,66,96,130
     ]);
     let file = new File(data, 'smile.png', { type: 'image/png' });
-    await selectFiles('#upload-photo', file, 'smile.png');
+    await selectFiles('#upload-photo', file);
 
     let photo = server.db.photos[0];
     assert.equal(photo.filename, 'smile.png');
