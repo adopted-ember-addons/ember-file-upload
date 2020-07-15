@@ -95,8 +95,15 @@ export default EmberObject.extend({
       }));
 
       return files.filter(function (file) {
+        if (!file.name) {
+          // this is likely a situation where a drop event doesn't have a filename
+          // due to security reasons in the browser. We cannot determine if the
+          // file is valid
+          return true;
+        }
+
         let extension = null;
-        if (file.name && /(\.[^.]+)$/.test(file.name)) {
+        if (/(\.[^.]+)$/.test(file.name)) {
           extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
         }
 
