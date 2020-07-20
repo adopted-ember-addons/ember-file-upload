@@ -319,9 +319,13 @@ export default BaseComponent.extend({
       this.ondrop(this[DATA_TRANSFER]);
     }
 
+    let dataTransfer = get(this, DATA_TRANSFER);
+
     // Add file(s) to upload queue.
     set(this, 'active', false);
-    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
+    set(this, 'valid', get(dataTransfer, 'valid'));
+    set(this, 'invalidFiles', get(dataTransfer, 'invalidFiles'));
+    get(this, 'queue')._addFiles(get(dataTransfer, 'files'), 'drag-and-drop');
     this[DATA_TRANSFER] = null;
   }
 });
