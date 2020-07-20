@@ -4,7 +4,6 @@ import {
   extractFormData,
   extractFileMetadata
 } from './utils';
-import './shim';
 
 const NETWORK = {
   'wired': 50000, // 500 Mb/s
