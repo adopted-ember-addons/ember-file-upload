@@ -40,6 +40,15 @@ export default EmberObject.extend({
     }
   }),
 
+  invalidFiles: computed('dataTransfer.files', {
+    get() {
+      let files = get(this, 'files');
+      let allFiles = [...get(this, 'dataTransfer.files')];
+
+      return allFiles.filter((file) => !files.includes(file));
+    }
+  }),
+
   files: computed('queue.{accept,multiple}', 'dataTransfer', 'itemDetails', {
     get() {
       let fileList = get(this, 'dataTransfer.files');
