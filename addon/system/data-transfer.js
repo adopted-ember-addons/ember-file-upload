@@ -104,22 +104,31 @@ export default EmberObject.extend({
       }));
 
       return files.filter(function (file) {
-        if (!file.name) {
+        // first check if the mime type matches
+        let matchesMimeType = mimeTypeTests.find(function (mimeTypeTest) {
+          let type = file.type.toLowerCase();
+          return mimeTypeTest(type);
+        });
+
+        // next check if the extensions match
+        let matchesFileName;
+
+        if (!file.name && extensions.length) {
           // this is likely a situation where a drop event doesn't have a filename
           // due to security reasons in the browser. We cannot determine if the
-          // file is valid
-          return true;
+          // file is valid so we have to assume it matches the filename check
+          // for now
+          matchesFileName = true;
+        } else if (extensions.length) {
+          let extension = null;
+          if (/(\.[^.]+)$/.test(file.name)) {
+            extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
+          }
+
+          matchesFileName = extensions.indexOf(extension) !== -1;
         }
 
-        let extension = null;
-        if (/(\.[^.]+)$/.test(file.name)) {
-          extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
-        }
-
-        let type = file.type.toLowerCase();
-        return mimeTypeTests.find(function (mimeTypeTest) {
-          return mimeTypeTest(type);
-        }) || extensions.indexOf(extension) !== -1;
+        return matchesMimeType || matchesFileName;
       });
     }
   })
