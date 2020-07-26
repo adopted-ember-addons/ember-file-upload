@@ -14,7 +14,7 @@ module.exports = function() {
         // Please see details in this GitHub issue:
         // https://github.com/kategengler/ember-cli-code-coverage/issues/214#issuecomment-619398136
         process.env.COVERAGE ? '\'unsafe-eval\'' : null,
-        process.env.COVERAGE ? '\'sha256-bOFF6I2TCLkFw5Vfln8TzDOIau151BOflG6fMzQXGY8=\'' : null
+        process.env.COVERAGE ? '\'sha256-962C3YD3u+SHbZpl2H9WlCU6FY6H8TZ7smnnVmRMtic=\'' : null
       ].filter(Boolean),
       'font-src': [
         '\'self\'',
