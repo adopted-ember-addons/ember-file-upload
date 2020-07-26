@@ -72,3 +72,43 @@ function getImageBlob() {
   });
 }
 ```
+
+## Content Security Policy
+
+The production code provided this addon is compatible with a strict Content Security Policy (CSP). But the provided mirage route handlers require `data:` protocol to be allowed in `img-src` and `media-src` directives.
+
+If using provided mirage route handlers and [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy#ember-cli-content-security-policy) you should change the default configuration like this:
+
+```js
+// config/content-security-policy.js
+
+module.exports = function(environment) {
+  let isMirageEnabled = ['development', 'test'].include(environment);
+
+  return {
+    delivery: ['header'],
+    enabled: true,
+    failTests: true,
+    policy: {
+      'default-src':  ["'none'"],
+      'script-src':   ["'self'"],
+      'font-src':     ["'self'"],
+      'connect-src':  ["'self'"],
+      'img-src':      [
+        "'self'",
+        // allow data protocol for environments in which mirage is enabled
+        isMirageEnabled ? 'data:' : null,
+      ].filter(Boolean),
+      'style-src':    ["'self'"],
+      'media-src':    [
+        "'self'",
+        // allow data protocol for environments in which mirage is enabled
+        isMirageEnabled ? 'data:' : null,
+      ],
+    },
+    reportOnly: true,
+  };
+}
+```
+
+You should not allow `data:` protocol for production environment unless it's required for another reason.
