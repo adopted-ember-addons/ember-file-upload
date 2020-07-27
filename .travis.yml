@@ -31,14 +31,14 @@ jobs:
 
     - stage: "Tests"
       name: "Tests"
-      install:
-        - yarn install --non-interactive
       script:
         - yarn lint:hbs
         - yarn lint:js
         - yarn test
 
     - name: "Floating Dependencies"
+      install:
+        - yarn install --no-lockfile --non-interactive
       script:
         - yarn test
 
