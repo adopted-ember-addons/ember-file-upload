@@ -31,10 +31,16 @@ jobs:
 
     - stage: "Tests"
       name: "Tests"
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
       script:
         - yarn lint:hbs
         - yarn lint:js
-        - yarn test
+        - COVERAGE=true yarn test
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
     - name: "Floating Dependencies"
       install:
@@ -50,15 +56,11 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
+
     - stage: "Deploy"
       name: "Deploy"
       if: (branch = master or tag is present) and type = push
       script: node_modules/.bin/ember deploy production
-
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -68,7 +70,4 @@ install:
   - yarn install --frozen-lockfile --non-interactive
 
 script:
-  - COVERAGE=true node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
-
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
