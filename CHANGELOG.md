@@ -1,3 +1,21 @@
+## v3.0.5 (2020-08-01)
+
+#### :bug: Bug Fix
+* [#378](https://github.com/adopted-ember-addons/ember-file-upload/pull/378) remove mirage FormData shim to fix fastboot error ([@gibso](https://github.com/gibso))
+
+#### :memo: Documentation
+* [#360](https://github.com/adopted-ember-addons/ember-file-upload/pull/360) docs: update selectFiles code samples ([@newyork-anthonyng](https://github.com/newyork-anthonyng))
+
+#### :house: Internal
+* [#353](https://github.com/adopted-ember-addons/ember-file-upload/pull/353) test for CSP compliance ([@jelhan](https://github.com/jelhan))
+* [#381](https://github.com/adopted-ember-addons/ember-file-upload/pull/381) generate code coverage report only once per CI run ([@jelhan](https://github.com/jelhan))
+* [#380](https://github.com/adopted-ember-addons/ember-file-upload/pull/380) floating dependency scenario must ignore lockfile ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 3
+- Anthony Ng ([@newyork-anthonyng](https://github.com/newyork-anthonyng))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- Oliver Görtz ([@gibso](https://github.com/gibso))
+
 ## v3.0.4 (2020-05-06)
 
 #### :bug: Bug Fix
