@@ -112,7 +112,7 @@ const component = BaseComponent.extend({
 
 
   /**
-    A list of MIME types / extensions to be accepted by the input
+    A comma-separated list of MIME types / extensions to be accepted by the input, as documented here https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
     @argument accept
     @type {string}
    */
