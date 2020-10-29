@@ -91,7 +91,7 @@
     "sass": "^1.26.1"
   },
   "engines": {
-    "node": "10.* || >= 12"
+    "node": "10.* >= v10.23.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
