@@ -42,7 +42,7 @@
     "postversion": "git push && git push --tags"
   },
   "resolutions": {
-    "ember-cli-template-lint/**/ember-template-lint": "^1.4.0"
+    "ember-cli-template-lint/**/ember-template-lint": "^2.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -78,7 +78,7 @@
     "ember-resolver": "^5.0.1",
     "ember-router-scroll": "^1.2.1",
     "ember-source": "~3.5.1",
-    "ember-source-channel-url": "^3.0.0",
+    "ember-source-channel-url": "^2.0.0",
     "ember-try": "^1.4.0",
     "eslint": "^5.16.0",
     "eslint-plugin-ember": "^6.4.1",
@@ -86,7 +86,7 @@
     "fake-xml-http-request": "^2.1.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.5",
-    "release-it": "^14.0.0",
+    "release-it": "^13.0.0",
     "release-it-lerna-changelog": "^2.0.0",
     "sass": "^1.26.1"
   },
