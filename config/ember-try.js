@@ -1,13 +1,14 @@
 'use strict';
 
 const getChannelURL = require('ember-source-channel-url');
+const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = function() {
   return Promise.all([
     getChannelURL('release'),
     getChannelURL('beta'),
     getChannelURL('canary')
-  ]).then((urls) => {
+  ]).then(([releaseUrl, betaUrl, canaryUrl]) => {
     return {
       useYarn: true,
       scenarios: [
@@ -27,7 +28,7 @@ module.exports = function() {
           name: 'ember-release',
           npm: {
             devDependencies: {
-              'ember-source': urls[0]
+              'ember-source': releaseUrl
             }
           }
         },
@@ -35,7 +36,7 @@ module.exports = function() {
           name: 'ember-beta',
           npm: {
             devDependencies: {
-              'ember-source': urls[1]
+              'ember-source': betaUrl
             }
           }
         },
@@ -43,7 +44,7 @@ module.exports = function() {
           name: 'ember-canary',
           npm: {
             devDependencies: {
-              'ember-source': urls[2]
+              'ember-source': canaryUrl
             }
           }
         },
@@ -65,7 +66,9 @@ module.exports = function() {
               '@ember/jquery': '^0.5.1'
             }
           }
-        }
+        },
+        embroiderSafe(),
+        embroiderOptimized()
       ]
     };
   });
