@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, resetOnerror, setupOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { upload as uploadHandler } from 'ember-file-upload/mirage';
+import { upload as uploadHandler } from 'ember-file-upload/test-support/mirage';
 import { selectFiles } from 'ember-file-upload/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 

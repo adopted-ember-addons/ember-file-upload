@@ -24,7 +24,7 @@ It also integrates with `ember-cli-mirage` through an upload handler. This helpe
 ```javascript
 // mirage/config.js
 
-import { upload } from 'ember-file-upload/mirage';
+import { upload } from 'ember-file-upload/test-support/mirage';
 
 export default function () {
   this.post('/photos/new', upload(function (schema, request) {

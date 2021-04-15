@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { upload as uploadHandler } from 'ember-file-upload/mirage';
+import { upload as uploadHandler } from 'ember-file-upload/test-support/mirage';
 import File from 'ember-file-upload/file';
 
 module('Unit | File', function(hooks) {

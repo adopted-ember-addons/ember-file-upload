@@ -1,4 +1,4 @@
-import { upload } from 'ember-file-upload/mirage';
+import { upload } from 'ember-file-upload/test-support/mirage';
 
 export default function () {
   this.post('/photos/new', upload(function (db, request) {
