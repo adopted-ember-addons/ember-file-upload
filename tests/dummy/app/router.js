@@ -1,8 +1,7 @@
 import AddonDocsRouter, { docsRoute } from 'ember-cli-addon-docs/router';
 import config from 'dummy/config/environment';
-import RouterScroll from 'ember-router-scroll';
 
-export default class Router extends AddonDocsRouter.extend(RouterScroll) {
+export default class Router extends AddonDocsRouter {
   location = config.locationType;
   rootURL = config.rootURL;
 }
