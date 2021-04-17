@@ -1,14 +1,14 @@
 import AddonDocsRouter, { docsRoute } from 'ember-cli-addon-docs/router';
-import config from './config/environment';
+import config from 'dummy/config/environment';
 import RouterScroll from 'ember-router-scroll';
 
-const Router = AddonDocsRouter.extend(RouterScroll, {
-  location: config.locationType,
-  rootURL: config.rootURL
-});
+export default class Router extends AddonDocsRouter.extend(RouterScroll) {
+  location = config.locationType;
+  rootURL = config.rootURL;
+}
 
 Router.map(function () {
-  docsRoute(this, function() {
+  docsRoute(this, function () {
     this.route('recipes');
     this.route('integration');
     this.route('testing');
@@ -17,5 +17,3 @@ Router.map(function () {
 
   this.route('not-found', { path: '/*path' });
 });
-
-export default Router;
