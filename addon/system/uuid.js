@@ -1,5 +1,4 @@
 /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
-/* global Uint8Array */
 let random = (function () {
   let crypto = window.crypto || window.msCrypto;
 
@@ -25,7 +24,7 @@ let random = (function () {
         r = Math.random() * 0x100000000;
       }
 
-      numbers[i] = r >>> ((i & 0x03) << 3) & 0xFF;
+      numbers[i] = (r >>> ((i & 0x03) << 3)) & 0xff;
     }
     return numbers;
   };
@@ -41,11 +40,17 @@ function serialize(bytes) {
     hex[i] = byteToHex(bytes[i]);
   }
 
-  return hex.slice(0, 4).join('') + '-' +
-         hex.slice(4, 6).join('') + '-' +
-         hex.slice(6, 8).join('') + '-' +
-         hex.slice(8, 10).join('') + '-' +
-         hex.slice(10).join('');
+  return (
+    hex.slice(0, 4).join('') +
+    '-' +
+    hex.slice(4, 6).join('') +
+    '-' +
+    hex.slice(6, 8).join('') +
+    '-' +
+    hex.slice(8, 10).join('') +
+    '-' +
+    hex.slice(10).join('')
+  );
 }
 
 function uuid() {

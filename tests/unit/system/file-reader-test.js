@@ -1,8 +1,5 @@
 import FileReader from 'ember-file-upload/system/file-reader';
-import {
-  module,
-  test
-} from 'qunit';
+import { module, test } from 'qunit';
 
 const FakeFileReader = {
   trigger: 'onload',
@@ -20,11 +17,11 @@ const FakeFileReader = {
   },
   readAsText(blob) {
     setTimeout(() => this[this.trigger](blob), 0);
-  }
+  },
 };
 
-module('file-reader', function(hooks) {
-  hooks.beforeEach(function() {
+module('file-reader', function (hooks) {
+  hooks.beforeEach(function () {
     this._FileReader = window.FileReader;
     window.FileReader = function () {
       return FakeFileReader;
@@ -32,12 +29,12 @@ module('file-reader', function(hooks) {
     this.subject = new FileReader();
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     this.subject = null;
     window.FileReader = this._FileReader;
   });
 
-  function testReadAs(name, blob='test') {
+  function testReadAs(name, blob = 'test') {
     test(`readAs${name}`, function (assert) {
       FakeFileReader.trigger = 'onload';
       FakeFileReader.result = 'ok';

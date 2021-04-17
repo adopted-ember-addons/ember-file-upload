@@ -1,12 +1,8 @@
 import { A } from '@ember/array';
-import EmberObject, {
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { next } from '@ember/runloop';
 import File from './file';
 import WithFiles from './mixins/with-files';
-
 
 /**
   The Queue is a collection of files that
@@ -20,7 +16,6 @@ import WithFiles from './mixins/with-files';
   @extends Ember.Object
  */
 export default EmberObject.extend(WithFiles, {
-
   init() {
     set(this, 'files', A());
     set(this, '_dropzones', A());
@@ -29,8 +24,8 @@ export default EmberObject.extend(WithFiles, {
 
   destroy() {
     this._super();
-    get(this, 'fileQueue.queues').delete(get(this, 'name'));
-    get(this, 'files').forEach((file) => set(file, 'queue', null));
+    this.fileQueue.queues.delete(this.name);
+    this.files.forEach((file) => set(file, 'queue', null));
     set(this, 'files', A());
   },
 
@@ -48,8 +43,8 @@ export default EmberObject.extend(WithFiles, {
    */
   push(file) {
     file.queue = this;
-    get(this, 'fileQueue.files').pushObject(file);
-    get(this, 'files').pushObject(file);
+    this.fileQueue.files.pushObject(file);
+    this.files.pushObject(file);
   },
 
   /**
@@ -58,8 +53,8 @@ export default EmberObject.extend(WithFiles, {
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
   _addFiles(fileList, source) {
-    let onfileadd = get(this, 'onfileadd');
-    let disabled = get(this, 'disabled');
+    let onfileadd = this.onfileadd;
+    let disabled = this.disabled;
     let files = [];
 
     if (!disabled) {
@@ -87,8 +82,8 @@ export default EmberObject.extend(WithFiles, {
    */
   remove(file) {
     file.queue = null;
-    get(this, 'fileQueue.files').removeObject(file);
-    get(this, 'files').removeObject(file);
+    this.fileQueue.files.removeObject(file);
+    this.files.removeObject(file);
   },
 
   /**
@@ -130,5 +125,5 @@ export default EmberObject.extend(WithFiles, {
     @type File[]
     @default []
    */
-  files: null
+  files: null,
 });

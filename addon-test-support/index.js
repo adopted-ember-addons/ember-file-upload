@@ -30,7 +30,10 @@ import { assert } from '@ember/debug';
  */
 export async function selectFiles(selector, ...files) {
   let input = find(selector);
-  assert(`Selector '${selector}' is not input element.`, input.tagName === 'INPUT');
+  assert(
+    `Selector '${selector}' is not input element.`,
+    input.tagName === 'INPUT'
+  );
   assert(
     'All files must be instances of File/Blob type',
     files.every((file) => file instanceof Blob)

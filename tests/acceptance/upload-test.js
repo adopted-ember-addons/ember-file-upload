@@ -11,15 +11,15 @@ function getImageBlob() {
   });
 }
 
-module('Acceptance | upload', function(hooks) {
+module('Acceptance | upload', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('upload works for File', async function(assert) {
+  test('upload works for File', async function (assert) {
     await visit('/');
 
     let data = await getImageBlob();
-    let photo = new File([data], 'image.png', { type: 'image/png'});
+    let photo = new File([data], 'image.png', { type: 'image/png' });
     await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
@@ -27,10 +27,14 @@ module('Acceptance | upload', function(hooks) {
     assert.equal(uploadedPhoto.filesize, 1179);
     assert.equal(uploadedPhoto.type, 'image');
 
-    assert.equal(findAll('.demo-uploaded-files-list img').length, 3, 'Photo is displayed in the UI');
+    assert.equal(
+      findAll('.demo-uploaded-files-list img').length,
+      3,
+      'Photo is displayed in the UI'
+    );
   });
 
-  test('upload works for Blob', async function(assert) {
+  test('upload works for Blob', async function (assert) {
     await visit('/');
 
     let photo = await getImageBlob();
@@ -43,6 +47,10 @@ module('Acceptance | upload', function(hooks) {
     assert.equal(uploadedPhoto.filesize, 1179);
     assert.equal(uploadedPhoto.type, 'image');
 
-    assert.equal(findAll('.demo-uploaded-files-list img').length, 3, 'Photo is displayed in the UI');
+    assert.equal(
+      findAll('.demo-uploaded-files-list img').length,
+      3,
+      'Photo is displayed in the UI'
+    );
   });
 });

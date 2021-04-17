@@ -9,7 +9,7 @@
   <section class="max-w-md mx-auto pb-4">
     <div class="my-16 text-center">
       {{#link-to
-        "docs"
+        route="docs"
         class="bg-grey-darkest hover:bg-black text-white py-2 px-4 no-underline rounded"
       }}
         Get started →
@@ -20,7 +20,7 @@
   <section class="max-w-md mx-auto">
     <div class="my-16 text-center">
       <h1 class="my-8">Demo</h1>
-      {{#file-dropzone name="photos" class="demo-dropzone" as |dropzone queue|}}
+      <FileDropzone @name="photos" @class="demo-dropzone" as |dropzone queue|>
         <div class="dropzone-upload-area upload {{if dropzone.active "active"}}">
           {{#if dropzone.supported}}
             <div class="emoji mb-16">
@@ -40,15 +40,9 @@
             {{#if dropzone.supported}}
               Drag your proof or
             {{/if}}
-            {{#file-upload
-              name="photos"
-              for="upload-photo"
-              multiple=true
-              onfileadd=(action "uploadProof")
-              accept="image/*,video/*,audio/*"
-            }}
-              <a>select them</a>
-            {{/file-upload}}
+            <FileUpload @name="photos" @for="upload-photo" @multiple={{true}} @onfileadd={{this.uploadProof}} @accept="image/*,video/*,audio/*">
+              <a {{!template-lint-disable link-href-attributes}}>select them</a>
+            </FileUpload>
             to upload.
           </p>
 
@@ -56,11 +50,11 @@
             Uploaded {{queue.uploaded.length}} / {{queue.files.length}} files. ({{queue.progress}}%)
           {{/if}}
         </div>
-      {{/file-dropzone}}
+      </FileDropzone>
     </div>
     <div class="my-16">
       <ul class="demo-uploaded-files-list">
-        {{#each model as |file|}}
+        {{#each @model as |file|}}
           <li>
             <div class="card text-center">
               {{#if file.file}}

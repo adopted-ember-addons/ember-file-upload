@@ -1,10 +1,7 @@
 import { assert } from '@ember/debug';
 import BaseComponent from '../base-component';
 import { DEBUG } from '@glimmer/env';
-import {
-  computed,
-  get
-} from '@ember/object';
+import { computed } from '@ember/object';
 import layout from './template';
 import uuid from '../../system/uuid';
 
@@ -110,7 +107,6 @@ const component = BaseComponent.extend({
    */
   disabled: false,
 
-
   /**
     A comma-separated list of MIME types / extensions to be accepted by the input, as documented here https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
     @argument accept
@@ -136,7 +132,7 @@ const component = BaseComponent.extend({
     },
     set(key, value) {
       return value;
-    }
+    },
   }),
 
   layout,
@@ -151,34 +147,85 @@ const component = BaseComponent.extend({
 
   actions: {
     change(files) {
-      get(this, 'queue')._addFiles(files, 'browse');
+      this.queue._addFiles(files, 'browse');
       this.element.querySelector('input').value = null;
-    }
-  }
+    },
+  },
 });
 
 if (DEBUG) {
-  const VALID_TAGS = ['a', 'abbr', 'area', 'audio', 'b', 'bdo', 'br', 'canvas',
-    'cite', 'circle', 'clipPath', 'code', 'command', 'datalist', 'del', 'dfn',
-    'em', 'embed', 'i', 'iframe', 'img', 'kbd', 'line', 'mark', 'mask', 'math',
-    'noscript', 'object', 'q', 'radialGradient', 'rect', 'ruby', 'samp',
-    'script', 'small', 'span', 'strong', 'sub', 'sup', 'svg', 'time', 'var',
-    'video', 'wbr', 'path', 'polygon', 'polyline',
-    'g', 'use'];
+  const VALID_TAGS = [
+    'a',
+    'abbr',
+    'area',
+    'audio',
+    'b',
+    'bdo',
+    'br',
+    'canvas',
+    'cite',
+    'circle',
+    'clipPath',
+    'code',
+    'command',
+    'datalist',
+    'del',
+    'dfn',
+    'em',
+    'embed',
+    'i',
+    'iframe',
+    'img',
+    'kbd',
+    'line',
+    'mark',
+    'mask',
+    'math',
+    'noscript',
+    'object',
+    'q',
+    'radialGradient',
+    'rect',
+    'ruby',
+    'samp',
+    'script',
+    'small',
+    'span',
+    'strong',
+    'sub',
+    'sup',
+    'svg',
+    'time',
+    'var',
+    'video',
+    'wbr',
+    'path',
+    'polygon',
+    'polyline',
+    'g',
+    'use',
+  ];
 
   component.reopen({
     didInsertElement() {
-      let id = get(this, 'for');
-      assert(`Changing the tagName of FileUpload to "${get(this, 'tagName')}" will break interactions.`, get(this, 'tagName') === 'label');
+      let id = this.for;
+      assert(
+        `Changing the tagName of FileUpload to "${this.tagName}" will break interactions.`,
+        this.tagName === 'label'
+      );
       let elements = this.element.querySelectorAll('*');
-      for (let i = 0; i < elements.length; i++){
+      for (let i = 0; i < elements.length; i++) {
         let element = elements[i];
-        if (element.id !== id &&
-            VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1) {
-          assert(`"${element.outerHTML}" is not allowed as a child of FileUpload.`);
+        if (
+          element.id !== id &&
+          VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1
+        ) {
+          assert(
+            `"${element.outerHTML}" is not allowed as a child of FileUpload.`
+          );
         }
       }
-    }
+    },
   });
 }
 

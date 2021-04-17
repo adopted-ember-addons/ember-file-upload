@@ -1,10 +1,7 @@
 /* global requirejs */
-import {
-  module,
-  test
-} from 'qunit';
+import { module, test } from 'qunit';
 
-module('trim', function() {
+module('trim', function () {
   let unit = function (name) {
     let module = {};
     requirejs.entries['ember-file-upload/system/trim'].callback(module);
@@ -14,9 +11,12 @@ module('trim', function() {
       assert.equal(trim('    trim me        '), 'trim me');
     });
 
-    test(name + ' returns an empty string if null is provided', function (assert) {
-      assert.equal(trim(null), '');
-    });
+    test(
+      name + ' returns an empty string if null is provided',
+      function (assert) {
+        assert.equal(trim(null), '');
+      }
+    );
   };
 
   if (''.trim) {

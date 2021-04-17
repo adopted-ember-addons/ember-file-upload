@@ -1,10 +1,7 @@
 /* global requirejs */
-import {
-  module,
-  test
-} from 'qunit';
+import { module, test } from 'qunit';
 
-module('uuid', function() {
+module('uuid', function () {
   let unit = function (name) {
     let module = {};
     requirejs.entries['ember-file-upload/system/uuid'].callback(module);
@@ -12,7 +9,12 @@ module('uuid', function() {
 
     test(name + ' long', function (assert) {
       assert.equal(uuid().length, 36, 'length');
-      assert.ok(/^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/.test(uuid()), 'looks like a full uuid');
+      assert.ok(
+        /^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/.test(
+          uuid()
+        ),
+        'looks like a full uuid'
+      );
       assert.notEqual(uuid(), uuid(), 'each uuid is unique');
     });
 

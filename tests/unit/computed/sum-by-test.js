@@ -2,16 +2,13 @@ import { run } from '@ember/runloop';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import sumBy from 'ember-file-upload/computed/sum-by';
-import {
-  module,
-  test
-} from 'qunit';
+import { module, test } from 'qunit';
 
-module('computed:sum-by', function() {
+module('computed:sum-by', function () {
   test('property updates when objects are pushed onto the collection', function (assert) {
     let queue = EmberObject.extend({
       files: A(),
-      size: sumBy('files', 'size')
+      size: sumBy('files', 'size'),
     }).create();
 
     assert.equal(queue.get('size'), 0);
@@ -19,7 +16,7 @@ module('computed:sum-by', function() {
     run(function () {
       let files = queue.get('files');
       files.pushObject({
-        size: 256
+        size: 256,
       });
     });
 
@@ -28,7 +25,7 @@ module('computed:sum-by', function() {
     run(function () {
       let files = queue.get('files');
       files.pushObject({
-        size: 512
+        size: 512,
       });
     });
 
@@ -37,11 +34,8 @@ module('computed:sum-by', function() {
 
   test('property updates when the item property updates', function (assert) {
     let queue = EmberObject.extend({
-      files: A([
-        { loaded: 0 },
-        { loaded: 512 }
-      ]),
-      loaded: sumBy('files', 'loaded')
+      files: A([{ loaded: 0 }, { loaded: 512 }]),
+      loaded: sumBy('files', 'loaded'),
     }).create();
 
     assert.equal(queue.get('loaded'), 512);

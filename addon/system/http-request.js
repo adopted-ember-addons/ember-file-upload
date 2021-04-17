@@ -7,7 +7,9 @@ import parseJSON from './parse-json';
 
 function getHeader(headers, header) {
   let headerKeys = Object.keys(headers);
-  let headerIdx = headerKeys.map((key) => key.toLowerCase()).indexOf(header.toLowerCase());
+  let headerIdx = headerKeys
+    .map((key) => key.toLowerCase())
+    .indexOf(header.toLowerCase());
   if (headerIdx !== -1) {
     return headers[headerKeys[headerIdx]];
   }
@@ -16,13 +18,16 @@ function getHeader(headers, header) {
 
 function parseResponse(request) {
   var body = trim(request.responseText);
-  var rawHeaders = request.getAllResponseHeaders().split(/\n|\r/).filter(function (header) {
-    return header !== '';
-  });
+  var rawHeaders = request
+    .getAllResponseHeaders()
+    .split(/\n|\r/)
+    .filter(function (header) {
+      return header !== '';
+    });
 
   var headers = rawHeaders.reduce(function (E, header) {
     var parts = header.split(/^([0-9A-Za-z_-]*:)/);
-    if (parts.length > 0 && parts[1] && parts[2]){
+    if (parts.length > 0 && parts[1] && parts[2]) {
       E[parts[1].slice(0, -1)] = trim(parts[2]);
     }
     return E;
@@ -35,22 +40,26 @@ function parseResponse(request) {
     body = parseHTML(body);
   } else if (contentType.indexOf('text/xml') !== -1) {
     body = parseXML(body);
-  } else if (contentType.indexOf('application/json') !== -1 ||
-            contentType.indexOf('application/vnd.api+json') !== -1 ||
-            contentType.indexOf('text/javascript') !== -1 ||
-            contentType.indexOf('application/javascript') !== -1) {
+  } else if (
+    contentType.indexOf('application/json') !== -1 ||
+    contentType.indexOf('application/vnd.api+json') !== -1 ||
+    contentType.indexOf('text/javascript') !== -1 ||
+    contentType.indexOf('application/javascript') !== -1
+  ) {
     body = parseJSON(body);
   }
 
   return {
     status: request.status,
     body: body,
-    headers: headers
+    headers: headers,
   };
 }
 
 export default function (options = {}) {
-  let { resolve, reject, promise } = RSVP.defer(`ember-file-upload: ${options.label}`);
+  let { resolve, reject, promise } = RSVP.defer(
+    `ember-file-upload: ${options.label}`
+  );
   let request = new XMLHttpRequest();
 
   request.withCredentials = options.withCredentials;
@@ -63,7 +72,7 @@ export default function (options = {}) {
     }
     return aborted.promise;
   };
-  promise.then = function(...args) {
+  promise.then = function (...args) {
     let newPromise = RSVP.Promise.prototype.then.apply(this, args);
     newPromise.cancel = promise.cancel;
     newPromise.then = promise.then;
@@ -78,7 +87,7 @@ export default function (options = {}) {
     request.setRequestHeader(header, value);
   };
 
-  this.open = function (method, url, _, username='', password='') {
+  this.open = function (method, url, _, username = '', password = '') {
     request.open(method, url, true, username, password);
   };
 
@@ -91,9 +100,12 @@ export default function (options = {}) {
   this.ontimeout = this.ontimeout || function () {};
   this.onabort = this.onabort || function () {};
 
-  request.onloadstart = request.onprogress = request.onloadend = bind(this, function (evt) {
-    this.onprogress(evt);
-  });
+  request.onloadstart = request.onprogress = request.onloadend = bind(
+    this,
+    function (evt) {
+      this.onprogress(evt);
+    }
+  );
 
   if (request.upload) {
     request.upload.onprogress = request.onprogress;
@@ -112,7 +124,6 @@ export default function (options = {}) {
     reject(parseResponse(request));
   });
 
-
   Object.defineProperty(this, 'timeout', {
     get() {
       return request.timeout;
@@ -121,7 +132,7 @@ export default function (options = {}) {
       request.timeout = timeout;
     },
     enumerable: true,
-    configurable: false
+    configurable: false,
   });
 
   request.ontimeout = bind(this, function () {

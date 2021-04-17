@@ -1,6 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { A } from '@ember/array';
-import { computed, set, get } from '@ember/object';
+import { computed, set } from '@ember/object';
 import sumBy from '../computed/sum-by';
 
 export default Mixin.create({
@@ -28,22 +28,24 @@ export default Mixin.create({
     @method flush
    */
   flush() {
-    let fileQueue = get(this, 'fileQueue');
+    let fileQueue = this.fileQueue;
 
     if (fileQueue) {
       fileQueue.flush();
     }
 
-    let files = get(this, 'files');
+    let files = this.files;
 
-    if (files.length === 0) { return; }
+    if (files.length === 0) {
+      return;
+    }
 
     let allFilesHaveSettled = files.every((file) => {
       return ['uploaded', 'aborted'].includes(file.state);
     });
 
     if (allFilesHaveSettled) {
-      get(this, 'files').forEach((file) => set(file, 'queue', null));
+      this.files.forEach((file) => set(file, 'queue', null));
       set(this, 'files', A());
     }
   },
@@ -79,8 +81,8 @@ export default Mixin.create({
    */
   progress: computed('size', 'loaded', {
     get() {
-      let percent = get(this, 'loaded') / get(this, 'size') || 0;
+      let percent = this.loaded / this.size || 0;
       return Math.floor(percent * 100);
-    }
-  })
+    },
+  }),
 });
