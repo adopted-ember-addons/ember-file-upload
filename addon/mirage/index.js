@@ -1,5 +1,4 @@
 import RSVP from 'rsvp';
-import Response from 'ember-cli-mirage/response';
 import { extractFormData, extractFileMetadata } from './utils';
 
 const NETWORK = {
@@ -15,6 +14,14 @@ const NETWORK = {
 
 export function upload(fn, options = { network: null, timeout: null }) {
   return function (db, request) {
+    // If mirage's files are being excluded from the build (e.g. production
+    // builds), then embroider builds will fail when they try to resolve a
+    // statc/ES6 import of `ember-cli-mirage` and it's not present. So instead
+    // of doing a static/ES6 import, we do it dynamically inside the mirage
+    // route handler helper, which will never be invoked unless mirage is
+    // running, and then its files must be included in the build.
+    const { Response } = window.require('ember-cli-mirage');
+
     let speed = Infinity;
 
     if (NETWORK[options.network]) {
