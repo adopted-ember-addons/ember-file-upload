@@ -1,6 +1,5 @@
 import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
-import trim from './trim';
 import parseHTML from './parse-html';
 import parseXML from './parse-xml';
 import parseJSON from './parse-json';
@@ -17,7 +16,7 @@ function getHeader(headers, header) {
 }
 
 function parseResponse(request) {
-  var body = trim(request.responseText);
+  var body = request.responseText.trim();
   var rawHeaders = request
     .getAllResponseHeaders()
     .split(/\n|\r/)
@@ -28,7 +27,7 @@ function parseResponse(request) {
   var headers = rawHeaders.reduce(function (E, header) {
     var parts = header.split(/^([0-9A-Za-z_-]*:)/);
     if (parts.length > 0 && parts[1] && parts[2]) {
-      E[parts[1].slice(0, -1)] = trim(parts[2]);
+      E[parts[1].slice(0, -1)] = parts[2].trim();
     }
     return E;
   }, {});

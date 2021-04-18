@@ -6,12 +6,12 @@ export default class IndexRoute extends Route {
     return A([
       {
         filename: 'little-green-men.jpg',
-        preview: 'assets/images/little-green-men.jpg',
+        preview: '/assets/images/little-green-men.jpg',
         type: 'image',
       },
       {
         filename: 'samantha-mulder.jpg',
-        preview: 'assets/images/samantha-mulder.jpg',
+        preview: '/assets/images/samantha-mulder.jpg',
         type: 'image',
       },
     ]);

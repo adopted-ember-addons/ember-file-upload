@@ -1,6 +1,5 @@
 import { A } from '@ember/array';
 import EmberObject, { computed } from '@ember/object';
-import trim from './trim';
 
 const getDataSupport = {};
 
@@ -92,7 +91,7 @@ export default EmberObject.extend({
 
         let tokens = A(
           accept.split(',').map(function (token) {
-            return trim(token).toLowerCase();
+            return token.trim().toLowerCase();
           })
         );
         let extensions = A(
