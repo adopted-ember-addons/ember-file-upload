@@ -44,7 +44,7 @@
   "resolutions": {
     "ember-cli-template-lint/**/ember-template-lint": "^1.4.0",
     "ember-data": "3.5.2",
-    "whatwg-fetch": "3.3.1"
+    "whatwg-fetch": "3.6.2"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
