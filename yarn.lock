@@ -6228,7 +6228,7 @@ ember-composable-helpers@^2.4.0:
     ember-compatibility-helpers "^1.2.0"
     ember-maybe-import-regenerator "^0.1.6"
 
-"ember-data@2.x - 3.x":
+"ember-data@2.x - 3.x", ember-data@3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/ember-data/-/ember-data-3.5.2.tgz#6ec84ba85e28d7e1da6039202f65c38f8b1e43ad"
   integrity sha512-0aloRoOp9zgLCFJ0qfgNDD++Ai9d1xB5jHL1OI+uNjXhX8r4dG1PiCdvtwVW0OlrZOu9VBodv3kYoRG1SLZU7g==
@@ -14788,10 +14788,10 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@^3.0.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.2.0.tgz#8e134f701f0a4ab5fda82626f113e2b647fd16dc"
-  integrity sha512-SdGPoQMMnzVYThUbSrEvqTlkvC1Ux27NehaJ/GUHBfNrh5Mjg+1/uRyFMwVnxO2MrikMWvWAqUGgQOfVU4hT7w==
+whatwg-fetch@3.3.1, whatwg-fetch@^3.0.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.3.1.tgz#6c1acf37dec176b0fd6bc9a74b616bec2f612935"
+  integrity sha512-faXTmGDcLuEPBpJwb5LQfyxvubKiE+RlbmmweFGKjvIPFj4uHTTfdtTIkdTRhC6OSH9S9eyYbx8kZ0UEaQqYTA==
 
 whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"
