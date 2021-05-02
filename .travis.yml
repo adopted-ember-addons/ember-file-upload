@@ -19,7 +19,6 @@ env:
   global:
     # See https://git.io/vdao3 for details.
     - JOBS=1
-    - CC_TEST_REPORTER_ID=b8d123d773527223f44b77c087149a82a8e52ff57e81d32cf7a6ee3c32104393
 
 jobs:
   fail_fast: true
@@ -31,16 +30,10 @@ jobs:
 
     - stage: "Tests"
       name: "Tests"
-      before_script:
-        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        - chmod +x ./cc-test-reporter
-        - ./cc-test-reporter before-build
       script:
         - yarn lint:hbs
         - yarn lint:js
-        - COVERAGE=true yarn test
-      after_script:
-        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+        - yarn test
 
     - name: "Floating Dependencies"
       install:
