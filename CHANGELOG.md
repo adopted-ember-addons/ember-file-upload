@@ -1,3 +1,16 @@
+## v3.0.6 (2021-05-31)
+
+#### :bug: Bug Fix
+* [#450](https://github.com/adopted-ember-addons/ember-file-upload/pull/450) Fix this-property-fallback deprecation ([@aoumiri](https://github.com/aoumiri))
+
+#### :house: Internal
+* [#439](https://github.com/adopted-ember-addons/ember-file-upload/pull/439) Drop Code Climate integration ([@gilest](https://github.com/gilest))
+
+#### Committers: 3
+- Anass OUMIRI ([@aoumiri](https://github.com/aoumiri))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Ilya Radchenko ([@knownasilya](https://github.com/knownasilya))
+
 ## v3.0.5 (2020-08-01)
 
 #### :bug: Bug Fix
