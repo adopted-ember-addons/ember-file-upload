@@ -16,25 +16,25 @@ export default class {
   }
 
   beginListening() {
-    let handlers = this._handlers = {
+    let handlers = (this._handlers = {
       dragenter: bind(this, 'dragenter'),
       dragleave: bind(this, 'dragleave'),
       dragover: bind(this, 'dragover'),
-      drop: bind(this, 'drop')
-    };
+      drop: bind(this, 'drop'),
+    });
 
     let body = document.body;
     body.addEventListener('dragenter', handlers.dragenter, {
-      passive: true
+      passive: true,
     });
     body.addEventListener('dragleave', handlers.dragleave, {
-      passive: true
+      passive: true,
     });
     body.addEventListener('dragover', handlers.dragover, {
-      passive: false
+      passive: false,
     });
     body.addEventListener('drop', handlers.drop, {
-      passive: false
+      passive: false,
     });
   }
 
@@ -42,16 +42,16 @@ export default class {
     let body = document.body;
     let handlers = this._handlers;
     body.removeEventListener('dragenter', handlers.dragenter, {
-      passive: true
+      passive: true,
     });
     body.removeEventListener('dragleave', handlers.dragleave, {
-      passive: true
+      passive: true,
     });
     body.removeEventListener('dragover', handlers.dragover, {
-      passive: false
+      passive: false,
     });
     body.removeEventListener('drop', handlers.drop, {
-      passive: false
+      passive: false,
     });
   }
 
@@ -65,7 +65,11 @@ export default class {
 
     for (let i = 0, len = this._listeners.length; i < len; i++) {
       let listener = this._listeners[i];
-      assert(`Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`, document.querySelector(selector) !== document.querySelector(listener.selector));
+      assert(
+        `Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`,
+        document.querySelector(selector) !==
+          document.querySelector(listener.selector)
+      );
 
       if (document.querySelector(`${listener.selector} ${selector}`)) {
         insertAt = i;
@@ -93,8 +97,7 @@ export default class {
     let types = evt.dataTransfer.types || [];
     let areSomeTypesFiles = false;
     for (let i = 0, len = types.length; i < len; i++) {
-      if (types[i] === 'Files' ||
-          types[i] === 'application/x-moz-file') {
+      if (types[i] === 'Files' || types[i] === 'application/x-moz-file') {
         areSomeTypesFiles = true;
         break;
       }
@@ -105,12 +108,12 @@ export default class {
   getDataTransferItemDetails(evt) {
     let itemDetails = [];
 
-    if (evt.dataTransfer.items){
+    if (evt.dataTransfer.items) {
       for (let i = 0; i < evt.dataTransfer.items.length; i++) {
         let item = evt.dataTransfer.items[i];
         itemDetails.push({
           kind: item.kind,
-          type: item.type
+          type: item.type,
         });
       }
     }
@@ -131,7 +134,7 @@ export default class {
       this.scheduleEvent('dragenter', listener, {
         source: this.getEventSource(evt),
         dataTransfer: evt.dataTransfer,
-        itemDetails: this.getDataTransferItemDetails(evt)
+        itemDetails: this.getDataTransferItemDetails(evt),
       });
     }
     this._listener = listener;
@@ -157,7 +160,7 @@ export default class {
       this.scheduleEvent('dragenter', listener, {
         source: this.getEventSource(evt),
         dataTransfer: evt.dataTransfer,
-        itemDetails: this.getDataTransferItemDetails(evt)
+        itemDetails: this.getDataTransferItemDetails(evt),
       });
       if (this._stack.indexOf(listener) !== -1) {
         listener.handlers.dragover(evt);
@@ -168,14 +171,18 @@ export default class {
 
   scheduleEvent(eventName, listener, event) {
     let isDuplicate = this._events.find(function (queuedEvent) {
-      return queuedEvent.eventName === eventName &&
-        queuedEvent.listener === listener;
+      return (
+        queuedEvent.eventName === eventName && queuedEvent.listener === listener
+      );
     });
 
     let cancelledEvent = this._events.find(function (queuedEvent) {
-      return queuedEvent.listener === listener &&
-        (queuedEvent.eventName === 'dragleave' && eventName === 'dragenter') ||
-        (queuedEvent.eventName === 'dragenter' && eventName === 'dragleave');
+      return (
+        (queuedEvent.listener === listener &&
+          queuedEvent.eventName === 'dragleave' &&
+          eventName === 'dragenter') ||
+        (queuedEvent.eventName === 'dragenter' && eventName === 'dragleave')
+      );
     });
 
     if (cancelledEvent) {

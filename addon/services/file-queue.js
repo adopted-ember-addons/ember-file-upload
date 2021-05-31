@@ -1,7 +1,6 @@
 import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import { set, get } from '@ember/object';
 import { once } from '@ember/runloop';
 import Queue from '../queue';
 import WithFiles from '../mixins/with-files';
@@ -18,13 +17,8 @@ import WithFiles from '../mixins/with-files';
   @class FileQueue
   @extends Ember.Service
  */
-export default Service.extend(WithFiles, {
-
-  init() {
-    this._super(...arguments);
-    set(this, 'queues', A());
-    set(this, 'files', A());
-  },
+export default class FileQueueService extends Service.extend(WithFiles) {
+  queues = A([]);
 
   /**
     The list of all files in queues. This automatically gets
@@ -43,7 +37,7 @@ export default Service.extend(WithFiles, {
     @type {File[]}
     @default []
    */
-  files: null,
+  files = A([]);
 
   /**
     Returns a queue with the given name
@@ -53,8 +47,8 @@ export default Service.extend(WithFiles, {
     @return {Queue} The queue or null if it doesn't exist yet.
    */
   find(name) {
-    return get(this, 'queues').findBy('name', name);
-  },
+    return this.queues.findBy('name', name);
+  }
 
   /**
     Create a new queue with the given name.
@@ -64,12 +58,15 @@ export default Service.extend(WithFiles, {
     @return {Queue} The new queue.
    */
   create(name) {
-    assert(`Queue names are required to be unique. "${name}" has already been reserved.`, this.find(name) == null);
+    assert(
+      `Queue names are required to be unique. "${name}" has already been reserved.`,
+      this.find(name) == null
+    );
 
     let queue = Queue.create({ name, fileQueue: this });
-    get(this, 'queues').push(queue);
+    this.queues.push(queue);
     once(this, 'notifyPropertyChange', 'queues');
 
     return queue;
   }
-});
+}

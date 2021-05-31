@@ -1,6 +1,5 @@
 import Helper from '@ember/component/helper';
 import { inject as service } from '@ember/service';
-import { get } from '@ember/object';
 
 /**
   `file-queue` helper is one of the core primitives of ember-file-upload.
@@ -26,19 +25,17 @@ import { get } from '@ember/object';
   @param {string} [name] The name of the queue to get information on
   @return {Queue} A collection of all queues, or a specific queue.
  */
-export default Helper.extend({
-
-  fileQueue: service(),
+export default class FileQueueHelper extends Helper {
+  @service('file-queue') fileQueue;
 
   compute(_, hash) {
-    let queues = get(this, 'fileQueue');
+    let queues = this.fileQueue;
     let queueName = hash['name'];
     if (queueName) {
-      let queue = queues.find(queueName) ||
-                  queues.create(queueName);
+      let queue = queues.find(queueName) || queues.create(queueName);
       return queue;
     }
 
     return queues;
   }
-});
+}

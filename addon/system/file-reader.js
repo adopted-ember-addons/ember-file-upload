@@ -37,7 +37,9 @@ import RSVP from 'rsvp';
   @param [options] An object with a label to use to mark the promise.
  */
 export default function (options = {}) {
-  let { resolve, reject, promise } = RSVP.defer(`ember-file-upload: ${options.label}`);
+  let { resolve, reject, promise } = RSVP.defer(
+    `ember-file-upload: ${options.label}`
+  );
   let reader = new FileReader();
 
   reader.onload = resolve;
@@ -94,14 +96,23 @@ export default function (options = {}) {
     @method readAsText
     @return {Promise} A promise that will return the file as text
    */
-  ['readAsArrayBuffer', 'readAsDataURL', 'readAsBinaryString', 'readAsText'].forEach((methodName) => {
+  [
+    'readAsArrayBuffer',
+    'readAsDataURL',
+    'readAsBinaryString',
+    'readAsText',
+  ].forEach((methodName) => {
     this[methodName] = function (blob) {
       reader[methodName](blob);
-      let p = promise.then(function () {
-        return reader.result;
-      }, function () {
-        return RSVP.reject(reader.error);
-      }, `ember-file-upload: Unpack ${options.label}`);
+      let p = promise.then(
+        function () {
+          return reader.result;
+        },
+        function () {
+          return RSVP.reject(reader.error);
+        },
+        `ember-file-upload: Unpack ${options.label}`
+      );
       p.cancel = cancel;
       return p;
     };
