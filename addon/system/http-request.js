@@ -99,12 +99,12 @@ export default function (options = {}) {
   this.ontimeout = this.ontimeout || function () {};
   this.onabort = this.onabort || function () {};
 
-  request.onloadstart = request.onprogress = request.onloadend = bind(
-    this,
-    function (evt) {
-      this.onprogress(evt);
-    }
-  );
+  request.onloadstart =
+    request.onprogress =
+    request.onloadend =
+      bind(this, function (evt) {
+        this.onprogress(evt);
+      });
 
   if (request.upload) {
     request.upload.onprogress = request.onprogress;

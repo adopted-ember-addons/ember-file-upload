@@ -223,8 +223,7 @@ module('data-transfer', function (hooks) {
           type: 'image/svg+xml',
         },
         {
-          type:
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         },
       ],
     });
@@ -240,8 +239,7 @@ module('data-transfer', function (hooks) {
         type: 'image/svg+xml',
       },
       {
-        type:
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       },
     ]);
     assert.notOk(this.subject.get('valid'));
