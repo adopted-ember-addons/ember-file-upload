@@ -6196,12 +6196,12 @@ ember-cli-clipboard@^0.15.0:
     ember-cli-htmlbars "^4.2.3"
 
 ember-cli-content-security-policy@^2.0.0-3:
-  version "2.0.0-3"
-  resolved "https://registry.yarnpkg.com/ember-cli-content-security-policy/-/ember-cli-content-security-policy-2.0.0-3.tgz#45e28d623688bf4ed773db6e6f4953229b83a7d1"
-  integrity sha512-Vf1q0gcWKwzxsPsaaA9ZE4csI4x3Cp9L1DQiJIN8V1KEXlrKMYe575SxDJHH54tgyNor3/0+7dRtKG5zIUdA3Q==
+  version "2.0.0-4"
+  resolved "https://registry.yarnpkg.com/ember-cli-content-security-policy/-/ember-cli-content-security-policy-2.0.0-4.tgz#4552187dcfc8f0ed4979e9a33146e321bc4f5c1d"
+  integrity sha512-pmJcR4ABodKQDNYgpWVHqbFsm6/wLJrfPvwVcUY5CFQGbZaKNmkzuTqkntUdnQZQ2+WSNcwDVRtJLpyBsTw75A==
   dependencies:
     body-parser "^1.17.0"
-    chalk "^4.0.0"
+    chalk "^4.1.1"
     debug "^4.3.1"
     ember-cli-babel "^7.17.2"
     ember-cli-version-checker "^5.0.2"
