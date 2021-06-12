@@ -199,9 +199,8 @@ export default BaseComponent.extend({
   },
 
   isAllowed() {
-    const { environment } = getOwner(this).resolveRegistration(
-      'config:environment'
-    );
+    const { environment } =
+      getOwner(this).resolveRegistration('config:environment');
 
     return (
       environment === 'test' ||
