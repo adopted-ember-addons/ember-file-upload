@@ -59,7 +59,7 @@
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-auto-import": "^1.11.2",
+    "ember-auto-import": "^2.0.0",
     "ember-cli": "3.25.1",
     "ember-cli-addon-docs": "^1.0.0",
     "ember-cli-addon-docs-yuidoc": "^1.0.0",
@@ -97,7 +97,8 @@
     "qunit-dom": "^1.6.0",
     "release-it": "^14.0.0",
     "release-it-lerna-changelog": "^3.0.0",
-    "sass": "^1.32.10"
+    "sass": "^1.32.10",
+    "webpack": "5"
   },
   "engines": {
     "node": "12.* || >= 14.*"
