@@ -10,7 +10,7 @@ Uploads continue in the background, even after a page transition. In other words
 
 * Ember.js v3.16 or above
 * Ember CLI v2.13 or above
-* Node.js v10 or above
+* Node.js v12 or above
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
 * Strict Content Security Policy (CSP) except for mirage route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
 
