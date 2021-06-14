@@ -1,4 +1,384 @@
-# ember-file-upload Changelog
+## v3.0.6 (2021-05-31)
+
+#### :bug: Bug Fix
+* [#450](https://github.com/adopted-ember-addons/ember-file-upload/pull/450) Fix this-property-fallback deprecation ([@aoumiri](https://github.com/aoumiri))
+
+#### :house: Internal
+* [#439](https://github.com/adopted-ember-addons/ember-file-upload/pull/439) Drop Code Climate integration ([@gilest](https://github.com/gilest))
+
+#### Committers: 3
+- Anass OUMIRI ([@aoumiri](https://github.com/aoumiri))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Ilya Radchenko ([@knownasilya](https://github.com/knownasilya))
+
+## v3.0.5 (2020-08-01)
+
+#### :bug: Bug Fix
+* [#378](https://github.com/adopted-ember-addons/ember-file-upload/pull/378) remove mirage FormData shim to fix fastboot error ([@gibso](https://github.com/gibso))
+
+#### :memo: Documentation
+* [#360](https://github.com/adopted-ember-addons/ember-file-upload/pull/360) docs: update selectFiles code samples ([@newyork-anthonyng](https://github.com/newyork-anthonyng))
+
+#### :house: Internal
+* [#353](https://github.com/adopted-ember-addons/ember-file-upload/pull/353) test for CSP compliance ([@jelhan](https://github.com/jelhan))
+* [#381](https://github.com/adopted-ember-addons/ember-file-upload/pull/381) generate code coverage report only once per CI run ([@jelhan](https://github.com/jelhan))
+* [#380](https://github.com/adopted-ember-addons/ember-file-upload/pull/380) floating dependency scenario must ignore lockfile ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 3
+- Anthony Ng ([@newyork-anthonyng](https://github.com/newyork-anthonyng))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- Oliver Görtz ([@gibso](https://github.com/gibso))
+
+## v3.0.4 (2020-05-06)
+
+#### :bug: Bug Fix
+* [#355](https://github.com/adopted-ember-addons/ember-file-upload/pull/355) fix: allow uploading a File without a Queue ([@alexlafroscia](https://github.com/alexlafroscia))
+
+#### Committers: 1
+- Alex LaFroscia ([@alexlafroscia](https://github.com/alexlafroscia))
+
+## v3.0.3 (2020-04-15)
+
+#### :bug: Bug Fix
+* [#346](https://github.com/adopted-ember-addons/ember-file-upload/pull/346) build targets for doc app should cover a wider browser range ([@jelhan](https://github.com/jelhan))
+
+#### :house: Internal
+* [#320](https://github.com/adopted-ember-addons/ember-file-upload/pull/320) do not pin dependencies ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 1
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+
+## v3.0.2 (2020-03-14)
+
+#### :bug: Bug Fix
+* [#333](https://github.com/adopted-ember-addons/ember-file-upload/pull/333) Add edge to build targets for docs app ([@ndekeister-us](https://github.com/ndekeister-us))
+
+#### :memo: Documentation
+* [#333](https://github.com/adopted-ember-addons/ember-file-upload/pull/333) Add edge to build targets for docs app ([@ndekeister-us](https://github.com/ndekeister-us))
+
+#### Committers: 1
+- Nathanaël Dekeister ([@ndekeister-us](https://github.com/ndekeister-us))
+
+## v3.0.1 (2020-03-13)
+
+#### :memo: Documentation
+* [#327](https://github.com/adopted-ember-addons/ember-file-upload/pull/327) Improve YUIDoc comments and fix build warnings ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+
+## v3.0.0 (2020-03-12)
+
+### Upgrade Guide
+
+`upload` test helper has been renamed to `selectFiles` and could only be imported from `ember-file-upload/test-support`.
+
+These imports are not supported anymore:
+
+```js
+import { upload } from 'ember-file-upload/test-support';
+import upload from '<app-name>/tests/helpers/upload';
+```
+
+Please change both of them to:
+
+```js
+import { selectFiles } from 'ember-file-upload/test-support';
+```
+
+The new `selectFiles` test helper expects a selector as first and one or many files as additional arguments. It does not take a file name as an argument. Please set the file name on the `File` instance:
+
+```js
+await selectFiles('#selector', new File([], 'empty.txt'));
+```
+
+Please find more details in the [updated documentation for testing](https://adopted-ember-addons.github.io/ember-file-upload/docs/testing).
+
+#### :boom: Breaking Change
+* [#319](https://github.com/adopted-ember-addons/ember-file-upload/pull/319) Drop official support for Internet Explorer 11 ([@jelhan](https://github.com/jelhan))
+* [#322](https://github.com/adopted-ember-addons/ember-file-upload/pull/322) Renamed `upload` test helper to `selectFiles` and dropped support for legacy import at `app/tests/helpers/upload` ([@gilest](https://github.com/gilest))
+* [#308](https://github.com/adopted-ember-addons/ember-file-upload/pull/308) Drop support for node 8 ([@gilest](https://github.com/gilest))
+* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) Drop support for Ember 2.16 / helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Enable dropdown without upload ([@gilest](https://github.com/gilest))
+* [#257](https://github.com/adopted-ember-addons/ember-file-upload/pull/257) Drop Node 6 support ([@Alonski](https://github.com/Alonski))
+
+#### :rocket: Enhancement
+* [#275](https://github.com/adopted-ember-addons/ember-file-upload/pull/275) helpful error message if invalid image is provided to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#276](https://github.com/adopted-ember-addons/ember-file-upload/pull/276) Enable dropdown without upload ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#274](https://github.com/adopted-ember-addons/ember-file-upload/pull/274) request params are not passed through to mirage handler ([@jelhan](https://github.com/jelhan))
+* [#254](https://github.com/adopted-ember-addons/ember-file-upload/pull/254) Prevent trying to call splice on an array key that might not exist ([@happydude](https://github.com/happydude))
+
+#### :memo: Documentation
+* [#321](https://github.com/adopted-ember-addons/ember-file-upload/pull/321) Reconfigure addon-docs ([@gilest](https://github.com/gilest))
+* [#296](https://github.com/adopted-ember-addons/ember-file-upload/pull/296) fixed missing closing bracket in documentation ([@maximilianmeier](https://github.com/maximilianmeier))
+* [#291](https://github.com/adopted-ember-addons/ember-file-upload/pull/291) fix triple curly in file-dropzone doc ([@mcfiredrill](https://github.com/mcfiredrill))
+* [#281](https://github.com/adopted-ember-addons/ember-file-upload/pull/281) Update addon docs and remove docs from readme ([@gilest](https://github.com/gilest))
+* [#277](https://github.com/adopted-ember-addons/ember-file-upload/pull/277) Fix Travis CI Badge URL ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#294](https://github.com/adopted-ember-addons/ember-file-upload/pull/294) Remove DisableGPU from Testem ([@Alonski](https://github.com/Alonski))
+* [#309](https://github.com/adopted-ember-addons/ember-file-upload/pull/309) automate releases ([@jelhan](https://github.com/jelhan))
+* [#307](https://github.com/adopted-ember-addons/ember-file-upload/pull/307) Remove observers ([@gilest](https://github.com/gilest))
+* [#305](https://github.com/adopted-ember-addons/ember-file-upload/pull/305) Update dependencies in attempt to fix Ember Try test builds ([@gilest](https://github.com/gilest))
+* [#287](https://github.com/adopted-ember-addons/ember-file-upload/pull/287) Dedup default property values in BaseComponent ([@gilest](https://github.com/gilest))
+* [#285](https://github.com/adopted-ember-addons/ember-file-upload/pull/285) Set default branch to Master ([@Alonski](https://github.com/Alonski))
+* [#278](https://github.com/adopted-ember-addons/ember-file-upload/pull/278) convert line endings CRLF -> LF ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 6
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Jason Davis ([@happydude](https://github.com/happydude))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- Maximilian Meier ([@maximilianmeier](https://github.com/maximilianmeier))
+- Tony Miller ([@mcfiredrill](https://github.com/mcfiredrill))
+
+# Ember FileUpload Changelog
+
+## v2.7.0 (2019-05-15)
+
+#### :bug: Bug Fix
+* [#236](https://github.com/adopted-ember-addons/ember-file-upload/pull/236) Fix computed-property.override deprecation ([@andreyfel](https://github.com/andreyfel))
+* [#231](https://github.com/adopted-ember-addons/ember-file-upload/pull/231) Fix MIME type checks ([@bendemboski](https://github.com/bendemboski))
+
+#### :memo: Documentation
+* [#208](https://github.com/adopted-ember-addons/ember-file-upload/pull/208) Angle brackets ([@maxwondercorn](https://github.com/maxwondercorn))
+
+#### :house: Internal
+* [#233](https://github.com/adopted-ember-addons/ember-file-upload/pull/233) add CONTRIBUTING.md and Table of Contents ([@hakilebara](https://github.com/hakilebara))
+
+#### Committers: 6
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Andrey Fel ([@andreyfel](https://github.com/andreyfel))
+- Ben Demboski ([@bendemboski](https://github.com/bendemboski))
+- Frédéric Soumaré ([@hakilebara](https://github.com/hakilebara))
+- Raido Kuli ([@raido](https://github.com/raido))
+- maxwondercorn ([@maxwondercorn](https://github.com/maxwondercorn))
+
+
+## v2.6.0 (2019-01-30)
+
+#### :bug: Bug Fix
+* [#204](https://github.com/adopted-ember-addons/ember-file-upload/pull/204) Added a possibility to run tests that use 'upload' test-helper in Microsoft browsers ([@kazimirchuk](https://github.com/kazimirchuk))
+* [#200](https://github.com/adopted-ember-addons/ember-file-upload/pull/200) files that were cancelled can be uploaded again ([@toovy](https://github.com/toovy))
+
+#### :house: Internal
+* [#199](https://github.com/adopted-ember-addons/ember-file-upload/pull/199) Adopt addon under new ownership ([@Alonski](https://github.com/Alonski))
+
+#### Committers: 3
+- Alon Bukai ([@Alonski](https://github.com/Alonski))
+- Leks Kazimirchuk ([@kazimirchuk](https://github.com/kazimirchuk))
+- Tobias Braner ([@toovy](https://github.com/toovy))
+
+
+## 2.2.5 (2018-03-01)
+
+#### :bug: Bug Fix
+* [#111](https://github.com/adopted-ember-addons/ember-file-upload/pull/111) Support for files without extension. e.g: "FILE" ([@janmisek](https://github.com/janmisek))
+
+#### Committers: 2
+- Jan Míšek ([@janmisek](https://github.com/janmisek))
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+
+
+## 2.2.4 (2017-11-30)
+
+#### :bug: Bug Fix
+* [#87](https://github.com/adopted-ember-addons/ember-file-upload/pull/87) fix upload promise not being cancellable ([@dwickern](https://github.com/dwickern))
+* [#88](https://github.com/adopted-ember-addons/ember-file-upload/pull/88) fix deprecated ember-metal imports ([@dwickern](https://github.com/dwickern))
+
+#### Committers: 1
+- Derek Wickern ([@dwickern](https://github.com/dwickern))
+
+
+## 2.2.1 (2017-11-27)
+
+#### :bug: Bug Fix
+* [#82](https://github.com/adopted-ember-addons/ember-file-upload/pull/82) uploadPromise.then was lost as it was not returned ([@janmisek](https://github.com/janmisek))
+
+#### Committers: 2
+- Jan Míšek ([@janmisek](https://github.com/janmisek))
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+
+
+## 2.2.0 (2017-11-09)
+
+#### :bug: Bug Fix
+* [#79](https://github.com/adopted-ember-addons/ember-file-upload/pull/79) Fix for #42 -- Changed logic on file type array ([@donaldwasserman](https://github.com/donaldwasserman))
+
+#### Committers: 3
+- Donald Wasserman ([@donaldwasserman](https://github.com/donaldwasserman))
+- Felipe Buenaño ([@fesebuv](https://github.com/fesebuv))
+- Tristan Toye ([@TristanToye](https://github.com/TristanToye))
+
+
+## 2.1.3 (2017-10-26)
+
+#### :rocket: Enhancement
+* [#74](https://github.com/adopted-ember-addons/ember-file-upload/pull/74) Add support for circle svg element ([@dbbk](https://github.com/dbbk))
+
+#### :bug: Bug Fix
+* [#60](https://github.com/adopted-ember-addons/ember-file-upload/pull/60) file.upload returns the promise created in http-request.js ([@bartocc](https://github.com/bartocc))
+
+#### :memo: Documentation
+* [#66](https://github.com/adopted-ember-addons/ember-file-upload/pull/66) fix syntax error on acceptance test code example ([@hakilebara](https://github.com/hakilebara))
+* [#65](https://github.com/adopted-ember-addons/ember-file-upload/pull/65) fix definitions of {{file-dropzone}} attributes ([@hakilebara](https://github.com/hakilebara))
+
+#### Committers: 3
+- Ben King ([@dbbk](https://github.com/dbbk))
+- Frédéric Soumaré ([@hakilebara](https://github.com/hakilebara))
+- Julien Palmas ([@bartocc](https://github.com/bartocc))
+
+
+## 2.1.2 (2017-09-26)
+
+#### :bug: Bug Fix
+* [#63](https://github.com/adopted-ember-addons/ember-file-upload/pull/63) FF does not seem to have `dataTransfer` on dragleave ([@topaxi](https://github.com/topaxi))
+
+#### :memo: Documentation
+* [#55](https://github.com/adopted-ember-addons/ember-file-upload/pull/55) Replace references to service 'uploader' with 'fileQueue' ([@Subtletree](https://github.com/Subtletree))
+* [#49](https://github.com/adopted-ember-addons/ember-file-upload/pull/49) Update README.md - fix integration example ([@bartocc](https://github.com/bartocc))
+
+#### Committers: 3
+- Damian Senn ([@topaxi](https://github.com/topaxi))
+- Julien Palmas ([@bartocc](https://github.com/bartocc))
+- Ryan Scott ([@Subtletree](https://github.com/Subtletree))
+
+
+## 2.1.1 (2017-07-17)
+
+#### :bug: Bug Fix
+* [#48](https://github.com/adopted-ember-addons/ember-file-upload/pull/48) Add ability to upload same file twice in a row ([@mickeysanchez](https://github.com/mickeysanchez))
+
+#### Committers: 1
+- Mickey Sanchez ([@mickeysanchez](https://github.com/mickeysanchez))
+
+
+## 2.1.0 (2017-07-16)
+
+#### :rocket: Enhancement
+* [#47](https://github.com/adopted-ember-addons/ember-file-upload/pull/47) feat(http-request): add jsonapi content type ([@shuriu](https://github.com/shuriu))
+
+#### Committers: 1
+- Ștefan Rotariu ([@shuriu](https://github.com/shuriu))
+
+
+## 2.0.1 (2017-07-16)
+
+#### :bug: Bug Fix
+* [#46](https://github.com/adopted-ember-addons/ember-file-upload/pull/46) fix(file): file.upload() returns a promise ([@shuriu](https://github.com/shuriu))
+
+#### Committers: 1
+- Ștefan Rotariu ([@shuriu](https://github.com/shuriu))
+
+
+## 2.0.0 (2017-07-12)
+
+#### :rocket: Enhancement
+* [#12](https://github.com/adopted-ember-addons/ember-file-upload/pull/12) Add payloadType option to file ([@jlevycpa](https://github.com/jlevycpa))
+
+#### Committers: 1
+- [@jlevycpa](https://github.com/jlevycpa)
+
+
+## 2.0.0-beta.42 (2017-06-05)
+
+#### :memo: Documentation
+* [#40](https://github.com/adopted-ember-addons/ember-file-upload/pull/40) fix try catch example ([@bbtb1982](https://github.com/bbtb1982))
+
+#### Committers: 1
+- Brandon Richards  ([@bbtb1982](https://github.com/bbtb1982))
+
+
+## 2.0.0-beta.41 (2017-05-11)
+
+#### :rocket: Enhancement
+* [#37](https://github.com/adopted-ember-addons/ember-file-upload/pull/37) 'disabled' attribute for file-upload ([@XaserAcheron](https://github.com/XaserAcheron))
+
+#### Committers: 1
+- Xaser Acheron ([@XaserAcheron](https://github.com/XaserAcheron))
+
+
+## 2.0.0-beta.39 (2017-04-21)
+
+#### :bug: Bug Fix
+* [#32](https://github.com/adopted-ember-addons/ember-file-upload/pull/32) nullify _listener after file drop ([@EnotPoloskun](https://github.com/EnotPoloskun))
+
+#### Committers: 1
+- Pavel ([@EnotPoloskun](https://github.com/EnotPoloskun))
+
+
+## 2.0.0-beta.37 (2017-03-31)
+
+#### :rocket: Enhancement
+* [#28](https://github.com/adopted-ember-addons/ember-file-upload/pull/28) Permit setting withCredentials on the XMLHttpRequest for file-upload ([@zacharyhamm](https://github.com/zacharyhamm))
+
+#### Committers: 1
+- Zachary Hamm ([@zacharyhamm](https://github.com/zacharyhamm))
+
+
+## 2.0.0-beta.36 (2017-03-21)
+
+#### :rocket: Enhancement
+* [#27](https://github.com/adopted-ember-addons/ember-file-upload/pull/27) Fix remove to clear file from fileQueue also ([@dkorenblyum](https://github.com/dkorenblyum))
+
+#### Committers: 1
+- Dmitriy Korenblyum ([@dkorenblyum](https://github.com/dkorenblyum))
+
+
+## 2.0.0-beta.35 (2017-03-17)
+
+#### :bug: Bug Fix
+* [#26](https://github.com/adopted-ember-addons/ember-file-upload/pull/26) Do not call set on a destroyed object ([@dkorenblyum](https://github.com/dkorenblyum))
+
+#### Committers: 1
+- Dmitriy Korenblyum ([@dkorenblyum](https://github.com/dkorenblyum))
+
+
+## 2.0.0-beta.27 (2017-02-05)
+
+#### :bug: Bug Fix
+* [#22](https://github.com/adopted-ember-addons/ember-file-upload/pull/22) Closes [#21](https://github.com/adopted-ember-addons/ember-file-upload/issues/21) Drag-and-drop isn't working with IE11 ([@chrisdpeters](https://github.com/chrisdpeters))
+
+#### Committers: 2
+- Chris Peters ([@chrisdpeters](https://github.com/chrisdpeters))
+- Edward Faulkner ([@ef4](https://github.com/ef4))
+
+
+## 2.0.0-beta.19 (2016-10-17)
+
+#### :bug: Bug Fix
+* [#15](https://github.com/adopted-ember-addons/ember-file-upload/pull/15) Closes [#14](https://github.com/adopted-ember-addons/ember-file-upload/issues/14) (Maximum call stack size exceeded) ([@Padchi](https://github.com/Padchi))
+
+#### Committers: 2
+- Tim Evans ([@tim-evans](https://github.com/tim-evans))
+- Timmie Sarjanen ([@Padchi](https://github.com/Padchi))
+
+
+## 2.0.0-beta.17 (2016-09-22)
+
+#### :bug: Bug Fix
+* [#11](https://github.com/adopted-ember-addons/ember-file-upload/pull/11) Add null check for onfileadded callback ([@jlevycpa](https://github.com/jlevycpa))
+
+#### Committers: 1
+- [@jlevycpa](https://github.com/jlevycpa)
+
+
+## 2.0.0-beta.16 (2016-08-04)
+
+#### :rocket: Enhancement
+* [#8](https://github.com/adopted-ember-addons/ember-file-upload/pull/8) Get progress from `request.upload.onprogress` as well. ([@ryanto](https://github.com/ryanto))
+
+#### :memo: Documentation
+* [#6](https://github.com/adopted-ember-addons/ember-file-upload/pull/6) Fix installation instructions ([@kylemellander](https://github.com/kylemellander))
+
+#### Committers: 2
+- Kyle Mellander ([@kylemellander](https://github.com/kylemellander))
+- Ryan T ([@ryanto](https://github.com/ryanto))
+
 
 ## 1.13.13 (March 15, 2016)
 * Add an API for mocking out file.read() for `ember-plupload/test-helpers`.

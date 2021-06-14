@@ -1,13 +1,8 @@
 import { A } from '@ember/array';
-import EmberObject, {
-  observer,
-  computed,
-  set,
-  get
-} from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { next } from '@ember/runloop';
 import File from './file';
-import sumBy from './computed/sum-by';
+import WithFiles from './mixins/with-files';
 
 /**
   The Queue is a collection of files that
@@ -20,8 +15,7 @@ import sumBy from './computed/sum-by';
   @class Queue
   @extends Ember.Object
  */
-export default EmberObject.extend({
-
+export default EmberObject.extend(WithFiles, {
   init() {
     set(this, 'files', A());
     set(this, '_dropzones', A());
@@ -30,8 +24,8 @@ export default EmberObject.extend({
 
   destroy() {
     this._super();
-    get(this, 'fileQueue.queues').delete(get(this, 'name'));
-    get(this, 'files').forEach((file) => set(file, 'queue', null));
+    this.fileQueue.queues.delete(this.name);
+    this.files.forEach((file) => set(file, 'queue', null));
     set(this, 'files', A());
   },
 
@@ -49,17 +43,18 @@ export default EmberObject.extend({
    */
   push(file) {
     file.queue = this;
-    get(this, 'fileQueue.files').pushObject(file);
-    get(this, 'files').pushObject(file);
+    this.fileQueue.files.pushObject(file);
+    this.files.pushObject(file);
   },
 
   /**
     @private
+    @method _addFiles
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
   _addFiles(fileList, source) {
-    let onfileadd = get(this, 'onfileadd');
-    let disabled = get(this, 'disabled');
+    let onfileadd = this.onfileadd;
+    let disabled = this.disabled;
     let files = [];
 
     if (!disabled) {
@@ -87,8 +82,8 @@ export default EmberObject.extend({
    */
   remove(file) {
     file.queue = null;
-    get(this, 'fileQueue.files').removeObject(file);
-    get(this, 'files').removeObject(file);
+    this.fileQueue.files.removeObject(file);
+    this.files.removeObject(file);
   },
 
   /**
@@ -131,77 +126,4 @@ export default EmberObject.extend({
     @default []
    */
   files: null,
-
-  /**
-    Flushes the `files` property when they have settled. This
-    will only flush files when all files have arrived at a terminus
-    of their state chart.
-
-    ```
-        .------.     .---------.     .--------.
-    o--| queued |-->| uploading |-->| uploaded |
-        `------`     `---------`     `--------`
-           ^              |    .-------.
-           |              |`->| aborted |
-           |              |    `-------`
-           |  .------.    |    .---------.
-           `-| failed |<-` `->| timed_out |-.
-           |  `------`         `---------`  |
-           `-------------------------------`
-    ```
-
-    Files *may* be requeued by the user in the `failed` or `timed_out`
-    states.
-
-    @private
-   */
-  flushFilesWhenSettled: observer('files.@each.state', function () { // eslint-disable-line ember/no-observers
-    let files = get(this, 'files');
-    let allFilesHaveSettled = files.every(function (file) {
-      return ['uploaded', 'aborted'].indexOf(file.state) !== -1;
-    });
-
-    if (files.length === 0) { return; }
-
-    if (allFilesHaveSettled) {
-      get(this, 'files').forEach((file) => set(file, 'queue', null));
-      set(this, 'files', A());
-    }
-  }),
-
-  /**
-    The aggregate size (in bytes) of all files in the queue.
-
-    @accessor size
-    @readonly
-    @type number
-    @default 0
-   */
-  size: sumBy('files', 'size'),
-
-  /**
-    The aggregate amount of bytes that have been uploaded
-    to the server for all files in the queue.
-
-    @accessor loaded
-    @readonly
-    @type number
-    @default 0
-   */
-  loaded: sumBy('files', 'loaded'),
-
-  /**
-    The current upload progress of the queue, as a number from 0 to 100.
-
-    @accessor progress
-    @readonly
-    @type number
-    @default 0
-   */
-  progress: computed('size', 'loaded', {
-    get() {
-      let percent = (get(this, 'loaded') / get(this, 'size')) || 0;
-      return Math.floor(percent * 100);
-    }
-  })
 });

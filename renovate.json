@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:js-lib"
+    "config:base"
   ],
   "ignoreDeps": [
     "@ember/jquery",
@@ -28,5 +28,8 @@
     "eslint-plugin-ember",
     "loader.js",
     "qunit-dom"
-  ]
+  ],
+  "postUpdateOptions": ["yarnDedupeFewer"],
+  "rangeStrategy": "update-lockfile"
 }
+

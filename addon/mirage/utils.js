@@ -1,4 +1,3 @@
-/* global Uint8Array */
 import RSVP from 'rsvp';
 
 import FileReader from 'ember-file-upload/system/file-reader';
@@ -29,12 +28,14 @@ let pipelines = {
       let duration = 0;
       for (let i = 0; i < data.length; i++) {
         // Find a Graphic Control Extension hex(21F904__ ____ __00)
-        if (data[i] === 0x21 &&
-            data[i + 1] === 0xF9 &&
-            data[i + 2] === 0x04 &&
-            data[i + 7] === 0x00) {
+        if (
+          data[i] === 0x21 &&
+          data[i + 1] === 0xf9 &&
+          data[i + 2] === 0x04 &&
+          data[i + 7] === 0x00
+        ) {
           // Swap 5th and 6th bytes to get the delay per frame
-          let delay = (data[i + 5] << 8) | (data[i + 4] & 0xFF);
+          let delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
 
           // Should be aware browsers have a minimum frame delay
           // e.g. 6ms for IE, 2ms modern browsers (50fps)
@@ -44,7 +45,7 @@ let pipelines = {
 
       return {
         duration: duration / 1000,
-        animated: duration > 0
+        animated: duration > 0,
       };
     });
   },
@@ -59,8 +60,8 @@ let pipelines = {
         reject(
           new Error(
             'You tried to upload an invalid image. The upload handler for mirage ' +
-            'shipped with ember-file-upload does not support invalid images. ' +
-            'Please make sure that your image is valid and can be parsed by browsers.'
+              'shipped with ember-file-upload does not support invalid images. ' +
+              'Please make sure that your image is valid and can be parsed by browsers.'
           )
         );
       };
@@ -68,7 +69,7 @@ let pipelines = {
     }).then(function (img) {
       return {
         width: img.naturalWidth,
-        height: img.naturalHeight
+        height: img.naturalHeight,
       };
     });
   },
@@ -81,23 +82,25 @@ let pipelines = {
         reject(
           new Error(
             'You tried to upload an invalid video. The upload handler for mirage ' +
-            'shipped with ember-file-upload does not support invalid videos. ' +
-            'Please make sure that your video is valid and can be parsed by browsers.'
+              'shipped with ember-file-upload does not support invalid videos. ' +
+              'Please make sure that your video is valid and can be parsed by browsers.'
           )
         );
       };
       video.src = metadata.url;
       document.body.appendChild(video);
       video.load();
-    }).then(function () {
-      return {
-        duration: video.duration,
-        width: video.videoWidth,
-        height: video.videoHeight
-      };
-    }).finally(function () {
-      document.body.removeChild(video);
-    });
+    })
+      .then(function () {
+        return {
+          duration: video.duration,
+          width: video.videoWidth,
+          height: video.videoHeight,
+        };
+      })
+      .finally(function () {
+        document.body.removeChild(video);
+      });
   },
 
   audio(file, metadata) {
@@ -108,23 +111,24 @@ let pipelines = {
         reject(
           new Error(
             'You tried to upload an invalid audio file. The upload handler for mirage ' +
-            'shipped with ember-file-upload does not support invalid audio files. ' +
-            'Please make sure that your audio is valid and can be parsed by browsers.'
+              'shipped with ember-file-upload does not support invalid audio files. ' +
+              'Please make sure that your audio is valid and can be parsed by browsers.'
           )
         );
       };
       audio.src = metadata.url;
       document.body.appendChild(audio);
       audio.load();
-    }).then(function () {
-      return {
-        duration: audio.duration
-      };
-    }).finally(function () {
-      document.body.removeChild(audio);
-    });
-  }
-
+    })
+      .then(function () {
+        return {
+          duration: audio.duration,
+        };
+      })
+      .finally(function () {
+        document.body.removeChild(audio);
+      });
+  },
 };
 
 export function extractFileMetadata(file) {
@@ -132,32 +136,35 @@ export function extractFileMetadata(file) {
     name: file.name,
     size: file.size,
     type: file.type,
-    extension: (file.name.match(/\.(.*)$/) || [])[1]
+    extension: (file.name.match(/\.(.*)$/) || [])[1],
   };
 
   let reader = new FileReader();
-  return reader.readAsDataURL(file).then(function (url) {
-    metadata.url = url;
+  return reader
+    .readAsDataURL(file)
+    .then(function (url) {
+      metadata.url = url;
 
-    let additionalMetadata = [];
+      let additionalMetadata = [];
 
-    if (metadata.type === 'image/gif') {
-      additionalMetadata.push(pipelines.gif(file, metadata));
-    }
-    if (metadata.type.match(/^image\//)) {
-      additionalMetadata.push(pipelines.image(file, metadata));
-    }
-    if (metadata.type.match(/^video\//)) {
-      additionalMetadata.push(pipelines.video(file, metadata));
-    }
-    if (metadata.type.match(/^audio\//)) {
-      additionalMetadata.push(pipelines.audio(file, metadata));
-    }
-    return RSVP.all(additionalMetadata);
-  }).then(function (additionalMetadata) {
-    additionalMetadata.forEach(function (data) {
-      Object.assign(metadata, data);
+      if (metadata.type === 'image/gif') {
+        additionalMetadata.push(pipelines.gif(file, metadata));
+      }
+      if (metadata.type.match(/^image\//)) {
+        additionalMetadata.push(pipelines.image(file, metadata));
+      }
+      if (metadata.type.match(/^video\//)) {
+        additionalMetadata.push(pipelines.video(file, metadata));
+      }
+      if (metadata.type.match(/^audio\//)) {
+        additionalMetadata.push(pipelines.audio(file, metadata));
+      }
+      return RSVP.all(additionalMetadata);
+    })
+    .then(function (additionalMetadata) {
+      additionalMetadata.forEach(function (data) {
+        Object.assign(metadata, data);
+      });
+      return metadata;
     });
-    return metadata;
-  });
 }
