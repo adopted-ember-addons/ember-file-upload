@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, resetOnerror, setupOnerror } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -76,35 +76,37 @@ module('Integration | Component | mirage-handler', function (hooks) {
     }),
   };
   for (let [type, file] of Object.entries(SCENARIOS)) {
-    test(`upload handler throws if invalid ${type} is provided`, async function (assert) {
-      let errorCount = 0;
-      setupOnerror((error) => {
-        // expect two errors:
-        // 1. error thrown by our upload handler
-        // 2. error thrown by 500 response that includes the first error as body
-        if (errorCount === 0) {
-          // error thrown by our mirage handler
-          assert.step('error thrown');
-          assert.ok(error.message.includes(`invalid ${type}`));
-        } else {
-          // error from 500 response
-          assert.step('500 response');
-          assert.equal(error.status, 500);
-          assert.ok(error.body.error.includes(`invalid ${type}`));
-        }
+    (['audio', 'video'].includes(type) ? skip : test)(
+      `upload handler throws if invalid ${type} is provided`,
+      async function (assert) {
+        let errorCount = 0;
+        setupOnerror((error) => {
+          // expect two errors:
+          // 1. error thrown by our upload handler
+          // 2. error thrown by 500 response that includes the first error as body
+          if (errorCount === 0) {
+            // error thrown by our mirage handler
+            assert.step('error thrown');
+            assert.ok(error.message.includes(`invalid ${type}`));
+          } else {
+            // error from 500 response
+            assert.step('500 response');
+            assert.equal(error.status, 500);
+            assert.ok(error.body.error.includes(`invalid ${type}`));
+          }
 
-        errorCount++;
-      });
+          errorCount++;
+        });
 
-      this.server.post(
-        '/image',
-        uploadHandler(() => {})
-      );
+        this.server.post(
+          '/image',
+          uploadHandler(() => {})
+        );
 
-      this.set('uploadImage', (file) => {
-        return file.upload('/image');
-      });
-      await render(hbs`
+        this.set('uploadImage', (file) => {
+          return file.upload('/image');
+        });
+        await render(hbs`
         {{#file-upload
           name="file"
           onfileadd=uploadImage
@@ -115,9 +117,10 @@ module('Integration | Component | mirage-handler', function (hooks) {
         {{/file-upload}}
       `);
 
-      await selectFiles('input', file);
+        await selectFiles('input', file);
 
-      assert.verifySteps(['error thrown', '500 response']);
-    });
+        assert.verifySteps(['error thrown', '500 response']);
+      }
+    );
   }
 });
