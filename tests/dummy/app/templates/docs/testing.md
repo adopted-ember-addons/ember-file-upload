@@ -1,9 +1,9 @@
 # Acceptance Tests
 
-`ember-file-upload` provides an `upload` helper for acceptance and integration tests:
+`ember-file-upload` provides a `selectFiles` helper for acceptance and integration tests:
 
 ```javascript
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 import { module } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 
@@ -12,7 +12,7 @@ module('/notes', function(hooks) {
 
   test('showing a note', async function (assert) {
     let file = new File(['I can feel the money leaving my body'], 'douglas_coupland.txt', { type: 'text/plain' });
-    await upload('#upload-note', file, 'douglas_coupland.txt');
+    await selectFiles('#upload-note', file);
 
     assert.dom('.note').hasText('I can feel the money leaving my body');
   });
@@ -39,7 +39,7 @@ export default function () {
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { upload } from 'ember-file-upload/test-support';
+import { selectFiles } from 'ember-file-upload/test-support';
 
 module('/photos', function(hooks) {
   setupApplicationTest(hooks);
@@ -54,7 +54,7 @@ module('/photos', function(hooks) {
       78,68,174,66,96,130
     ]);
     let file = new File(data, 'smile.png', { type: 'image/png' });
-    await upload('#upload-photo', file, 'smile.png');
+    await selectFiles('#upload-photo', file);
 
     let photo = server.db.photos[0];
     assert.equal(photo.filename, 'smile.png');
@@ -72,3 +72,43 @@ function getImageBlob() {
   });
 }
 ```
+
+## Content Security Policy
+
+The production code provided this addon is compatible with a strict Content Security Policy (CSP). But the provided mirage route handlers require `data:` protocol to be allowed in `img-src` and `media-src` directives.
+
+If using provided mirage route handlers and [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy#ember-cli-content-security-policy) you should change the default configuration like this:
+
+```js
+// config/content-security-policy.js
+
+module.exports = function(environment) {
+  let isMirageEnabled = ['development', 'test'].include(environment);
+
+  return {
+    delivery: ['header'],
+    enabled: true,
+    failTests: true,
+    policy: {
+      'default-src':  ["'none'"],
+      'script-src':   ["'self'"],
+      'font-src':     ["'self'"],
+      'connect-src':  ["'self'"],
+      'img-src':      [
+        "'self'",
+        // allow data protocol for environments in which mirage is enabled
+        isMirageEnabled ? 'data:' : null,
+      ].filter(Boolean),
+      'style-src':    ["'self'"],
+      'media-src':    [
+        "'self'",
+        // allow data protocol for environments in which mirage is enabled
+        isMirageEnabled ? 'data:' : null,
+      ],
+    },
+    reportOnly: true,
+  };
+}
+```
+
+You should not allow `data:` protocol for production environment unless it's required for another reason.

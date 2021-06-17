@@ -1,9 +1,8 @@
-/* global atob, Uint8Array */
 import { registerWaiter } from '@ember/test';
 import { DEBUG } from '@glimmer/env';
 
 import { assert } from '@ember/debug';
-import EmberObject, { set, get, computed } from '@ember/object';
+import EmberObject, { set, computed } from '@ember/object';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
@@ -22,8 +21,8 @@ function normalizeOptions(file, url, options) {
   options.url = options.url || url;
   options.method = options.method || 'POST';
   options.accepts = options.accepts || ['application/json', 'text/javascript'];
-  if (!options.hasOwnProperty('contentType')) {
-    options.contentType = get(file, 'type');
+  if (!Object.prototype.hasOwnProperty.call(options, 'contentType')) {
+    options.contentType = file.type;
   }
   options.headers = options.headers || {};
   options.data = options.data || {};
@@ -51,15 +50,17 @@ function normalizeOptions(file, url, options) {
 }
 
 function upload(file, url, opts, uploadFn) {
-  if (['queued', 'failed', 'timed_out', 'aborted'].indexOf(get(file, 'state')) === -1) {
-    assert(`The file ${file.id} is in the state "${get(file, 'state')}" and cannot be requeued.`);
+  if (['queued', 'failed', 'timed_out', 'aborted'].indexOf(file.state) === -1) {
+    assert(
+      `The file ${file.id} is in the state "${file.state}" and cannot be requeued.`
+    );
   }
 
   let options = normalizeOptions(file, url, opts);
 
   let request = new HTTPRequest({
     withCredentials: options.withCredentials,
-    label: `${options.method} ${get(file, 'name') } to ${options.url}`
+    label: `${options.method} ${file.name} to ${options.url}`,
   });
 
   request.open(options.method, options.url);
@@ -95,16 +96,27 @@ function upload(file, url, opts, uploadFn) {
 
   let uploadPromise = uploadFn(request, options);
 
-  uploadPromise = uploadPromise.then(function (result) {
-    set(file, 'state', 'uploaded');
-    return result;
-  }, function (error) {
-    set(file, 'state', 'failed');
-    return RSVP.reject(error);
-  }).finally(function () {
-    // Decrement for Ember.Test
-    inflightRequests--;
-  });
+  uploadPromise = uploadPromise
+    .then(
+      function (result) {
+        set(file, 'state', 'uploaded');
+        return result;
+      },
+      function (error) {
+        set(file, 'state', 'failed');
+        return RSVP.reject(error);
+      }
+    )
+    .finally(function () {
+      let queue = file.queue;
+
+      if (queue) {
+        file.queue.flush();
+      }
+
+      // Decrement for Ember.Test
+      inflightRequests--;
+    });
 
   return uploadPromise;
 }
@@ -124,13 +136,12 @@ if (DEBUG) {
   @extends Ember.Object
  */
 export default EmberObject.extend({
-
   init() {
     this._super();
     Object.defineProperty(this, 'id', {
       writeable: false,
       enumerable: true,
-      value: `file-${uuid()}`
+      value: `file-${uuid()}`,
     });
   },
 
@@ -149,13 +160,13 @@ export default EmberObject.extend({
     @accessor name
     @type {String}
    */
-  name: computed({
+  name: computed('blob.name', {
     get() {
-      return get(this, 'blob.name');
+      return this.blob.name;
     },
     set(_, name) {
       return name;
-    }
+    },
   }),
 
   /**
@@ -188,8 +199,8 @@ export default EmberObject.extend({
    */
   extension: computed('type', {
     get() {
-      return get(this, 'type').split('/').slice(-1)[0];
-    }
+      return this.type.split('/').slice(-1)[0];
+    },
   }),
 
   /**
@@ -218,6 +229,8 @@ export default EmberObject.extend({
     - `aborted`
     - `uploaded`
     - `failed`
+
+    Implementers should call flush() on the file's queue after mutating this property.
 
     @accessor state
     @type {String}
@@ -277,7 +290,7 @@ export default EmberObject.extend({
   uploadBinary(url, opts) {
     opts.contentType = 'application/octet-stream';
     return upload(this, url, opts, (request) => {
-      return request.send(get(this, 'blob'));
+      return request.send(this.blob);
     });
   },
 
@@ -296,7 +309,7 @@ export default EmberObject.extend({
 
       Object.keys(options.data).forEach((key) => {
         if (key === options.fileKey) {
-          form.append(key, options.data[key], get(this, 'name'));
+          form.append(key, options.data[key], this.name);
         } else {
           form.append(key, options.data[key]);
         }
@@ -313,7 +326,9 @@ export default EmberObject.extend({
    * @return {Promise}
    */
   readAsArrayBuffer() {
-    let reader = new FileReader({ label: `Read ${get(this, 'name')} as an ArrayBuffer` });
+    let reader = new FileReader({
+      label: `Read ${this.name} as an ArrayBuffer`,
+    });
     return reader.readAsArrayBuffer(this.blob);
   },
 
@@ -324,7 +339,9 @@ export default EmberObject.extend({
    * @return {Promise}
    */
   readAsDataURL() {
-    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a Data URI` });
+    let reader = new FileReader({
+      label: `Read ${this.name} as a Data URI`,
+    });
     return reader.readAsDataURL(this.blob);
   },
 
@@ -335,7 +352,9 @@ export default EmberObject.extend({
    * @return {Promise}
    */
   readAsBinaryString() {
-    let reader = new FileReader({ label: `Read ${get(this, 'name')} as a binary string` });
+    let reader = new FileReader({
+      label: `Read ${this.name} as a binary string`,
+    });
     return reader.readAsBinaryString(this.blob);
   },
 
@@ -346,12 +365,10 @@ export default EmberObject.extend({
    * @return {Promise}
    */
   readAsText() {
-    let reader = new FileReader({ label: `Read ${get(this, 'name')} as text` });
+    let reader = new FileReader({ label: `Read ${this.name} as text` });
     return reader.readAsText(this.blob);
-  }
-
+  },
 }).reopenClass({
-
   /**
     Creates a file object that can be read or uploaded to a
     server from a Blob object.
@@ -362,16 +379,16 @@ export default EmberObject.extend({
     @param {String} [source] The source that created the blob.
     @return {File} A file object
    */
-  fromBlob(blob, source='blob') {
+  fromBlob(blob, source = 'blob') {
     let file = this.create();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
-      value: blob
+      value: blob,
     });
     Object.defineProperty(file, 'source', {
       writeable: false,
-      value: source
+      value: source,
     });
 
     return file;
@@ -387,7 +404,7 @@ export default EmberObject.extend({
     @param {String} [source] The source of the data URL.
     @return {File} A file object
    */
-  fromDataURL(dataURL, source='data-url') {
+  fromDataURL(dataURL, source = 'data-url') {
     let [typeInfo, base64String] = dataURL.split(',');
     let mimeType = typeInfo.match(/:(.*?);/)[1];
 
@@ -401,5 +418,5 @@ export default EmberObject.extend({
     let blob = new Blob([binaryData], { type: mimeType });
 
     return this.fromBlob(blob, source);
-  }
+  },
 });

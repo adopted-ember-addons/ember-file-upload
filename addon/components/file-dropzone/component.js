@@ -1,8 +1,7 @@
-/* global Blob, Uint8Array */
 import BaseComponent from '../base-component';
 
 import { bind } from '@ember/runloop';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 import { getOwner } from '@ember/application';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
@@ -13,9 +12,12 @@ import DragListener from '../../system/drag-listener';
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
 let supported = (function () {
-  return typeof window !== 'undefined' && window.document &&
-         'draggable' in document.createElement('span');
-}());
+  return (
+    typeof window !== 'undefined' &&
+    window.document &&
+    'draggable' in document.createElement('span')
+  );
+})();
 
 const dragListener = new DragListener();
 
@@ -73,7 +75,6 @@ const dragListener = new DragListener();
   @yield {Queue} queue
  */
 export default BaseComponent.extend({
-
   layout,
 
   supported,
@@ -104,7 +105,6 @@ export default BaseComponent.extend({
     @default false
    */
   disabled: false,
-
 
   /**
     A list of MIME types / extensions to be accepted by the input
@@ -185,39 +185,43 @@ export default BaseComponent.extend({
   didInsertElement() {
     this._super();
 
-    dragListener.addEventListeners(`#${get(this, 'elementId')}`, {
+    dragListener.addEventListeners(`#${this.elementId}`, {
       dragenter: bind(this, 'didEnterDropzone'),
       dragleave: bind(this, 'didLeaveDropzone'),
       dragover: bind(this, 'didDragOver'),
-      drop: bind(this, 'didDrop')
+      drop: bind(this, 'didDrop'),
     });
   },
 
   willDestroyElement() {
-    dragListener.removeEventListeners(`#${get(this, 'elementId')}`);
+    this._super(...arguments);
+    dragListener.removeEventListeners(`#${this.elementId}`);
   },
 
   isAllowed() {
-    const { environment } = getOwner(this).resolveRegistration('config:environment');
+    const { environment } =
+      getOwner(this).resolveRegistration('config:environment');
 
-    return environment === 'test' ||
-           get(this[DATA_TRANSFER], 'source') === 'os' ||
-           get(this, 'allowUploadsFromWebsites');
+    return (
+      environment === 'test' ||
+      this[DATA_TRANSFER].source === 'os' ||
+      this.allowUploadsFromWebsites
+    );
   },
 
   didEnterDropzone(evt) {
     let dataTransfer = DataTransfer.create({
-      queue: get(this, 'queue'),
+      queue: this.queue,
       source: evt.source,
       dataTransfer: evt.dataTransfer,
-      itemDetails: evt.itemDetails
+      itemDetails: evt.itemDetails,
     });
     this[DATA_TRANSFER] = dataTransfer;
 
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = get(this, 'cursor');
+      evt.dataTransfer.dropEffect = this.cursor;
       set(this, 'active', true);
-      set(this, 'valid', get(dataTransfer, 'valid'));
+      set(this, 'valid', dataTransfer.valid);
 
       if (this.ondragenter) {
         this.ondragenter(dataTransfer);
@@ -229,14 +233,14 @@ export default BaseComponent.extend({
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.isAllowed()) {
       if (evt.dataTransfer) {
-        evt.dataTransfer.dropEffect = get(this, 'cursor');
+        evt.dataTransfer.dropEffect = this.cursor;
       }
       if (this.ondragleave) {
         this.ondragleave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
       }
 
-      if (get(this, 'isDestroyed')) {
+      if (this.isDestroyed) {
         return;
       }
       set(this, 'active', false);
@@ -246,7 +250,7 @@ export default BaseComponent.extend({
   didDragOver(evt) {
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = get(this, 'cursor');
+      evt.dataTransfer.dropEffect = this.cursor;
     }
   },
 
@@ -254,7 +258,7 @@ export default BaseComponent.extend({
     set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
 
     if (!this.isAllowed()) {
-      evt.dataTransfer.dropEffect = get(this, 'cursor');
+      evt.dataTransfer.dropEffect = this.cursor;
       this[DATA_TRANSFER] = null;
       return;
     }
@@ -290,7 +294,7 @@ export default BaseComponent.extend({
 
         if (canvas.toBlob) {
           canvas.toBlob((blob) => {
-            let [file] = get(this, 'queue')._addFiles([blob], 'web');
+            let [file] = this.queue._addFiles([blob], 'web');
             set(file, 'name', filename);
           });
         } else {
@@ -298,12 +302,12 @@ export default BaseComponent.extend({
           let len = binStr.length;
           let arr = new Uint8Array(len);
 
-          for (var i=0; i<len; i++ ) {
+          for (var i = 0; i < len; i++) {
             arr[i] = binStr.charCodeAt(i);
           }
           let blob = new Blob([arr], { type: 'image/png' });
           blob.name = filename;
-          let [file] = get(this, 'queue')._addFiles([blob], 'web');
+          let [file] = this.queue._addFiles([blob], 'web');
           set(file, 'name', filename);
         }
       };
@@ -321,7 +325,7 @@ export default BaseComponent.extend({
 
     // Add file(s) to upload queue.
     set(this, 'active', false);
-    get(this, 'queue')._addFiles(get(this[DATA_TRANSFER], 'files'), 'drag-and-drop');
+    this.queue._addFiles(this[DATA_TRANSFER].files, 'drag-and-drop');
     this[DATA_TRANSFER] = null;
-  }
+  },
 });

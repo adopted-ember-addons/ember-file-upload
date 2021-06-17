@@ -1,13 +1,9 @@
-/* global FakeXMLHttpRequest, XMLSerializer */
+import FakeXMLHttpRequest from 'fake-xml-http-request';
 import HttpRequest from 'ember-file-upload/system/http-request';
-import {
-  module,
-  test,
-  skip
-} from 'qunit';
+import { module, test, skip } from 'qunit';
 
-module('http-request', function(hooks) {
-  hooks.beforeEach(function() {
+module('http-request', function (hooks) {
+  hooks.beforeEach(function () {
     this._XMLHttpRequest = window.XMLHttpRequest;
     let test = this;
     window.XMLHttpRequest = function () {
@@ -21,7 +17,7 @@ module('http-request', function(hooks) {
     this.subject = new HttpRequest();
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     this.subject = null;
     window.XMLHttpRequest = this._XMLHttpRequest;
   });
@@ -50,25 +46,30 @@ module('http-request', function(hooks) {
     this.subject.open();
     this.subject.setRequestHeader('Content-Type', 'application/json');
 
-    assert.equal(this.request.requestHeaders['Content-Type'], 'application/json');
+    assert.equal(
+      this.request.requestHeaders['Content-Type'],
+      'application/json'
+    );
   });
 
   test('successful send with a text/plain response', function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
-    let promise = this.subject.send({
-      filename: 'rfc.md'
-    }).then(function (response) {
-      assert.deepEqual(response, {
-        body: 'ok',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        status: 200
+    let promise = this.subject
+      .send({
+        filename: 'rfc.md',
+      })
+      .then(function (response) {
+        assert.deepEqual(response, {
+          body: 'ok',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          status: 200,
+        });
       });
-    });
 
     assert.deepEqual(this.request.requestBody, {
-      filename: 'rfc.md'
+      filename: 'rfc.md',
     });
 
     this.respond(200, { 'Content-Type': 'text/plain' }, 'ok');
@@ -76,42 +77,53 @@ module('http-request', function(hooks) {
     return promise;
   });
 
-
   test('successful send with a text/html response', function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
-    let promise = this.subject.send({
-      filename: 'rfc.md'
-    }).then(function (response) {
-      assert.deepEqual(response.headers, {
-        'Content-Type': 'text/html'
+    let promise = this.subject
+      .send({
+        filename: 'rfc.md',
+      })
+      .then(function (response) {
+        assert.deepEqual(response.headers, {
+          'Content-Type': 'text/html',
+        });
+        assert.equal(response.body[0].textContent, 'ok');
       });
-      assert.equal(response.body[0].textContent, 'ok');
-    });
 
     assert.deepEqual(this.request.requestBody, {
-      filename: 'rfc.md'
+      filename: 'rfc.md',
     });
 
-    this.respond(200, { 'Content-Type': 'text/html' }, '<html><body>ok</body></html>');
+    this.respond(
+      200,
+      { 'Content-Type': 'text/html' },
+      '<html><body>ok</body></html>'
+    );
 
     return promise;
   });
 
   test('successful send with a text/xml response', function (assert) {
-    let xml = '<message from="zoey@emberjs.com" to="tomster@emberjs.com"><file name="rfc.md" size="1024"/></message>';
+    let xml =
+      '<message from="zoey@emberjs.com" to="tomster@emberjs.com"><file name="rfc.md" size="1024"/></message>';
 
     this.subject.open('PUT', 'http://emberjs.com');
-    let promise = this.subject.send({
-      filename: 'rfc.md'
-    }).then(function (response) {
-      assert.deepEqual(response.headers, {
-        'Content-Type': 'text/xml'
+    let promise = this.subject
+      .send({
+        filename: 'rfc.md',
+      })
+      .then(function (response) {
+        assert.deepEqual(response.headers, {
+          'Content-Type': 'text/xml',
+        });
+        assert.equal(
+          new window.XMLSerializer().serializeToString(response.body),
+          xml
+        );
       });
-      assert.equal(new XMLSerializer().serializeToString(response.body), xml);
-    });
 
     assert.deepEqual(this.request.requestBody, {
-      filename: 'rfc.md'
+      filename: 'rfc.md',
     });
 
     this.respond(200, { 'Content-Type': 'text/xml' }, xml);
@@ -119,39 +131,50 @@ module('http-request', function(hooks) {
     return promise;
   });
 
-  ['application/json', 'application/vnd.api+json', 'text/javascript', 'application/javascript'].forEach(function (contentType) {
+  [
+    'application/json',
+    'application/vnd.api+json',
+    'text/javascript',
+    'application/javascript',
+  ].forEach(function (contentType) {
     test(`successful send with a ${contentType} response`, function (assert) {
       this.subject.open('PUT', 'http://emberjs.com');
-      let promise = this.subject.send({
-        filename: 'rfc.md'
-      }).then(function (response) {
-        assert.deepEqual(response, {
-          body: {
-            name: 'rfc.md',
-            size: 1024
-          },
-          headers: {
-            'Content-Type': contentType
-          },
-          status: 200
+      let promise = this.subject
+        .send({
+          filename: 'rfc.md',
+        })
+        .then(function (response) {
+          assert.deepEqual(response, {
+            body: {
+              name: 'rfc.md',
+              size: 1024,
+            },
+            headers: {
+              'Content-Type': contentType,
+            },
+            status: 200,
+          });
         });
-      });
 
       assert.deepEqual(this.request.requestBody, {
-        filename: 'rfc.md'
+        filename: 'rfc.md',
       });
 
-      this.respond(200, { 'Content-Type': contentType }, JSON.stringify({
-        name: 'rfc.md',
-        size: 1024
-      }));
+      this.respond(
+        200,
+        { 'Content-Type': contentType },
+        JSON.stringify({
+          name: 'rfc.md',
+          size: 1024,
+        })
+      );
 
       return promise;
     });
   });
 
   test(`succesful open with 'withCredentials: true'`, function (assert) {
-    this.subject = new HttpRequest({withCredentials: true});
+    this.subject = new HttpRequest({ withCredentials: true });
     this.subject.open('POST', 'http://emberjs.com');
 
     assert.equal(this.request.withCredentials, true);
@@ -165,25 +188,25 @@ module('http-request', function(hooks) {
   test('promise is cancellable', function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject.send();
-    assert.ok(typeof promise.cancel === 'function', 'returned promise should have a cancel() method');
+    assert.ok(
+      typeof promise.cancel === 'function',
+      'returned promise should have a cancel() method'
+    );
 
     let promise2 = promise
-      .then(function() { })
-      .catch(function() { })
-      .finally(function() { });
+      .then(function () {})
+      .catch(function () {})
+      .finally(function () {});
 
-    assert.ok(typeof promise2.cancel === 'function', 'chained promise should have a cancel() method');
+    assert.ok(
+      typeof promise2.cancel === 'function',
+      'chained promise should have a cancel() method'
+    );
   });
 
-  skip('onprogress', function () {
+  skip('onprogress', function () {});
 
-  });
+  skip('ontimeout', function () {});
 
-  skip('ontimeout', function () {
-
-  });
-
-  skip('onabort', function () {
-
-  });
+  skip('onabort', function () {});
 });

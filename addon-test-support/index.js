@@ -11,26 +11,29 @@ import { assert } from '@ember/debug';
   ```javascript
     // A single file
     const file = new File([], 'dingus.txt');
-    await upload('.file-upload input', file);
+    await selectFiles('.file-upload input', file);
   ```
 
   ```javascript
     // Multiple files
     const file1 = new File([], 'dingus1.txt');
     const file2 = new File([], 'dingus2.txt');
-    await upload('.file-upload input', file1, file2);
+    await selectFiles('.file-upload input', file1, file2);
   ```
 
   Returns `Promise<void>` which resolves when the application is settled.
 
-  @function upload
+  @function selectFiles
   @param {String} selector DOM selector for a FileUpload input
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function upload(selector, ...files) {
+export async function selectFiles(selector, ...files) {
   let input = find(selector);
-  assert(`Selector '${selector}' is not input element.`, input.tagName === 'INPUT');
+  assert(
+    `Selector '${selector}' is not input element.`,
+    input.tagName === 'INPUT'
+  );
   assert(
     'All files must be instances of File/Blob type',
     files.every((file) => file instanceof Blob)
