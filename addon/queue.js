@@ -53,7 +53,7 @@ export default EmberObject.extend(WithFiles, {
     @param {FileList} fileList The event triggered from the DOM that contains a list of files
    */
   _addFiles(fileList, source) {
-    let onfileadd = this.onfileadd;
+    let onFileAdd = this.onFileAdd;
     let disabled = this.disabled;
     let files = [];
 
@@ -66,8 +66,8 @@ export default EmberObject.extend(WithFiles, {
           files.push(file);
           this.push(file);
 
-          if (onfileadd) {
-            next(onfileadd, file);
+          if (onFileAdd) {
+            next(onFileAdd, file);
           }
         }
       }

@@ -2,6 +2,7 @@ import { assert } from '@ember/debug';
 import BaseComponent from '../base-component';
 import { DEBUG } from '@glimmer/env';
 import { computed } from '@ember/object';
+import { deprecatingAlias } from '@ember/object/computed';
 import layout from './template';
 import uuid from '../../system/uuid';
 
@@ -28,7 +29,7 @@ import uuid from '../../system/uuid';
 
       {{#file-upload name="avatar"
                      accept="image/*"
-                     onfileadd=(action 'setAvatar' changeset)}}
+                     onFileAdd=(action 'setAvatar' changeset)}}
         {{#if changeset.avatar}}
           <img src={{changeset.avatar.url}} />
           <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
@@ -115,16 +116,20 @@ const component = BaseComponent.extend({
   accept: null,
 
   /**
-    `onfileadd` is called when a file is selected.
+    `onFileAdd` is called when a file is selected.
 
     When multiple files are selected, this function
     is called once for every file that was selected.
 
-    @argument onfileadd
+    @argument onFileAdd
     @type {function}
     @required
    */
-  onfileadd: null,
+  onFileAdd: null,
+  onfileadd: deprecatingAlias('onFileAdd', {
+    id: 'ember-file-upload.deprecate-non-camel-case-events',
+    until: '5.0.0',
+  }),
 
   for: computed({
     get() {

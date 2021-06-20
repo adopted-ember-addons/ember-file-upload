@@ -9,8 +9,8 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     if (this.queue) {
-      let { accept, multiple, disabled, onfileadd } = this;
-      setProperties(this.queue, { accept, multiple, disabled, onfileadd });
+      let { accept, multiple, disabled, onFileAdd } = this;
+      setProperties(this.queue, { accept, multiple, disabled, onFileAdd });
     }
   },
 

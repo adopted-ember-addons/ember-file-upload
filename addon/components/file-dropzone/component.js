@@ -2,6 +2,7 @@ import BaseComponent from '../base-component';
 
 import { bind } from '@ember/runloop';
 import { set } from '@ember/object';
+import { deprecatingAlias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import layout from './template';
 import DataTransfer from '../../system/data-transfer';
@@ -44,7 +45,7 @@ const dragListener = new DragListener();
         {{#file-upload name="photos"
                       accept="image/*"
                       multiple=true
-                      onfileadd=(action "uploadImage")}}
+                      onFileAdd=(action "uploadImage")}}
           <a id="upload-image" tabindex=0>Add an Image.</a>
         {{/file-upload}}
       </p>
@@ -114,42 +115,58 @@ export default BaseComponent.extend({
   accept: null,
 
   /**
-    `onfileadd` is called when a file is selected.
+    `onFileAdd` is called when a file is selected.
 
     When multiple files are selected, this function
     is called once for every file that was selected.
 
-    @argument onfileadd
+    @argument onFileAdd
     @type {function}
     @required
    */
-  onfileadd: null,
+  onFileAdd: null,
+  onfileadd: deprecatingAlias('onFileAdd', {
+    id: 'ember-file-upload.deprecate-non-camel-case-events',
+    until: '5.0.0',
+  }),
 
   /**
-    `ondragenter` is called when a file has entered
+    `onDragEnter` is called when a file has entered
     the dropzone.
 
-    @argument ondragenter
+    @argument onDragEnter
     @type {function}
    */
-  ondragenter: null,
+  onDragEnter: null,
+  ondragenter: deprecatingAlias('onDragEnter', {
+    id: 'ember-file-upload.deprecate-non-camel-case-events',
+    until: '5.0.0',
+  }),
 
   /**
-    `ondragleave` is called when a file has left
+    `onDragLeave` is called when a file has left
     the dropzone.
 
-    @argument ondragleave
+    @argument onDragLeave
     @type {function}
    */
-  ondragleave: null,
+  onDragLeave: null,
+  ondragleave: deprecatingAlias('onDragLeave', {
+    id: 'ember-file-upload.deprecate-non-camel-case-events',
+    until: '5.0.0',
+  }),
 
   /**
-    `ondrop` is called when a file has been dropped.
+    `onDrop` is called when a file has been dropped.
 
-    @argument ondrop
+    @argument onDrop
     @type {function}
    */
-  ondrop: null,
+  onDrop: null,
+  ondrop: deprecatingAlias('onDrop', {
+    id: 'ember-file-upload.deprecate-non-camel-case-events',
+    until: '5.0.0',
+  }),
 
   /**
     Whether users can upload content
@@ -223,8 +240,8 @@ export default BaseComponent.extend({
       set(this, 'active', true);
       set(this, 'valid', dataTransfer.valid);
 
-      if (this.ondragenter) {
-        this.ondragenter(dataTransfer);
+      if (this.onDragEnter) {
+        this.onDragEnter(dataTransfer);
       }
     }
   },
@@ -235,8 +252,8 @@ export default BaseComponent.extend({
       if (evt.dataTransfer) {
         evt.dataTransfer.dropEffect = this.cursor;
       }
-      if (this.ondragleave) {
-        this.ondragleave(this[DATA_TRANSFER]);
+      if (this.onDragLeave) {
+        this.onDragLeave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
       }
 
@@ -319,8 +336,8 @@ export default BaseComponent.extend({
       image.src = url;
     }
 
-    if (this.ondrop) {
-      this.ondrop(this[DATA_TRANSFER]);
+    if (this.onDrop) {
+      this.onDrop(this[DATA_TRANSFER]);
     }
 
     // Add file(s) to upload queue.
