@@ -20,7 +20,7 @@
         {{#if dropzone.supported}}
           Drag your proof or
         {{/if}}
-        <FileUpload @name="photos" @for="upload-photo" @multiple={{true}} @onfileadd={{this.uploadProof}} @accept="image/*,video/*,audio/*">
+        <FileUpload @name="photos" @for="upload-photo" @multiple={{true}} @onFileAdd={{this.uploadProof}} @accept="image/*,video/*,audio/*">
           <a {{!template-lint-disable link-href-attributes}}>select them</a>
         </FileUpload>
         to upload.
