@@ -74,11 +74,11 @@ function upload(file, url, opts, uploadFn) {
   }
 
   request.onprogress = function (evt) {
-    if (evt.lengthComputable) {
-      set(file, 'loaded', evt.loaded);
-      set(file, 'size', evt.total);
-      set(file, 'progress', (evt.loaded / evt.total) * 100);
-    }
+    if (!evt.lengthComputable || evt.total === 0) return;
+
+    set(file, 'loaded', evt.loaded);
+    set(file, 'size', evt.total);
+    set(file, 'progress', (evt.loaded / evt.total) * 100);
   };
 
   request.ontimeout = function () {
