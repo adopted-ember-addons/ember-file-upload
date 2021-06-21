@@ -6445,8 +6445,8 @@ else for(u in a)e(u,a[u])
 return n}("",e).join("&").replace(/%20/g,"+")}function i(e,t,r){void 0!==r&&(null===r&&(r=""),r="function"==typeof r?r():r,e[e.length]=`${encodeURIComponent(t)}=${encodeURIComponent(r)}`)}var s=n
 e.default=s})),define("ember-file-upload/components/base-component",["exports"],(function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-var t=Ember.Component.extend({fileQueue:Ember.inject.service(),didReceiveAttrs(){if(this._super(...arguments),this.queue){let{accept:e,multiple:t,disabled:r,onfileadd:n}=this
-Ember.setProperties(this.queue,{accept:e,multiple:t,disabled:r,onfileadd:n})}},queue:Ember.computed("name",{get(){let e=this.name
+var t=Ember.Component.extend({fileQueue:Ember.inject.service(),didReceiveAttrs(){if(this._super(...arguments),this.queue){let{accept:e,multiple:t,disabled:r,onFileAdd:n}=this
+Ember.setProperties(this.queue,{accept:e,multiple:t,disabled:r,onFileAdd:n})}},queue:Ember.computed("name",{get(){let e=this.name
 if(null!=e){let t=this.fileQueue
 return t.find(e)||t.create(e)}}})})
 e.default=t})),define("ember-file-upload/components/file-dropzone/component",["exports","ember-file-upload/components/base-component","ember-file-upload/components/file-dropzone/template","ember-file-upload/system/data-transfer","ember-file-upload/system/uuid","ember-file-upload/system/parse-html","ember-file-upload/system/drag-listener"],(function(e,t,r,n,i,s,a){"use strict"
@@ -6454,9 +6454,9 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 const o="DATA_TRANSFER"+i.default.short()
 let l="undefined"!=typeof window&&window.document&&"draggable"in document.createElement("span")
 const u=new a.default
-var c=t.default.extend({layout:r.default,supported:l,active:!1,valid:!0,multiple:null,name:null,disabled:!1,accept:null,onfileadd:null,ondragenter:null,ondragleave:null,ondrop:null,allowUploadsFromWebsites:!1,cursor:null,didInsertElement(){this._super(),u.addEventListeners(`#${this.elementId}`,{dragenter:Ember.run.bind(this,"didEnterDropzone"),dragleave:Ember.run.bind(this,"didLeaveDropzone"),dragover:Ember.run.bind(this,"didDragOver"),drop:Ember.run.bind(this,"didDrop")})},willDestroyElement(){this._super(...arguments),u.removeEventListeners(`#${this.elementId}`)},isAllowed(){const{environment:e}=Ember.getOwner(this).resolveRegistration("config:environment")
+var c=t.default.extend({layout:r.default,supported:l,active:!1,valid:!0,multiple:null,name:null,disabled:!1,accept:null,onFileAdd:null,onfileadd:Ember.computed.deprecatingAlias("onFileAdd",{id:"ember-file-upload.deprecate-non-camel-case-events",until:"5.0.0"}),onDragEnter:null,ondragenter:Ember.computed.deprecatingAlias("onDragEnter",{id:"ember-file-upload.deprecate-non-camel-case-events",until:"5.0.0"}),onDragLeave:null,ondragleave:Ember.computed.deprecatingAlias("onDragLeave",{id:"ember-file-upload.deprecate-non-camel-case-events",until:"5.0.0"}),onDrop:null,ondrop:Ember.computed.deprecatingAlias("onDrop",{id:"ember-file-upload.deprecate-non-camel-case-events",until:"5.0.0"}),allowUploadsFromWebsites:!1,cursor:null,didInsertElement(){this._super(),u.addEventListeners(`#${this.elementId}`,{dragenter:Ember.run.bind(this,"didEnterDropzone"),dragleave:Ember.run.bind(this,"didLeaveDropzone"),dragover:Ember.run.bind(this,"didDragOver"),drop:Ember.run.bind(this,"didDrop")})},willDestroyElement(){this._super(...arguments),u.removeEventListeners(`#${this.elementId}`)},isAllowed(){const{environment:e}=Ember.getOwner(this).resolveRegistration("config:environment")
 return"test"===e||"os"===this[o].source||this.allowUploadsFromWebsites},didEnterDropzone(e){let t=n.default.create({queue:this.queue,source:e.source,dataTransfer:e.dataTransfer,itemDetails:e.itemDetails})
-this[o]=t,this.isAllowed()&&(e.dataTransfer.dropEffect=this.cursor,Ember.set(this,"active",!0),Ember.set(this,"valid",t.valid),this.ondragenter&&this.ondragenter(t))},didLeaveDropzone(e){if(Ember.set(this[o],"dataTransfer",e.dataTransfer),this.isAllowed()){if(e.dataTransfer&&(e.dataTransfer.dropEffect=this.cursor),this.ondragleave&&(this.ondragleave(this[o]),this[o]=null),this.isDestroyed)return
+this[o]=t,this.isAllowed()&&(e.dataTransfer.dropEffect=this.cursor,Ember.set(this,"active",!0),Ember.set(this,"valid",t.valid),this.onDragEnter&&this.onDragEnter(t))},didLeaveDropzone(e){if(Ember.set(this[o],"dataTransfer",e.dataTransfer),this.isAllowed()){if(e.dataTransfer&&(e.dataTransfer.dropEffect=this.cursor),this.onDragLeave&&(this.onDragLeave(this[o]),this[o]=null),this.isDestroyed)return
 Ember.set(this,"active",!1)}},didDragOver(e){Ember.set(this[o],"dataTransfer",e.dataTransfer),this.isAllowed()&&(e.dataTransfer.dropEffect=this.cursor)},didDrop(e){if(Ember.set(this[o],"dataTransfer",e.dataTransfer),!this.isAllowed())return e.dataTransfer.dropEffect=this.cursor,void(this[o]=null)
 let t,r=this[o].getData("text/html")
 if(r){let e=(0,s.default)(r).getElementsByTagName("img")[0]
@@ -6469,13 +6469,13 @@ for(var t=0;t<n;t++)s[t]=r.charCodeAt(t)
 let a=new Blob([s],{type:"image/png"})
 a.name=i
 let[o]=this.queue._addFiles([a],"web")
-Ember.set(o,"name",i)}},n.onerror=function(e){console.log(e)},n.src=t}this.ondrop&&this.ondrop(this[o]),Ember.set(this,"active",!1),this.queue._addFiles(this[o].files,"drag-and-drop"),this[o]=null}})
+Ember.set(o,"name",i)}},n.onerror=function(e){console.log(e)},n.src=t}this.onDrop&&this.onDrop(this[o]),Ember.set(this,"active",!1),this.queue._addFiles(this[o].files,"drag-and-drop"),this[o]=null}})
 e.default=c})),define("ember-file-upload/components/file-dropzone/template",["exports"],(function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var t=Ember.HTMLBars.template({id:"OJCP4wtH",block:'[[[18,1,[[28,[37,1],null,[["supported","active","valid"],[[30,0,["supported"]],[30,0,["active"]],[30,0,["valid"]]]]],[30,0,["queue"]]]]],["&default"],false,["yield","hash"]]',moduleName:"ember-file-upload/components/file-dropzone/template.hbs",isStrictMode:!1})
 e.default=t})),define("ember-file-upload/components/file-upload/component",["exports","ember-file-upload/components/base-component","ember-file-upload/components/file-upload/template","ember-file-upload/system/uuid"],(function(e,t,r,n){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-const i=t.default.extend({tagName:"label",classNames:["file-upload"],attributeBindings:["for"],multiple:null,name:null,disabled:!1,accept:null,onfileadd:null,for:Ember.computed({get:()=>`file-input-${n.default.short()}`,set:(e,t)=>t}),layout:r.default,capture:null,actions:{change(e){this.queue._addFiles(e,"browse"),this.element.querySelector("input").value=null}}})
+const i=t.default.extend({tagName:"label",classNames:["file-upload"],attributeBindings:["for"],multiple:null,name:null,disabled:!1,accept:null,onFileAdd:null,onfileadd:Ember.computed.deprecatingAlias("onFileAdd",{id:"ember-file-upload.deprecate-non-camel-case-events",until:"5.0.0"}),for:Ember.computed({get:()=>`file-input-${n.default.short()}`,set:(e,t)=>t}),layout:r.default,capture:null,actions:{change(e){this.queue._addFiles(e,"browse"),this.element.querySelector("input").value=null}}})
 var s=i
 e.default=s})),define("ember-file-upload/components/file-upload/template",["exports"],(function(e){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
@@ -6529,7 +6529,7 @@ let t=this.files
 return Math.floor(100*e)}})})
 e.default=r})),define("ember-file-upload/queue",["exports","ember-file-upload/file","ember-file-upload/mixins/with-files"],(function(e,t,r){"use strict"
 Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
-var n=Ember.Object.extend(r.default,{init(){Ember.set(this,"files",Ember.A()),Ember.set(this,"_dropzones",Ember.A()),this._super()},destroy(){this._super(),this.fileQueue.queues.delete(this.name),this.files.forEach((e=>Ember.set(e,"queue",null))),Ember.set(this,"files",Ember.A())},fileQueue:null,push(e){e.queue=this,this.fileQueue.files.pushObject(e),this.files.pushObject(e)},_addFiles(e,r){let n=this.onfileadd,i=[]
+var n=Ember.Object.extend(r.default,{init(){Ember.set(this,"files",Ember.A()),Ember.set(this,"_dropzones",Ember.A()),this._super()},destroy(){this._super(),this.fileQueue.queues.delete(this.name),this.files.forEach((e=>Ember.set(e,"queue",null))),Ember.set(this,"files",Ember.A())},fileQueue:null,push(e){e.queue=this,this.fileQueue.files.pushObject(e),this.files.pushObject(e)},_addFiles(e,r){let n=this.onFileAdd,i=[]
 if(!this.disabled)for(let s=0,a=e.length||e.size;s<a;s++){let a=e.item?e.item(s):e[s]
 if(a instanceof Blob){let e=t.default.fromBlob(a,r)
 i.push(e),this.push(e),n&&Ember.run.next(n,e)}}return i},remove(e){e.queue=null,this.fileQueue.files.removeObject(e),this.files.removeObject(e)},name:null,files:null})
