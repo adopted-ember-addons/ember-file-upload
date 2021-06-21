@@ -19,8 +19,8 @@ module('Integration | upload', function (hooks) {
   setupMirage(hooks);
 
   test('upload works for File', async function (assert) {
-    this.model = A([]);
-    await render(hbs`<DemoUpload @model={{this.model}}/>`);
+    this.files = A([]);
+    await render(hbs`<DemoUpload @files={{this.files}} />`);
 
     let data = await getImageBlob();
     let photo = new File([data], 'image.png', { type: 'image/png' });
@@ -39,8 +39,8 @@ module('Integration | upload', function (hooks) {
   });
 
   test('upload works for Blob', async function (assert) {
-    this.model = A([]);
-    await render(hbs`<DemoUpload @model={{this.model}}/>`);
+    this.files = A([]);
+    await render(hbs`<DemoUpload @files={{this.files}} />`);
 
     let photo = await getImageBlob();
     photo.name = 'image.png';
