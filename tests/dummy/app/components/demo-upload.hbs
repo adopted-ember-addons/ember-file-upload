@@ -1,5 +1,4 @@
-<div class="my-16 text-center">
-  <h1 class="my-8">Demo</h1>
+<div class="my-16 text-center docs-text-white">
   <FileDropzone @name="photos" @class="demo-dropzone" as |dropzone queue|>
     <div class="dropzone-upload-area upload {{if dropzone.active "active"}}">
       {{#if dropzone.supported}}
@@ -18,10 +17,10 @@
 
       <p>
         {{#if dropzone.supported}}
-          Drag your proof or
+          Drag image, video or audio files here or
         {{/if}}
         <FileUpload @name="photos" @for="upload-photo" @multiple={{true}} @onFileAdd={{this.uploadProof}} @accept="image/*,video/*,audio/*">
-          <a {{!template-lint-disable link-href-attributes}}>select them</a>
+          <a {{!template-lint-disable link-href-attributes}}>choose files</a>
         </FileUpload>
         to upload.
       </p>
@@ -34,7 +33,7 @@
 </div>
 <div class="my-16">
   <ul class="demo-uploaded-files-list">
-    {{#each @model as |file|}}
+    {{#each @files as |file|}}
       <li>
         <div class="card text-center">
           {{#if file.file}}

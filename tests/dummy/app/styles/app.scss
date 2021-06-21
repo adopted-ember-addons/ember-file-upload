@@ -1,5 +1,8 @@
 .demo-dropzone {
   .dropzone-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: 4px dotted #BBB;
     border-radius: 10px;
     height: 300px;
