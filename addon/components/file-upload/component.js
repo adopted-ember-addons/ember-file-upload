@@ -28,7 +28,7 @@ import uuid from '../../system/uuid';
 
       <FileUpload @name="avatar"
                   @accept="image/*"
-                  @onfileadd={{action 'setAvatar' changeset}}
+                  @onFileAdd={{fn this.setAvatar changeset}}>
         {{#if changeset.avatar}}
           <img src={{changeset.avatar.url}} />
           <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
