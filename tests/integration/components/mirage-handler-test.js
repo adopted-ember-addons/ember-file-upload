@@ -48,14 +48,14 @@ module('Integration | Component | mirage-handler', function (hooks) {
       return file.upload('/folder/1/file');
     });
     await render(hbs`
-      {{#file-upload
-        name="file"
-        onfileadd=uploadImage
-      }}
+      <FileUpload
+        @name="file"
+        @onFileAdd={{this.uploadImage}}
+      >
         <a class="button">
           Upload file
         </a>
-      {{/file-upload}}
+      </FileUpload>
     `);
 
     let file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
@@ -107,15 +107,15 @@ module('Integration | Component | mirage-handler', function (hooks) {
           return file.upload('/image');
         });
         await render(hbs`
-        {{#file-upload
-          name="file"
-          onfileadd=uploadImage
-        }}
-          <a class="button">
-            Upload file
-          </a>
-        {{/file-upload}}
-      `);
+          <FileUpload
+            @name="file"
+            @onFileAdd={{this.uploadImage}}
+          >
+            <a class="button">
+              Upload file
+            </a>
+          </FileUpload>
+        `);
 
         await selectFiles('input', file);
 

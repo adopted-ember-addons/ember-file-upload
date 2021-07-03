@@ -24,7 +24,7 @@ For example, creating an image uploader that uploads images to your API server w
                   @for="upload-photo"
                   @accept="image/*"
                   @multiple={{true}}
-                  @onfileadd={{action this.uploadImage}}>
+                  @onFileAdd={{action this.uploadImage}}>
         <a tabindex=0>Add an Image.</a>
       </FileUpload>
     </p>
@@ -36,7 +36,7 @@ It is also possible for you to create a simple file upload button which yields t
 ```handlebars
 <FileUpload @name="photos"
             @accept="image/*"
-            @onfileadd={{action this.uploadImage}} as |queue|>
+            @onFileAdd={{action this.uploadImage}} as |queue|>
   <a class="button">
     {{#if queue.files.length}}
       Uploading...

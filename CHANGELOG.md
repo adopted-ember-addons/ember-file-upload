@@ -1,3 +1,26 @@
+## v4.0.0 (2021-06-21)
+
+#### :boom: Breaking Change
+* [#464](https://github.com/adopted-ember-addons/ember-file-upload/pull/464) Drop support for Node 10 ([@gilest](https://github.com/gilest))
+* [#430](https://github.com/adopted-ember-addons/ember-file-upload/pull/430) Drop support for Ember < 3.16 (and upgrade to Ember 3.26) ([@bendemboski](https://github.com/bendemboski))
+
+#### :rocket: Enhancement
+* [#476](https://github.com/adopted-ember-addons/ember-file-upload/pull/476) Renamed all events to camelCase ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#475](https://github.com/adopted-ember-addons/ember-file-upload/pull/475) Ignore progress events where the total file size is reported as 0 bytes ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#479](https://github.com/adopted-ember-addons/ember-file-upload/pull/479) Improve copy and layout of doc site index ([@gilest](https://github.com/gilest))
+* [#478](https://github.com/adopted-ember-addons/ember-file-upload/pull/478) Replace Travis CI badge with GitHub Actions ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#429](https://github.com/adopted-ember-addons/ember-file-upload/pull/429) Migrate CI to GitHub Actions ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Ben Demboski ([@bendemboski](https://github.com/bendemboski))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v3.0.6 (2021-05-31)
 
 #### :bug: Bug Fix
