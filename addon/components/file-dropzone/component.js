@@ -44,7 +44,7 @@ const dragListener = new DragListener();
         <FileUpload @name="photos"
                     @accept="image/*"
                     @multiple=true
-                    @onfileadd={{action "uploadImage"}}>
+                    @onFileAdd={{this.uploadImage}}>
           <a id="upload-image" tabindex=0>Add an Image.</a>
         </FileUpload>
       </p>
