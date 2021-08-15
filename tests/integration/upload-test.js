@@ -28,7 +28,7 @@ module('Integration | upload', function (hooks) {
 
     let uploadedPhoto = this.server.db.photos[0];
     assert.equal(uploadedPhoto.filename, 'image.png');
-    assert.equal(uploadedPhoto.filesize, 1179);
+    assert.equal(uploadedPhoto.filesize, 1192);
     assert.equal(uploadedPhoto.type, 'image');
 
     assert.equal(
@@ -49,7 +49,7 @@ module('Integration | upload', function (hooks) {
 
     let uploadedPhoto = this.server.db.photos[0];
     assert.equal(uploadedPhoto.filename, 'image.png');
-    assert.equal(uploadedPhoto.filesize, 1179);
+    assert.equal(uploadedPhoto.filesize, 1192);
     assert.equal(uploadedPhoto.type, 'image');
 
     assert.equal(
