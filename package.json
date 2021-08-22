@@ -71,7 +71,7 @@
     "ember-cli-deploy-git-ci": "^1.0.1",
     "ember-cli-github-pages": "^0.2.1",
     "ember-cli-inject-live-reload": "^2.0.2",
-    "ember-cli-mirage": "^1.1.6",
+    "ember-cli-mirage": "^2.0.0",
     "ember-cli-sass": "^10.0.0",
     "ember-cli-terser": "^4.0.1",
     "ember-data": "~3.26.0",
