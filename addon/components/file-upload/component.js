@@ -27,16 +27,16 @@ import uuid from '../../system/uuid';
       <label for='name'>
       {{input type='string' value=changeset.name id='name'}}
 
-      {{#file-upload name="avatar"
-                     accept="image/*"
-                     onFileAdd=(action 'setAvatar' changeset)}}
+      <FileUpload @name="avatar"
+                  @accept="image/*"
+                  @onFileAdd={{fn this.setAvatar changeset}}>
         {{#if changeset.avatar}}
           <img src={{changeset.avatar.url}} />
           <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
         {{else}}
           <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
         {{/if}}
-      {{/file-upload}}
+      </FileUpload>
     </form>
   {{/with}}
   ```
