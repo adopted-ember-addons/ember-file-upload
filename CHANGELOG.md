@@ -1,3 +1,17 @@
+
+## v4.0.1 (2021-08-22)
+
+#### :memo: Documentation
+* [#292](https://github.com/adopted-ember-addons/ember-file-upload/pull/292) Update component docs to use angle bracket syntax ([@mcfiredrill](https://github.com/mcfiredrill))
+
+#### :house: Internal
+* [#502](https://github.com/adopted-ember-addons/ember-file-upload/pull/502) chore(ci): uploaded file size reported by Chrome has changed ([@gilest](https://github.com/gilest))
+* [#481](https://github.com/adopted-ember-addons/ember-file-upload/pull/481) Add concurrency to deploy workflow ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Tony Miller ([@mcfiredrill](https://github.com/mcfiredrill))
+
 ## v4.0.0 (2021-06-21)
 
 #### :boom: Breaking Change
