@@ -29,13 +29,14 @@ var n={name:"add-modals-container",initialize:t.default}
 e.default=n})),define("dummy/initializers/container-debug-adapter",["exports","ember-resolver/resolvers/classic/container-debug-adapter"],(function(e,t){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var n={name:"container-debug-adapter",initialize(){let e=arguments[1]||arguments[0]
 e.register("container-debug-adapter:main",t.default),e.inject("container-debug-adapter:main","namespace","application:main")}}
-e.default=n})),define("dummy/initializers/ember-cli-mirage",["exports","dummy/config/environment","dummy/mirage/config","ember-cli-mirage/get-rfc232-test-context","ember-cli-mirage/start-mirage"],(function(e,t,n,r,o){Object.defineProperty(e,"__esModule",{value:!0}),e.startMirage=i,e.default=void 0
-var l={name:"ember-cli-mirage",initialize(e){n.default&&e.register("mirage:base-config",n.default,{instantiate:!1}),n.testConfig&&e.register("mirage:test-config",n.testConfig,{instantiate:!1}),t.default["ember-cli-mirage"]=t.default["ember-cli-mirage"]||{},function(e,t){if("undefined"!=typeof FastBoot)return!1
-if((0,r.default)())return!1
-let n=void 0!==t.enabled,o=function(e,t){let n="development"===e&&!t.usingProxy,r="test"===e
+e.default=n})),define("dummy/initializers/ember-cli-mirage",["exports","dummy/config/environment","ember-cli-mirage/get-rfc232-test-context","ember-cli-mirage/start-mirage","dummy/mirage/config"],(function(e,t,n,r,o){Object.defineProperty(e,"__esModule",{value:!0}),e.startMirage=s,e.default=void 0
+const{default:l,testConfig:i,makeServer:u}=o
+var d={name:"ember-cli-mirage",initialize(e){l&&e.register("mirage:base-config",l,{instantiate:!1}),i&&e.register("mirage:test-config",i,{instantiate:!1}),u&&e.register("mirage:make-server",u,{instantiate:!1}),t.default["ember-cli-mirage"]=t.default["ember-cli-mirage"]||{},function(e,t){if("undefined"!=typeof FastBoot)return!1
+if((0,n.default)())return!1
+let r=void 0!==t.enabled,o=function(e,t){let n="development"===e&&!t.usingProxy,r="test"===e
 return n||r}(e,t)
-return n?t.enabled:o}(t.default.environment,t.default["ember-cli-mirage"])&&i(t.default)}}
-function i(e=t.default){return(0,o.default)(null,{env:e,baseConfig:n.default,testConfig:n.testConfig})}e.default=l})),define("dummy/initializers/ember-data-data-adapter",["exports","@ember-data/debug/setup"],(function(e,t){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}})})),define("dummy/initializers/ember-data",["exports","ember-data","ember-data/setup-container"],(function(e,t,n){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
+return r?t.enabled:o}(t.default.environment,t.default["ember-cli-mirage"])&&s(t.default)}}
+function s(e=t.default){return(0,r.default)(null,{env:e,baseConfig:l,testConfig:i,makeServer:u})}e.default=d})),define("dummy/initializers/ember-data-data-adapter",["exports","@ember-data/debug/setup"],(function(e,t){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}})})),define("dummy/initializers/ember-data",["exports","ember-data","ember-data/setup-container"],(function(e,t,n){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var r={name:"ember-data",initialize:n.default}
 e.default=r})),define("dummy/initializers/ember-keyboard-first-responder-inputs",["exports","ember-keyboard/initializers/ember-keyboard-first-responder-inputs"],(function(e,t){Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"default",{enumerable:!0,get:function(){return t.default}}),Object.defineProperty(e,"initialize",{enumerable:!0,get:function(){return t.initialize}})})),define("dummy/initializers/ember-responsive-breakpoints",["exports","ember-responsive/initializers/responsive"],(function(e,t){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0
 var n=t.default
