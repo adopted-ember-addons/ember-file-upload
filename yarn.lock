@@ -1182,9 +1182,9 @@
     ember-cli-babel "^7.4.0"
 
 "@ember/test-helpers@^2.2.5":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-2.4.1.tgz#4ec8605ab1243b2cd8028b63f2bf4c0ea51eb779"
-  integrity sha512-CojE+K6agL8MGnoL1c6SWvBW9LOmBiBtms1m5LqHsYZQXmZXbvT2taf1ouOkT3nFh9tLEhKea8DopitD062TEA==
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-2.4.2.tgz#e5be97e316dc502d7da933461135fbcb9254726e"
+  integrity sha512-++k/dXZ0IeOQLSm0Yu5QuCRe9UoptuckMhaXHY37VLb1varLHRuP8908kigVNt9c5waiocaK4jPjDBkKYRLlfA==
   dependencies:
     "@ember/test-waiters" "^3.0.0"
     broccoli-debug "^0.6.5"
@@ -6132,9 +6132,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.811:
-  version "1.3.814"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.814.tgz#418fad80c3276a46103ca72a21a8290620d83c4a"
-  integrity sha512-0mH03cyjh6OzMlmjauGg0TLd87ErIJqWiYxMcOLKf5w6p0YEOl7DJAj7BDlXEFmCguY5CQaKVOiMjAMODO2XDw==
+  version "1.3.815"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.815.tgz#2372090c909cb52cb0afe1642cffa91cbe08b721"
+  integrity sha512-2QaE8L5l3BDf82ZXcm0TpWOPoCVUwrp3lKiYzgUbdhRAO2sW60ZdKS5T8yq4r7y1ZeiKJXnf5u8n9u3ldnj5Bw==
 
 elliptic@^6.5.3:
   version "6.5.4"
