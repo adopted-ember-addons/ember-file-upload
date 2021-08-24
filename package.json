@@ -61,7 +61,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.0.0",
     "ember-cli": "3.25.1",
-    "ember-cli-addon-docs": "^1.0.0",
+    "ember-cli-addon-docs": "^3.0.0",
     "ember-cli-addon-docs-yuidoc": "^1.0.0",
     "ember-cli-content-security-policy": "^2.0.0-3",
     "ember-cli-dependency-checker": "^3.2.0",
@@ -99,6 +99,9 @@
     "release-it-lerna-changelog": "^3.0.0",
     "sass": "^1.32.10",
     "webpack": "5"
+  },
+  "resolutions": {
+    "ember-cli-babel": "^7.26.6"
   },
   "engines": {
     "node": "12.* || >= 14.*"
