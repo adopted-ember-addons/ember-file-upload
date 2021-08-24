@@ -100,6 +100,9 @@
     "sass": "^1.32.10",
     "webpack": "5"
   },
+  "resolutions": {
+    "ember-cli-babel": "^7.26.6"
+  },
   "engines": {
     "node": "12.* || >= 14.*"
   },
