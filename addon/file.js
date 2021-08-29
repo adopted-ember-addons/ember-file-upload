@@ -2,13 +2,11 @@ import { registerWaiter } from '@ember/test';
 import { DEBUG } from '@glimmer/env';
 
 import { assert } from '@ember/debug';
-import EmberObject, { set, computed } from '@ember/object';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
 import uuid from './system/uuid';
-
-const { reads } = computed;
+import { tracked } from '@glimmer/tracking';
 
 function normalizeOptions(file, url, options) {
   if (typeof url === 'object') {
@@ -76,20 +74,20 @@ function upload(file, url, opts, uploadFn) {
   request.onprogress = function (evt) {
     if (!evt.lengthComputable || evt.total === 0) return;
 
-    set(file, 'loaded', evt.loaded);
-    set(file, 'size', evt.total);
-    set(file, 'progress', (evt.loaded / evt.total) * 100);
+    file.loaded = evt.loaded;
+    file.size = evt.total;
+    file.progress = (evt.loaded / evt.total) * 100;
   };
 
   request.ontimeout = function () {
-    set(file, 'state', 'timed_out');
+    file.state = 'timed_out';
   };
 
   request.onabort = function () {
-    set(file, 'state', 'aborted');
+    file.state = 'aborted';
   };
 
-  set(file, 'state', 'uploading');
+  file.state = 'uploading';
 
   // Increment for Ember.Test
   inflightRequests++;
@@ -99,11 +97,11 @@ function upload(file, url, opts, uploadFn) {
   uploadPromise = uploadPromise
     .then(
       function (result) {
-        set(file, 'state', 'uploaded');
+        file.state = 'uploaded';
         return result;
       },
       function (error) {
-        set(file, 'state', 'failed');
+        file.state = 'failed';
         return RSVP.reject(error);
       }
     )
@@ -129,21 +127,19 @@ if (DEBUG) {
 }
 
 /**
-  Files provide a uniform interface for interacting
+  Provide a uniform interface for interacting
   with data that can be uploaded or read.
 
   @class File
-  @extends Ember.Object
  */
-export default EmberObject.extend({
-  init() {
-    this._super();
+export default class File {
+  constructor() {
     Object.defineProperty(this, 'id', {
       writeable: false,
       enumerable: true,
       value: `file-${uuid()}`,
     });
-  },
+  }
 
   /**
     A unique id generated for this file.
@@ -152,7 +148,7 @@ export default EmberObject.extend({
     @type {String}
     @readonly
    */
-  id: null,
+  id;
 
   /**
     The file name.
@@ -160,14 +156,9 @@ export default EmberObject.extend({
     @accessor name
     @type {String}
    */
-  name: computed('blob.name', {
-    get() {
-      return this.blob.name;
-    },
-    set(_, name) {
-      return name;
-    },
-  }),
+  get name() {
+    return this.blob?.name;
+  }
 
   /**
     The size of the file in bytes.
@@ -176,7 +167,13 @@ export default EmberObject.extend({
     @type {Number}
     @readonly
    */
-  size: reads('blob.size'),
+  _size;
+  get size() {
+    return this._size ?? this.blob?.size;
+  }
+  set size(value) {
+    this._size = value;
+  }
 
   /**
     The MIME type of the file.
@@ -187,7 +184,9 @@ export default EmberObject.extend({
     @type {String}
     @readonly
    */
-  type: reads('blob.type'),
+  get type() {
+    return this.blob?.type;
+  }
 
   /**
     Returns the appropriate file extension of
@@ -197,11 +196,9 @@ export default EmberObject.extend({
     @type {String}
     @readonly
    */
-  extension: computed('type', {
-    get() {
-      return this.type.split('/').slice(-1)[0];
-    },
-  }),
+  get extension() {
+    return this.type.split('/').slice(-1)[0];
+  }
 
   /**
     @accessor loaded
@@ -209,7 +206,8 @@ export default EmberObject.extend({
     @default 0
     @readonly
    */
-  loaded: 0,
+  @tracked
+  loaded = 0;
 
   /**
     @accessor progress
@@ -217,7 +215,7 @@ export default EmberObject.extend({
     @default 0
     @readonly
    */
-  progress: 0,
+  progress = 0;
 
   /**
     The current state that the file is in.
@@ -237,7 +235,7 @@ export default EmberObject.extend({
     @default 'queued'
     @readonly
    */
-  state: 'queued',
+  state = 'queued';
 
   /**
     The source of the file. This is useful
@@ -277,7 +275,7 @@ export default EmberObject.extend({
     @default ''
     @readonly
    */
-  source: '',
+  source = '';
 
   /**
    * Upload file with `application/octet-stream` content type.
@@ -292,7 +290,7 @@ export default EmberObject.extend({
     return upload(this, url, opts, (request) => {
       return request.send(this.blob);
     });
-  },
+  }
 
   /**
    * Upload file to your server
@@ -317,7 +315,7 @@ export default EmberObject.extend({
 
       return request.send(form);
     });
-  },
+  }
 
   /**
    * Resolves with Blob as ArrayBuffer
@@ -330,7 +328,7 @@ export default EmberObject.extend({
       label: `Read ${this.name} as an ArrayBuffer`,
     });
     return reader.readAsArrayBuffer(this.blob);
-  },
+  }
 
   /**
    * Resolves with Blob as DataURL
@@ -343,7 +341,7 @@ export default EmberObject.extend({
       label: `Read ${this.name} as a Data URI`,
     });
     return reader.readAsDataURL(this.blob);
-  },
+  }
 
   /**
    * Resolves with Blob as binary string
@@ -356,7 +354,7 @@ export default EmberObject.extend({
       label: `Read ${this.name} as a binary string`,
     });
     return reader.readAsBinaryString(this.blob);
-  },
+  }
 
   /**
    * Resolves with Blob as plain text
@@ -367,8 +365,8 @@ export default EmberObject.extend({
   readAsText() {
     let reader = new FileReader({ label: `Read ${this.name} as text` });
     return reader.readAsText(this.blob);
-  },
-}).reopenClass({
+  }
+
   /**
     Creates a file object that can be read or uploaded to a
     server from a Blob object.
@@ -378,9 +376,9 @@ export default EmberObject.extend({
     @param {Blob} blob The blob to create the file from.
     @param {String} [source] The source that created the blob.
     @return {File} A file object
-   */
-  fromBlob(blob, source = 'blob') {
-    let file = this.create();
+    */
+  static fromBlob(blob, source = 'blob') {
+    let file = new this();
     Object.defineProperty(file, 'blob', {
       writeable: false,
       enumerable: false,
@@ -392,7 +390,7 @@ export default EmberObject.extend({
     });
 
     return file;
-  },
+  }
 
   /**
     Creates a file object that can be read or uploaded to a
@@ -403,8 +401,8 @@ export default EmberObject.extend({
     @param {String} dataURL The data URL to create the file from.
     @param {String} [source] The source of the data URL.
     @return {File} A file object
-   */
-  fromDataURL(dataURL, source = 'data-url') {
+    */
+  static fromDataURL(dataURL, source = 'data-url') {
     let [typeInfo, base64String] = dataURL.split(',');
     let mimeType = typeInfo.match(/:(.*?);/)[1];
 
@@ -418,5 +416,5 @@ export default EmberObject.extend({
     let blob = new Blob([binaryData], { type: mimeType });
 
     return this.fromBlob(blob, source);
-  },
-});
+  }
+}

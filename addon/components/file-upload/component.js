@@ -51,7 +51,7 @@ import uuid from '../../system/uuid';
           let file = changeset.avatar;
           file.upload('/upload').then((response) => {
             changeset.set('avatar', {
-              name: file.get('name'),
+              name: file.name,
               url: response.headers.Location
             });
           });

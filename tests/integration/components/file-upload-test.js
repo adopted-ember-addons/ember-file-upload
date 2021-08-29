@@ -8,7 +8,7 @@ module('Integration | Component | FileUpload', function (hooks) {
   setupRenderingTest(hooks);
 
   test('uploading a file calls onFileAdd', async function (assert) {
-    this.onFileAdd = (file) => assert.step(file.get('name'));
+    this.onFileAdd = (file) => assert.step(file.name);
 
     await render(
       hbs`<FileUpload @name="test" @onFileAdd={{this.onFileAdd}} />`
@@ -20,7 +20,7 @@ module('Integration | Component | FileUpload', function (hooks) {
   });
 
   test('deprecated: uploading a file calls onfileadd', async function (assert) {
-    this.onFileAdd = (file) => assert.step(file.get('name'));
+    this.onFileAdd = (file) => assert.step(file.name);
 
     await render(
       hbs`<FileUpload @name="test" @onfileadd={{this.onFileAdd}} />`
@@ -32,7 +32,7 @@ module('Integration | Component | FileUpload', function (hooks) {
   });
 
   test('uploading multiple files calls onFileAdd multiple times', async function (assert) {
-    this.onFileAdd = (file) => assert.step(file.get('name'));
+    this.onFileAdd = (file) => assert.step(file.name);
 
     await render(
       hbs`<FileUpload @name="test" @onFileAdd={{this.onFileAdd}} />`
@@ -48,7 +48,7 @@ module('Integration | Component | FileUpload', function (hooks) {
   });
 
   test('deprecated: uploading multiple files calls onfileadd multiple times', async function (assert) {
-    this.onFileAdd = (file) => assert.step(file.get('name'));
+    this.onFileAdd = (file) => assert.step(file.name);
 
     await render(
       hbs`<FileUpload @name="test" @onfileadd={{this.onFileAdd}} />`
