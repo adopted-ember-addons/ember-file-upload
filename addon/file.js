@@ -106,12 +106,6 @@ function upload(file, url, opts, uploadFn) {
       }
     )
     .finally(function () {
-      let queue = file.queue;
-
-      if (queue) {
-        file.queue.flush();
-      }
-
       // Decrement for Ember.Test
       inflightRequests--;
     });
@@ -228,14 +222,19 @@ export default class File {
     - `uploaded`
     - `failed`
 
-    Implementers should call flush() on the file's queue after mutating this property.
-
     @accessor state
     @type {String}
     @default 'queued'
     @readonly
    */
-  state = 'queued';
+  _state = 'queued';
+  get state() {
+    return this._state;
+  }
+  set state(value) {
+    this._state = value;
+    this.queue?.flush();
+  }
 
   /**
     The source of the file. This is useful

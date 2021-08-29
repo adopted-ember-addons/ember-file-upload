@@ -1,6 +1,7 @@
 import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import File from 'ember-file-upload/file';
 
 module('service:file-queue', function (hooks) {
   setupTest(hooks);
@@ -107,43 +108,32 @@ module('service:file-queue', function (hooks) {
     var queue = this.owner.lookup('service:file-queue');
     var queue1 = run(queue, 'create', 'queue1');
 
-    queue1.push({
-      id: 'test',
-      name: 'test-filename.jpg',
-      size: 2000,
-      loaded: 500,
-      state: 'queued',
-    });
+    const file0 = new File();
+    file0.state = 'queued';
+
+    queue1.push(file0);
 
     assert.equal(queue.files.length, 1);
 
-    queue1.push({
-      id: 'test1',
-      name: 'test-filename.jpg',
-      size: 3500,
-      loaded: 500,
-      state: 'queued',
-    });
+    const file1 = new File();
+    file1.state = 'queued';
+
+    queue1.push(file1);
 
     assert.equal(queue.files.length, 2);
 
-    queue1.push({
-      id: 'test2',
-      name: 'test-filename.jpg',
-      size: 1400,
-      loaded: 1000,
-      state: 'uploaded',
-    });
+    const file2 = new File();
+    file2.state = 'uploaded';
+
+    queue1.push(file2);
 
     assert.equal(queue.files.length, 3);
 
-    queue1.set('files.0.state', 'aborted');
-    queue1.flush();
+    file0.state = 'aborted';
 
     assert.equal(queue.files.length, 3);
 
-    queue1.set('files.1.state', 'uploaded');
-    queue1.flush();
+    file1.state = 'aborted';
 
     assert.equal(queue.files.length, 0);
     assert.equal(queue1.files.length, 0);

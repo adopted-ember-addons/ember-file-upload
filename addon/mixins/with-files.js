@@ -28,11 +28,7 @@ export default Mixin.create({
     @method flush
    */
   flush() {
-    let fileQueue = this.fileQueue;
-
-    if (fileQueue) {
-      fileQueue.flush();
-    }
+    this.fileQueue?.flush();
 
     let files = this.files;
 
