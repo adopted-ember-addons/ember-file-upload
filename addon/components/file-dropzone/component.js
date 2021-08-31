@@ -227,7 +227,7 @@ export default BaseComponent.extend({
   },
 
   didEnterDropzone(evt) {
-    let dataTransfer = DataTransfer.create({
+    let dataTransfer = new DataTransfer({
       queue: this.queue,
       source: evt.source,
       dataTransfer: evt.dataTransfer,
