@@ -1,8 +1,6 @@
 import { A } from '@ember/array';
-import EmberObject, { set } from '@ember/object';
 import { next } from '@ember/runloop';
 import File from './file';
-import WithFiles from './mixins/with-files';
 
 /**
   The Queue is a collection of files that
@@ -13,21 +11,20 @@ import WithFiles from './mixins/with-files';
   application.
 
   @class Queue
-  @extends Ember.Object
  */
-export default EmberObject.extend(WithFiles, {
-  init() {
-    set(this, 'files', A());
-    set(this, '_dropzones', A());
-    this._super();
-  },
+export default class Queue {
+  constructor({ name, fileQueue }) {
+    this.name = name;
+    this.fileQueue = fileQueue;
+    this.files = A();
+    this._dropzones = A();
+  }
 
   destroy() {
-    this._super();
     this.fileQueue.queues.delete(this.name);
-    this.files.forEach((file) => set(file, 'queue', null));
-    set(this, 'files', A());
-  },
+    this.files.forEach((file) => (file.queue = null));
+    this.files = A();
+  }
 
   /**
     The FileQueue service.
@@ -35,7 +32,7 @@ export default EmberObject.extend(WithFiles, {
     @property fileQueue
     @type FileQueue
    */
-  fileQueue: null,
+  fileQueue = null;
 
   /**
     @method push
@@ -43,9 +40,8 @@ export default EmberObject.extend(WithFiles, {
    */
   push(file) {
     file.queue = this;
-    this.fileQueue.files.pushObject(file);
     this.files.pushObject(file);
-  },
+  }
 
   /**
     @private
@@ -74,7 +70,7 @@ export default EmberObject.extend(WithFiles, {
     }
 
     return files;
-  },
+  }
 
   /**
     @method remove
@@ -82,9 +78,8 @@ export default EmberObject.extend(WithFiles, {
    */
   remove(file) {
     file.queue = null;
-    this.fileQueue.files.removeObject(file);
     this.files.removeObject(file);
-  },
+  }
 
   /**
     The unique identifier of the queue.
@@ -106,7 +101,7 @@ export default EmberObject.extend(WithFiles, {
     @type string
     @default null
    */
-  name: null,
+  name = null;
 
   /**
     The list of files in the queue. This automatically gets
@@ -125,5 +120,89 @@ export default EmberObject.extend(WithFiles, {
     @type File[]
     @default []
    */
-  files: null,
-});
+  files = null;
+
+  /**
+    Flushes the `files` property if they have settled. This
+    will only flush files when all files have arrived at a terminus
+    of their state chart.
+
+    ```
+        .------.     .---------.     .--------.
+    o--| queued |-->| uploading |-->| uploaded |
+        `------`     `---------`     `--------`
+           ^              |    .-------.
+           |              |`->| aborted |
+           |              |    `-------`
+           |  .------.    |    .---------.
+           `-| failed |<-` `->| timed_out |-.
+           |  `------`         `---------`  |
+           `-------------------------------`
+    ```
+
+    Files *may* be requeued by the user in the `failed` or `timed_out`
+    states.
+
+    @method flush
+   */
+  flush() {
+    let files = this.files;
+
+    if (files.length === 0) {
+      return;
+    }
+
+    let allFilesHaveSettled = files.every((file) => {
+      return ['uploaded', 'aborted'].includes(file.state);
+    });
+
+    if (allFilesHaveSettled) {
+      this.files.forEach((file) => (file.queue = null));
+      this.files = A();
+    }
+  }
+
+  /**
+    The total size of all files currently being uploaded in bytes.
+
+    @computed size
+    @type Number
+    @default 0
+    @readonly
+    */
+  get size() {
+    return this.files.reduce((acc, { size }) => {
+      acc += size;
+      return acc;
+    }, 0);
+  }
+
+  /**
+      The number of bytes that have been uploaded to the server.
+
+      @computed loaded
+      @type Number
+      @default 0
+      @readonly
+      */
+  get loaded() {
+    return this.files.reduce((acc, { loaded }) => {
+      acc += loaded;
+      return acc;
+    }, 0);
+  }
+
+  /**
+      The current progress of all uploads, as a percentage in the
+      range of 0 to 100.
+
+      @computed progress
+      @type Number
+      @default 0
+      @readonly
+      */
+  get progress() {
+    let percent = this.loaded / this.size || 0;
+    return Math.floor(percent * 100);
+  }
+}

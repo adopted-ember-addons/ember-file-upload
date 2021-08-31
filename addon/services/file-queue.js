@@ -1,9 +1,7 @@
 import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import { once } from '@ember/runloop';
 import Queue from '../queue';
-import WithFiles from '../mixins/with-files';
 
 /**
   The file queue service is a global file
@@ -17,7 +15,7 @@ import WithFiles from '../mixins/with-files';
   @class FileQueue
   @extends Ember.Service
  */
-export default class FileQueueService extends Service.extend(WithFiles) {
+export default class FileQueueService extends Service {
   queues = A([]);
 
   /**
@@ -37,7 +35,12 @@ export default class FileQueueService extends Service.extend(WithFiles) {
     @type {File[]}
     @default []
    */
-  files = A([]);
+  get files() {
+    return this.queues.reduce((acc, queue) => {
+      acc = acc.concat(queue.files);
+      return acc;
+    }, []);
+  }
 
   /**
     Returns a queue with the given name
@@ -63,10 +66,53 @@ export default class FileQueueService extends Service.extend(WithFiles) {
       this.find(name) == null
     );
 
-    let queue = Queue.create({ name, fileQueue: this });
-    this.queues.push(queue);
-    once(this, 'notifyPropertyChange', 'queues');
+    let queue = new Queue({ name, fileQueue: this });
+    this.queues.pushObject(queue);
 
     return queue;
+  }
+
+  /**
+    The total size of all files currently being uploaded in bytes.
+
+    @computed size
+    @type Number
+    @default 0
+    @readonly
+    */
+  get size() {
+    return this.files.reduce((acc, { size }) => {
+      acc += size;
+      return acc;
+    }, 0);
+  }
+
+  /**
+    The number of bytes that have been uploaded to the server.
+
+    @computed loaded
+    @type Number
+    @default 0
+    @readonly
+    */
+  get loaded() {
+    return this.files.reduce((acc, { loaded }) => {
+      acc += loaded;
+      return acc;
+    }, 0);
+  }
+
+  /**
+    The current progress of all uploads, as a percentage in the
+    range of 0 to 100.
+
+    @computed progress
+    @type Number
+    @default 0
+    @readonly
+    */
+  get progress() {
+    let percent = this.loaded / this.size || 0;
+    return Math.floor(percent * 100);
   }
 }
