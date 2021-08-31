@@ -1,12 +1,12 @@
-import { registerWaiter } from '@ember/test';
-import { DEBUG } from '@glimmer/env';
-
 import { assert } from '@ember/debug';
 import FileReader from './system/file-reader';
 import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
 import uuid from './system/uuid';
 import { tracked } from '@glimmer/tracking';
+import { buildWaiter } from 'ember-test-waiters';
+
+const uploadWaiter = buildWaiter('ember-file-upload:upload');
 
 function normalizeOptions(file, url, options) {
   if (typeof url === 'object') {
@@ -89,12 +89,9 @@ function upload(file, url, opts, uploadFn) {
 
   file.state = 'uploading';
 
-  // Increment for Ember.Test
-  inflightRequests++;
+  const token = uploadWaiter.beginAsync();
 
-  let uploadPromise = uploadFn(request, options);
-
-  uploadPromise = uploadPromise
+  return uploadFn(request, options)
     .then(
       function (result) {
         file.state = 'uploaded';
@@ -105,19 +102,7 @@ function upload(file, url, opts, uploadFn) {
         return RSVP.reject(error);
       }
     )
-    .finally(function () {
-      // Decrement for Ember.Test
-      inflightRequests--;
-    });
-
-  return uploadPromise;
-}
-
-let inflightRequests = 0;
-if (DEBUG) {
-  registerWaiter(null, function () {
-    return inflightRequests === 0;
-  });
+    .finally(() => uploadWaiter.endAsync(token));
 }
 
 /**
