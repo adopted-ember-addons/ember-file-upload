@@ -1,4 +1,5 @@
-import BaseComponent from './base-component';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
 import DataTransfer from '../system/data-transfer';
 import uuid from '../system/uuid';
@@ -69,7 +70,9 @@ let supported = (function () {
   @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
-export default class FileDropzoneComponent extends BaseComponent {
+export default class FileDropzoneComponent extends Component {
+  @service fileQueue;
+
   @tracked supported = supported;
   @tracked active = false;
   @tracked valid = true;
@@ -164,6 +167,15 @@ export default class FileDropzoneComponent extends BaseComponent {
     @type {string}
     @default null
    */
+
+  get queue() {
+    if (!this.args.name) return null;
+
+    return (
+      this.fileQueue.find(this.args.name) ||
+      this.fileQueue.create(this.args.name)
+    );
+  }
 
   isAllowed() {
     const { environment } =

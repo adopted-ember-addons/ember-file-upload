@@ -1,4 +1,5 @@
-import BaseComponent from './base-component';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import uuid from '../system/uuid';
 import { tracked } from '@glimmer/tracking';
@@ -74,7 +75,9 @@ import { tracked } from '@glimmer/tracking';
   @class FileUploadComponent
   @yield {Queue} queue
  */
-export default class FileUploadComponent extends BaseComponent {
+export default class FileUploadComponent extends Component {
+  @service fileQueue;
+
   /**
     Whether multiple files can be selected when uploading.
     @argument multiple
@@ -113,6 +116,15 @@ export default class FileUploadComponent extends BaseComponent {
     @type {function}
     @required
    */
+
+  get queue() {
+    if (!this.args.name) return null;
+
+    return (
+      this.fileQueue.find(this.args.name) ||
+      this.fileQueue.create(this.args.name)
+    );
+  }
 
   get for() {
     return this.args.for || `file-input-${uuid.short()}`;
