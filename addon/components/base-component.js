@@ -1,28 +1,26 @@
-import Component from '@ember/component';
-
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { computed, setProperties } from '@ember/object';
 
-export default Component.extend({
-  fileQueue: service(),
+export default class BaseComponent extends Component {
+  @service fileQueue;
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.queue) {
-      let { accept, multiple, disabled, onFileAdd } = this;
-      setProperties(this.queue, { accept, multiple, disabled, onFileAdd });
-    }
-  },
+  constructor(owner, args) {
+    super(owner, args);
+    if (!this.queue) return;
 
-  queue: computed('name', {
-    get() {
-      let queueName = this.name;
-      if (queueName != null) {
-        let queues = this.fileQueue;
-        return queues.find(queueName) || queues.create(queueName);
-      } else {
-        return undefined;
-      }
-    },
-  }),
-});
+    const { accept, multiple, disabled, onFileAdd } = this.args;
+    this.queue.accept = accept;
+    this.queue.multiple = multiple;
+    this.queue.disabled = disabled;
+    this.queue.onFileAdd = onFileAdd;
+  }
+
+  get queue() {
+    if (!this.args.name) return null;
+
+    return (
+      this.fileQueue.find(this.args.name) ||
+      this.fileQueue.create(this.args.name)
+    );
+  }
+}

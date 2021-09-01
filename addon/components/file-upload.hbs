@@ -1,0 +1,15 @@
+<label for={{this.for}} class="file-upload">
+  <input
+    id={{this.for}}
+    type="file"
+    accept={{@accept}}
+    capture={{@capture}}
+    multiple={{@multiple}}
+    disabled={{@disabled}}
+    value={{this._value}}
+    hidden
+    {{on 'change' this.change}}
+  />
+</label>
+
+{{yield this.queue}}

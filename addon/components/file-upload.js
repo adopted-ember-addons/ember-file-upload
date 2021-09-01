@@ -1,10 +1,7 @@
-import { assert } from '@ember/debug';
-import BaseComponent from '../base-component';
-import { DEBUG } from '@glimmer/env';
-import { computed } from '@ember/object';
-import { deprecatingAlias } from '@ember/object/computed';
-import layout from './template';
-import uuid from '../../system/uuid';
+import BaseComponent from './base-component';
+import { action } from '@ember/object';
+import uuid from '../system/uuid';
+import { tracked } from '@glimmer/tracking';
 
 /**
   `FileUpload` is a component that will open a dialog for
@@ -43,6 +40,7 @@ import uuid from '../../system/uuid';
 
   ```js
   import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
   export default Controller.extend({
     actions: {
@@ -73,22 +71,15 @@ import uuid from '../../system/uuid';
   });
   ```
 
-  @class FileUpload
-  @type Ember.Component
+  @class FileUploadComponent
   @yield {Queue} queue
  */
-const component = BaseComponent.extend({
-  tagName: 'label',
-  classNames: ['file-upload'],
-
-  attributeBindings: ['for'],
-
+export default class FileUploadComponent extends BaseComponent {
   /**
     Whether multiple files can be selected when uploading.
     @argument multiple
     @type {boolean}
    */
-  multiple: null,
 
   /**
     The name of the queue to upload the file to.
@@ -97,7 +88,6 @@ const component = BaseComponent.extend({
     @type {string}
     @required
    */
-  name: null,
 
   /**
     If set, disables input and prevents files from being added to the queue
@@ -106,14 +96,12 @@ const component = BaseComponent.extend({
     @type {boolean}
     @default false
    */
-  disabled: false,
 
   /**
     A comma-separated list of MIME types / extensions to be accepted by the input, as documented here https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept
     @argument accept
     @type {string}
    */
-  accept: null,
 
   /**
     `onFileAdd` is called when a file is selected.
@@ -125,22 +113,10 @@ const component = BaseComponent.extend({
     @type {function}
     @required
    */
-  onFileAdd: null,
-  onfileadd: deprecatingAlias('onFileAdd', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
 
-  for: computed({
-    get() {
-      return `file-input-${uuid.short()}`;
-    },
-    set(key, value) {
-      return value;
-    },
-  }),
-
-  layout,
+  get for() {
+    return this.args.for || `file-input-${uuid.short()}`;
+  }
 
   /**
     Specify capture devices which the user may select for file input.
@@ -148,90 +124,13 @@ const component = BaseComponent.extend({
     @argument capture
     @type {string}
    */
-  capture: null,
 
-  actions: {
-    change(files) {
-      this.queue._addFiles(files, 'browse');
-      this.element.querySelector('input').value = null;
-    },
-  },
-});
+  @tracked _value = null;
 
-if (DEBUG) {
-  const VALID_TAGS = [
-    'a',
-    'abbr',
-    'area',
-    'audio',
-    'b',
-    'bdo',
-    'br',
-    'canvas',
-    'cite',
-    'circle',
-    'clipPath',
-    'code',
-    'command',
-    'datalist',
-    'del',
-    'dfn',
-    'em',
-    'embed',
-    'i',
-    'iframe',
-    'img',
-    'kbd',
-    'line',
-    'mark',
-    'mask',
-    'math',
-    'noscript',
-    'object',
-    'q',
-    'radialGradient',
-    'rect',
-    'ruby',
-    'samp',
-    'script',
-    'small',
-    'span',
-    'strong',
-    'sub',
-    'sup',
-    'svg',
-    'time',
-    'var',
-    'video',
-    'wbr',
-    'path',
-    'polygon',
-    'polyline',
-    'g',
-    'use',
-  ];
-
-  component.reopen({
-    didInsertElement() {
-      let id = this.for;
-      assert(
-        `Changing the tagName of FileUpload to "${this.tagName}" will break interactions.`,
-        this.tagName === 'label'
-      );
-      let elements = this.element.querySelectorAll('*');
-      for (let i = 0; i < elements.length; i++) {
-        let element = elements[i];
-        if (
-          element.id !== id &&
-          VALID_TAGS.indexOf(element.tagName.toLowerCase()) === -1
-        ) {
-          assert(
-            `"${element.outerHTML}" is not allowed as a child of FileUpload.`
-          );
-        }
-      }
-    },
-  });
+  @action
+  change(event) {
+    const { files } = event.target;
+    this.queue._addFiles(files, 'browse');
+    this._value = null;
+  }
 }
-
-export default component;

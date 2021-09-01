@@ -1,6 +1,7 @@
 import { A } from '@ember/array';
 import { next } from '@ember/runloop';
 import File from './file';
+import { tracked } from '@glimmer/tracking';
 
 /**
   The Queue is a collection of files that
@@ -120,7 +121,7 @@ export default class Queue {
     @type File[]
     @default []
    */
-  files = null;
+  @tracked files = null;
 
   /**
     Flushes the `files` property if they have settled. This

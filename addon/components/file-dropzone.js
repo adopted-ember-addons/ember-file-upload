@@ -1,14 +1,10 @@
-import BaseComponent from '../base-component';
-
-import { bind } from '@ember/runloop';
-import { set } from '@ember/object';
-import { deprecatingAlias } from '@ember/object/computed';
+import BaseComponent from './base-component';
 import { getOwner } from '@ember/application';
-import layout from './template';
-import DataTransfer from '../../system/data-transfer';
-import uuid from '../../system/uuid';
-import parseHTML from '../../system/parse-html';
-import DragListener from '../../system/drag-listener';
+import DataTransfer from '../system/data-transfer';
+import uuid from '../system/uuid';
+import parseHTML from '../system/parse-html';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
@@ -19,8 +15,6 @@ let supported = (function () {
     'draggable' in document.createElement('span')
   );
 })();
-
-const dragListener = new DragListener();
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
@@ -75,19 +69,16 @@ const dragListener = new DragListener();
   @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
-export default BaseComponent.extend({
-  layout,
-
-  supported,
-  active: false,
-  valid: true,
+export default class FileDropzoneComponent extends BaseComponent {
+  @tracked supported = supported;
+  @tracked active = false;
+  @tracked valid = true;
 
   /**
     Whether multiple files can be selected when uploading.
     @argument multiple
     @type {boolean}
    */
-  multiple: null,
 
   /**
     The name of the queue to upload the file to.
@@ -96,7 +87,6 @@ export default BaseComponent.extend({
     @type {string}
     @required
    */
-  name: null,
 
   /**
     If set, disables input and prevents files from being added to the queue
@@ -105,14 +95,12 @@ export default BaseComponent.extend({
     @type {boolean}
     @default false
    */
-  disabled: false,
 
   /**
     A list of MIME types / extensions to be accepted by the input
     @argument accept
     @type {string}
    */
-  accept: null,
 
   /**
     `onFileAdd` is called when a file is selected.
@@ -124,11 +112,6 @@ export default BaseComponent.extend({
     @type {function}
     @required
    */
-  onFileAdd: null,
-  onfileadd: deprecatingAlias('onFileAdd', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
 
   /**
     `onDragEnter` is called when a file has entered
@@ -137,11 +120,6 @@ export default BaseComponent.extend({
     @argument onDragEnter
     @type {function}
    */
-  onDragEnter: null,
-  ondragenter: deprecatingAlias('onDragEnter', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
 
   /**
     `onDragLeave` is called when a file has left
@@ -150,11 +128,6 @@ export default BaseComponent.extend({
     @argument onDragLeave
     @type {function}
    */
-  onDragLeave: null,
-  ondragleave: deprecatingAlias('onDragLeave', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
 
   /**
     `onDrop` is called when a file has been dropped.
@@ -162,11 +135,6 @@ export default BaseComponent.extend({
     @argument onDrop
     @type {function}
    */
-  onDrop: null,
-  ondrop: deprecatingAlias('onDrop', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
 
   /**
     Whether users can upload content
@@ -179,7 +147,6 @@ export default BaseComponent.extend({
     @type {boolean}
     @default false
    */
-  allowUploadsFromWebsites: false,
 
   /**
     This is the type of cursor that should
@@ -197,23 +164,6 @@ export default BaseComponent.extend({
     @type {string}
     @default null
    */
-  cursor: null,
-
-  didInsertElement() {
-    this._super();
-
-    dragListener.addEventListeners(`#${this.elementId}`, {
-      dragenter: bind(this, 'didEnterDropzone'),
-      dragleave: bind(this, 'didLeaveDropzone'),
-      dragover: bind(this, 'didDragOver'),
-      drop: bind(this, 'didDrop'),
-    });
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-    dragListener.removeEventListeners(`#${this.elementId}`);
-  },
 
   isAllowed() {
     const { environment } =
@@ -222,10 +172,11 @@ export default BaseComponent.extend({
     return (
       environment === 'test' ||
       this[DATA_TRANSFER].source === 'os' ||
-      this.allowUploadsFromWebsites
+      this.args.allowUploadsFromWebsites
     );
-  },
+  }
 
+  @action
   didEnterDropzone(evt) {
     let dataTransfer = new DataTransfer({
       queue: this.queue,
@@ -236,46 +187,49 @@ export default BaseComponent.extend({
     this[DATA_TRANSFER] = dataTransfer;
 
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
-      set(this, 'active', true);
-      set(this, 'valid', dataTransfer.valid);
+      evt.dataTransfer.dropEffect = this.args.cursor;
+      this.active = true;
+      this.valid = dataTransfer.valid;
 
-      if (this.onDragEnter) {
-        this.onDragEnter(dataTransfer);
+      if (this.args.onDragEnter) {
+        this.args.onDragEnter(dataTransfer);
       }
     }
-  },
+  }
 
+  @action
   didLeaveDropzone(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
       if (evt.dataTransfer) {
-        evt.dataTransfer.dropEffect = this.cursor;
+        evt.dataTransfer.dropEffect = this.args.cursor;
       }
-      if (this.onDragLeave) {
-        this.onDragLeave(this[DATA_TRANSFER]);
+      if (this.args.onDragLeave) {
+        this.args.onDragLeave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
       }
 
       if (this.isDestroyed) {
         return;
       }
-      set(this, 'active', false);
+      this.active = false;
     }
-  },
+  }
 
+  @action
   didDragOver(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
+      evt.dataTransfer.dropEffect = this.args.cursor;
     }
-  },
+  }
 
+  @action
   didDrop(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
 
     if (!this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
+      evt.dataTransfer.dropEffect = this.args.cursor;
       this[DATA_TRANSFER] = null;
       return;
     }
@@ -312,7 +266,7 @@ export default BaseComponent.extend({
         if (canvas.toBlob) {
           canvas.toBlob((blob) => {
             let [file] = this.queue._addFiles([blob], 'web');
-            set(file, 'name', filename);
+            file.name = filename;
           });
         } else {
           let binStr = atob(canvas.toDataURL().split(',')[1]);
@@ -325,7 +279,7 @@ export default BaseComponent.extend({
           let blob = new Blob([arr], { type: 'image/png' });
           blob.name = filename;
           let [file] = this.queue._addFiles([blob], 'web');
-          set(file, 'name', filename);
+          file.name = filename;
         }
       };
       /* eslint-disable no-console */
@@ -336,13 +290,13 @@ export default BaseComponent.extend({
       image.src = url;
     }
 
-    if (this.onDrop) {
-      this.onDrop(this[DATA_TRANSFER]);
+    if (this.args.onDrop) {
+      this.args.onDrop(this[DATA_TRANSFER]);
     }
 
     // Add file(s) to upload queue.
-    set(this, 'active', false);
+    this.active = false;
     this.queue._addFiles(this[DATA_TRANSFER].files, 'drag-and-drop');
     this[DATA_TRANSFER] = null;
-  },
-});
+  }
+}

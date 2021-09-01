@@ -1,0 +1,14 @@
+<div
+  ...attributes
+  {{drag-listener
+    dragenter=this.didEnterDropzone
+    dragleave=this.didLeaveDropzone
+    dragover=this.didDragOver
+    drop=this.didDrop
+  }}
+>
+  {{yield
+    (hash supported=this.supported active=this.active valid=this.valid)
+    this.queue
+  }}
+</div>
