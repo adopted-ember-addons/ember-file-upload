@@ -194,6 +194,7 @@ export default class File {
     @default 0
     @readonly
    */
+  @tracked
   progress = 0;
 
   /**
@@ -212,6 +213,7 @@ export default class File {
     @default 'queued'
     @readonly
    */
+  @tracked
   _state = 'queued';
   get state() {
     return this._state;
