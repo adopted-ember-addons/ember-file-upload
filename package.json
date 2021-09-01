@@ -47,7 +47,8 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "@babel/core": "^7.13.15",
+    "@glimmer/component": "^1.0.4",
+    "@glimmer/tracking": "^1.0.4",
     "ember-cli-babel": "^7.26.3",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-modifier": "^2.1.2"
