@@ -5,9 +5,9 @@ export default class DragListenerModifier extends Modifier {
   dragListener = new DragListener();
 
   didReceiveArguments() {
-    this.dragListener.removeEventListeners(this.element);
-
     const { dragenter, dragleave, dragover, drop } = this.args.named;
+
+    this.dragListener.removeEventListeners(this.element);
     this.dragListener.addEventListeners(this.element, {
       dragenter,
       dragleave,

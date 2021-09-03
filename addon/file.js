@@ -106,7 +106,7 @@ function upload(file, url, opts, uploadFn) {
 }
 
 /**
-  Provide a uniform interface for interacting
+  Files provide a uniform interface for interacting
   with data that can be uploaded or read.
 
   @class File
