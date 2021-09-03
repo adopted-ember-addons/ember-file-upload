@@ -4,7 +4,7 @@ import HTTPRequest from './system/http-request';
 import RSVP from 'rsvp';
 import uuid from './system/uuid';
 import { tracked } from '@glimmer/tracking';
-import { buildWaiter } from 'ember-test-waiters';
+import { buildWaiter } from '@ember/test-waiters';
 
 const uploadWaiter = buildWaiter('ember-file-upload:upload');
 
