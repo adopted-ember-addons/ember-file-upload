@@ -1,4 +1,13 @@
 
+
+## v4.0.2 (2021-09-03)
+
+#### :memo: Documentation
+* [#519](https://github.com/adopted-ember-addons/ember-file-upload/pull/519) Update docsite homepage after background color change ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v4.0.1 (2021-08-22)
 
 #### :memo: Documentation
