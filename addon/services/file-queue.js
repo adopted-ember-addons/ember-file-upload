@@ -39,7 +39,7 @@ export default class FileQueueService extends Service {
     return this.queues.reduce((acc, queue) => {
       acc = acc.concat(queue.files);
       return acc;
-    }, []);
+    }, A([]));
   }
 
   /**
