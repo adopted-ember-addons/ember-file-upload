@@ -6,6 +6,7 @@ import uuid from '../system/uuid';
 import parseHTML from '../system/parse-html';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-events';
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
@@ -168,6 +169,38 @@ export default class FileDropzoneComponent extends Component {
     @default null
    */
 
+  get onFileAdd() {
+    if (this.args.onfileadd) {
+      deprecateNonCamelCaseEvents('onfileadd', 'onFileAdd');
+      return this.args.onfileadd;
+    }
+    return this.args.onFileAdd;
+  }
+
+  get onDragEnter() {
+    if (this.args.ondragenter) {
+      deprecateNonCamelCaseEvents('ondragenter', 'onDragEnter');
+      return this.args.ondragenter;
+    }
+    return this.args.onDragEnter;
+  }
+
+  get onDragLeave() {
+    if (this.args.ondragleave) {
+      deprecateNonCamelCaseEvents('ondragleave', 'onDragLeave');
+      return this.args.ondragleave;
+    }
+    return this.args.onDragLeave;
+  }
+
+  get onDrop() {
+    if (this.args.ondrop) {
+      deprecateNonCamelCaseEvents('ondrop', 'onDrop');
+      return this.args.ondrop;
+    }
+    return this.args.onDrop;
+  }
+
   get queue() {
     if (!this.args.name) return null;
 
@@ -203,8 +236,8 @@ export default class FileDropzoneComponent extends Component {
       this.active = true;
       this.valid = dataTransfer.valid;
 
-      if (this.args.onDragEnter) {
-        this.args.onDragEnter(dataTransfer);
+      if (this.onDragEnter) {
+        this.onDragEnter(dataTransfer);
       }
     }
   }
@@ -216,8 +249,8 @@ export default class FileDropzoneComponent extends Component {
       if (evt.dataTransfer) {
         evt.dataTransfer.dropEffect = this.args.cursor;
       }
-      if (this.args.onDragLeave) {
-        this.args.onDragLeave(this[DATA_TRANSFER]);
+      if (this.onDragLeave) {
+        this.onDragLeave(this[DATA_TRANSFER]);
         this[DATA_TRANSFER] = null;
       }
 
@@ -302,8 +335,8 @@ export default class FileDropzoneComponent extends Component {
       image.src = url;
     }
 
-    if (this.args.onDrop) {
-      this.args.onDrop(this[DATA_TRANSFER]);
+    if (this.onDrop) {
+      this.onDrop(this[DATA_TRANSFER]);
     }
 
     // Add file(s) to upload queue.

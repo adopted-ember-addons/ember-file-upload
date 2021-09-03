@@ -19,11 +19,39 @@ module('Integration | Component | FileUpload', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
+  test('deprecated: uploading a file calls onfileadd', async function (assert) {
+    this.onFileAdd = (file) => assert.step(file.name);
+
+    await render(
+      hbs`<FileUpload @name="test" @onfileadd={{this.onFileAdd}} />`
+    );
+
+    await selectFiles('input[type="file"]', new File([], 'dingus.txt'));
+
+    assert.verifySteps(['dingus.txt']);
+  });
+
   test('uploading multiple files calls onFileAdd multiple times', async function (assert) {
     this.onFileAdd = (file) => assert.step(file.name);
 
     await render(
       hbs`<FileUpload @name="test" @onFileAdd={{this.onFileAdd}} />`
+    );
+
+    await selectFiles(
+      'input[type="file"]',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
+
+    assert.verifySteps(['dingus.txt', 'dingus.png']);
+  });
+
+  test('deprecated: uploading multiple files calls onfileadd multiple times', async function (assert) {
+    this.onFileAdd = (file) => assert.step(file.name);
+
+    await render(
+      hbs`<FileUpload @name="test" @onfileadd={{this.onFileAdd}} />`
     );
 
     await selectFiles(
