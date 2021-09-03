@@ -19,6 +19,97 @@ let supported = (function () {
 })();
 
 /**
+  Whether multiple files can be selected when uploading.
+  @argument multiple
+  @type {boolean}
+  */
+
+/**
+  The name of the queue to upload the file to.
+
+  @argument name
+  @type {string}
+  @required
+  */
+
+/**
+  If set, disables input and prevents files from being added to the queue
+
+  @argument disabled
+  @type {boolean}
+  @default false
+  */
+
+/**
+  A list of MIME types / extensions to be accepted by the input
+  @argument accept
+  @type {string}
+  */
+
+/**
+  `onFileAdd` is called when a file is selected.
+
+  When multiple files are selected, this function
+  is called once for every file that was selected.
+
+  @argument onFileAdd
+  @type {function}
+  @required
+  */
+
+/**
+  `onDragEnter` is called when a file has entered
+  the dropzone.
+
+  @argument onDragEnter
+  @type {function}
+  */
+
+/**
+  `onDragLeave` is called when a file has left
+  the dropzone.
+
+  @argument onDragLeave
+  @type {function}
+  */
+
+/**
+  `onDrop` is called when a file has been dropped.
+
+  @argument onDrop
+  @type {function}
+  */
+
+/**
+  Whether users can upload content
+  from websites by dragging images from
+  another webpage and dropping it into
+  your app. The default is `false` to
+  prevent cross-site scripting issues.
+
+  @argument allowUploadsFromWebsites
+  @type {boolean}
+  @default false
+  */
+
+/**
+  This is the type of cursor that should
+  be shown when a drag event happens.
+
+  Corresponds to `dropEffect`.
+
+  This is one of the following:
+
+  - `copy`
+  - `move`
+  - `link`
+
+  @argument cursor
+  @type {string}
+  @default null
+  */
+
+/**
   `FileDropzone` is a component that will allow users to upload files by
    drag and drop.
 
@@ -77,97 +168,6 @@ export default class FileDropzoneComponent extends Component {
   @tracked supported = supported;
   @tracked active = false;
   @tracked valid = true;
-
-  /**
-    Whether multiple files can be selected when uploading.
-    @argument multiple
-    @type {boolean}
-   */
-
-  /**
-    The name of the queue to upload the file to.
-
-    @argument name
-    @type {string}
-    @required
-   */
-
-  /**
-    If set, disables input and prevents files from being added to the queue
-
-    @argument disabled
-    @type {boolean}
-    @default false
-   */
-
-  /**
-    A list of MIME types / extensions to be accepted by the input
-    @argument accept
-    @type {string}
-   */
-
-  /**
-    `onFileAdd` is called when a file is selected.
-
-    When multiple files are selected, this function
-    is called once for every file that was selected.
-
-    @argument onFileAdd
-    @type {function}
-    @required
-   */
-
-  /**
-    `onDragEnter` is called when a file has entered
-    the dropzone.
-
-    @argument onDragEnter
-    @type {function}
-   */
-
-  /**
-    `onDragLeave` is called when a file has left
-    the dropzone.
-
-    @argument onDragLeave
-    @type {function}
-   */
-
-  /**
-    `onDrop` is called when a file has been dropped.
-
-    @argument onDrop
-    @type {function}
-   */
-
-  /**
-    Whether users can upload content
-    from websites by dragging images from
-    another webpage and dropping it into
-    your app. The default is `false` to
-    prevent cross-site scripting issues.
-
-    @argument allowUploadsFromWebsites
-    @type {boolean}
-    @default false
-   */
-
-  /**
-    This is the type of cursor that should
-    be shown when a drag event happens.
-
-    Corresponds to `dropEffect`.
-
-    This is one of the following:
-
-    - `copy`
-    - `move`
-    - `link`
-
-    @argument cursor
-    @type {string}
-    @default null
-   */
 
   get onFileAdd() {
     if (this.args.onfileadd) {
