@@ -28,8 +28,8 @@ import { upload } from 'ember-file-upload/mirage';
 
 export default function () {
   this.post('/photos/new', upload(function (schema, request) {
-    let { name: filename, size: filesize, url } = request.requestBody.file;
-    let photo = schema.create('photo', { filename, filesize, url, uploadedAt: new Date() });
+    let { name: fileName, size: fileSize, url } = request.requestBody.file;
+    let photo = schema.create('photo', { fileName, fileSize, url, uploadedAt: new Date() });
     return photo;
   }));
 }
