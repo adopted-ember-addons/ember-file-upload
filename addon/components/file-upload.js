@@ -52,74 +52,39 @@ import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-event
   */
 
 /**
-  `FileUpload` is a component that will open a dialog for
-  users to browse their device for files that they want to upload.
-
-  For the component to work at its best, each `FileUpload`
-  should be named so the upload can be persisted across pages and
-  show the correct upload percentage when a user visits the page.
-
-  For a basic use-case of uploading a file after a form is submitted,
-  you can stash the file for later and upload it on the submission of
-  the form.
-
-  For this example, we'll look at a relatively standard profile form
-  using [`ember-changeset`](https://github.com/DockYard/ember-changeset) to keep track of changes made to the form:
+  `FileUpload` is a component that will users to upload files using
+  their browser's file chooser.
 
   ```hbs
-  {{#with (changeset model) as |changeset|}}
-    <form submit={{action 'submit' changeset}}>
-      <label for='name'>
-      {{input type='string' value=changeset.name id='name'}}
-
-      <FileUpload @name="avatar"
-                  @accept="image/*"
-                  @onFileAdd={{fn this.setAvatar changeset}}>
-        {{#if changeset.avatar}}
-          <img src={{changeset.avatar.url}} />
-          <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
-        {{else}}
-          <a id="upload-avatar" tabindex=0>Add a photo of yourself</a>
-        {{/if}}
-      </FileUpload>
-    </form>
-  {{/with}}
+  <FileUpload
+    @name="photos"
+    @accept="image/*"
+    @multiple=true
+    @onFileAdd={{perform this.uploadImage}}
+    as |queue|
+  >
+    <a tabindex="0">Add an image.</a>
+    {{#if queue.files.length}}
+      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+    {{/if}}
+  </FileUpload>
   ```
 
   ```js
-  import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
+  import Component from '@glimmer/component';
+  import { task } from 'ember-concurrency';
 
-  export default Controller.extend({
-    actions: {
-      submit(changeset) {
-        if (changeset.avatar) {
-          let file = changeset.avatar;
-          file.upload('/upload').then((response) => {
-            changeset.set('avatar', {
-              name: file.name,
-              url: response.headers.Location
-            });
-          });
-        }
-
-        this.currentModel.setProperties(changeset.get('change'));
-        return this.currentModel.save();
-      },
-
-      setAvatar(changeset, file) {
-        changeset.set('avatar', file);
-
-        // Set the URL so we can see a preview
-        file.readAsDataURL().then((url) => {
-          changeset.set('url', url);
-        });
-      }
+  export default class ExampleComponent extends Component {
+    @task({ maxConcurrency: 3, enqueue: true })
+    *uploadImage(file) {
+      const response = yield file.upload(url, options);
+      ...
     }
-  });
+  }
   ```
 
   @class FileUploadComponent
+  @type Ember.Component
   @yield {Queue} queue
  */
 export default class FileUploadComponent extends Component {
