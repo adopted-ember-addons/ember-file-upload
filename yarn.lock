@@ -5698,9 +5698,9 @@ ember-cli-addon-docs-yuidoc@^1.0.0:
     yuidocjs "^0.10.2"
 
 ember-cli-addon-docs@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-addon-docs/-/ember-cli-addon-docs-4.0.1.tgz#b2d504a7ff2e827de76f9c8a91de582548e36f13"
-  integrity sha512-rnza1/yZD5LO/nGwJRqyIH6wdjkfVZQIddC42H/jjFlv6CDpNIphTx1FW0uKEsmDmI9QonTt32st04JFijeGXw==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ember-cli-addon-docs/-/ember-cli-addon-docs-4.0.2.tgz#57310ae589a0f00e6ef95b753e0c2f69e2671462"
+  integrity sha512-XIhs6bK6xXNSURD4psXkUVhE/JrAv38ILtBLw7WZb21bTnvzrPrbK+sLBt9P/5CCno15fxQJ4f8xZ1F0uzAMZw==
   dependencies:
     "@csstools/postcss-sass" "^4.0.0"
     "@ember/render-modifiers" "github:cibernox/ember-render-modifiers#e3574ed03409ef7a048d7716b8bea361ed6cd6e2"
