@@ -20,24 +20,30 @@ For example, creating an image uploader that uploads images to your API server w
       {{#if dropzone.supported}}
         Drag and drop images onto this area to upload them or
       {{/if}}
-      <FileUpload @name="photos"
-                  @for="upload-photo"
-                  @accept="image/*"
-                  @multiple={{true}}
-                  @onFileAdd={{action this.uploadImage}}>
-        <a tabindex=0>Add an Image.</a>
+      <FileUpload
+        @name="photos"
+        @for="upload-photo"
+        @accept="image/*"
+        @multiple={{true}}
+        @onFileAdd={{this.uploadImage}}
+      >
+        <a tabindex="0">Add an Image.</a>
       </FileUpload>
     </p>
   {{/if}}
 </FileDropzone>
 ```
+
 It is also possible for you to create a simple file upload button which yields the queue:
 
 ```handlebars
-<FileUpload @name="photos"
-            @accept="image/*"
-            @onFileAdd={{action this.uploadImage}} as |queue|>
-  <a class="button">
+<FileUpload
+  @name="photos"
+  @accept="image/*"
+  @onFileAdd={{this.uploadImage}}
+  as |queue|
+>
+  <a tabindex="0">
     {{#if queue.files.length}}
       Uploading...
     {{else}}
@@ -46,5 +52,3 @@ It is also possible for you to create a simple file upload button which yields t
   </a>
 </FileUpload>
 ```
-
-Ember FileUpload also supports classic curly component invocation.

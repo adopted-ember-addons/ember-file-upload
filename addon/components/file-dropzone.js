@@ -129,11 +129,13 @@ let supported = (function () {
         {{#if dropzone.supported}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        <FileUpload @name="photos"
-                    @accept="image/*"
-                    @multiple=true
-                    @onFileAdd={{this.uploadImage}}>
-          <a id="upload-image" tabindex=0>Add an Image.</a>
+        <FileUpload
+          @name="photos"
+          @accept="image/*"
+          @multiple=true
+          @onFileAdd={{perform this.uploadImage}}
+        >
+          <a tabindex="0">Add an Image.</a>
         </FileUpload>
       </p>
     {{/if}}
@@ -141,20 +143,19 @@ let supported = (function () {
   ```
 
   ```js
-  import Controller from '@ember/controller';
+  import Component from '@glimmer/component';
+  import { task } from 'ember-concurrency';
 
-  export default Ember.Route.extend({
-    actions: {
-      uploadImage(file) {
-       file.upload(URL, options).then((response) => {
-          ...
-       });
-      }
+  export default class ExampleComponent extends Component {
+    @task({ maxConcurrency: 3, enqueue: true })
+    *uploadImage(file) {
+      const response = yield file.upload(url, options);
+      ...
     }
-  });
+  }
   ```
 
-  @class FileDropzone
+  @class FileDropzoneComponent
   @type Ember.Component
   @yield {Hash} dropzone
   @yield {boolean} dropzone.supported

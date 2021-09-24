@@ -104,24 +104,21 @@ end
 After setting up your S3 bucket and server, you can start writing the code to upload files directly to S3!
 
 ```javascript
-import Ember from 'ember';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency';
+import fetch from 'fetch';
 
-const RSVP = Ember.RSVP;
-const set = Ember.set;
-
-export default Ember.Route.extend({
-  actions: {
-    uploadImage: function (file) {
-      let model = this.modelFor(this.routeName);
-      RSVP.cast(Ember.$.get('/api/s3_direct')).then(function (response) {
-        return file.upload(response.url, {
-          data: response.credentials
-        });
-      }).then(function (response) {
-        set(model, 'url', response.headers.Location);
-        return model.save();
+export default class ExampleComponent extends Component {
+  @task({ maxConcurrency: 3, enqueue: true })
+  *uploadImage(file) {
+    const { product } = this.args;
+    const apiResponse = yield fetch('/api/s3_direct');
+    const s3Response = yield file.upload(apiResponse.url, {
+        data: apiResponse.credentials
       });
-    }
+    product.url = s3Response.headers.Location;
+    yield product.save();
   }
-});
+}
 ```
