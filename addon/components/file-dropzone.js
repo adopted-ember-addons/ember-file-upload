@@ -1,14 +1,12 @@
-import BaseComponent from '../base-component';
-
-import { bind } from '@ember/runloop';
-import { set } from '@ember/object';
-import { deprecatingAlias } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
-import layout from './template';
-import DataTransfer from '../../system/data-transfer';
-import uuid from '../../system/uuid';
-import parseHTML from '../../system/parse-html';
-import DragListener from '../../system/drag-listener';
+import DataTransfer from '../system/data-transfer';
+import uuid from '../system/uuid';
+import parseHTML from '../system/parse-html';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-events';
 
 const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
@@ -20,7 +18,96 @@ let supported = (function () {
   );
 })();
 
-const dragListener = new DragListener();
+/**
+  Whether multiple files can be selected when uploading.
+  @argument multiple
+  @type {boolean}
+  */
+
+/**
+  The name of the queue to upload the file to.
+
+  @argument name
+  @type {string}
+  @required
+  */
+
+/**
+  If set, disables input and prevents files from being added to the queue
+
+  @argument disabled
+  @type {boolean}
+  @default false
+  */
+
+/**
+  A list of MIME types / extensions to be accepted by the input
+  @argument accept
+  @type {string}
+  */
+
+/**
+  `onFileAdd` is called when a file is selected.
+
+  When multiple files are selected, this function
+  is called once for every file that was selected.
+
+  @argument onFileAdd
+  @type {function}
+  @required
+  */
+
+/**
+  `onDragEnter` is called when a file has entered
+  the dropzone.
+
+  @argument onDragEnter
+  @type {function}
+  */
+
+/**
+  `onDragLeave` is called when a file has left
+  the dropzone.
+
+  @argument onDragLeave
+  @type {function}
+  */
+
+/**
+  `onDrop` is called when a file has been dropped.
+
+  @argument onDrop
+  @type {function}
+  */
+
+/**
+  Whether users can upload content
+  from websites by dragging images from
+  another webpage and dropping it into
+  your app. The default is `false` to
+  prevent cross-site scripting issues.
+
+  @argument allowUploadsFromWebsites
+  @type {boolean}
+  @default false
+  */
+
+/**
+  This is the type of cursor that should
+  be shown when a drag event happens.
+
+  Corresponds to `dropEffect`.
+
+  This is one of the following:
+
+  - `copy`
+  - `move`
+  - `link`
+
+  @argument cursor
+  @type {string}
+  @default null
+  */
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
@@ -75,145 +162,53 @@ const dragListener = new DragListener();
   @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
-export default BaseComponent.extend({
-  layout,
+export default class FileDropzoneComponent extends Component {
+  @service fileQueue;
 
-  supported,
-  active: false,
-  valid: true,
+  @tracked supported = supported;
+  @tracked active = false;
+  @tracked valid = true;
 
-  /**
-    Whether multiple files can be selected when uploading.
-    @argument multiple
-    @type {boolean}
-   */
-  multiple: null,
+  get onFileAdd() {
+    if (this.args.onfileadd) {
+      deprecateNonCamelCaseEvents('onfileadd', 'onFileAdd');
+      return this.args.onfileadd;
+    }
+    return this.args.onFileAdd;
+  }
 
-  /**
-    The name of the queue to upload the file to.
+  get onDragEnter() {
+    if (this.args.ondragenter) {
+      deprecateNonCamelCaseEvents('ondragenter', 'onDragEnter');
+      return this.args.ondragenter;
+    }
+    return this.args.onDragEnter;
+  }
 
-    @argument name
-    @type {string}
-    @required
-   */
-  name: null,
+  get onDragLeave() {
+    if (this.args.ondragleave) {
+      deprecateNonCamelCaseEvents('ondragleave', 'onDragLeave');
+      return this.args.ondragleave;
+    }
+    return this.args.onDragLeave;
+  }
 
-  /**
-    If set, disables input and prevents files from being added to the queue
+  get onDrop() {
+    if (this.args.ondrop) {
+      deprecateNonCamelCaseEvents('ondrop', 'onDrop');
+      return this.args.ondrop;
+    }
+    return this.args.onDrop;
+  }
 
-    @argument disabled
-    @type {boolean}
-    @default false
-   */
-  disabled: false,
+  get queue() {
+    if (!this.args.name) return null;
 
-  /**
-    A list of MIME types / extensions to be accepted by the input
-    @argument accept
-    @type {string}
-   */
-  accept: null,
-
-  /**
-    `onFileAdd` is called when a file is selected.
-
-    When multiple files are selected, this function
-    is called once for every file that was selected.
-
-    @argument onFileAdd
-    @type {function}
-    @required
-   */
-  onFileAdd: null,
-  onfileadd: deprecatingAlias('onFileAdd', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
-
-  /**
-    `onDragEnter` is called when a file has entered
-    the dropzone.
-
-    @argument onDragEnter
-    @type {function}
-   */
-  onDragEnter: null,
-  ondragenter: deprecatingAlias('onDragEnter', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
-
-  /**
-    `onDragLeave` is called when a file has left
-    the dropzone.
-
-    @argument onDragLeave
-    @type {function}
-   */
-  onDragLeave: null,
-  ondragleave: deprecatingAlias('onDragLeave', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
-
-  /**
-    `onDrop` is called when a file has been dropped.
-
-    @argument onDrop
-    @type {function}
-   */
-  onDrop: null,
-  ondrop: deprecatingAlias('onDrop', {
-    id: 'ember-file-upload.deprecate-non-camel-case-events',
-    until: '5.0.0',
-  }),
-
-  /**
-    Whether users can upload content
-    from websites by dragging images from
-    another webpage and dropping it into
-    your app. The default is `false` to
-    prevent cross-site scripting issues.
-
-    @argument allowUploadsFromWebsites
-    @type {boolean}
-    @default false
-   */
-  allowUploadsFromWebsites: false,
-
-  /**
-    This is the type of cursor that should
-    be shown when a drag event happens.
-
-    Corresponds to `dropEffect`.
-
-    This is one of the following:
-
-    - `copy`
-    - `move`
-    - `link`
-
-    @argument cursor
-    @type {string}
-    @default null
-   */
-  cursor: null,
-
-  didInsertElement() {
-    this._super();
-
-    dragListener.addEventListeners(`#${this.elementId}`, {
-      dragenter: bind(this, 'didEnterDropzone'),
-      dragleave: bind(this, 'didLeaveDropzone'),
-      dragover: bind(this, 'didDragOver'),
-      drop: bind(this, 'didDrop'),
-    });
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-    dragListener.removeEventListeners(`#${this.elementId}`);
-  },
+    return (
+      this.fileQueue.find(this.args.name) ||
+      this.fileQueue.create(this.args.name)
+    );
+  }
 
   isAllowed() {
     const { environment } =
@@ -222,12 +217,13 @@ export default BaseComponent.extend({
     return (
       environment === 'test' ||
       this[DATA_TRANSFER].source === 'os' ||
-      this.allowUploadsFromWebsites
+      this.args.allowUploadsFromWebsites
     );
-  },
+  }
 
+  @action
   didEnterDropzone(evt) {
-    let dataTransfer = DataTransfer.create({
+    let dataTransfer = new DataTransfer({
       queue: this.queue,
       source: evt.source,
       dataTransfer: evt.dataTransfer,
@@ -236,21 +232,22 @@ export default BaseComponent.extend({
     this[DATA_TRANSFER] = dataTransfer;
 
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
-      set(this, 'active', true);
-      set(this, 'valid', dataTransfer.valid);
+      evt.dataTransfer.dropEffect = this.args.cursor;
+      this.active = true;
+      this.valid = dataTransfer.valid;
 
       if (this.onDragEnter) {
         this.onDragEnter(dataTransfer);
       }
     }
-  },
+  }
 
+  @action
   didLeaveDropzone(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
       if (evt.dataTransfer) {
-        evt.dataTransfer.dropEffect = this.cursor;
+        evt.dataTransfer.dropEffect = this.args.cursor;
       }
       if (this.onDragLeave) {
         this.onDragLeave(this[DATA_TRANSFER]);
@@ -260,22 +257,24 @@ export default BaseComponent.extend({
       if (this.isDestroyed) {
         return;
       }
-      set(this, 'active', false);
+      this.active = false;
     }
-  },
+  }
 
+  @action
   didDragOver(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
+      evt.dataTransfer.dropEffect = this.args.cursor;
     }
-  },
+  }
 
+  @action
   didDrop(evt) {
-    set(this[DATA_TRANSFER], 'dataTransfer', evt.dataTransfer);
+    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
 
     if (!this.isAllowed()) {
-      evt.dataTransfer.dropEffect = this.cursor;
+      evt.dataTransfer.dropEffect = this.args.cursor;
       this[DATA_TRANSFER] = null;
       return;
     }
@@ -312,7 +311,7 @@ export default BaseComponent.extend({
         if (canvas.toBlob) {
           canvas.toBlob((blob) => {
             let [file] = this.queue._addFiles([blob], 'web');
-            set(file, 'name', filename);
+            file.name = filename;
           });
         } else {
           let binStr = atob(canvas.toDataURL().split(',')[1]);
@@ -325,7 +324,7 @@ export default BaseComponent.extend({
           let blob = new Blob([arr], { type: 'image/png' });
           blob.name = filename;
           let [file] = this.queue._addFiles([blob], 'web');
-          set(file, 'name', filename);
+          file.name = filename;
         }
       };
       /* eslint-disable no-console */
@@ -341,8 +340,8 @@ export default BaseComponent.extend({
     }
 
     // Add file(s) to upload queue.
-    set(this, 'active', false);
+    this.active = false;
     this.queue._addFiles(this[DATA_TRANSFER].files, 'drag-and-drop');
     this[DATA_TRANSFER] = null;
-  },
-});
+  }
+}

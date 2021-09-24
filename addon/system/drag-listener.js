@@ -2,7 +2,7 @@ import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import { cancel, next, bind } from '@ember/runloop';
 
-export default class {
+export default class DragListener {
   constructor() {
     this._listeners = A();
     this._stack = [];
@@ -13,6 +13,7 @@ export default class {
     // same element back to back, which isn't what
     // we want to provide as an API.
     this._events = A();
+    this._handlersAttached = false;
   }
 
   beginListening() {
@@ -36,11 +37,16 @@ export default class {
     body.addEventListener('drop', handlers.drop, {
       passive: false,
     });
+
+    this._handlersAttached = true;
   }
 
   endListening() {
     let body = document.body;
     let handlers = this._handlers;
+
+    if (!this._handlersAttached) return;
+
     body.removeEventListener('dragenter', handlers.dragenter, {
       passive: true,
     });
@@ -55,7 +61,7 @@ export default class {
     });
   }
 
-  addEventListeners(selector, handlers) {
+  addEventListeners(element, handlers) {
     if (this._listeners.length === 0) {
       this.beginListening();
     }
@@ -66,29 +72,27 @@ export default class {
     for (let i = 0, len = this._listeners.length; i < len; i++) {
       let listener = this._listeners[i];
       assert(
-        `Cannot add multiple listeners for the same element ${selector}, ${listener.selector}`,
-        document.querySelector(selector) !==
-          document.querySelector(listener.selector)
+        `Cannot add multiple listeners for the same element ${element}, ${listener.element}`,
+        element !== listener.element
       );
 
-      if (document.querySelector(`${listener.selector} ${selector}`)) {
+      if (listener.element.contains(element)) {
         insertAt = i;
       }
     }
 
-    this._listeners.splice(insertAt, 0, { selector, handlers });
+    this._listeners.splice(insertAt, 0, { element, handlers });
   }
 
-  removeEventListeners(selector) {
-    this._listeners.removeObject(this._listeners.findBy('selector', selector));
+  removeEventListeners(element) {
+    this._listeners.removeObject(this._listeners.findBy('element', element));
     if (this._listeners.length === 0) {
       this.endListening();
     }
   }
 
   findListener(evt) {
-    return this._listeners.find(function ({ selector }) {
-      let element = document.querySelector(selector);
+    return this._listeners.find(function ({ element }) {
       return element === evt.target || element.contains(evt.target);
     });
   }
