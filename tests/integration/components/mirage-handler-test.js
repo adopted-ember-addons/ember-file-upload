@@ -15,6 +15,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
   });
 
   test('upload handler passes schema and request through providing additional file metadata as request body', async function (assert) {
+    assert.expect(6);
     let self = this;
     this.server.post(
       '/folder/:id/file',
@@ -22,7 +23,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         assert.step('mirage-handler');
 
         assert.equal(schema, self.server.schema, 'schema is provided');
-        assert.ok(
+        assert.true(
           typeof request.params === 'object',
           'params property on request is an object'
         );

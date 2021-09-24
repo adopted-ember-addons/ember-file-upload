@@ -21,10 +21,10 @@ module.exports = function (defaults) {
 
   const { maybeEmbroider } = require('@embroider/test-setup');
   return maybeEmbroider(app, {
-    packagerOptions: {
-      webpackConfig: {
-        devtool: false,
+    skipBabel: [
+      {
+        package: 'qunit',
       },
-    },
+    ],
   });
 };

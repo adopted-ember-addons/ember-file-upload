@@ -33,7 +33,7 @@ module('http-request', function (hooks) {
 
   test('open ignores the async option', function (assert) {
     this.subject.open('POST', 'http://emberjs.com', false);
-    assert.equal(this.request.async, true);
+    assert.true(this.request.async);
   });
 
   test('open allows username / password', function (assert) {
@@ -53,6 +53,7 @@ module('http-request', function (hooks) {
   });
 
   test('successful send with a text/plain response', function (assert) {
+    assert.expect(2);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
@@ -78,6 +79,7 @@ module('http-request', function (hooks) {
   });
 
   test('successful send with a text/html response', function (assert) {
+    assert.expect(3);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
@@ -104,6 +106,7 @@ module('http-request', function (hooks) {
   });
 
   test('successful send with a text/xml response', function (assert) {
+    assert.expect(3);
     let xml =
       '<message from="zoey@emberjs.com" to="tomster@emberjs.com"><file name="rfc.md" size="1024"/></message>';
 
@@ -138,6 +141,7 @@ module('http-request', function (hooks) {
     'application/javascript',
   ].forEach(function (contentType) {
     test(`successful send with a ${contentType} response`, function (assert) {
+      assert.expect(2);
       this.subject.open('PUT', 'http://emberjs.com');
       let promise = this.subject
         .send({
@@ -177,7 +181,7 @@ module('http-request', function (hooks) {
     this.subject = new HttpRequest({ withCredentials: true });
     this.subject.open('POST', 'http://emberjs.com');
 
-    assert.equal(this.request.withCredentials, true);
+    assert.true(this.request.withCredentials);
   });
 
   test(`confirm withCredentials: undefined by default`, function (assert) {
@@ -188,7 +192,7 @@ module('http-request', function (hooks) {
   test('promise is cancellable', function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject.send();
-    assert.ok(
+    assert.true(
       typeof promise.cancel === 'function',
       'returned promise should have a cancel() method'
     );
@@ -198,7 +202,7 @@ module('http-request', function (hooks) {
       .catch(function () {})
       .finally(function () {});
 
-    assert.ok(
+    assert.true(
       typeof promise2.cancel === 'function',
       'chained promise should have a cancel() method'
     );
