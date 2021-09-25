@@ -1,5 +1,18 @@
 
 
+
+## v4.1.0-beta.0 (2021-09-25)
+
+#### :memo: Documentation
+* [#522](https://github.com/adopted-ember-addons/ember-file-upload/pull/522) Update docs examples to use Octane syntax ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#542](https://github.com/adopted-ember-addons/ember-file-upload/pull/542) Bump ember-cli and run ember-cli-update ([@gilest](https://github.com/gilest))
+* [#514](https://github.com/adopted-ember-addons/ember-file-upload/pull/514) Upgrade to glimmer components and native classes ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v4.0.3 (2021-09-24)
 
 ## v4.0.2 (2021-09-03)
