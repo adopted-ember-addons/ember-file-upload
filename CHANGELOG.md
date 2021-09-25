@@ -1,6 +1,15 @@
 
 
 
+
+## v4.1.0-beta.1 (2021-09-25)
+
+#### :memo: Documentation
+* [#543](https://github.com/adopted-ember-addons/ember-file-upload/pull/543) Fix DemoUpload component ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v4.1.0-beta.0 (2021-09-25)
 
 #### :memo: Documentation
