@@ -6581,9 +6581,9 @@ ember-svg-jar@^2.2.3:
     path-posix "^1.0.0"
 
 ember-template-lint@^3.6.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-3.8.0.tgz#e1faf7ef013ef2b8772c11e442dbb63e3fa92b07"
-  integrity sha512-saaJz6ZK/B4jz1pdfJlkRimnwtOKfDZRhw3eAcO5P6OD/pV5ZKMRniy1AyX7E2jymkGc6pbs8dUrhF08Usivrw==
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-3.9.0.tgz#f45d82081f0d753c59b39c36e6bbdf252d85b842"
+  integrity sha512-qo3iMiiP+a+5K4E1AlH+PSPbXBLP8fgb2BYwyUQ8k6IIs6Z00Ct2ySd3BWxGL2rw+Dyp53yJ5Zj8sSSYDFDTkg==
   dependencies:
     "@ember-template-lint/todo-utils" "^10.0.0"
     chalk "^4.1.2"
@@ -10459,15 +10459,10 @@ miller-rabin@^4.0.0:
     bn.js "^4.0.0"
     brorand "^1.0.1"
 
-mime-db@1.49.0:
+mime-db@1.49.0, "mime-db@>= 1.43.0 < 2":
   version "1.49.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.49.0.tgz#f3dfde60c99e9cf3bc9701d687778f537001cbed"
   integrity sha512-CIc8j9URtOVApSFCQIF+VBkX1RwXp/oMMOrqdyXSBXq5RWNEsRfyj1kiRnQgmNXmHxPoFIxOroKA3zcU9P+nAA==
-
-"mime-db@>= 1.43.0 < 2":
-  version "1.50.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.50.0.tgz#abd4ac94e98d3c0e185016c67ab45d5fde40c11f"
-  integrity sha512-9tMZCDlYHqeERXEHO9f/hKfNXhre5dK2eE/krIvUjZbS2KPcqGDfNShIWS1uW9XOTKQKqK6qbeOci18rbfW77A==
 
 mime-types@2.1.32, mime-types@^2.1.12, mime-types@^2.1.18, mime-types@^2.1.26, mime-types@^2.1.27, mime-types@~2.1.24:
   version "2.1.32"
