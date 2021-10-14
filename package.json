@@ -50,6 +50,7 @@
     "@ember/test-waiters": "^3.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "broccoli-funnel": "^3.0.8",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-modifier": "^2.1.2"
