@@ -26,5 +26,10 @@ module.exports = function (defaults) {
         package: 'qunit',
       },
     ],
+    packagerOptions: {
+      webpackConfig: {
+        devtool: 'source-map',
+      },
+    },
   });
 };
