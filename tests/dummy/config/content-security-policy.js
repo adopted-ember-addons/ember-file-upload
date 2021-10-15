@@ -1,5 +1,6 @@
-module.exports = function () {
+module.exports = function (environment) {
   return {
+    enabled: environment !== 'test',
     policy: {
       'default-src': ["'none'"],
       'script-src': [
