@@ -104,7 +104,7 @@
   },
   "resolutions": {
     "ember-cli-babel": "^7.26.6",
-    "socket.io": "4.2.0"
+    "socket.io": "4.3.0"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
