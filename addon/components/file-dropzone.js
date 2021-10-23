@@ -41,12 +41,6 @@ let supported = (function () {
   */
 
 /**
-  A list of MIME types / extensions to be accepted by the input
-  @argument accept
-  @type {string}
-  */
-
-/**
   `onFileAdd` is called when a file is selected.
 
   When multiple files are selected, this function
@@ -116,11 +110,7 @@ let supported = (function () {
   ```hbs
   <FileDropzone @name="photos" as |dropzone queue|>
     {{#if dropzone.active}}
-      {{#if dropzone.valid}}
-        Drop to upload
-      {{else}}
-        Invalid
-      {{/if}}
+      Drop to upload
     {{else if queue.files.length}}
       Uploading {{queue.files.length}} files. ({{queue.progress}}%)
     {{else}}
@@ -131,7 +121,6 @@ let supported = (function () {
         {{/if}}
         <FileUpload
           @name="photos"
-          @accept="image/*"
           @multiple=true
           @onFileAdd={{perform this.uploadImage}}
         >
@@ -160,7 +149,6 @@ let supported = (function () {
   @yield {Hash} dropzone
   @yield {boolean} dropzone.supported
   @yield {boolean} dropzone.active
-  @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
 export default class FileDropzoneComponent extends Component {
@@ -168,7 +156,6 @@ export default class FileDropzoneComponent extends Component {
 
   @tracked supported = supported;
   @tracked active = false;
-  @tracked valid = true;
 
   get onFileAdd() {
     if (this.args.onfileadd) {
@@ -235,7 +222,6 @@ export default class FileDropzoneComponent extends Component {
     if (this.isAllowed()) {
       evt.dataTransfer.dropEffect = this.args.cursor;
       this.active = true;
-      this.valid = dataTransfer.valid;
 
       if (this.onDragEnter) {
         this.onDragEnter(dataTransfer);

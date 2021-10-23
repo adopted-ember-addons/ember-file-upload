@@ -198,14 +198,12 @@ module('Integration | Component | FileDropzone', function (hooks) {
       <FileDropzone @name="test" as |dropzone queue|>
         <div class="supported">{{dropzone.supported}}</div>
         <div class="active">{{dropzone.active}}</div>
-        <div class="valid">{{dropzone.valid}}</div>
         <div class="queue-name">{{queue.name}}</div>
       </FileDropzone>
     `);
 
     assert.dom('.supported').hasText('true');
     assert.dom('.active').hasText('false');
-    assert.dom('.valid').hasText('true');
     assert.dom('.queue-name').hasText('test');
   });
 });

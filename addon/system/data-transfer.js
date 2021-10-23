@@ -31,18 +31,6 @@ export default class DataTransfer {
     }
   }
 
-  get valid() {
-    if (this.files == null) {
-      return true;
-    }
-
-    return (
-      (this.dataTransfer?.items?.length ||
-        this.dataTransfer?.files?.length ||
-        this.itemDetails?.length) === this.files.length
-    );
-  }
-
   get files() {
     let fileList = this.dataTransfer?.files || null;
     let itemList = this.dataTransfer?.items || null;
@@ -79,49 +67,6 @@ export default class DataTransfer {
       }
     }
 
-    let accept = this.queue?.accept;
-    if (accept == null) {
-      return files;
-    }
-
-    let tokens = A(
-      accept.split(',').map(function (token) {
-        return token.trim().toLowerCase();
-      })
-    );
-    let extensions = A(
-      tokens.filter(function (token) {
-        return token.indexOf('.') === 0;
-      })
-    );
-    let mimeTypeTests = A(
-      A(
-        tokens.filter(function (token) {
-          return token.indexOf('.') !== 0;
-        })
-      ).map(function (mimeType) {
-        return function (type) {
-          if (A(['audio/*', 'video/*', 'image/*']).includes(mimeType)) {
-            return type.split('/')[0] === mimeType.split('/')[0];
-          } else {
-            return type === mimeType;
-          }
-        };
-      })
-    );
-
-    return files.filter(function (file) {
-      let extension = null;
-      if (file.name && /(\.[^.]+)$/.test(file.name)) {
-        extension = file.name.toLowerCase().match(/(\.[^.]+)$/)[1];
-      }
-
-      let type = file.type.toLowerCase();
-      return (
-        mimeTypeTests.find(function (mimeTypeTest) {
-          return mimeTypeTest(type);
-        }) || extensions.indexOf(extension) !== -1
-      );
-    });
+    return files;
   }
 }
