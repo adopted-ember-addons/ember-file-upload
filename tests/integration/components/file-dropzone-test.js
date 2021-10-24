@@ -28,6 +28,35 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
+  test('only calls onFileAdd for files returned from onDrop', async function (assert) {
+    this.onDrop = (dataTransfer) => {
+      assert.step(`onDrop: ${dataTransfer.files.mapBy('name').join(',')}`);
+      return dataTransfer.files.filter((f) => f.type.split('/')[0] === 'text');
+    };
+    this.onFileAdd = (file) => assert.step(`onFileAdd: ${file.name}`);
+
+    await render(hbs`
+      <FileDropzone
+        class="test-dropzone"
+        @name="test"
+        @multiple={{true}}
+        @onDrop={{this.onDrop}}
+        @onFileAdd={{this.onFileAdd}}
+      />
+    `);
+
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.html', { type: 'text/html' }),
+      new File([], 'dingus.png', { type: 'image/png' })
+    );
+
+    assert.verifySteps([
+      'onDrop: dingus.html,dingus.png',
+      'onFileAdd: dingus.html',
+    ]);
+  });
+
   test('deprecated: dropping a file calls ondrop', async function (assert) {
     this.onDrop = (dataTransfer) => {
       dataTransfer.files.forEach((file) => assert.step(file.name));

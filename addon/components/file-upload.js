@@ -34,13 +34,23 @@ import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-event
   */
 
 /**
-  `onFileAdd` is called when a file is selected.
+  `onSelect` is called for each selection of one or more files.
 
-  When multiple files are selected, this function
-  is called once for every file that was selected.
+  Optionally limit which files are added to the upload queue by returning
+  an array of File objects.
+
+  @argument onSelect
+  @type {function(files: Array[File])}
+  */
+
+/**
+  `onFileAdd` is called when a file is added to the upload queue.
+
+  When multiple files are added, this function
+  is called once for every file.
 
   @argument onFileAdd
-  @type {function}
+  @type {function(file: File)}
   @required
   */
 
@@ -115,7 +125,8 @@ export default class FileUploadComponent extends Component {
 
   @action
   change(event) {
-    const { files } = event.target;
+    let { files } = event.target;
+    files = this.args.onSelect?.(files) ?? files;
     this.queue._addFiles(files, 'browse');
     this._value = null;
   }

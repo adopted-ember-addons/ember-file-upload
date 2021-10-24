@@ -41,13 +41,13 @@ let supported = (function () {
   */
 
 /**
-  `onFileAdd` is called when a file is selected.
+  `onFileAdd` is called when a file is added to the upload queue.
 
-  When multiple files are selected, this function
-  is called once for every file that was selected.
+  When multiple files are added, this function
+  is called once for every file.
 
   @argument onFileAdd
-  @type {function}
+  @type {function(file: File)}
   @required
   */
 
@@ -56,7 +56,7 @@ let supported = (function () {
   the dropzone.
 
   @argument onDragEnter
-  @type {function}
+  @type {function(dataTransfer: DataTransfer)}
   */
 
 /**
@@ -64,14 +64,17 @@ let supported = (function () {
   the dropzone.
 
   @argument onDragLeave
-  @type {function}
+  @type {function(dataTransfer: DataTransfer)}
   */
 
 /**
   `onDrop` is called when a file has been dropped.
 
+  Optionally limit which files are added to the upload queue by returning
+  an array of File objects.
+
   @argument onDrop
-  @type {function}
+  @type {function(dataTransfer: DataTransfer)}
   */
 
 /**
@@ -322,13 +325,11 @@ export default class FileDropzoneComponent extends Component {
       image.src = url;
     }
 
-    if (this.onDrop) {
-      this.onDrop(this[DATA_TRANSFER]);
-    }
+    const files = this.onDrop(this[DATA_TRANSFER]) ?? this[DATA_TRANSFER].files;
 
     // Add file(s) to upload queue.
     this.active = false;
-    this.queue._addFiles(this[DATA_TRANSFER].files, 'drag-and-drop');
+    this.queue._addFiles(files, 'drag-and-drop');
     this[DATA_TRANSFER] = null;
   }
 }
