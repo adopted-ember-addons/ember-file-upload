@@ -124,6 +124,7 @@ let supported = (function () {
         {{/if}}
         <FileUpload
           @name="photos"
+          @accept="image/*"
           @multiple=true
           @onFileAdd={{perform this.uploadImage}}
         >
