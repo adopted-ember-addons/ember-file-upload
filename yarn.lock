@@ -10364,9 +10364,9 @@ methods@~1.1.2:
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
 
 micromark-core-commonmark@^1.0.1:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/micromark-core-commonmark/-/micromark-core-commonmark-1.0.3.tgz#ec4a921e61abff0aebc8d4429d96d73c752225e0"
-  integrity sha512-0E8aE27v0DYHPk40IxzhCdXnZWQuvZ6rbflrx1u8ZZAUJEB48o0fgLXA5+yMab28yXT+mi1Q4LXdsI4oGS6Vng==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/micromark-core-commonmark/-/micromark-core-commonmark-1.0.4.tgz#fee459d29c5912a32f059c3a9836d4318ac85f30"
+  integrity sha512-HAtoZisp1M/sQFuw2zoUKGo1pMKod7GSvdM6B2oBU0U2CEN5/C6Tmydmi1rmvEieEhGQsjMyiiSoYgxISNxGFA==
   dependencies:
     micromark-factory-destination "^1.0.0"
     micromark-factory-label "^1.0.0"
@@ -12479,9 +12479,9 @@ regjsparser@^0.7.0:
     jsesc "~0.5.0"
 
 release-it-lerna-changelog@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-4.0.0.tgz#7dfcbfa42f5a22acb166c6b5593b109d69e4d5c9"
-  integrity sha512-B7cORodnr5ZNMwSF+hrhrgrzQTkuazTpBhgVOENtuTRFxsitx3HmzQQ0nTJEcPrIKRSdNZEyejf2tqckc6Zx2w==
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-4.0.1.tgz#6e2998d55f9ebf4f5d73eeac059c3b979a0bc42d"
+  integrity sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==
   dependencies:
     execa "^5.1.1"
     lerna-changelog "^2.2.0"
