@@ -12,9 +12,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
   test('dropping a file calls onDrop', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -29,9 +27,9 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('only calls onFileAdd for files returned from onDrop', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      assert.step(`onDrop: ${dataTransfer.files.mapBy('name').join(',')}`);
-      return dataTransfer.files.filter((f) => f.type.split('/')[0] === 'text');
+    this.onDrop = (files) => {
+      assert.step(`onDrop: ${files.mapBy('name').join(',')}`);
+      return files.filter((f) => f.type.split('/')[0] === 'text');
     };
     this.onFileAdd = (file) => assert.step(`onFileAdd: ${file.name}`);
 
@@ -58,9 +56,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('deprecated: dropping a file calls ondrop', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -75,9 +71,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('dropping multiple files calls onDrop with one file', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -96,9 +90,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('deprecated: dropping multiple files calls ondrop with one file', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -117,9 +109,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -139,9 +129,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('deprecated: multiple=true dropping multiple files calls ondrop with both files', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone

@@ -36,11 +36,11 @@ import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-event
 /**
   `onSelect` is called for each selection of one or more files.
 
-  Optionally limit which files are added to the upload queue by returning
+  Optionally restrict which files are added to the upload queue by returning
   an array of File objects.
 
   @argument onSelect
-  @type {function(files: Array[File])}
+  @type {function(files: File[], event)}
   */
 
 /**
