@@ -2,6 +2,22 @@
 
 
 
+
+## v5.0.0-beta.0 (2021-10-26)
+
+#### :boom: Breaking Change
+* [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
+
+#### :rocket: Enhancement
+* [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
+* [#567](https://github.com/adopted-ember-addons/ember-file-upload/pull/567) feat: conditionally exclude mirage handler from builds ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v4.1.0-beta.1 (2021-09-25)
 
 #### :memo: Documentation
