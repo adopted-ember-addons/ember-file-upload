@@ -1,8 +1,12 @@
 # Validation
 
-## Accept validation
+## Accept attribute
 
-If you're only using `<FileUpload>` you may use the `@accept` argument to restrict which file types can be selected. For more details see the [MDN accept attribute reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept).
+If you're only using `<FileUpload>` you may use the `@accept` argument to suggest which file types could be selected. This maps directly to the `accept` attribute on an input element.
+
+Unforunately this is unreliable as it is not handled the same by all browsers.
+
+For more details see the [MDN accept attribute reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept).
 
 ## Custom validation
 
