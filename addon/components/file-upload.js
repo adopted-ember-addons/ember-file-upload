@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import uuid from '../system/uuid';
 import { tracked } from '@glimmer/tracking';
-import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-events';
 
 /**
   Whether multiple files can be selected when uploading.
@@ -101,14 +100,6 @@ export default class FileUploadComponent extends Component {
   @service fileQueue;
 
   @tracked _value = null;
-
-  get onFileAdd() {
-    if (this.args.onfileadd) {
-      deprecateNonCamelCaseEvents('onfileadd', 'onFileAdd');
-      return this.args.onfileadd;
-    }
-    return this.args.onFileAdd;
-  }
 
   get queue() {
     if (!this.args.name) return null;
