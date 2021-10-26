@@ -12,9 +12,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
   test('dropping a file calls onDrop', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -28,10 +26,37 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
-  test('deprecated: dropping a file calls ondrop', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
+  test('only calls onFileAdd for files returned from onDrop', async function (assert) {
+    this.onDrop = (files) => {
+      assert.step(`onDrop: ${files.mapBy('name').join(',')}`);
+      return files.filter((f) => f.type.split('/')[0] === 'text');
     };
+    this.onFileAdd = (file) => assert.step(`onFileAdd: ${file.name}`);
+
+    await render(hbs`
+      <FileDropzone
+        class="test-dropzone"
+        @name="test"
+        @multiple={{true}}
+        @onDrop={{this.onDrop}}
+        @onFileAdd={{this.onFileAdd}}
+      />
+    `);
+
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.html', { type: 'text/html' }),
+      new File([], 'dingus.png', { type: 'image/png' })
+    );
+
+    assert.verifySteps([
+      'onDrop: dingus.html,dingus.png',
+      'onFileAdd: dingus.html',
+    ]);
+  });
+
+  test('deprecated: dropping a file calls ondrop', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -46,9 +71,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('dropping multiple files calls onDrop with one file', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -67,9 +90,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('deprecated: dropping multiple files calls ondrop with one file', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -88,9 +109,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -110,9 +129,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('deprecated: multiple=true dropping multiple files calls ondrop with both files', async function (assert) {
-    this.onDrop = (dataTransfer) => {
-      dataTransfer.files.forEach((file) => assert.step(file.name));
-    };
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
       <FileDropzone
@@ -198,14 +215,12 @@ module('Integration | Component | FileDropzone', function (hooks) {
       <FileDropzone @name="test" as |dropzone queue|>
         <div class="supported">{{dropzone.supported}}</div>
         <div class="active">{{dropzone.active}}</div>
-        <div class="valid">{{dropzone.valid}}</div>
         <div class="queue-name">{{queue.name}}</div>
       </FileDropzone>
     `);
 
     assert.dom('.supported').hasText('true');
     assert.dom('.active').hasText('false');
-    assert.dom('.valid').hasText('true');
     assert.dom('.queue-name').hasText('test');
   });
 });

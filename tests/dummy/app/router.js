@@ -9,6 +9,7 @@ export default class Router extends AddonDocsRouter {
 Router.map(function () {
   docsRoute(this, function () {
     this.route('recipes');
+    this.route('validation');
     this.route('integration');
     this.route('testing');
     this.route('aws');

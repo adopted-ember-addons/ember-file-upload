@@ -2,13 +2,10 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
 import DataTransfer from '../system/data-transfer';
-import uuid from '../system/uuid';
 import parseHTML from '../system/parse-html';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-events';
-
-const DATA_TRANSFER = 'DATA_TRANSFER' + uuid.short();
 
 let supported = (function () {
   return (
@@ -41,43 +38,40 @@ let supported = (function () {
   */
 
 /**
-  A list of MIME types / extensions to be accepted by the input
-  @argument accept
-  @type {string}
-  */
+  `onFileAdd` is called when a file is added to the upload queue.
 
-/**
-  `onFileAdd` is called when a file is selected.
-
-  When multiple files are selected, this function
-  is called once for every file that was selected.
+  When multiple files are added, this function
+  is called once for every file.
 
   @argument onFileAdd
-  @type {function}
+  @type {function(file: File)}
   @required
   */
 
 /**
-  `onDragEnter` is called when a file has entered
+  `onDragEnter` is called when files have entered
   the dropzone.
 
   @argument onDragEnter
-  @type {function}
+  @type {function(files: File[], dataTransfer: DataTransfer)}
   */
 
 /**
-  `onDragLeave` is called when a file has left
+  `onDragLeave` is called when files have left
   the dropzone.
 
   @argument onDragLeave
-  @type {function}
+  @type {function(files: File[], dataTransfer: DataTransfer)}
   */
 
 /**
-  `onDrop` is called when a file has been dropped.
+  `onDrop` is called when file have been dropped on the dropzone.
+
+  Optionally restrict which files are added to the upload queue by
+  returning an array of File objects.
 
   @argument onDrop
-  @type {function}
+  @type {function(files: File[], dataTransfer: DataTransfer)}
   */
 
 /**
@@ -116,11 +110,7 @@ let supported = (function () {
   ```hbs
   <FileDropzone @name="photos" as |dropzone queue|>
     {{#if dropzone.active}}
-      {{#if dropzone.valid}}
-        Drop to upload
-      {{else}}
-        Invalid
-      {{/if}}
+      Drop to upload
     {{else if queue.files.length}}
       Uploading {{queue.files.length}} files. ({{queue.progress}}%)
     {{else}}
@@ -160,7 +150,6 @@ let supported = (function () {
   @yield {Hash} dropzone
   @yield {boolean} dropzone.supported
   @yield {boolean} dropzone.active
-  @yield {boolean} dropzone.valid
   @yield {Queue} queue
  */
 export default class FileDropzoneComponent extends Component {
@@ -168,7 +157,7 @@ export default class FileDropzoneComponent extends Component {
 
   @tracked supported = supported;
   @tracked active = false;
-  @tracked valid = true;
+  @tracked dataTransfer;
 
   get onFileAdd() {
     if (this.args.onfileadd) {
@@ -211,48 +200,50 @@ export default class FileDropzoneComponent extends Component {
     );
   }
 
+  get files() {
+    return this.dataTransfer?.files;
+  }
+
   isAllowed() {
     const { environment } =
       getOwner(this).resolveRegistration('config:environment');
 
     return (
       environment === 'test' ||
-      this[DATA_TRANSFER].source === 'os' ||
+      this.dataTransfer.source === 'os' ||
       this.args.allowUploadsFromWebsites
     );
   }
 
   @action
   didEnterDropzone(evt) {
-    let dataTransfer = new DataTransfer({
+    this.dataTransfer = new DataTransfer({
       queue: this.queue,
       source: evt.source,
       dataTransfer: evt.dataTransfer,
       itemDetails: evt.itemDetails,
     });
-    this[DATA_TRANSFER] = dataTransfer;
 
     if (this.isAllowed()) {
       evt.dataTransfer.dropEffect = this.args.cursor;
       this.active = true;
-      this.valid = dataTransfer.valid;
 
       if (this.onDragEnter) {
-        this.onDragEnter(dataTransfer);
+        this.onDragEnter(this.files, this.dataTransfer);
       }
     }
   }
 
   @action
   didLeaveDropzone(evt) {
-    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
+    this.dataTransfer.dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
       if (evt.dataTransfer) {
         evt.dataTransfer.dropEffect = this.args.cursor;
       }
       if (this.onDragLeave) {
-        this.onDragLeave(this[DATA_TRANSFER]);
-        this[DATA_TRANSFER] = null;
+        this.onDragLeave(this.files, this.dataTransfer);
+        this.dataTransfer = null;
       }
 
       if (this.isDestroyed) {
@@ -264,7 +255,7 @@ export default class FileDropzoneComponent extends Component {
 
   @action
   didDragOver(evt) {
-    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
+    this.dataTransfer.dataTransfer = evt.dataTransfer;
     if (this.isAllowed()) {
       evt.dataTransfer.dropEffect = this.args.cursor;
     }
@@ -272,11 +263,11 @@ export default class FileDropzoneComponent extends Component {
 
   @action
   didDrop(evt) {
-    this[DATA_TRANSFER].dataTransfer = evt.dataTransfer;
+    this.dataTransfer.dataTransfer = evt.dataTransfer;
 
     if (!this.isAllowed()) {
       evt.dataTransfer.dropEffect = this.args.cursor;
-      this[DATA_TRANSFER] = null;
+      this.dataTransfer = null;
       return;
     }
 
@@ -284,7 +275,7 @@ export default class FileDropzoneComponent extends Component {
     // from other browser windows
     let url;
 
-    let html = this[DATA_TRANSFER].getData('text/html');
+    let html = this.dataTransfer.getData('text/html');
     if (html) {
       let parsedHtml = parseHTML(html);
       let img = parsedHtml.getElementsByTagName('img')[0];
@@ -294,7 +285,7 @@ export default class FileDropzoneComponent extends Component {
     }
 
     if (url == null) {
-      url = this[DATA_TRANSFER].getData('text/uri-list');
+      url = this.dataTransfer.getData('text/uri-list');
     }
 
     if (url) {
@@ -336,13 +327,11 @@ export default class FileDropzoneComponent extends Component {
       image.src = url;
     }
 
-    if (this.onDrop) {
-      this.onDrop(this[DATA_TRANSFER]);
-    }
+    const files = this.onDrop?.(this.files, this.dataTransfer) ?? this.files;
 
-    // Add file(s) to upload queue.
+    // Add files to upload queue.
     this.active = false;
-    this.queue._addFiles(this[DATA_TRANSFER].files, 'drag-and-drop');
-    this[DATA_TRANSFER] = null;
+    this.queue._addFiles(files, 'drag-and-drop');
+    this.dataTransfer = null;
   }
 }

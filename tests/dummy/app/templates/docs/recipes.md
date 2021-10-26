@@ -7,11 +7,7 @@ For example, creating an image uploader that uploads images to your API server w
 ```handlebars
 <FileDropzone @name="photos" as |dropzone queue|>
   {{#if dropzone.active}}
-    {{#if dropzone.valid}}
-      Drop to upload
-    {{else}}
-      Invalid
-    {{/if}}
+    Drop to upload
   {{else if queue.files.length}}
     Uploading {{queue.files.length}} files. ({{queue.progress}}%)
   {{else}}
