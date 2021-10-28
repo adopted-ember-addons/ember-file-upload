@@ -3,6 +3,8 @@
 
 
 
+## v5.0.0-beta.1 (2021-10-28)
+
 ## v5.0.0-beta.0 (2021-10-26)
 
 #### :boom: Breaking Change
