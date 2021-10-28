@@ -1,39 +1,26 @@
+## v5.0.0-beta.1 (2021-10-28)
 
+#### :boom: Breaking Change
+* [#583](https://github.com/adopted-ember-addons/ember-file-upload/pull/583) Drop deprecated lowercase events ([@gilest](https://github.com/gilest))
 
-
-
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
 
 ## v5.0.0-beta.0 (2021-10-26)
 
 #### :boom: Breaking Change
+* [#514](https://github.com/adopted-ember-addons/ember-file-upload/pull/514) Upgrade to glimmer components and native classes ([@gilest](https://github.com/gilest))
 * [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
 
 #### :rocket: Enhancement
-* [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
-* [#567](https://github.com/adopted-ember-addons/ember-file-upload/pull/567) feat: conditionally exclude mirage handler from builds ([@gilest](https://github.com/gilest))
-
-#### :memo: Documentation
-* [#578](https://github.com/adopted-ember-addons/ember-file-upload/pull/578) Drop internal validation and add user validation component callbacks ([@gilest](https://github.com/gilest))
-
-#### Committers: 1
-- Giles Thompson ([@gilest](https://github.com/gilest))
-
-## v4.1.0-beta.1 (2021-09-25)
+* [#567](https://github.com/adopted-ember-addons/ember-file-upload/pull/567) Conditionally exclude mirage handler from builds ([@gilest](https://github.com/gilest))
 
 #### :memo: Documentation
 * [#543](https://github.com/adopted-ember-addons/ember-file-upload/pull/543) Fix DemoUpload component ([@gilest](https://github.com/gilest))
-
-#### Committers: 1
-- Giles Thompson ([@gilest](https://github.com/gilest))
-
-## v4.1.0-beta.0 (2021-09-25)
-
-#### :memo: Documentation
 * [#522](https://github.com/adopted-ember-addons/ember-file-upload/pull/522) Update docs examples to use Octane syntax ([@gilest](https://github.com/gilest))
 
 #### :house: Internal
 * [#542](https://github.com/adopted-ember-addons/ember-file-upload/pull/542) Bump ember-cli and run ember-cli-update ([@gilest](https://github.com/gilest))
-* [#514](https://github.com/adopted-ember-addons/ember-file-upload/pull/514) Upgrade to glimmer components and native classes ([@gilest](https://github.com/gilest))
 
 #### Committers: 1
 - Giles Thompson ([@gilest](https://github.com/gilest))
