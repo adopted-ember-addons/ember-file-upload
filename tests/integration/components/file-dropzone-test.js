@@ -55,21 +55,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
     ]);
   });
 
-  test('deprecated: dropping a file calls ondrop', async function (assert) {
-    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-
-    await render(hbs`
-      <FileDropzone
-        class="test-dropzone"
-        @name="test"
-        @ondrop={{this.onDrop}} />
-    `);
-
-    await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
-
-    assert.verifySteps(['dingus.txt']);
-  });
-
   test('dropping multiple files calls onDrop with one file', async function (assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
@@ -78,25 +63,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
         class="test-dropzone"
         @name="test"
         @onDrop={{this.onDrop}} />
-    `);
-
-    await dragAndDrop(
-      '.test-dropzone',
-      new File([], 'dingus.txt'),
-      new File([], 'dingus.png')
-    );
-
-    assert.verifySteps(['dingus.txt']);
-  });
-
-  test('deprecated: dropping multiple files calls ondrop with one file', async function (assert) {
-    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-
-    await render(hbs`
-      <FileDropzone
-        class="test-dropzone"
-        @name="test"
-        @ondrop={{this.onDrop}} />
     `);
 
     await dragAndDrop(
@@ -128,26 +94,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
-  test('deprecated: multiple=true dropping multiple files calls ondrop with both files', async function (assert) {
-    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-
-    await render(hbs`
-      <FileDropzone
-        class="test-dropzone"
-        @name="test"
-        @multiple={{true}}
-        @ondrop={{this.onDrop}} />
-    `);
-
-    await dragAndDrop(
-      '.test-dropzone',
-      new File([], 'dingus.txt'),
-      new File([], 'dingus.png')
-    );
-
-    assert.verifySteps(['dingus.txt', 'dingus.png']);
-  });
-
   test('onDragEnter is called when a file is dragged over', async function (assert) {
     this.onDragEnter = () => assert.step('onDragEnter');
 
@@ -163,21 +109,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['onDragEnter']);
   });
 
-  test('deprecated: ondragenter is called when a file is dragged over', async function (assert) {
-    this.onDragEnter = () => assert.step('onDragEnter');
-
-    await render(hbs`
-      <FileDropzone
-        class="test-dropzone"
-        @name="test"
-        @ondragenter={{this.onDragEnter}} />
-    `);
-
-    await dragEnter('.test-dropzone');
-
-    assert.verifySteps(['onDragEnter']);
-  });
-
   test('onDragLeave is called when a file is dragged out', async function (assert) {
     this.onDragLeave = () => assert.step('onDragLeave');
 
@@ -186,22 +117,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
         class="test-dropzone"
         @name="test"
         @onDragLeave={{this.onDragLeave}} />
-    `);
-
-    await dragEnter('.test-dropzone', new File([], 'dingus.txt'));
-    await dragLeave('.test-dropzone', new File([], 'dingus.txt'));
-
-    assert.verifySteps(['onDragLeave']);
-  });
-
-  test('deprecated: ondragleave is called when a file is dragged out', async function (assert) {
-    this.onDragLeave = () => assert.step('onDragLeave');
-
-    await render(hbs`
-      <FileDropzone
-        class="test-dropzone"
-        @name="test"
-        @ondragleave={{this.onDragLeave}} />
     `);
 
     await dragEnter('.test-dropzone', new File([], 'dingus.txt'));

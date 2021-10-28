@@ -5,7 +5,6 @@ import DataTransfer from '../system/data-transfer';
 import parseHTML from '../system/parse-html';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import deprecateNonCamelCaseEvents from '../utils/deprecate-non-camel-case-events';
 
 let supported = (function () {
   return (
@@ -159,38 +158,6 @@ export default class FileDropzoneComponent extends Component {
   @tracked active = false;
   @tracked dataTransfer;
 
-  get onFileAdd() {
-    if (this.args.onfileadd) {
-      deprecateNonCamelCaseEvents('onfileadd', 'onFileAdd');
-      return this.args.onfileadd;
-    }
-    return this.args.onFileAdd;
-  }
-
-  get onDragEnter() {
-    if (this.args.ondragenter) {
-      deprecateNonCamelCaseEvents('ondragenter', 'onDragEnter');
-      return this.args.ondragenter;
-    }
-    return this.args.onDragEnter;
-  }
-
-  get onDragLeave() {
-    if (this.args.ondragleave) {
-      deprecateNonCamelCaseEvents('ondragleave', 'onDragLeave');
-      return this.args.ondragleave;
-    }
-    return this.args.onDragLeave;
-  }
-
-  get onDrop() {
-    if (this.args.ondrop) {
-      deprecateNonCamelCaseEvents('ondrop', 'onDrop');
-      return this.args.ondrop;
-    }
-    return this.args.onDrop;
-  }
-
   get queue() {
     if (!this.args.name) return null;
 
@@ -228,9 +195,7 @@ export default class FileDropzoneComponent extends Component {
       evt.dataTransfer.dropEffect = this.args.cursor;
       this.active = true;
 
-      if (this.onDragEnter) {
-        this.onDragEnter(this.files, this.dataTransfer);
-      }
+      this.args.onDragEnter?.(this.files, this.dataTransfer);
     }
   }
 
@@ -241,10 +206,8 @@ export default class FileDropzoneComponent extends Component {
       if (evt.dataTransfer) {
         evt.dataTransfer.dropEffect = this.args.cursor;
       }
-      if (this.onDragLeave) {
-        this.onDragLeave(this.files, this.dataTransfer);
-        this.dataTransfer = null;
-      }
+      this.args.onDragLeave?.(this.files, this.dataTransfer);
+      this.dataTransfer = null;
 
       if (this.isDestroyed) {
         return;
@@ -327,7 +290,8 @@ export default class FileDropzoneComponent extends Component {
       image.src = url;
     }
 
-    const files = this.onDrop?.(this.files, this.dataTransfer) ?? this.files;
+    const files =
+      this.args.onDrop?.(this.files, this.dataTransfer) ?? this.files;
 
     // Add files to upload queue.
     this.active = false;
