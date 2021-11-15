@@ -1154,6 +1154,16 @@
   resolved "https://registry.yarnpkg.com/@ember/edition-utils/-/edition-utils-1.2.0.tgz#a039f542dc14c8e8299c81cd5abba95e2459cfa6"
   integrity sha512-VmVq/8saCaPdesQmftPqbFtxJWrzxNGSQ+e8x8LLe3Hjm36pJ04Q8LeORGZkAeOhldoUX9seLGmSaHeXkIqoog==
 
+"@ember/legacy-built-in-components@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ember/legacy-built-in-components/-/legacy-built-in-components-0.3.1.tgz#96ce3257a718a3e0031a496058d19dc3d7f2f9e8"
+  integrity sha512-oxmI4XOYlfEcfCMo8o3s2q1qjymRd+Y8HiRuz2xp+M3XY3VSHzQKb3okHUcb7KDYgPkt546ykFAmkjX8d/HMAw==
+  dependencies:
+    "@embroider/macros" "0.47.1"
+    ember-cli-babel "^7.26.6"
+    ember-cli-htmlbars "^5.7.1"
+    ember-cli-typescript "^4.1.0"
+
 "@ember/optional-features@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ember/optional-features/-/optional-features-2.0.0.tgz#c809abd5a27d5b0ef3c6de3941334ab6153313f0"
@@ -1290,6 +1300,19 @@
     resolve "^1.20.0"
     semver "^7.3.2"
 
+"@embroider/macros@0.47.1":
+  version "0.47.1"
+  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-0.47.1.tgz#b3ef5e79b679295d10efdf6a2449527c95698d3d"
+  integrity sha512-asTmkWMmagL/ID38R8eqwIg3fRPBF9AYE+FBr83u4KW+JUxKloILEosO8tBlu1bEzXqGBb3aO6fAq/mDMBMn0Q==
+  dependencies:
+    "@embroider/shared-internals" "0.47.1"
+    assert-never "^1.2.1"
+    ember-cli-babel "^7.26.6"
+    find-up "^5.0.0"
+    lodash "^4.17.21"
+    resolve "^1.20.0"
+    semver "^7.3.2"
+
 "@embroider/macros@^0.40.0":
   version "0.40.0"
   resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-0.40.0.tgz#f58763b4cfb9b4089679b478a28627595341bc5a"
@@ -1320,6 +1343,19 @@
   resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.43.5.tgz#4269208095452c23bfa4f08554fd8f7ed7b83a83"
   integrity sha512-vydU3kRS5hH/hWOBHiHP06427d0C5t2p+UTPtbH09+Jlyj0WvvtgUfiNltEneY6jjpLXlqOfgs4LjsRdmBFksw==
   dependencies:
+    ember-rfc176-data "^0.3.17"
+    fs-extra "^9.1.0"
+    lodash "^4.17.21"
+    resolve-package-path "^4.0.1"
+    semver "^7.3.5"
+    typescript-memoize "^1.0.1"
+
+"@embroider/shared-internals@0.47.1":
+  version "0.47.1"
+  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.47.1.tgz#75ed441045ef1b86bad37bbc8ad5805d6856add8"
+  integrity sha512-Sb4AGcOkfU3ttIvGHqa574G6LNQbmo9tAQf+Wk9xPhE0RlNk7JrYrHx8FTpz3QUoLI43zoQ9g1oTiKvclnALKQ==
+  dependencies:
+    babel-import-util "^0.2.0"
     ember-rfc176-data "^0.3.17"
     fs-extra "^9.1.0"
     lodash "^4.17.21"
@@ -3009,6 +3045,11 @@ babel-helpers@^6.24.1:
   dependencies:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
+
+babel-import-util@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/babel-import-util/-/babel-import-util-0.2.0.tgz#b468bb679919601a3570f9e317536c54f2862e23"
+  integrity sha512-CtWYYHU/MgK88rxMrLfkD356dApswtR/kWZ/c6JifG1m10e7tBBrs/366dFzWMAoqYmG5/JSh+94tUSpIwh+ag==
 
 babel-loader@^8.0.6:
   version "8.2.2"
