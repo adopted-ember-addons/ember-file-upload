@@ -13,11 +13,17 @@ module.exports = {
   },
   treeForAddon() {
     let tree = this._super.treeForAddon.apply(this, arguments);
-    return this._shouldIncludeMirageHandler()
-      ? tree
-      : funnel(tree, { exclude: ['ember-file-upload/mirage/*'] });
+    let excludePaths = [
+      // Initializer is unused and imports components not availble in ember-source >= 4
+      // Can remove once we're on ember-keyboard v7
+      'ember-keyboard/initializers/*',
+    ];
+    if (this._shouldExcludeMirageHandler()) {
+      excludePaths.push('ember-file-upload/mirage/*');
+    }
+    return funnel(tree, { exclude: excludePaths });
   },
-  _shouldIncludeMirageHandler() {
+  _shouldExcludeMirageHandler() {
     if (process.env.EMBER_CLI_FASTBOOT) return false;
 
     let environment = this.appEnv;
@@ -30,6 +36,6 @@ module.exports = {
         environment !== 'production' &&
         explicitExcludeFiles !== true);
 
-    return shouldIncludeHandler;
+    return !shouldIncludeHandler;
   },
 };
