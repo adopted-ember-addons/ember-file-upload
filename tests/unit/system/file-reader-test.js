@@ -42,7 +42,7 @@ module('file-reader', function (hooks) {
 
       let promise = this.subject['readAs' + name](blob);
       return promise.then(function (result) {
-        assert.equal(result, 'ok');
+        assert.strictEqual(result, 'ok');
       });
     });
 
@@ -53,7 +53,7 @@ module('file-reader', function (hooks) {
 
       let promise = this.subject['readAs' + name](blob);
       return promise.then(null, function (error) {
-        assert.equal(error, 'not ok');
+        assert.strictEqual(error, 'not ok');
       });
     });
 

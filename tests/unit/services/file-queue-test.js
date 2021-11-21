@@ -11,10 +11,10 @@ module('service:file-queue', function (hooks) {
     var queue2 = queue.create('queue2');
     queue.create('queue3');
 
-    assert.equal(queue.files.length, 0);
-    assert.equal(queue.size, 0);
-    assert.equal(queue.loaded, 0);
-    assert.equal(queue.progress, 0);
+    assert.strictEqual(queue.files.length, 0);
+    assert.strictEqual(queue.size, 0);
+    assert.strictEqual(queue.loaded, 0);
+    assert.strictEqual(queue.progress, 0);
 
     queue1.push({
       id: 'test',
@@ -23,10 +23,10 @@ module('service:file-queue', function (hooks) {
       loaded: 0,
     });
 
-    assert.equal(queue.files.length, 1);
-    assert.equal(queue.size, 2000);
-    assert.equal(queue.loaded, 0);
-    assert.equal(queue.progress, 0);
+    assert.strictEqual(queue.files.length, 1);
+    assert.strictEqual(queue.size, 2000);
+    assert.strictEqual(queue.loaded, 0);
+    assert.strictEqual(queue.progress, 0);
 
     queue2.push({
       id: 'test1',
@@ -35,10 +35,10 @@ module('service:file-queue', function (hooks) {
       loaded: 0,
     });
 
-    assert.equal(queue.files.length, 2);
-    assert.equal(queue.size, 5500);
-    assert.equal(queue.loaded, 0);
-    assert.equal(queue.progress, 0);
+    assert.strictEqual(queue.files.length, 2);
+    assert.strictEqual(queue.size, 5500);
+    assert.strictEqual(queue.loaded, 0);
+    assert.strictEqual(queue.progress, 0);
 
     queue2.push({
       id: 'test2',
@@ -47,20 +47,20 @@ module('service:file-queue', function (hooks) {
       loaded: 0,
     });
 
-    assert.equal(queue.files.length, 3);
-    assert.equal(queue.size, 6900);
-    assert.equal(queue.loaded, 0);
-    assert.equal(queue.progress, 0);
+    assert.strictEqual(queue.files.length, 3);
+    assert.strictEqual(queue.size, 6900);
+    assert.strictEqual(queue.loaded, 0);
+    assert.strictEqual(queue.progress, 0);
   });
 
   test('the uploaded size of the queue is the aggregate of all queues', function (assert) {
     var queue = this.owner.lookup('service:file-queue');
     var queue1 = queue.create('queue1');
 
-    assert.equal(queue.files.length, 0);
-    assert.equal(queue.size, 0);
-    assert.equal(queue.loaded, 0);
-    assert.equal(queue.progress, 0);
+    assert.strictEqual(queue.files.length, 0);
+    assert.strictEqual(queue.size, 0);
+    assert.strictEqual(queue.loaded, 0);
+    assert.strictEqual(queue.progress, 0);
 
     queue1.push({
       id: 'test',
@@ -69,10 +69,10 @@ module('service:file-queue', function (hooks) {
       loaded: 500,
     });
 
-    assert.equal(queue.files.length, 1);
-    assert.equal(queue.size, 2000);
-    assert.equal(queue.loaded, 500);
-    assert.equal(queue.progress, 25);
+    assert.strictEqual(queue.files.length, 1);
+    assert.strictEqual(queue.size, 2000);
+    assert.strictEqual(queue.loaded, 500);
+    assert.strictEqual(queue.progress, 25);
 
     var queue2 = queue.create('queue2');
 
@@ -83,10 +83,10 @@ module('service:file-queue', function (hooks) {
       loaded: 500,
     });
 
-    assert.equal(queue.files.length, 2);
-    assert.equal(queue.size, 5500);
-    assert.equal(queue.loaded, 1000);
-    assert.equal(queue.progress, 18);
+    assert.strictEqual(queue.files.length, 2);
+    assert.strictEqual(queue.size, 5500);
+    assert.strictEqual(queue.loaded, 1000);
+    assert.strictEqual(queue.progress, 18);
 
     queue.create('queue3');
 
@@ -97,10 +97,10 @@ module('service:file-queue', function (hooks) {
       loaded: 1000,
     });
 
-    assert.equal(queue.files.length, 3);
-    assert.equal(queue.size, 6900);
-    assert.equal(queue.loaded, 2000);
-    assert.equal(queue.progress, 28);
+    assert.strictEqual(queue.files.length, 3);
+    assert.strictEqual(queue.size, 6900);
+    assert.strictEqual(queue.loaded, 2000);
+    assert.strictEqual(queue.progress, 28);
   });
 
   test('the queue is emptied when all files are completed', function (assert) {
@@ -112,29 +112,29 @@ module('service:file-queue', function (hooks) {
 
     queue1.push(file0);
 
-    assert.equal(queue.files.length, 1);
+    assert.strictEqual(queue.files.length, 1);
 
     const file1 = new File();
     file1.state = 'queued';
 
     queue1.push(file1);
 
-    assert.equal(queue.files.length, 2);
+    assert.strictEqual(queue.files.length, 2);
 
     const file2 = new File();
     file2.state = 'uploaded';
 
     queue1.push(file2);
 
-    assert.equal(queue.files.length, 3);
+    assert.strictEqual(queue.files.length, 3);
 
     file0.state = 'aborted';
 
-    assert.equal(queue.files.length, 3);
+    assert.strictEqual(queue.files.length, 3);
 
     file1.state = 'aborted';
 
-    assert.equal(queue.files.length, 0);
-    assert.equal(queue1.files.length, 0);
+    assert.strictEqual(queue.files.length, 0);
+    assert.strictEqual(queue1.files.length, 0);
   });
 });

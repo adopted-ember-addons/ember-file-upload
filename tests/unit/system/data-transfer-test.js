@@ -11,7 +11,7 @@ module('data-transfer', function (hooks) {
   });
 
   test('with no native dataTransfer', function (assert) {
-    assert.equal(this.subject.files, null);
+    assert.strictEqual(this.subject.files, null);
   });
 
   test('multiple=false; a single item being dragged', function (assert) {
@@ -22,7 +22,7 @@ module('data-transfer', function (hooks) {
         },
       ],
     };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=false; a single file being dropped', function (assert) {
@@ -34,7 +34,7 @@ module('data-transfer', function (hooks) {
         },
       ],
     };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=false; multiple items being dragged', function (assert) {
@@ -48,7 +48,7 @@ module('data-transfer', function (hooks) {
         },
       ],
     };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=false; multiple files being dropped', function (assert) {
@@ -64,7 +64,7 @@ module('data-transfer', function (hooks) {
         },
       ],
     };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=true; a single item being dragged', function (assert) {
@@ -76,7 +76,7 @@ module('data-transfer', function (hooks) {
       ],
     };
     this.subject.queue = { multiple: true };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=true; a single file being dropped', function (assert) {
@@ -89,7 +89,7 @@ module('data-transfer', function (hooks) {
       ],
     };
     this.subject.queue = { multiple: true };
-    assert.equal(this.subject.files.length, 1);
+    assert.strictEqual(this.subject.files.length, 1);
   });
 
   test('multiple=true; multiple items being dragged', function (assert) {
@@ -104,7 +104,7 @@ module('data-transfer', function (hooks) {
       ],
     };
     this.subject.queue = { multiple: true };
-    assert.equal(this.subject.files.length, 2);
+    assert.strictEqual(this.subject.files.length, 2);
   });
 
   test('multiple=true; multiple files being dropped', function (assert) {
@@ -121,6 +121,6 @@ module('data-transfer', function (hooks) {
       ],
     };
     this.subject.queue = { multiple: true };
-    assert.equal(this.subject.files.length, 2);
+    assert.strictEqual(this.subject.files.length, 2);
   });
 });
