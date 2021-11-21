@@ -23,12 +23,12 @@ module('http-request', function (hooks) {
   });
 
   test('open with default options', function (assert) {
-    assert.equal(this.request.readyState, FakeXMLHttpRequest.UNSENT);
+    assert.strictEqual(this.request.readyState, FakeXMLHttpRequest.UNSENT);
     this.subject.open('POST', 'http://emberjs.com');
 
-    assert.equal(this.request.readyState, FakeXMLHttpRequest.OPENED);
-    assert.equal(this.request.method, 'POST');
-    assert.equal(this.request.url, 'http://emberjs.com');
+    assert.strictEqual(this.request.readyState, FakeXMLHttpRequest.OPENED);
+    assert.strictEqual(this.request.method, 'POST');
+    assert.strictEqual(this.request.url, 'http://emberjs.com');
   });
 
   test('open ignores the async option', function (assert) {
@@ -38,15 +38,15 @@ module('http-request', function (hooks) {
 
   test('open allows username / password', function (assert) {
     this.subject.open('POST', 'http://emberjs.com', true, 'tomster', 'ember');
-    assert.equal(this.request.username, 'tomster');
-    assert.equal(this.request.password, 'ember');
+    assert.strictEqual(this.request.username, 'tomster');
+    assert.strictEqual(this.request.password, 'ember');
   });
 
   test('setRequestHeader', function (assert) {
     this.subject.open();
     this.subject.setRequestHeader('Content-Type', 'application/json');
 
-    assert.equal(
+    assert.strictEqual(
       this.request.requestHeaders['Content-Type'],
       'application/json'
     );
@@ -89,7 +89,7 @@ module('http-request', function (hooks) {
         assert.deepEqual(response.headers, {
           'Content-Type': 'text/html',
         });
-        assert.equal(response.body[0].textContent, 'ok');
+        assert.strictEqual(response.body[0].textContent, 'ok');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -119,7 +119,7 @@ module('http-request', function (hooks) {
         assert.deepEqual(response.headers, {
           'Content-Type': 'text/xml',
         });
-        assert.equal(
+        assert.strictEqual(
           new window.XMLSerializer().serializeToString(response.body),
           xml
         );
@@ -186,14 +186,15 @@ module('http-request', function (hooks) {
 
   test(`confirm withCredentials: undefined by default`, function (assert) {
     this.subject.open('POST', 'http://emberjs.com');
-    assert.equal(this.request.withCredentials, undefined);
+    assert.strictEqual(this.request.withCredentials, undefined);
   });
 
   test('promise is cancellable', function (assert) {
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject.send();
-    assert.true(
-      typeof promise.cancel === 'function',
+    assert.strictEqual(
+      typeof promise.cancel,
+      'function',
       'returned promise should have a cancel() method'
     );
 
@@ -202,8 +203,9 @@ module('http-request', function (hooks) {
       .catch(function () {})
       .finally(function () {});
 
-    assert.true(
-      typeof promise2.cancel === 'function',
+    assert.strictEqual(
+      typeof promise2.cancel,
+      'function',
       'chained promise should have a cancel() method'
     );
   });

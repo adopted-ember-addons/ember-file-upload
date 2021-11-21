@@ -22,12 +22,13 @@ module('Integration | Component | mirage-handler', function (hooks) {
       uploadHandler(function (schema, request) {
         assert.step('mirage-handler');
 
-        assert.equal(schema, self.server.schema, 'schema is provided');
-        assert.true(
-          typeof request.params === 'object',
+        assert.strictEqual(schema, self.server.schema, 'schema is provided');
+        assert.strictEqual(
+          typeof request.params,
+          'object',
           'params property on request is an object'
         );
-        assert.equal(
+        assert.strictEqual(
           request.params.id,
           '1',
           'value of dynamic segment is present on params object'

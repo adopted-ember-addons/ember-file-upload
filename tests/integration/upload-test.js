@@ -27,11 +27,11 @@ module('Integration | upload', function (hooks) {
     await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
-    assert.equal(uploadedPhoto.filename, 'image.png');
-    assert.equal(uploadedPhoto.filesize, 1192);
-    assert.equal(uploadedPhoto.type, 'image');
+    assert.strictEqual(uploadedPhoto.filename, 'image.png');
+    assert.strictEqual(uploadedPhoto.filesize, 1192);
+    assert.strictEqual(uploadedPhoto.type, 'image');
 
-    assert.equal(
+    assert.strictEqual(
       findAll('.demo-uploaded-files-list img').length,
       1,
       'Photo is displayed in the UI'
@@ -48,11 +48,11 @@ module('Integration | upload', function (hooks) {
     await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
-    assert.equal(uploadedPhoto.filename, 'image.png');
-    assert.equal(uploadedPhoto.filesize, 1192);
-    assert.equal(uploadedPhoto.type, 'image');
+    assert.strictEqual(uploadedPhoto.filename, 'image.png');
+    assert.strictEqual(uploadedPhoto.filesize, 1192);
+    assert.strictEqual(uploadedPhoto.type, 'image');
 
-    assert.equal(
+    assert.strictEqual(
       findAll('.demo-uploaded-files-list img').length,
       1,
       'Photo is displayed in the UI'
