@@ -1345,9 +1345,9 @@
     typescript-memoize "^1.0.1"
 
 "@embroider/test-setup@^0.48.0":
-  version "0.48.0"
-  resolved "https://registry.yarnpkg.com/@embroider/test-setup/-/test-setup-0.48.0.tgz#73b759aba64368def7a497f0b8b0e0eb324bfbdc"
-  integrity sha512-4XuL7PiHcGrf13cfS+ndBaVOLMuBAaPWrWtkKRA+zRvT6cFbHJV5nrrkc8v1UDZumqMSEq+jqZKbHLxxdrX68g==
+  version "0.48.1"
+  resolved "https://registry.yarnpkg.com/@embroider/test-setup/-/test-setup-0.48.1.tgz#f64da84f8241433d0ba92154fa1eb3137ecd4df8"
+  integrity sha512-MmYTgQMDVDrZPvxeT27LTUD/BOum21ip1tEYv5H/StSeTZyZQ861Q+8HXQUFTVF/HFjGAB1c/BAgnw+8hO1ueA==
   dependencies:
     lodash "^4.17.21"
     resolve "^1.20.0"
