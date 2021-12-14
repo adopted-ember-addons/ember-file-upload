@@ -15,6 +15,9 @@ interface FileUploadArgs {
   // actions
   filter?: (file: File) => boolean;
 
+  // events
+  filesSelected?: (files: File[]) => void;
+
   // old/deprecated API
 
   /**

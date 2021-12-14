@@ -13,7 +13,7 @@
     disabled={{@disabled}}
     value={{this.value}}
     hidden
-    {{this.queue.selectFile filter=@filter}}
+    {{this.queue.selectFile filter=@filter filesSelected=@filesSelected}}
   />
 
   {{yield this.queue}}
