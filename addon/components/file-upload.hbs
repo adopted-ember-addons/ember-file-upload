@@ -2,12 +2,7 @@
   for={{this.for}}
   class="file-upload"
   ...attributes
-  {{update-queue
-    this.queue
-    multiple=@multiple
-    disabled=@disabled
-    onFileAdd=@onFileAdd
-  }}
+  {{did-insert this.attachListeners}}
 >
   <input
     id={{this.for}}
@@ -16,9 +11,9 @@
     capture={{@capture}}
     multiple={{@multiple}}
     disabled={{@disabled}}
-    value={{this._value}}
+    value={{this.value}}
     hidden
-    {{on 'change' this.change}}
+    {{this.queue.selectFile filter=@filter}}
   />
 
   {{yield this.queue}}
