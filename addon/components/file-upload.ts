@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 
 import uuid from '../system/uuid';
 import File from '../file';
@@ -98,8 +97,6 @@ interface FileUploadArgs {
  */
 export default class FileUploadComponent extends Component<FileUploadArgs> {
   @service declare fileQueue: FileQueueService;
-
-  @tracked value: unknown;
 
   get queue() {
     if (this.args.queue) {

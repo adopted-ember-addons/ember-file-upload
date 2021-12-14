@@ -1,7 +1,6 @@
 import { assert } from '@ember/debug';
 import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
-import { tracked } from 'tracked-built-ins';
 
 import Queue, { QueueName } from '../queue';
 import File from '../file';
@@ -18,7 +17,7 @@ export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
  * the remaining uploads.
  */
 export default class FileQueueService extends Service {
-  queues: Map<QueueName, Queue> = tracked(new Map());
+  queues: Map<QueueName, Queue> = new Map();
 
   /**
    * Returns a queue with the given name
