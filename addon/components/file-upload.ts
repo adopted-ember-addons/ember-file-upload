@@ -8,7 +8,6 @@ import Queue from '../queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 
 interface FileUploadArgs {
-  name?: string;
   queue?: Queue;
 
   // actions
@@ -18,6 +17,9 @@ interface FileUploadArgs {
   filesSelected?: (files: File[]) => void;
 
   // old/deprecated API
+
+  /** @deprecated use `queue` instead */
+  name?: string;
 
   /**
    * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier

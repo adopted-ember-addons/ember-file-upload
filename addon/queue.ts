@@ -20,14 +20,12 @@ export interface QueueListener {
 export type QueueName = string | symbol;
 
 /**
-  The Queue is a collection of files that
-  are being manipulated by the user.
-
-  Queues are designed to persist the state
-  of uploads when a user navigates around your
-  application.
-
-  @class Queue
+ * The Queue is a collection of files that
+ * are being manipulated by the user.
+ *
+ * Queues are designed to persist the state
+ * of uploads when a user navigates around your
+ * application.
  */
 export default class Queue {
   #listeners: Set<QueueListener> = new Set();
@@ -207,27 +205,12 @@ export default class Queue {
   }
 
   /**
-    Flushes the `files` property if they have settled. This
-    will only flush files when all files have arrived at a terminus
-    of their state chart.
-
-    ```
-        .------.     .---------.     .--------.
-    o--| queued |-->| uploading |-->| uploaded |
-        `------`     `---------`     `--------`
-           ^              |    .-------.
-           |              |`->| aborted |
-           |              |    `-------`
-           |  .------.    |    .---------.
-           `-| failed |<-` `->| timed_out |-.
-           |  `------`         `---------`  |
-           `-------------------------------`
-    ```
-
-    Files *may* be requeued by the user in the `failed` or `timed_out`
-    states.
-
-    @method flush
+   * Flushes the `files` property if they have settled. This
+   * will only flush files when all files have arrived at a terminus
+   * of their state chart (`uploaded` and `aborted`).
+   *
+   * Files *may* be requeued by the user in the `failed` or `timed_out`
+   * states.
    */
   flush() {
     if (this.files.length === 0) {

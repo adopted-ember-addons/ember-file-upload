@@ -35,28 +35,6 @@ module('Integration | Component | FileUpload', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
-  test('calls onSelect for a file selection and calls onFileAdd for each file', async function (assert) {
-    // this.onSelect = (files) =>
-    //   assert.step(`onSelect: ${files.mapBy('name').join(',')}`);
-    this.onFileAdd = (file) => assert.step(`onFileAdd: ${file.name}`);
-
-    await render(
-      hbs`<FileUpload @name="test" @onSelect={{this.onSelect}} @onFileAdd={{this.onFileAdd}} />`
-    );
-
-    await selectFiles(
-      'input[type="file"]',
-      new File([], 'dingus.txt', { type: 'text/plain' }),
-      new File([], 'dingus.png', { type: 'image/png' })
-    );
-
-    assert.verifySteps([
-      // 'onSelect: dingus.txt,dingus.png',
-      'onFileAdd: dingus.txt',
-      'onFileAdd: dingus.png',
-    ]);
-  });
-
   test('only calls onFileAdd for filtered files', async function (assert) {
     this.filter = (file) => {
       assert.step(`filter: ${file.name}`);
@@ -75,7 +53,6 @@ module('Integration | Component | FileUpload', function (hooks) {
     );
 
     assert.verifySteps([
-      // 'onSelect: dingus.txt,dingus.png',
       'filter: dingus.txt',
       'filter: dingus.png',
       'onFileAdd: dingus.png',
