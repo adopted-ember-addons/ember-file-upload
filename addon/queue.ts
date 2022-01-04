@@ -1,9 +1,8 @@
+import { action } from '@ember/object';
 import { next } from '@ember/runloop';
 import { modifier, ModifierArgs } from 'ember-modifier';
-import { tracked, TrackedArray } from 'tracked-built-ins';
-import { action } from '@ember/object';
-
-import UploadFile, { FileState, FileSource } from './file';
+import { TrackedArray, TrackedSet } from 'tracked-built-ins';
+import UploadFile, { FileSource, FileState } from './file';
 import FileQueueService from './services/file-queue';
 
 export interface SelectFileModifierArgs extends ModifierArgs {
@@ -55,33 +54,28 @@ export default class Queue {
   /** The FileQueue service. */
   fileQueue: FileQueueService;
 
-  // @tracked private distinctFiles: Set<File> = new Set();
-  // Must uses `TrackedArray()` until this one is solved:
-  // https://github.com/tracked-tools/tracked-built-ins/issues/225
-  files: UploadFile[] = new TrackedArray([]);
+  #distinctFiles: Set<UploadFile> = new TrackedSet();
 
-  // /**
-  //  * The list of files in the queue. This automatically gets
-  //  * flushed when all the files in the queue have settled.
-  //  *
-  //  * @remarks
-  //  * Note that files that have failed need to be manually
-  //  * removed from the queue. This is so they can be retried
-  //  * without resetting the state of the queue, orphaning the
-  //  * file from its queue. Upload failures can happen due to a
-  //  * timeout or a server response. If you choose to use the
-  //  * `abort` method, the file will fail to upload, but will
-  //  * be removed from the requeuing proccess, and will be
-  //  * considered to be in a settled state.
-  //  */
-  // get files(): File[] {
-  //   console.log('queue.files', this.distinctFiles);
-
-  //   return [...this.distinctFiles.values()];
-  // }
+  /**
+   * The list of files in the queue. This automatically gets
+   * flushed when all the files in the queue have settled.
+   *
+   * @remarks
+   * Note that files that have failed need to be manually
+   * removed from the queue. This is so they can be retried
+   * without resetting the state of the queue, orphaning the
+   * file from its queue. Upload failures can happen due to a
+   * timeout or a server response. If you choose to use the
+   * `abort` method, the file will fail to upload, but will
+   * be removed from the requeuing proccess, and will be
+   * considered to be in a settled state.
+   */
+  get files(): UploadFile[] {
+    return [...this.#distinctFiles.values()];
+  }
 
   // @TODO: Is this needed? I think, this is what each dropzone needs to manage
-  _dropzones = tracked([]);
+  _dropzones = new TrackedArray([]);
 
   /**
    * The total size of all files currently being uploaded in bytes.
@@ -127,12 +121,6 @@ export default class Queue {
     this.fileQueue = fileQueue;
   }
 
-  // @TODO this is called from nowhere ?!?
-  // destroy() {
-  //   this.distinctFiles.forEach((file) => (file.queue = undefined));
-  //   this.distinctFiles.clear();
-  // }
-
   addListener(listener: QueueListener) {
     this.#listeners.add(listener);
   }
@@ -153,13 +141,12 @@ export default class Queue {
    */
   @action
   add(file: UploadFile) {
-    if (this.files.includes(file)) {
+    if (this.#distinctFiles.has(file)) {
       return;
     }
 
     file.queue = this;
-    // this.distinctFiles.add(file);
-    this.files.push(file);
+    this.#distinctFiles.add(file);
 
     for (const listener of this.#listeners) {
       listener.fileAdded?.(file);
@@ -172,12 +159,12 @@ export default class Queue {
    */
   @action
   remove(file: UploadFile) {
-    if (!this.files.includes(file)) {
+    if (!this.#distinctFiles.has(file)) {
       return;
     }
 
     file.queue = undefined;
-    this.files.splice(this.files.indexOf(file), 1);
+    this.#distinctFiles.delete(file);
 
     for (const listener of this.#listeners) {
       listener.fileRemoved?.(file);
@@ -253,7 +240,7 @@ export default class Queue {
 
     if (allFilesHaveSettled) {
       this.files.forEach((file) => (file.queue = undefined));
-      this.files = [];
+      this.#distinctFiles.clear();
     }
   }
 
@@ -284,6 +271,11 @@ export default class Queue {
       }
 
       named.filesSelected?.(selectedFiles);
+
+      // this will reset the input, so the _same_ file can be picked again
+      // Without, the `change` event wouldn't be fired, as it is still the same
+      // value
+      element.value = '';
     };
     element.addEventListener('change', changeHandler);
 
