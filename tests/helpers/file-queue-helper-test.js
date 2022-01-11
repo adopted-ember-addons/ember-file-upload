@@ -116,7 +116,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('uploading twice will manage files in queue', async function (assert) {
     this.server.post(
       '/folder/:id/file',
-      uploadHandler(function (schema, request) {
+      uploadHandler(function (/*schema, request*/) {
         // do sth
       })
     );
