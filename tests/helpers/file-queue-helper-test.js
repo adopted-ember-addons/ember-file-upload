@@ -118,7 +118,8 @@ module('Integration | Helper | file-queue', function (hooks) {
       '/folder/:id/file',
       uploadHandler(function (/*schema, request*/) {
         // do sth
-      })
+      }),
+      { timing: 2000 }
     );
 
     this.uploadImage = (file) => {

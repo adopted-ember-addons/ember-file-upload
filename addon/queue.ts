@@ -245,10 +245,18 @@ export default class Queue {
           continue;
         }
 
+        let uploadFile;
         if (file instanceof File) {
-          const uploadFile = new UploadFile(file, FileSource.Browse);
-          selectedFiles.push(uploadFile);
+          uploadFile = new UploadFile(file, FileSource.Browse);
+        }
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        else if (file instanceof Blob) {
+          uploadFile = UploadFile.fromBlob(file, FileSource.Browse);
+        }
 
+        if (uploadFile) {
+          selectedFiles.push(uploadFile);
           this.add(uploadFile);
         }
       }
