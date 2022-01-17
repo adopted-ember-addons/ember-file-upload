@@ -1,15 +1,15 @@
 import Helper from '@ember/component/helper';
 import { registerDestructor } from '@ember/destroyable';
 import { inject as service } from '@ember/service';
-import File from '../file';
+import UploadFile from '../upload-file';
 import { QueueListener } from '../queue';
 import type FileQueueService from '../services/file-queue';
 import { DEFAULT_QUEUE } from '../services/file-queue';
 
 interface FileQueueArgs {
   name?: string;
-  fileAdded?: (file: File) => void;
-  fileRemoved?: (file: File) => void;
+  fileAdded?: (file: UploadFile) => void;
+  fileRemoved?: (file: UploadFile) => void;
 }
 
 /**
@@ -55,11 +55,11 @@ export default class FileQueueHelper extends Helper implements QueueListener {
     return queue;
   }
 
-  fileAdded(file: File) {
+  fileAdded(file: UploadFile) {
     this.args.fileAdded?.(file);
   }
 
-  fileRemoved(file: File) {
+  fileRemoved(file: UploadFile) {
     this.args.fileRemoved?.(file);
   }
 }

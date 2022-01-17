@@ -70,17 +70,14 @@ export enum FileSource {
  * Files provide a uniform interface for interacting
  * with data that can be uploaded or read.
  */
-export default class File {
-  // @TODO: Extract this "special" blob thingy into its own type
-  #blob: Blob & {
-    name?: string;
-  };
+export default class UploadFile {
+  file: File;
   #source: FileSource;
 
   queue?: Queue;
 
-  private constructor(blob: Blob, source: FileSource) {
-    this.#blob = blob;
+  constructor(file: File, source: FileSource) {
+    this.file = file;
     this.#source = source;
   }
 
@@ -103,15 +100,14 @@ export default class File {
 
   /** The file name */
   get name(): string {
-    // @TODO: this "default" name here looks wrong - the tests wanted it ?!?
-    return this.#blob?.name ?? 'blob';
+    return this.file?.name;
   }
 
   /** The size of the file in bytes. */
   #size = 0;
 
   get size() {
-    return this.#size ?? this.#blob.size;
+    return this.#size ?? this.file.size;
   }
 
   set size(value) {
@@ -124,7 +120,7 @@ export default class File {
    * For a image file this may be `image/png`.
    */
   get type(): string {
-    return this.#blob.type;
+    return this.file.type;
   }
 
   /**
@@ -215,7 +211,7 @@ export default class File {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore this is not typed
     return upload(this, url, options, (request) => {
-      return request.send(this.#blob);
+      return request.send(this.file);
     });
   }
 
@@ -234,8 +230,7 @@ export default class File {
 
       for (const key of Object.keys(opts.data)) {
         if (key === opts.fileKey) {
-          // @TODO: Am I doing this right here?
-          form.append(key, this.#blob, this.name);
+          form.append(key, opts.data[key], this.name);
         } else {
           form.append(key, opts.data[key]);
         }
@@ -252,7 +247,7 @@ export default class File {
     const reader = new FileReader({
       label: `Read ${this.name} as an ArrayBuffer`,
     });
-    return reader.readAsArrayBuffer(this.#blob);
+    return reader.readAsArrayBuffer(this.file);
   }
 
   /**
@@ -262,7 +257,7 @@ export default class File {
     const reader = new FileReader({
       label: `Read ${this.name} as a Data URI`,
     });
-    return reader.readAsDataURL(this.#blob);
+    return reader.readAsDataURL(this.file);
   }
 
   /**
@@ -272,7 +267,7 @@ export default class File {
     const reader = new FileReader({
       label: `Read ${this.name} as a binary string`,
     });
-    return reader.readAsBinaryString(this.#blob);
+    return reader.readAsBinaryString(this.file);
   }
 
   /**
@@ -280,7 +275,7 @@ export default class File {
    */
   readAsText() {
     const reader = new FileReader({ label: `Read ${this.name} as text` });
-    return reader.readAsText(this.#blob);
+    return reader.readAsText(this.file);
   }
 
   /**
@@ -292,7 +287,8 @@ export default class File {
    * @returns the file
    */
   static fromBlob(blob: Blob, source = FileSource.Blob) {
-    return new this(blob, source);
+    const file = new File([blob], 'blob', { type: blob.type });
+    return new this(file, source);
   }
 
   /**

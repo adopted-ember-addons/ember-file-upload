@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 import uuid from '../system/uuid';
-import File from '../file';
+import UploadFile from 'ember-file-upload/upload-file';
 import Queue from '../queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 
@@ -11,10 +11,10 @@ interface FileUploadArgs {
   queue?: Queue;
 
   // actions
-  filter?: (file: File) => boolean;
+  filter?: (file: UploadFile) => boolean;
 
   // events
-  filesSelected?: (files: File[]) => void;
+  filesSelected?: (files: UploadFile[]) => void;
 
   // old/deprecated API
 
@@ -49,14 +49,14 @@ interface FileUploadArgs {
   /**
    * @deprecated use `fileAdded()` instead
    */
-  onFileAdd: (file: File) => void;
+  onFileAdd: (file: UploadFile) => void;
 
   // @TODO remove `onSelect` in favor of `filter()` - it never was officially
   // of public API
   /**
    * @deprecated use `filter()` instead
    */
-  onSelect?: (files: File[]) => File[];
+  onSelect?: (files: UploadFile[]) => UploadFile[];
 }
 
 /**
@@ -85,7 +85,7 @@ interface FileUploadArgs {
  * ```js
  * import Component from '@glimmer/component';
  * import { task } from 'ember-concurrency';
- *
+
  * export default class ExampleComponent extends Component {
  *   @task({ maxConcurrency: 3, enqueue: true })
  *   *uploadImage(file) {
@@ -121,7 +121,7 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
     this.queue.addListener(this);
   }
 
-  fileAdded(file: File) {
+  fileAdded(file: UploadFile) {
     this.args.onFileAdd?.(file);
   }
 }

@@ -37,7 +37,7 @@ function normalizeOptions(file, url, options) {
     options.data['Content-Type'] = options.contentType;
   }
 
-  options.data[options.fileKey] = file.blob;
+  options.data[options.fileKey] = file.file;
 
   options.withCredentials = options.withCredentials || false;
 

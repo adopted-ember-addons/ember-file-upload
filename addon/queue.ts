@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { next } from '@ember/runloop';
 import { modifier, ModifierArgs } from 'ember-modifier';
 import { TrackedArray, TrackedSet } from 'tracked-built-ins';
-import UploadFile, { FileSource, FileState } from './file';
+import UploadFile, { FileSource, FileState } from './upload-file';
 import FileQueueService from './services/file-queue';
 
 export interface SelectFileModifierArgs extends ModifierArgs {
@@ -187,15 +187,15 @@ export default class Queue {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
-        const fileBlob = fileList.item ? fileList.item(i) : fileList[i];
-        if (fileBlob instanceof Blob) {
-          const file = UploadFile.fromBlob(fileBlob, source);
+        const file = fileList.item ? fileList.item(i) : fileList[i];
+        if (file instanceof File) {
+          const uploadFile = new UploadFile(file, source);
 
-          files.push(file);
-          this.push(file);
+          files.push(uploadFile);
+          this.push(uploadFile);
 
           if (onFileAdd) {
-            next(onFileAdd, file);
+            next(onFileAdd, uploadFile);
           }
         }
       }
@@ -240,16 +240,16 @@ export default class Queue {
 
       const selectedFiles: UploadFile[] = [];
 
-      for (const fileBlob of files) {
-        if (named.filter && !named.filter?.(fileBlob)) {
+      for (const file of files) {
+        if (named.filter && !named.filter?.(file)) {
           continue;
         }
 
-        if (fileBlob instanceof Blob) {
-          const file = UploadFile.fromBlob(fileBlob, FileSource.Browse);
-          selectedFiles.push(file);
+        if (file instanceof File) {
+          const uploadFile = new UploadFile(file, FileSource.Browse);
+          selectedFiles.push(uploadFile);
 
-          this.add(file);
+          this.add(uploadFile);
         }
       }
 

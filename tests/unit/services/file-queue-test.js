@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import File from 'ember-file-upload/file';
+import UploadFile from 'ember-file-upload/upload-file';
 
 module('service:file-queue', function (hooks) {
   setupTest(hooks);
@@ -107,21 +107,21 @@ module('service:file-queue', function (hooks) {
     var queue = this.owner.lookup('service:file-queue');
     var queue1 = queue.create('queue1');
 
-    const file0 = new File();
+    const file0 = new UploadFile();
     file0.state = 'queued';
 
     queue1.push(file0);
 
     assert.strictEqual(queue.files.length, 1);
 
-    const file1 = new File();
+    const file1 = new UploadFile();
     file1.state = 'queued';
 
     queue1.push(file1);
 
     assert.strictEqual(queue.files.length, 2);
 
-    const file2 = new File();
+    const file2 = new UploadFile();
     file2.state = 'uploaded';
 
     queue1.push(file2);

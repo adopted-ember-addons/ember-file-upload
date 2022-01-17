@@ -2,9 +2,9 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { upload as uploadHandler } from 'ember-file-upload/mirage';
-import File from 'ember-file-upload/file';
+import UploadFile from 'ember-file-upload/upload-file';
 
-module('Unit | File', function (hooks) {
+module('Unit | UploadFile', function (hooks) {
   setupTest(hooks);
   setupMirage(hooks);
 
@@ -28,7 +28,9 @@ module('Unit | File', function (hooks) {
       })
     );
 
-    const file = File.fromBlob(new Blob(['My Test File'], { type: 'text' }));
+    const file = UploadFile.fromBlob(
+      new Blob(['My Test File'], { type: 'text' })
+    );
 
     await file.upload('/image');
   });

@@ -3,7 +3,7 @@ import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
 
 import Queue, { QueueName } from '../queue';
-import File from '../file';
+import UploadFile from '../upload-file';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
 
@@ -80,7 +80,7 @@ export default class FileQueueService extends Service {
    * @defaultValue []
    * @deprecated use a named queue instead
    */
-  get files(): File[] {
+  get files(): UploadFile[] {
     return [...this.queues.values()].reduce((acc, queue) => {
       return [...acc, ...queue.files];
     }, []);
