@@ -30,6 +30,8 @@ export type QueueName = string | symbol;
 export default class Queue {
   #listeners: Set<QueueListener> = new Set();
 
+  #name: QueueName;
+
   /**
    * The unique identifier of the queue.
    *
@@ -47,7 +49,9 @@ export default class Queue {
    * queue may be `"artworks/{{id}}/photos"`, where `{{id}}`
    * is a dynamic segment that is generated from the artwork id.
    */
-  name: QueueName;
+  get name(): QueueName {
+    return this.#name;
+  }
 
   /** The FileQueue service. */
   fileQueue: FileQueueService;
@@ -115,7 +119,7 @@ export default class Queue {
     name: QueueName;
     fileQueue: FileQueueService;
   }) {
-    this.name = name;
+    this.#name = name;
     this.fileQueue = fileQueue;
   }
 
