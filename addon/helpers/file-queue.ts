@@ -42,9 +42,7 @@ export default class FileQueueHelper extends Helper implements QueueListener {
 
   compute(_positional: unknown[], args: FileQueueArgs) {
     this.args = args;
-    const queue = args.name
-      ? this.fileQueue.findOrCreate(args.name)
-      : this.fileQueue.findOrCreate(DEFAULT_QUEUE);
+    const queue = this.fileQueue.findOrCreate(args.name ?? DEFAULT_QUEUE);
 
     queue.addListener(this);
 
