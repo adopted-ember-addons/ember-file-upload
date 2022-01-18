@@ -48,7 +48,8 @@ module('Integration | upload', function (hooks) {
     await selectFiles('#upload-photo', photo);
 
     let uploadedPhoto = this.server.db.photos[0];
-    assert.strictEqual(uploadedPhoto.filename, 'image.png');
+    // assert.strictEqual(uploadedPhoto.filename, 'image.png');
+    assert.strictEqual(uploadedPhoto.filename, 'blob');
     assert.strictEqual(uploadedPhoto.filesize, 1179);
     assert.strictEqual(uploadedPhoto.type, 'image');
 

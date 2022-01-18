@@ -25,6 +25,32 @@ module.exports = {
   },
   rules: {},
   overrides: [
+    // ts files
+    {
+      files: ['**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+        ecmaFeatures: {
+          legacyDecorators: true,
+        },
+      },
+      plugins: ['ember', '@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:ember/recommended',
+        'plugin:prettier/recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+      env: {
+        browser: true,
+      },
+      globals: {
+        // Mirage server
+        server: true,
+      },
+    },
     // node files
     {
       files: [
@@ -38,6 +64,7 @@ module.exports = {
         './config/**/*.js',
         './tests/dummy/config/**/*.js',
       ],
+      parser: 'babel-eslint',
       parserOptions: {
         sourceType: 'script',
       },
@@ -46,7 +73,7 @@ module.exports = {
         node: true,
       },
       plugins: ['node'],
-      extends: ['plugin:node/recommended'],
+      extends: ['eslint:recommended'],
     },
     {
       // Test files:

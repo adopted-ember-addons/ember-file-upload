@@ -9,7 +9,7 @@ export function extractFormData(formData) {
   let file = null;
   while (!item.done) {
     let [key, value] = item.value;
-    if (value instanceof Blob) {
+    if (value instanceof File) {
       file = { key, value };
     } else {
       data[key] = value;
