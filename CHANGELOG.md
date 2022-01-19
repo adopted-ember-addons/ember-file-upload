@@ -1,3 +1,21 @@
+
+## v5.0.0-beta.2 (2022-01-19)
+
+#### :boom: Breaking Change
+* [#620](https://github.com/adopted-ember-addons/ember-file-upload/pull/620) Add events to file-queue helper set up TypeScript, drop ember-cli-addon-docs, drop support for Ember < 3.28 ([@gossi](https://github.com/gossi))
+* [#583](https://github.com/adopted-ember-addons/ember-file-upload/pull/583) Drop deprecated lowercase events ([@gilest](https://github.com/gilest))
+
+#### :rocket: Enhancement
+* [#620](https://github.com/adopted-ember-addons/ember-file-upload/pull/620) Add events to file-queue helper set up TypeScript, drop ember-cli-addon-docs, drop support for Ember < 3.28 ([@gossi](https://github.com/gossi))
+
+#### :house: Internal
+* [#645](https://github.com/adopted-ember-addons/ember-file-upload/pull/645) Drop docs deployment and required dependencies ([@gilest](https://github.com/gilest))
+* [#640](https://github.com/adopted-ember-addons/ember-file-upload/pull/640) Updated test filesize since Chrome 97 reports it differently ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Thomas Gossmann ([@gossi](https://github.com/gossi))
+
 ## v5.0.0-beta.1 (2021-10-28)
 
 #### :boom: Breaking Change
