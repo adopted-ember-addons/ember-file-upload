@@ -2,9 +2,9 @@ import { tracked } from '@glimmer/tracking';
 
 import FileReader from './system/file-reader';
 import { upload } from './system/upload';
-import uuid from './system/uuid';
 
 import Queue from './queue';
+import { guidFor } from '@ember/object/internals';
 
 /**
  * Possible file states.
@@ -91,7 +91,7 @@ export default class UploadFile {
     return this.#source;
   }
 
-  #id = `file-${uuid()}`;
+  #id = `file-${guidFor(this)}`;
 
   /** A unique id generated for this file. */
   get id(): string {
