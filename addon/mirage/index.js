@@ -1,5 +1,5 @@
 import RSVP from 'rsvp';
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 import { extractFormData, extractFileMetadata } from './utils';
 
 const NETWORK = {
