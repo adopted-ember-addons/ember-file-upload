@@ -1501,11 +1501,11 @@
     "@types/qunit" "*"
 
 "@types/ember-resolver@^5.0.10":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@types/ember-resolver/-/ember-resolver-5.0.10.tgz#bb265571a9cea9c4e6b095c8318df4e7f7837d5f"
-  integrity sha512-NTN4blgVUXi0wE6XTsuUjks15cI6em4sdTcgDlE8FvL8gkrxQFLSByyKDTBofHCncM6LwZcHz/eVVm13rwfC2w==
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/@types/ember-resolver/-/ember-resolver-5.0.11.tgz#db931fb5c2d6bda4e29adea132fb48c7ed17aa62"
+  integrity sha512-2BL9d8kBdNUO9Je6KBF7Q34BSwbQG6vzCzTeSopt8FAmLDfaDU9xDDdyZobpfy9GR36mCSeG9b9wr4bgYh/MYw==
   dependencies:
-    "@types/ember" "*"
+    "@types/ember__object" "*"
 
 "@types/ember-test-helpers@*":
   version "1.0.10"
@@ -1518,16 +1518,15 @@
     "@types/rsvp" "*"
 
 "@types/ember@*":
-  version "3.16.5"
-  resolved "https://registry.yarnpkg.com/@types/ember/-/ember-3.16.5.tgz#c2d6b0f178761c0c2fbc6fc39b4b6958c256d0ac"
-  integrity sha512-8BzT1g8r7xQsN2p7qIUZ0AXWEVpJ5LmaRWP3iT79PLyIQfTAYvHSueUl14lrB8renETjwr4+ZvVPKurn9TKxNA==
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember/-/ember-4.0.0.tgz#0c29294fa0e5aa07ba6090f60243707dde8fc411"
+  integrity sha512-IR4o8OkFgoiRKVLRI8URvyNhEBSkjO5DXp2900/TptxOl0Retu8/tKtFaRTwkqteg2a0/6zXAA1rpFb3BbxNpA==
   dependencies:
     "@types/ember__application" "*"
     "@types/ember__array" "*"
     "@types/ember__component" "*"
     "@types/ember__controller" "*"
     "@types/ember__debug" "*"
-    "@types/ember__destroyable" "*"
     "@types/ember__engine" "*"
     "@types/ember__error" "*"
     "@types/ember__object" "*"
@@ -1540,7 +1539,6 @@
     "@types/ember__test" "*"
     "@types/ember__utils" "*"
     "@types/htmlbars-inline-precompile" "*"
-    "@types/jquery" "*"
     "@types/rsvp" "*"
 
 "@types/ember__application@*", "@types/ember__application@^3.16.3":
@@ -1585,11 +1583,6 @@
     "@types/ember__debug" "*"
     "@types/ember__engine" "*"
     "@types/ember__object" "*"
-
-"@types/ember__destroyable@*":
-  version "3.22.0"
-  resolved "https://registry.yarnpkg.com/@types/ember__destroyable/-/ember__destroyable-3.22.0.tgz#2af2c27f5d8996694c3f0fe906e2536b2e4c5aca"
-  integrity sha512-T5wZGK1MwEelNIv1bbAvRQZPo9zvfjpGyyFPwjz+sakjImKVcQzb/yq1SgGyT0QTAQAT7l0L+kFru9+fSVVo5A==
 
 "@types/ember__engine@*", "@types/ember__engine@^3.16.3":
   version "3.16.3"
@@ -1749,9 +1742,9 @@
   integrity sha512-SZs7ekbP8CN0txVG2xVRH6EgKmEm31BOxA07vkFaETzZz1xh+cbt8BcI0slpymvwhx5dlFnQG2rTlPVQn+iRPQ==
 
 "@types/jquery@*":
-  version "3.5.9"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.9.tgz#08e4b1dcff0626926ffe545a2bc90f18140c53d6"
-  integrity sha512-B8pDk+sH/tSv/HKdx6EQER6BfUOb2GtKs0LOmozziS4h7cbe8u/eYySfUAeTwD+J09SqV3man7AMWIA5mgzCBA==
+  version "3.5.13"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.13.tgz#5482d3ee325d5862f77a91c09369ae0a5b082bf3"
+  integrity sha512-ZxJrup8nz/ZxcU0vantG+TPdboMhB24jad2uSap50zE7Q9rUeYlCF25kFMSmHR33qoeOgqcdHEp3roaookC0Sg==
   dependencies:
     "@types/sizzle" "*"
 
