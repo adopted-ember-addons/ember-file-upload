@@ -2,10 +2,10 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
-import uuid from '../system/uuid';
 import UploadFile from 'ember-file-upload/upload-file';
 import Queue from '../queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
+import { guidFor } from '@ember/object/internals';
 
 interface FileUploadArgs {
   queue?: Queue;
@@ -113,7 +113,7 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
   }
 
   get for() {
-    return this.args.for || `file-input-${uuid.short()}`;
+    return this.args.for ?? `file-input-${guidFor(this)}`;
   }
 
   @action
