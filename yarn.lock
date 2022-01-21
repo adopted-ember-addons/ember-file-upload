@@ -21,7 +21,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.16.8.tgz#31560f9f29fdf1868de8cb55049538a1b9732a60"
   integrity sha512-m7OkX0IdKLKPpBlJtF561YJal5y/jyI5fNfWbPxh2D/nbzzGI4qRyrD8xO2jB24u7l+5I2a43scCG2IrfjC50Q==
 
-"@babel/core@^7.1.6", "@babel/core@^7.12.0", "@babel/core@^7.13.8", "@babel/core@^7.3.4":
+"@babel/core@^7.1.6", "@babel/core@^7.12.0", "@babel/core@^7.13.8", "@babel/core@^7.16.7", "@babel/core@^7.3.4":
   version "7.16.10"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.10.tgz#ebd034f8e7ac2b6bfcdaa83a161141a646f74b50"
   integrity sha512-pbiIdZbCiMx/MM6toR+OfXarYix3uz0oVsnNtfdAGTcCTu3w/JGF8JhirevXLBJUu0WguSZI12qpKnx7EeMyLA==
@@ -314,7 +314,7 @@
     "@babel/helper-plugin-utils" "^7.16.7"
     "@babel/plugin-syntax-class-static-block" "^7.14.5"
 
-"@babel/plugin-proposal-decorators@^7.13.5":
+"@babel/plugin-proposal-decorators@^7.13.5", "@babel/plugin-proposal-decorators@^7.16.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-decorators/-/plugin-proposal-decorators-7.16.7.tgz#922907d2e3e327f5b07d2246bcfc0bd438f360d2"
   integrity sha512-DoEpnuXK14XV9btI1k8tzNGCutMclpj4yru8aXKoHlVmbO1s+2A+g2+h4JhcjrxkFJqzbymnLG6j/niOf3iFXQ==
@@ -840,7 +840,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/preset-env@^7.10.2", "@babel/preset-env@^7.12.0":
+"@babel/preset-env@^7.10.2", "@babel/preset-env@^7.12.0", "@babel/preset-env@^7.16.7":
   version "7.16.11"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.16.11.tgz#5dd88fd885fae36f88fd7c8342475c9f0abe2982"
   integrity sha512-qcmWG8R7ZW6WBRPZK//y+E3Cli151B20W1Rv7ln27vuPaXU/8TKms6jFdiJtF7UDTxcrb7mZd88tAeK9LjdT8g==
@@ -1032,12 +1032,12 @@
     ember-cli-version-checker "^5.1.2"
     semver "^7.3.5"
 
-"@embroider/macros@>= 0.48.1 < 2.0.0-alpha.1":
-  version "0.50.2"
-  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-0.50.2.tgz#9ec7d0bb1fa846410fc6c209a69b782640942b11"
-  integrity sha512-nPRE8fanqbIik4+WBm/roW3sxNkMp6WnuZT/IM8wdmgkYU55uH+eyJXT7XW0UGy9IQv6YJ2QTRz46cq9N0/4qg==
+"@embroider/macros@>= 0.48.1 < 2.0.0-alpha.1", "@embroider/macros@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-1.0.0.tgz#2dfab550ba4e03cbf6e3524759949749ced98cc2"
+  integrity sha512-RutDJ27j1eFQulyv83yJm27oSypsMd/UZyy62Q0NU00TIsIgQPCXaDiGIONWcJuAAVbtBRP3X4LMvaBAeq5g+A==
   dependencies:
-    "@embroider/shared-internals" "0.50.2"
+    "@embroider/shared-internals" "1.0.0"
     assert-never "^1.2.1"
     babel-import-util "^1.1.0"
     ember-cli-babel "^7.26.6"
@@ -1071,33 +1071,7 @@
     semver "^7.3.2"
     typescript-memoize "^1.0.0-alpha.3"
 
-"@embroider/shared-internals@0.50.2":
-  version "0.50.2"
-  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.50.2.tgz#567c5451db31a1f3edc2f64376ce5a0dcaaabacb"
-  integrity sha512-l3SKn1YdxTFBjY3ylYTLHxFY0dG2XxIsjbtZt7Mm6QyZFssWBDg3oWYwBoUpkw/ysjNJf8IcI7reXhB23WXwDw==
-  dependencies:
-    babel-import-util "^1.1.0"
-    ember-rfc176-data "^0.3.17"
-    fs-extra "^9.1.0"
-    lodash "^4.17.21"
-    resolve-package-path "^4.0.1"
-    semver "^7.3.5"
-    typescript-memoize "^1.0.1"
-
-"@embroider/shared-internals@^0.40.0":
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.40.0.tgz#2f768c60f4f35ba5f9228f046f70324851e8bfe2"
-  integrity sha512-Ovr/i0Qgn6W6jdGXMvYJKlRoRpyBY9uhYozDSFKlBjeEmRJ0Plp7OST41+O5Td6Pqp+Rv2jVSnGzhA/MpC++NQ==
-  dependencies:
-    ember-rfc176-data "^0.3.17"
-    fs-extra "^7.0.1"
-    lodash "^4.17.10"
-    pkg-up "^3.1.0"
-    resolve-package-path "^1.2.2"
-    semver "^7.3.2"
-    typescript-memoize "^1.0.0-alpha.3"
-
-"@embroider/shared-internals@^1.0.0":
+"@embroider/shared-internals@1.0.0", "@embroider/shared-internals@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-1.0.0.tgz#b081708ac79e4582f17ba0f3e3796e6612a8976c"
   integrity sha512-Vx3dmejJxI5MG/qC7or3EUZY0AZBSBNOAR50PYotX3LxUSb4lAm5wISPnFbwEY4bbo2VhL/6XtWjMv8ZMcaP+g==
@@ -1805,7 +1779,7 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.2.tgz#93e25bf9ee75fe0fd80b594bc4feb0e862111b5a"
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
-"@types/minimatch@*", "@types/minimatch@^3.0.3":
+"@types/minimatch@*", "@types/minimatch@^3.0.3", "@types/minimatch@^3.0.4":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
   integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
@@ -2311,10 +2285,24 @@ ajv-errors@^1.0.0:
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
   integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
 
+ajv-formats@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.1.tgz#6e669400659eb74973bbf2e33327180a0996b520"
+  integrity sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==
+  dependencies:
+    ajv "^8.0.0"
+
 ajv-keywords@^3.1.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
+
+ajv-keywords@^5.0.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-5.1.0.tgz#69d4d385a4733cdbeab44964a1170a88f87f0e16"
+  integrity sha512-YCS/JNFAUyr5vAuhk1DWm1CBxRHW9LbJ2ozWeemrIqpbsqKjHVxYPyi5GC0rjZIT5JxJ3virVTS8wk4i/Z+krw==
+  dependencies:
+    fast-deep-equal "^3.1.3"
 
 ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.4, ajv@^6.12.5:
   version "6.12.6"
@@ -2326,10 +2314,10 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.1:
-  version "8.6.3"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.3.tgz#11a66527761dc3e9a3845ea775d2d3c0414e8764"
-  integrity sha512-SMJOdDP6LqTkD0Uq8qLi+gMwSt0imXLSV080qFVwJCpH9U6Mb+SUGHAXM0KNbcBPguytWyvFxcHgMLe2D2XSpw==
+ajv@^8.0.0, ajv@^8.0.1, ajv@^8.8.0:
+  version "8.9.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.9.0.tgz#738019146638824dea25edcf299dcba1b0e7eb18"
+  integrity sha512-qOKJyNj/h+OWx7s5DePL6Zu1KeM9jPZhwBqs+7DzP6bGOvqzVCSf0xueYmVuaC/oQ/VtS2zLMLHdQFbkka+XDQ==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -4772,16 +4760,16 @@ ember-auto-import@^1.11.3, ember-auto-import@^1.12.0:
     webpack "^4.43.0"
 
 ember-auto-import@^2.0.0:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-2.2.4.tgz#68c08cb0b7533293024c97387fc449b00561185a"
-  integrity sha512-iXHH+bSMP/uWvJmIhjt+PZz4ymqOLccIxZUouVcUFLKA5EAWE7gamlA684m0pIbSE/V9zKpOul4OfIgKXFprBg==
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-2.4.0.tgz#91c4797f08315728086e35af954cb60bd23c14bc"
+  integrity sha512-BwF6iTaoSmT2vJ9NEHEGRBCh2+qp+Nlaz/Q7roqNSxl5oL5iMRwenPnHhOoBPTYZvPhcV/KgXR5e+pBQ107plQ==
   dependencies:
-    "@babel/core" "^7.1.6"
-    "@babel/plugin-proposal-class-properties" "^7.13.0"
-    "@babel/plugin-proposal-decorators" "^7.13.5"
-    "@babel/preset-env" "^7.10.2"
-    "@babel/traverse" "^7.1.6"
-    "@embroider/shared-internals" "^0.40.0"
+    "@babel/core" "^7.16.7"
+    "@babel/plugin-proposal-class-properties" "^7.16.7"
+    "@babel/plugin-proposal-decorators" "^7.16.7"
+    "@babel/preset-env" "^7.16.7"
+    "@embroider/macros" "^1.0.0"
+    "@embroider/shared-internals" "^1.0.0"
     babel-loader "^8.0.6"
     babel-plugin-ember-modules-api-polyfill "^3.5.0"
     babel-plugin-htmlbars-inline-precompile "^5.2.1"
@@ -4793,21 +4781,19 @@ ember-auto-import@^2.0.0:
     broccoli-source "^3.0.0"
     css-loader "^5.2.0"
     debug "^4.3.1"
-    ember-cli-babel "^7.0.0"
     fs-extra "^6.0.1"
     fs-tree-diff "^2.0.0"
     handlebars "^4.3.1"
     js-string-escape "^1.0.1"
     lodash "^4.17.19"
-    mkdirp "^0.5.1"
+    mini-css-extract-plugin "^2.5.2"
     parse5 "^6.0.1"
     resolve "^1.20.0"
     resolve-package-path "^3.1.0"
-    rimraf "^2.6.2"
     semver "^7.3.4"
     style-loader "^2.0.0"
     typescript-memoize "^1.0.0-alpha.3"
-    walk-sync "^0.3.3"
+    walk-sync "^3.0.0"
 
 ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   version "1.1.1"
@@ -8934,6 +8920,13 @@ mimic-response@^3.1.0:
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-3.1.0.tgz#2d1d59af9c1b129815accc2c46a022a5ce1fa3c9"
   integrity sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==
 
+mini-css-extract-plugin@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-2.5.2.tgz#b3b9b98320c2c054d92c16f6a94ddfdbbba13755"
+  integrity sha512-Lwgq9qLNyBK6yNLgzssXnq4r2+mB9Mz3cJWlM8kseysHIvTicFhDNimFgY94jjqlwhNzLPsq8wv4X+vOHtMdYA==
+  dependencies:
+    schema-utils "^4.0.0"
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
@@ -10010,9 +10003,9 @@ postcss-modules-values@^4.0.0:
     icss-utils "^5.0.0"
 
 postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4:
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.6.tgz#2c5bba8174ac2f6981ab631a42ab0ee54af332ea"
-  integrity sha512-9LXrvaaX3+mcv5xkg5kFwqSzSH1JIObIx51PrndZwlmznwXRfxMddDvo9gve3gVR8ZTKgoFDdWkbRFmEhT4PMg==
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.9.tgz#ee71c3b9ff63d9cd130838876c13a2ec1a992b2f"
+  integrity sha512-UO3SgnZOVTwu4kyLR22UQ1xZh086RyNZppb7lLAKBFK8a32ttG5i87Y/P3+2bRSjZNyJ1B7hfFNo273tKe9YxQ==
   dependencies:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
@@ -10023,9 +10016,9 @@ postcss-value-parser@^4.1.0:
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
 postcss@^8.2.15:
-  version "8.4.4"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.4.tgz#d53d4ec6a75fd62557a66bb41978bf47ff0c2869"
-  integrity sha512-joU6fBsN6EIer28Lj6GDFoC/5yOZzLCfn0zHAn/MYXI7aPt4m4hK5KC5ovEZXy+lnCjmYIbQWngvju2ddyEr8Q==
+  version "8.4.5"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.5.tgz#bae665764dfd4c6fcc24dc0fdf7e7aa00cc77f95"
+  integrity sha512-jBDboWM8qpaqwkMwItqTQTiFikhs/67OYVvblFFTM7MrZjt6yMKd6r2kgXizEbTTljacm4NldIlZnhbjr84QYg==
   dependencies:
     nanoid "^3.1.30"
     picocolors "^1.0.0"
@@ -10875,6 +10868,16 @@ schema-utils@^3.0.0, schema-utils@^3.1.0, schema-utils@^3.1.1:
     "@types/json-schema" "^7.0.8"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
+
+schema-utils@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-4.0.0.tgz#60331e9e3ae78ec5d16353c467c34b3a0a1d3df7"
+  integrity sha512-1edyXKgh6XnJsJSQ8mKWXnN/BVaIbFMLpouRUrXgVq7WYne5kw3MW7UPhO44uRXQSIpTSXoJbmrR2X0w9kUTyg==
+  dependencies:
+    "@types/json-schema" "^7.0.9"
+    ajv "^8.8.0"
+    ajv-formats "^2.1.1"
+    ajv-keywords "^5.0.0"
 
 semver-diff@^3.1.1:
   version "3.1.1"
@@ -12349,6 +12352,16 @@ walk-sync@^2.0.0, walk-sync@^2.0.2, walk-sync@^2.2.0:
     "@types/minimatch" "^3.0.3"
     ensure-posix-path "^1.1.0"
     matcher-collection "^2.0.0"
+    minimatch "^3.0.4"
+
+walk-sync@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/walk-sync/-/walk-sync-3.0.0.tgz#67f882925021e20569a1edd560b8da31da8d171c"
+  integrity sha512-41TvKmDGVpm2iuH7o+DAOt06yyu/cSHpX3uzAwetzASvlNtVddgIjXIb2DfB/Wa20B1Jo86+1Dv1CraSU7hWdw==
+  dependencies:
+    "@types/minimatch" "^3.0.4"
+    ensure-posix-path "^1.1.0"
+    matcher-collection "^2.0.1"
     minimatch "^3.0.4"
 
 walker@~1.0.5:
