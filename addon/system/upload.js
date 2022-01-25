@@ -5,13 +5,17 @@ import { buildWaiter } from '@ember/test-waiters';
 
 const uploadWaiter = buildWaiter('ember-file-upload:upload');
 
+function clone(object) {
+  return object ? { ...object } : {};
+}
+
 function normalizeOptions(file, url, options) {
   if (typeof url === 'object') {
     options = url;
     url = null;
   }
 
-  options = options || {};
+  options = clone(options);
 
   options.url = options.url || url;
   options.method = options.method || 'POST';
@@ -19,8 +23,8 @@ function normalizeOptions(file, url, options) {
   if (!Object.prototype.hasOwnProperty.call(options, 'contentType')) {
     options.contentType = file.type;
   }
-  options.headers = options.headers || {};
-  options.data = options.data || {};
+  options.headers = clone(options.headers);
+  options.data = clone(options.data);
   options.fileKey = options.fileKey || 'file';
 
   if (options.headers.Accept == null) {
