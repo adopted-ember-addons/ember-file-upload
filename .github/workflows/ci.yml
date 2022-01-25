@@ -75,7 +75,7 @@ jobs:
           steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Lint
-        run: yarn lint
+        run: yarn workspace ember-file-upload lint
 
   test:
     name: Tests
@@ -119,7 +119,7 @@ jobs:
           steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Test
-        run: yarn test:ember --launch ${{ matrix.browser }}
+        run: yarn workspace ember-file-upload test:ember --launch ${{ matrix.browser }}
 
   floating-dependencies:
     name: Floating Dependencies
@@ -159,7 +159,7 @@ jobs:
         run: yarn install --no-lockfile --non-interactive
 
       - name: Test
-        run: yarn test:ember --launch ${{ matrix.browser }}
+        run: yarn workspace ember-file-upload test:ember --launch ${{ matrix.browser }}
 
   try-scenarios:
     name: Tests - ${{ matrix.ember-try-scenario }}
@@ -216,4 +216,4 @@ jobs:
       - name: Test
         env:
           EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-        run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
+        run: yarn workspace ember-file-upload ember try:one $EMBER_TRY_SCENARIO
