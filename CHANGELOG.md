@@ -1,4 +1,18 @@
 
+
+## v5.0.0-beta.3 (2022-01-26)
+
+#### :bug: Bug Fix
+* [#676](https://github.com/adopted-ember-addons/ember-file-upload/pull/676) Avoid mutating upload options ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :house: Internal
+* [#660](https://github.com/adopted-ember-addons/ember-file-upload/pull/660) Add type definitions from `@ember/destroyable` ([@gilest](https://github.com/gilest))
+* [#655](https://github.com/adopted-ember-addons/ember-file-upload/pull/655) Use guidFor in place of uuid ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0-beta.2 (2022-01-19)
 
 #### :boom: Breaking Change
