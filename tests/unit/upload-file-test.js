@@ -34,4 +34,34 @@ module('Unit | UploadFile', function (hooks) {
 
     await file.upload('/image');
   });
+
+  test('it does not mutate the provided options', async function (assert) {
+    this.server.post('/image', () => {});
+
+    const file = UploadFile.fromBlob(
+      new Blob(['My Test File'], { type: 'text' })
+    );
+
+    const options = {
+      accepts: ['foo'],
+      data: {
+        bar: 'bar',
+      },
+      headers: {
+        baz: 'baz',
+      },
+    };
+
+    await file.upload('/image', options);
+
+    assert.deepEqual(options, {
+      accepts: ['foo'],
+      data: {
+        bar: 'bar',
+      },
+      headers: {
+        baz: 'baz',
+      },
+    });
+  });
 });
