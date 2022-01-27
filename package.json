@@ -50,7 +50,6 @@
     "postpack": "ember ts:clean"
   },
   "dependencies": {
-    "@ember/render-modifiers": "^2.0.0",
     "@ember/test-waiters": "^3.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
@@ -129,6 +128,7 @@
     "webpack": "5"
   },
   "resolutions": {
+    "ember-auto-import": "^2.0.0",
     "ember-cli-babel": "^7.26.6"
   },
   "engines": {
