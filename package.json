@@ -2,5 +2,8 @@
   "private": "true",
   "workspaces": [
     "ember-file-upload"
-  ]
+  ],
+  "resolutions": {
+    "ember-auto-import": "^2.0.0"
+  }
 }
