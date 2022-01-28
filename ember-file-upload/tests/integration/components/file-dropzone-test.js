@@ -26,6 +26,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
+  // TODO remove this functionality and test
   test('only calls onFileAdd for files returned from onDrop', async function (assert) {
     this.onDrop = (files) => {
       assert.step(`onDrop: ${files.mapBy('name').join(',')}`);
@@ -55,7 +56,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     ]);
   });
 
-  test('dropping multiple files calls onDrop with one file', async function (assert) {
+  test('dropping multiple files calls onDrop with both files', async function (assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
@@ -71,7 +72,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
       new File([], 'dingus.png')
     );
 
-    assert.verifySteps(['dingus.txt']);
+    assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
   test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
@@ -92,6 +93,26 @@ module('Integration | Component | FileDropzone', function (hooks) {
     );
 
     assert.verifySteps(['dingus.txt', 'dingus.png']);
+  });
+
+  test('multiple=false dropping multiple files calls onDrop with one file', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
+
+    await render(hbs`
+      <FileDropzone
+        class="test-dropzone"
+        @name="test"
+        @multiple={{false}}
+        @onDrop={{this.onDrop}} />
+    `);
+
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
+
+    assert.verifySteps(['dingus.txt']);
   });
 
   test('onDragEnter is called when a file is dragged over', async function (assert) {
