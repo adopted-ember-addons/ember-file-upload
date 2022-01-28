@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
-import FileUploadDataTransfer from '../system/data-transfer';
+import DataTransferWrapper, {
+  FileUploadDragEvent,
+} from '../system/data-transfer-wrapper';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
@@ -35,16 +37,16 @@ interface FileDropzoneArgs {
    * Called when files have entered the dropzone.
    */
   filesEnter?: (
-    files: ItemDetail[],
-    dataTransfer: FileUploadDataTransfer
+    files: File[] | DataTransferItem[],
+    dataTransfer: DataTransferWrapper
   ) => void;
 
   /**
    * Called when files have left the dropzone.
    */
   filesLeave?: (
-    files: ItemDetail[],
-    dataTransfer: FileUploadDataTransfer
+    files: File[] | DataTransferItem[],
+    dataTransfer: DataTransferWrapper
   ) => void;
 
   /**
@@ -86,22 +88,25 @@ interface FileDropzoneArgs {
    * @deprecated use `filesEnter()` instead
    */
   onDragEnter?: (
-    files: ItemDetail[],
-    dataTransfer: FileUploadDataTransfer
+    files: File[] | DataTransferItem[],
+    dataTransfer: DataTransferWrapper
   ) => void;
 
   /**
    * @deprecated use `filesLeave()` instead
    */
   onDragLeave?: (
-    files: ItemDetail[],
-    dataTransfer: FileUploadDataTransfer
+    files: File[] | DataTransferItem[],
+    dataTransfer: DataTransferWrapper
   ) => void;
 
   /**
    * @deprecated use `filesDropped()` instead
    */
-  onDrop?: (files: File[], dataTransfer: FileUploadDataTransfer) => void;
+  onDrop?: (
+    files: File[] | DataTransferItem[],
+    dataTransfer: DataTransferWrapper
+  ) => void;
 
   /**
    * @deprecated use `filesDropped()` instead
@@ -110,16 +115,6 @@ interface FileDropzoneArgs {
 }
 
 // TODO type DragListener and migrate these
-export interface ItemDetail {
-  kind: string;
-  type: string;
-}
-
-export interface FileUploadDragEvent {
-  source: 'os' | 'web';
-  dataTransfer: DataTransfer;
-  itemDetails: ItemDetail[];
-}
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
@@ -153,7 +148,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
   @service declare fileQueue: FileQueueService;
 
   @tracked active = false;
-  @tracked dataTransfer?: FileUploadDataTransfer;
+  @tracked dataTransferWrapper?: DataTransferWrapper;
 
   supported = (() =>
     typeof window !== 'undefined' &&
@@ -172,12 +167,11 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     return this.args.multiple ?? true;
   }
 
-  get files() {
-    const files = this.dataTransfer?.files ?? [];
-    if (!this.multiple) {
-      return files.length ? [files[0]] : [];
-    }
-    return files;
+  get files(): File[] | DataTransferItem[] {
+    const files = this.dataTransferWrapper?.filesOrItems ?? [];
+    if (this.multiple) return files;
+
+    return files.slice(0, 1);
   }
 
   get isAllowed() {
@@ -186,7 +180,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
     return (
       environment === 'test' ||
-      (this.dataTransfer && this.dataTransfer.source === 'os') ||
+      (this.dataTransferWrapper && this.dataTransferWrapper.source === 'os') ||
       this.args.allowUploadsFromWebsites
     );
   }
@@ -206,42 +200,30 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   @action
   didEnterDropzone(event: FileUploadDragEvent) {
-    this.dataTransfer = new FileUploadDataTransfer(
-      event.source,
-      event.dataTransfer,
-      event.itemDetails
-    );
+    this.dataTransferWrapper = new DataTransferWrapper(event);
 
     if (this.isAllowed) {
       event.dataTransfer.dropEffect = this.cursor;
       this.active = true;
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.args.onDragEnter?.(this.files, this.dataTransfer);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.args.filesEnter?.(this.files, this.dataTransfer);
+      this.args.onDragEnter?.(this.files, this.dataTransferWrapper);
+      this.args.filesEnter?.(this.files, this.dataTransferWrapper);
     }
   }
 
   @action
   didLeaveDropzone(event: FileUploadDragEvent) {
-    if (this.dataTransfer) {
-      this.dataTransfer.dataTransfer = event.dataTransfer;
+    if (this.dataTransferWrapper) {
+      this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
-    if (this.isAllowed) {
+    if (this.dataTransferWrapper && this.isAllowed) {
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = this.cursor;
       }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.args.onDragLeave?.(this.files, this.dataTransfer);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.args.filesLeave?.(this.files, this.dataTransfer);
+      this.args.onDragLeave?.(this.files, this.dataTransferWrapper);
+      this.args.filesLeave?.(this.files, this.dataTransferWrapper);
 
-      this.dataTransfer = undefined;
+      this.dataTransferWrapper = undefined;
 
       if (this.isDestroyed) {
         return;
@@ -252,8 +234,8 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   @action
   didDragOver(event: FileUploadDragEvent) {
-    if (this.dataTransfer) {
-      this.dataTransfer.dataTransfer = event.dataTransfer;
+    if (this.dataTransferWrapper) {
+      this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
     if (this.isAllowed) {
       event.dataTransfer.dropEffect = this.cursor;
@@ -262,15 +244,13 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   @action
   didDrop(event: FileUploadDragEvent) {
-    if (this.dataTransfer) {
-      this.dataTransfer.dataTransfer = event.dataTransfer;
+    if (this.dataTransferWrapper) {
+      this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
 
     if (!this.isAllowed) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       event.dataTransfer.dropEffect = this.cursor;
-      this.dataTransfer = undefined;
+      this.dataTransferWrapper = undefined;
       return;
     }
 
@@ -281,7 +261,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
     // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // // @ts-ignore
-    // const html = this.dataTransfer.getData('text/html');
+    // const html = this.dataTransferWrapper.getData('text/html');
     // if (html) {
     //   const parsedHtml = parseHTML(html);
     //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -295,7 +275,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     // if (url == null) {
     //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //   // @ts-ignore
-    //   url = this.dataTransfer.getData('text/uri-list');
+    //   url = this.dataTransferWrapper.getData('text/uri-list');
     // }
 
     // if (url) {
@@ -347,25 +327,29 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     //   image.src = url;
     // }
 
-    const files =
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.args.onDrop?.(this.files, this.dataTransfer) ?? this.files;
+    if (this.dataTransferWrapper) {
+      // TODO ignore the result of this callback
+      const files =
+        this.args.onDrop?.(this.files, this.dataTransferWrapper) ?? this.files;
 
-    // Add files to upload queue.
-    this.active = false;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const uploadFiles = [];
+      const addedFiles = this.addFiles(files);
+      this.args.filesDropped?.(addedFiles);
+
+      this.active = false;
+      this.dataTransferWrapper = undefined;
+    }
+  }
+
+  addFiles(files: File[] | DataTransferItem[]) {
+    const addedFiles = [];
     for (const file of files) {
       if (file instanceof File) {
         const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
         if (this.args.filter && !this.args.filter(uploadFile)) continue;
         this.queue.add(uploadFile);
-        uploadFiles.push(uploadFile);
+        addedFiles.push(uploadFile);
       }
     }
-    this.args.filesDropped?.(uploadFiles);
-    this.dataTransfer = undefined;
+    return addedFiles;
   }
 }
