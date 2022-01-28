@@ -91,7 +91,8 @@ module('Integration | Component | FileDropzone', function (hooks) {
       assert.verifySteps(['dingus.txt']);
     });
 
-    // TODO remove this functionality and test
+    // @TODO stop filtering files based on the output of onDrop
+    // in  favor of `filter()` - it never was officially public API
     test('only calls onFileAdd for files returned from onDrop', async function (assert) {
       this.onDrop = (files) => {
         assert.step(`onDrop: ${files.mapBy('name').join(',')}`);

@@ -114,8 +114,6 @@ interface FileDropzoneArgs {
   onFileAdd: (file: UploadFile) => void;
 }
 
-// TODO type DragListener and migrate these
-
 /**
   `FileDropzone` is a component that will allow users to upload files by
    drag and drop.
@@ -254,7 +252,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
       return;
     }
 
-    // TODO - add tests for these or remove them
+    // @TODO - add tests for these or remove them
     // // Testing support for dragging and dropping images
     // // from other browser windows
     // let url;
@@ -328,7 +326,8 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     // }
 
     if (this.dataTransferWrapper) {
-      // TODO ignore the result of this callback
+      // @TODO stop filtering files based on the output of onDrop
+      // in  favor of `filter()` - it never was officially public API
       const files =
         this.args.onDrop?.(this.files, this.dataTransferWrapper) ?? this.files;
 

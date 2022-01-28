@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import { modifier, ModifierArgs } from 'ember-modifier';
-import { TrackedArray, TrackedSet } from 'tracked-built-ins';
+import { TrackedSet } from 'tracked-built-ins';
 import UploadFile, { FileSource, FileState } from './upload-file';
 import FileQueueService from './services/file-queue';
 
@@ -74,9 +74,6 @@ export default class Queue {
   get files(): UploadFile[] {
     return [...this.#distinctFiles.values()];
   }
-
-  // @TODO: Is this needed? I think, this is what each dropzone needs to manage
-  _dropzones = new TrackedArray([]);
 
   /**
    * The total size of all files currently being uploaded in bytes.
