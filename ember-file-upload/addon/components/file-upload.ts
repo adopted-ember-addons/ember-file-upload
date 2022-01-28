@@ -47,7 +47,7 @@ interface FileUploadArgs {
   for?: string;
 
   /**
-   * @deprecated use `fileAdded()` instead
+   * @deprecated use `fileAdded()` on queue instead
    */
   onFileAdd: (file: UploadFile) => void;
 
