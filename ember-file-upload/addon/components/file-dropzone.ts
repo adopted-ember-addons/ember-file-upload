@@ -126,7 +126,7 @@ export interface FileUploadDragEvent {
    drag and drop.
 
   ```hbs
-  <FileDropzone @name="photos" as |dropzone queue|>
+  <FileDropzone @queue={{queue}} as |dropzone|>
     {{#if dropzone.active}}
       Drop to upload
     {{else if queue.files.length}}
@@ -137,30 +137,9 @@ export interface FileUploadDragEvent {
         {{#if dropzone.supported}}
           Drag and drop images onto this area to upload them or
         {{/if}}
-        <FileUpload
-          @name="photos"
-          @accept="image/*"
-          @multiple=true
-          @onFileAdd={{perform this.uploadImage}}
-        >
-          <a tabindex="0">Add an Image.</a>
-        </FileUpload>
       </p>
     {{/if}}
   </FileDropzone>
-  ```
-
-  ```js
-  import Component from '@glimmer/component';
-  import { task } from 'ember-concurrency';
-
-  export default class ExampleComponent extends Component {
-    @task({ maxConcurrency: 3, enqueue: true })
-    *uploadImage(file) {
-      const response = yield file.upload(url, options);
-      ...
-    }
-  }
   ```
 
   @class FileDropzoneComponent
