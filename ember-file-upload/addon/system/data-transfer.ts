@@ -1,22 +1,18 @@
 import { A } from '@ember/array';
-import Queue from '../queue';
 import { ItemDetail, FileUploadDragEvent } from '../components/file-dropzone';
 
 const getDataSupport = {};
 
 export default class FileUploadDataTransfer {
-  queue?: Queue;
   dataTransfer?: DataTransfer;
   itemDetails?: ItemDetail[];
   source?: FileUploadDragEvent['source'];
 
   constructor(
-    queue: Queue,
     source: FileUploadDragEvent['source'],
     dataTransfer: DataTransfer,
     itemDetails: ItemDetail[]
   ) {
-    this.queue = queue;
     this.source = source;
     this.dataTransfer = dataTransfer;
     this.itemDetails = itemDetails;
@@ -77,16 +73,9 @@ export default class FileUploadDataTransfer {
     }
 
     const files = A();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (!this.queue?.multiple && fileList.length > 1) {
-      files.push(fileList[0]);
-    } else {
-      for (let i = 0, len = fileList.length; i < len; i++) {
-        files.push(fileList[i]);
-      }
+    for (let i = 0, len = fileList.length; i < len; i++) {
+      files.push(fileList[i]);
     }
-
     return files;
   }
 }

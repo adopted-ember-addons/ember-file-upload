@@ -193,7 +193,11 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
   }
 
   get files() {
-    return this.dataTransfer?.files ?? [];
+    const files = this.dataTransfer?.files ?? [];
+    if (!this.args.multiple) {
+      return files.length ? [files[0]] : [];
+    }
+    return files;
   }
 
   get isAllowed() {
@@ -214,7 +218,6 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
   @action
   didEnterDropzone(event: FileUploadDragEvent) {
     this.dataTransfer = new FileUploadDataTransfer(
-      this.queue,
       event.source,
       event.dataTransfer,
       event.itemDetails

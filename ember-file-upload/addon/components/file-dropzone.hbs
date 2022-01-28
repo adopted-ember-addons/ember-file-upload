@@ -6,12 +6,6 @@
     dragover=this.didDragOver
     drop=this.didDrop
   }}
-  {{update-queue
-    this.queue
-    multiple=@multiple
-    disabled=@disabled
-    onFileAdd=@onFileAdd
-  }}
 >
   {{yield
     (hash supported=this.supported active=this.active)
