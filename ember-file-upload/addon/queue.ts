@@ -1,5 +1,4 @@
 import { action } from '@ember/object';
-import { next } from '@ember/runloop';
 import { modifier, ModifierArgs } from 'ember-modifier';
 import { TrackedArray, TrackedSet } from 'tracked-built-ins';
 import UploadFile, { FileSource, FileState } from './upload-file';
@@ -174,41 +173,6 @@ export default class Queue {
   }
 
   /**
-    @private
-    @method _addFiles
-    @param {FileList} fileList The event triggered from the DOM that contains a list of files
-   */
-  _addFiles(fileList: FileList, source: FileSource) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const onFileAdd = this.onFileAdd;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const disabled = this.disabled;
-    const files: UploadFile[] = [];
-
-    if (!disabled) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
-        const file = fileList.item ? fileList.item(i) : fileList[i];
-        if (file instanceof File) {
-          const uploadFile = new UploadFile(file, source);
-
-          files.push(uploadFile);
-          this.push(uploadFile);
-
-          if (onFileAdd) {
-            next(onFileAdd, uploadFile);
-          }
-        }
-      }
-    }
-
-    return files;
-  }
-
-  /**
    * Flushes the `files` property if they have settled. This
    * will only flush files when all files have arrived at a terminus
    * of their state chart (`uploaded` and `aborted`).
@@ -256,7 +220,7 @@ export default class Queue {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         else if (file instanceof Blob) {
-          uploadFile = UploadFile.fromBlob(file, FileSource.Browse);
+          uploadFile = UploadFile.fromBlob(file, FileSource.Blob);
         }
 
         if (uploadFile) {

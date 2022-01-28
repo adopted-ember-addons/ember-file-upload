@@ -2,11 +2,10 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
 import FileUploadDataTransfer from '../system/data-transfer';
-import parseHTML from '../system/parse-html';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
-import UploadFile from 'ember-file-upload/upload-file';
+import UploadFile, { FileSource } from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import { modifier } from 'ember-modifier';
 
@@ -31,9 +30,6 @@ interface FileDropzoneArgs {
 
   // actions
   filter?: (file: UploadFile) => boolean;
-
-  // events
-  filesSelected?: (files: UploadFile[]) => void;
 
   /**
    * Called when files have entered the dropzone.
@@ -193,9 +189,13 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     return this.fileQueue.findOrCreate(this.args.name ?? DEFAULT_QUEUE);
   }
 
+  get multiple() {
+    return this.args.multiple ?? true;
+  }
+
   get files() {
     const files = this.dataTransfer?.files ?? [];
-    if (!this.args.multiple) {
+    if (!this.multiple) {
       return files.length ? [files[0]] : [];
     }
     return files;
@@ -213,7 +213,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
   }
 
   get cursor() {
-    return this.args.cursor ?? 'move';
+    return this.args.cursor ?? 'copy';
   }
 
   bindListeners = modifier(() => {
@@ -288,77 +288,78 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
       return;
     }
 
-    // Testing support for dragging and dropping images
-    // from other browser windows
-    let url;
+    // TODO - add tests for these or remove them
+    // // Testing support for dragging and dropping images
+    // // from other browser windows
+    // let url;
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const html = this.dataTransfer.getData('text/html');
-    if (html) {
-      const parsedHtml = parseHTML(html);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const img = parsedHtml.getElementsByTagName('img')[0];
-      if (img) {
-        url = img.src;
-      }
-    }
+    // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // // @ts-ignore
+    // const html = this.dataTransfer.getData('text/html');
+    // if (html) {
+    //   const parsedHtml = parseHTML(html);
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   // @ts-ignore
+    //   const img = parsedHtml.getElementsByTagName('img')[0];
+    //   if (img) {
+    //     url = img.src;
+    //   }
+    // }
 
-    if (url == null) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      url = this.dataTransfer.getData('text/uri-list');
-    }
+    // if (url == null) {
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   // @ts-ignore
+    //   url = this.dataTransfer.getData('text/uri-list');
+    // }
 
-    if (url) {
-      const image = new Image();
-      const [filename] = url.split('/').slice(-1);
-      image.crossOrigin = 'anonymous';
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = image.width;
-        canvas.height = image.height;
+    // if (url) {
+    //   const image = new Image();
+    //   const [filename] = url.split('/').slice(-1);
+    //   image.crossOrigin = 'anonymous';
+    //   image.onload = () => {
+    //     const canvas = document.createElement('canvas');
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
 
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(image, 0, 0);
+    //     const ctx = canvas.getContext('2d');
+    //     ctx?.drawImage(image, 0, 0);
 
-        if (canvas.toBlob) {
-          canvas.toBlob((blob) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            const [file] = this.queue._addFiles([blob], 'web');
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            file.name = filename;
-          });
-        } else {
-          const binStr = atob(canvas.toDataURL().split(',')[1]);
-          const len = binStr.length;
-          const arr = new Uint8Array(len);
+    //     if (canvas.toBlob) {
+    //       canvas.toBlob((blob) => {
+    //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //         // @ts-ignore
+    //         const [file] = this.addFiles([blob], FileSource.web);
+    //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //         // @ts-ignore
+    //         file.name = filename;
+    //       });
+    //     } else {
+    //       const binStr = atob(canvas.toDataURL().split(',')[1]);
+    //       const len = binStr.length;
+    //       const arr = new Uint8Array(len);
 
-          for (let i = 0; i < len; i++) {
-            arr[i] = binStr.charCodeAt(i);
-          }
-          const blob = new Blob([arr], { type: 'image/png' });
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          blob.name = filename;
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const [file] = this.queue._addFiles([blob], 'web');
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          file.name = filename;
-        }
-      };
-      /* eslint-disable no-console */
-      image.onerror = function (e) {
-        console.log(e);
-      };
-      /* eslint-enable no-console */
-      image.src = url;
-    }
+    //       for (let i = 0; i < len; i++) {
+    //         arr[i] = binStr.charCodeAt(i);
+    //       }
+    //       const blob = new Blob([arr], { type: 'image/png' });
+    //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //       // @ts-ignore
+    //       blob.name = filename;
+    //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //       // @ts-ignore
+    //       const [file] = this.addFiles([blob], FileSource.web);
+    //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //       // @ts-ignore
+    //       file.name = filename;
+    //     }
+    //   };
+    //   /* eslint-disable no-console */
+    //   image.onerror = function (e) {
+    //     console.log(e);
+    //   };
+    //   /* eslint-enable no-console */
+    //   image.src = url;
+    // }
 
     const files =
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -369,7 +370,12 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     this.active = false;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    this.queue._addFiles(files, 'drag-and-drop');
+    for (const file of files) {
+      if (file instanceof File) {
+        const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
+        this.queue.add(uploadFile);
+      }
+    }
     this.dataTransfer = undefined;
   }
 }
