@@ -217,7 +217,7 @@ export default class Queue {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         else if (file instanceof Blob) {
-          uploadFile = UploadFile.fromBlob(file, FileSource.Blob);
+          uploadFile = UploadFile.fromBlob(file, FileSource.Browse);
         }
 
         if (uploadFile) {

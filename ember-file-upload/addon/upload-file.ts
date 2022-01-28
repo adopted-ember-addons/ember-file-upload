@@ -292,7 +292,7 @@ export default class UploadFile {
    * @returns the file
    */
   static fromBlob(blob: Blob, source = FileSource.Blob) {
-    const file = new File([blob], source, { type: blob.type });
+    const file = new File([blob], 'blob', { type: blob.type });
     return new this(file, source);
   }
 
