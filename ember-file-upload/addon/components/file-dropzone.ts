@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
 import UploadFile from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
+import { modifier } from 'ember-modifier';
 
 interface FileDropzoneArgs {
   queue?: Queue;
@@ -109,7 +110,7 @@ interface FileDropzoneArgs {
   /**
    * @deprecated use `fileAdded()` on queue instead
    */
-  onFileAdd: (file: UploadFile, dataTransfer: FileUploadDataTransfer) => void;
+  onFileAdd: (file: UploadFile) => void;
 }
 
 // TODO type DragListener and migrate these
@@ -213,6 +214,15 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   get cursor() {
     return this.args.cursor ?? 'move';
+  }
+
+  bindListeners = modifier(() => {
+    this.queue.addListener(this);
+    return () => this.queue.removeListener(this);
+  });
+
+  fileAdded(file: UploadFile) {
+    this.args.onFileAdd?.(file);
   }
 
   @action
