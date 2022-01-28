@@ -34,23 +34,23 @@ interface FileDropzoneArgs {
   /**
    * Called when files have entered the dropzone.
    */
-  dragEnter?: (
-    files: UploadFile[],
+  filesEnter?: (
+    files: ItemDetail[],
     dataTransfer: FileUploadDataTransfer
   ) => void;
 
   /**
    * Called when files have left the dropzone.
    */
-  dragLeave?: (
-    files: UploadFile[],
+  filesLeave?: (
+    files: ItemDetail[],
     dataTransfer: FileUploadDataTransfer
   ) => void;
 
   /**
    * Called when file have been dropped on the dropzone.
    */
-  drop?: (files: UploadFile[], dataTransfer: FileUploadDataTransfer) => void;
+  filesDropped?: (files: UploadFile[]) => void;
 
   // old/deprecated API
 
@@ -83,28 +83,28 @@ interface FileDropzoneArgs {
   for?: string;
 
   /**
-   * @deprecated use `dragEnter()` instead
+   * @deprecated use `filesEnter()` instead
    */
   onDragEnter?: (
-    files: UploadFile[],
+    files: ItemDetail[],
     dataTransfer: FileUploadDataTransfer
   ) => void;
 
   /**
-   * @deprecated use `dragLeave()` instead
+   * @deprecated use `filesLeave()` instead
    */
   onDragLeave?: (
-    files: UploadFile[],
+    files: ItemDetail[],
     dataTransfer: FileUploadDataTransfer
   ) => void;
 
   /**
-   * @deprecated use `drop()` instead
+   * @deprecated use `filesDropped()` instead
    */
-  onDrop?: (files: UploadFile[], dataTransfer: FileUploadDataTransfer) => void;
+  onDrop?: (files: File[], dataTransfer: FileUploadDataTransfer) => void;
 
   /**
-   * @deprecated use `fileAdded()` on queue instead
+   * @deprecated use `filesDropped()` instead
    */
   onFileAdd: (file: UploadFile) => void;
 }
@@ -240,6 +240,9 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.args.onDragEnter?.(this.files, this.dataTransfer);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.args.filesEnter?.(this.files, this.dataTransfer);
     }
   }
 
@@ -255,6 +258,10 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.args.onDragLeave?.(this.files, this.dataTransfer);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.args.filesLeave?.(this.files, this.dataTransfer);
+
       this.dataTransfer = undefined;
 
       if (this.isDestroyed) {
@@ -370,12 +377,16 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     this.active = false;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    const uploadFiles = [];
     for (const file of files) {
       if (file instanceof File) {
         const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
+        if (this.args.filter && !this.args.filter(uploadFile)) continue;
         this.queue.add(uploadFile);
+        uploadFiles.push(uploadFile);
       }
     }
+    this.args.filesDropped?.(uploadFiles);
     this.dataTransfer = undefined;
   }
 }
