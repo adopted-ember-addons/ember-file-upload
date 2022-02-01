@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { upload as uploadHandler } from 'ember-file-upload/mirage';
-import UploadFile from 'ember-file-upload/upload-file';
+import UploadFile, { FileSource } from 'ember-file-upload/upload-file';
 
 module('Unit | UploadFile', function (hooks) {
   setupTest(hooks);
@@ -63,5 +63,12 @@ module('Unit | UploadFile', function (hooks) {
         baz: 'baz',
       },
     });
+  });
+
+  test('it allows name to be set', function (assert) {
+    const file = new UploadFile(new File([], 'dingus.txt'), FileSource.Browse);
+    assert.strictEqual(file.name, 'dingus.txt');
+    file.name = 'dangus.txt';
+    assert.strictEqual(file.name, 'dangus.txt');
   });
 });

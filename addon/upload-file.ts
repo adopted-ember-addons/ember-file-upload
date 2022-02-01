@@ -98,14 +98,19 @@ export default class UploadFile {
     return this.#id;
   }
 
+  #name?: string;
+
   /** The file name */
   get name(): string {
-    return this.file?.name;
+    return this.#name ?? this.file?.name;
+  }
+  set name(value: string) {
+    this.#name = value;
   }
 
-  /** The size of the file in bytes. */
   #size = 0;
 
+  /** The size of the file in bytes. */
   get size() {
     return this.#size ?? this.file.size;
   }
