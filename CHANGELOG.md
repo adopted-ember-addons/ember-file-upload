@@ -1,5 +1,15 @@
 
 
+
+## v5.0.0-beta.4 (2022-02-01)
+
+#### :bug: Bug Fix
+* [#681](https://github.com/adopted-ember-addons/ember-file-upload/pull/681) UploadFile: Restore `name` setter ([@gilest](https://github.com/gilest))
+* [#654](https://github.com/adopted-ember-addons/ember-file-upload/pull/654) Bind FileUpload component to the queue with a modifier. Drop `@ember/render-modifiers` ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0-beta.3 (2022-01-26)
 
 #### :bug: Bug Fix
