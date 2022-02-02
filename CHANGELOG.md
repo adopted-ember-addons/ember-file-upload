@@ -1,6 +1,18 @@
 
 
 
+
+## v5.0.0-beta.5 (2022-02-02)
+
+#### :bug: Bug Fix
+* [#682](https://github.com/adopted-ember-addons/ember-file-upload/pull/682) `UploadFile.size` always returns 0 ([@jrjohnson](https://github.com/jrjohnson))
+
+#### :house: Internal
+* [#664](https://github.com/adopted-ember-addons/ember-file-upload/pull/664) Clear mirage deprecations ([@jrjohnson](https://github.com/jrjohnson))
+
+#### Committers: 1
+- Jon Johnson ([@jrjohnson](https://github.com/jrjohnson))
+
 ## v5.0.0-beta.4 (2022-02-01)
 
 #### :bug: Bug Fix
