@@ -71,4 +71,13 @@ module('Unit | UploadFile', function (hooks) {
     file.name = 'dangus.txt';
     assert.strictEqual(file.name, 'dangus.txt');
   });
+
+  test('it reads the size and allows it to be set', function (assert) {
+    const file = UploadFile.fromBlob(new Blob(['test text'], { type: 'text' }));
+    assert.strictEqual(file.size, 9);
+    assert.strictEqual(file.file.size, 9);
+    file.size = 13;
+    assert.strictEqual(file.size, 13);
+    assert.strictEqual(file.file.size, 9);
+  });
 });

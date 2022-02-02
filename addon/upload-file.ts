@@ -112,7 +112,7 @@ export default class UploadFile {
 
   /** The size of the file in bytes. */
   get size() {
-    return this.#size ?? this.file.size;
+    return this.#size || this.file.size;
   }
 
   set size(value) {
