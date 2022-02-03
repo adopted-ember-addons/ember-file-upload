@@ -3,6 +3,11 @@ const funnel = require('broccoli-funnel');
 
 module.exports = {
   name: require('./package').name,
+  options: {
+    autoImport: {
+      exclude: ['miragejs'],
+    },
+  },
   included(app) {
     let config = app.project.config();
 
