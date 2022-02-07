@@ -2,6 +2,15 @@
 
 
 
+
+## v5.0.0-beta.6 (2022-02-07)
+
+#### :bug: Bug Fix
+* [#684](https://github.com/adopted-ember-addons/ember-file-upload/pull/684) Exclude miragejs from ember-auto-import ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0-beta.5 (2022-02-02)
 
 #### :bug: Bug Fix
