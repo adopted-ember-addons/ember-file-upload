@@ -50,13 +50,6 @@ interface FileUploadArgs {
    * @deprecated use `filesSelected()` instead
    */
   onFileAdd: (file: UploadFile) => void;
-
-  // @TODO remove `onSelect` in favor of `filter()` - it never was officially
-  // of public API
-  /**
-   * @deprecated use `filter()` instead
-   */
-  onSelect?: (files: UploadFile[]) => UploadFile[];
 }
 
 /**

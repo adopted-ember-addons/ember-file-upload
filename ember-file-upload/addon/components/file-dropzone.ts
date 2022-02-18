@@ -36,7 +36,7 @@ interface FileDropzoneArgs {
   /**
    * Called when files have entered the dropzone.
    */
-  filesEnter?: (
+  onDragEnter?: (
     files: File[] | DataTransferItem[],
     dataTransfer: DataTransferWrapper
   ) => void;
@@ -44,7 +44,7 @@ interface FileDropzoneArgs {
   /**
    * Called when files have left the dropzone.
    */
-  filesLeave?: (
+  onDragLeave?: (
     files: File[] | DataTransferItem[],
     dataTransfer: DataTransferWrapper
   ) => void;
@@ -52,7 +52,7 @@ interface FileDropzoneArgs {
   /**
    * Called when file have been dropped on the dropzone.
    */
-  filesDropped?: (files: UploadFile[]) => void;
+  onDrop?: (files: UploadFile[], dataTransfer: DataTransferWrapper) => void;
 
   // old/deprecated API
 
@@ -85,31 +85,7 @@ interface FileDropzoneArgs {
   for?: string;
 
   /**
-   * @deprecated use `filesEnter()` instead
-   */
-  onDragEnter?: (
-    files: File[] | DataTransferItem[],
-    dataTransfer: DataTransferWrapper
-  ) => void;
-
-  /**
-   * @deprecated use `filesLeave()` instead
-   */
-  onDragLeave?: (
-    files: File[] | DataTransferItem[],
-    dataTransfer: DataTransferWrapper
-  ) => void;
-
-  /**
-   * @deprecated use `filesDropped()` instead
-   */
-  onDrop?: (
-    files: File[] | DataTransferItem[],
-    dataTransfer: DataTransferWrapper
-  ) => void;
-
-  /**
-   * @deprecated use `filesDropped()` instead
+   * @deprecated use `onDrop()` instead
    */
   onFileAdd: (file: UploadFile) => void;
 }
@@ -205,7 +181,6 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
       this.active = true;
 
       this.args.onDragEnter?.(this.files, this.dataTransferWrapper);
-      this.args.filesEnter?.(this.files, this.dataTransferWrapper);
     }
   }
 
@@ -219,7 +194,6 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         event.dataTransfer.dropEffect = this.cursor;
       }
       this.args.onDragLeave?.(this.files, this.dataTransferWrapper);
-      this.args.filesLeave?.(this.files, this.dataTransferWrapper);
 
       this.dataTransferWrapper = undefined;
 
@@ -326,13 +300,8 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     // }
 
     if (this.dataTransferWrapper) {
-      // @TODO stop filtering files based on the output of onDrop
-      // in  favor of `filter()` - it never was officially public API
-      const files =
-        this.args.onDrop?.(this.files, this.dataTransferWrapper) ?? this.files;
-
-      const addedFiles = this.addFiles(files);
-      this.args.filesDropped?.(addedFiles);
+      const addedFiles = this.addFiles(this.files);
+      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
 
       this.active = false;
       this.dataTransferWrapper = undefined;
