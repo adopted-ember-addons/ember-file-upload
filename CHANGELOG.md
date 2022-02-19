@@ -3,6 +3,18 @@
 
 
 
+
+## v5.0.0-beta.7 (2022-02-19)
+
+#### :bug: Bug Fix
+* [#700](https://github.com/adopted-ember-addons/ember-file-upload/pull/700) FileUpload: Defer onFileAdd callback ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#685](https://github.com/adopted-ember-addons/ember-file-upload/pull/685) Renovate: Ignore Ember type definitions ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0-beta.6 (2022-02-07)
 
 #### :bug: Bug Fix
