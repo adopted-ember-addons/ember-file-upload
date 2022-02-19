@@ -35,6 +35,22 @@ module('Integration | Component | FileUpload', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
+  test('uploading multiple files defers onFileAdd callback until all files are added', async function (assert) {
+    this.onFileAdd = (file) => assert.step(file.queue.files.length.toString());
+
+    await render(
+      hbs`<FileUpload @name="test" @onFileAdd={{this.onFileAdd}} />`
+    );
+
+    await selectFiles(
+      'input[type="file"]',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
+
+    assert.verifySteps(['2', '2']);
+  });
+
   test('only calls onFileAdd for filtered files', async function (assert) {
     this.filter = (file) => {
       assert.step(`filter: ${file.name}`);

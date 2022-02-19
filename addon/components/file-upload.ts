@@ -5,6 +5,7 @@ import UploadFile from 'ember-file-upload/upload-file';
 import Queue from '../queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import { guidFor } from '@ember/object/internals';
+import { next } from '@ember/runloop';
 
 interface FileUploadArgs {
   queue?: Queue;
@@ -117,6 +118,6 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
   });
 
   fileAdded(file: UploadFile) {
-    this.args.onFileAdd?.(file);
+    if (this.args.onFileAdd) next(this, this.args.onFileAdd, file);
   }
 }
