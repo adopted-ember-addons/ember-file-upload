@@ -71,6 +71,8 @@ export default class Queue {
    * `abort` method, the file will fail to upload, but will
    * be removed from the requeuing proccess, and will be
    * considered to be in a settled state.
+   *
+   * @defaultValue []
    */
   get files(): UploadFile[] {
     return [...this.#distinctFiles.values()];
