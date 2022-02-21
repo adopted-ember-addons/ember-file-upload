@@ -3,6 +3,7 @@ import { modifier, ModifierArgs } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
 import UploadFile, { FileSource, FileState } from './upload-file';
 import FileQueueService from './services/file-queue';
+import { deprecate } from '@ember/debug';
 
 export interface SelectFileModifierArgs extends ModifierArgs {
   named: {
@@ -127,9 +128,19 @@ export default class Queue {
     this.#listeners.delete(listener);
   }
 
-  /** @deprecated use `add()` instead */
+  /** @deprecated Use `add()` instead. */
   @action
   push(file: UploadFile) {
+    deprecate(
+      `\`Queue.push\` is deprecated. Use \`Queue.add\` instead.`,
+      false,
+      {
+        for: 'ember-file-upload',
+        id: 'queue.push',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
     this.add(file);
   }
 
