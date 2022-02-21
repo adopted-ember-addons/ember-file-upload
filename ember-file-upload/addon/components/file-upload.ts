@@ -14,7 +14,7 @@ interface FileUploadArgs {
   filter?: (file: UploadFile) => boolean;
 
   // events
-  filesSelected?: (files: UploadFile[]) => void;
+  onFilesSelected?: (files: UploadFile[]) => void;
 
   // old/deprecated API
 
@@ -47,7 +47,7 @@ interface FileUploadArgs {
   for?: string;
 
   /**
-   * @deprecated use `filesSelected()` instead
+   * @deprecated use `onFilesSelected()` instead
    */
   onFileAdd: (file: UploadFile) => void;
 }

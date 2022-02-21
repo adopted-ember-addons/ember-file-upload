@@ -7,7 +7,7 @@ import FileQueueService from './services/file-queue';
 export interface SelectFileModifierArgs extends ModifierArgs {
   named: {
     filter?: (file: File) => boolean;
-    filesSelected?: (files: UploadFile[]) => void;
+    onFilesSelected?: (files: UploadFile[]) => void;
   };
 }
 
@@ -226,7 +226,7 @@ export default class Queue {
         }
       }
 
-      named.filesSelected?.(selectedFiles);
+      named.onFilesSelected?.(selectedFiles);
 
       // this will reset the input, so the _same_ file can be picked again
       // Without, the `change` event wouldn't be fired, as it is still the same

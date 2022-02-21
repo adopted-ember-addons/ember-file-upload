@@ -39,7 +39,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     await render(hbs`
       {{#let (file-queue) as |queue|}}
         <label>
-          <input type="file" {{queue.selectFile filesSelected=this.selectFiles}} hidden>
+          <input type="file" {{queue.selectFile onFilesSelected=this.selectFiles}} hidden>
           Select File
         </label>
       {{/let}}

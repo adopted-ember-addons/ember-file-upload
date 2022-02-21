@@ -12,7 +12,7 @@
     multiple={{@multiple}}
     disabled={{@disabled}}
     hidden
-    {{this.queue.selectFile filter=@filter filesSelected=@filesSelected}}
+    {{this.queue.selectFile filter=@filter onFilesSelected=@onFilesSelected}}
   />
 
   {{yield this.queue}}
