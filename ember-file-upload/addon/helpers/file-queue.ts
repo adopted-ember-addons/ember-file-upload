@@ -8,8 +8,8 @@ import { DEFAULT_QUEUE } from '../services/file-queue';
 
 interface FileQueueArgs {
   name?: string;
-  fileAdded?: (file: UploadFile) => void;
-  fileRemoved?: (file: UploadFile) => void;
+  onFileAdded?: (file: UploadFile) => void;
+  onFileRemoved?: (file: UploadFile) => void;
 }
 
 /**
@@ -53,11 +53,11 @@ export default class FileQueueHelper extends Helper implements QueueListener {
     return queue;
   }
 
-  fileAdded(file: UploadFile) {
-    this.args.fileAdded?.(file);
+  onFileAdded(file: UploadFile) {
+    this.args.onFileAdded?.(file);
   }
 
-  fileRemoved(file: UploadFile) {
-    this.args.fileRemoved?.(file);
+  onFileRemoved(file: UploadFile) {
+    this.args.onFileRemoved?.(file);
   }
 }

@@ -110,7 +110,7 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
     return () => this.queue.removeListener(this);
   });
 
-  fileAdded(file: UploadFile) {
+  onFileAdded(file: UploadFile) {
     if (this.args.onFileAdd) next(this, this.args.onFileAdd, file);
   }
 }

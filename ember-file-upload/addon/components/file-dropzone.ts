@@ -168,7 +168,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     return () => this.queue.removeListener(this);
   });
 
-  fileAdded(file: UploadFile) {
+  onFileAdded(file: UploadFile) {
     this.args.onFileAdd?.(file);
   }
 

@@ -12,8 +12,8 @@ export interface SelectFileModifierArgs extends ModifierArgs {
 }
 
 export interface QueueListener {
-  fileAdded?(file: UploadFile): void;
-  fileRemoved?(file: UploadFile): void;
+  onFileAdded?(file: UploadFile): void;
+  onFileRemoved?(file: UploadFile): void;
 }
 
 export type QueueName = string | symbol;
@@ -147,7 +147,7 @@ export default class Queue {
     this.#distinctFiles.add(file);
 
     for (const listener of this.#listeners) {
-      listener.fileAdded?.(file);
+      listener.onFileAdded?.(file);
     }
   }
 
@@ -165,7 +165,7 @@ export default class Queue {
     this.#distinctFiles.delete(file);
 
     for (const listener of this.#listeners) {
-      listener.fileRemoved?.(file);
+      listener.onFileRemoved?.(file);
     }
   }
 
