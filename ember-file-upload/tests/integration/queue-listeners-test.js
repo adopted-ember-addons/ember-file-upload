@@ -31,7 +31,7 @@ module('Integration | queue listeners', function (hooks) {
     ]);
   };
 
-  test('attaches and detaches filesSelected from queue', async function (assert) {
+  test('attaches and detaches onFilesSelected from queue', async function (assert) {
     assert.expect(3);
     setupState.bind(this)();
 
@@ -46,12 +46,12 @@ module('Integration | queue listeners', function (hooks) {
       {{#if this.state.firstComponent}}
         <FileUpload
           @queue={{this.queue}}
-          @filesSelected={{this.firstListener}}
+          @onFilesSelected={{this.firstListener}}
         />
       {{else}}
         <FileUpload
           @queue={{this.queue}}
-          @filesSelected={{this.secondListener}}
+          @onFilesSelected={{this.secondListener}}
         />
       {{/if}}
     `);

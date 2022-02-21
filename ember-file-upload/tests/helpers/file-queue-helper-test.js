@@ -39,7 +39,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     await render(hbs`
       {{#let (file-queue) as |queue|}}
         <label>
-          <input type="file" {{queue.selectFile filesSelected=this.selectFiles}} hidden>
+          <input type="file" {{queue.selectFile onFilesSelected=this.selectFiles}} hidden>
           Select File
         </label>
       {{/let}}
@@ -81,7 +81,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.removeFile = (file) => assert.step(`file removed: ${file.name}`);
 
     await render(hbs`
-      {{#let (file-queue fileAdded=this.addFile fileRemoved=this.removeFile) as |queue|}}
+      {{#let (file-queue onFileAdded=this.addFile onFileRemoved=this.removeFile) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>
           {{file.name}}
@@ -127,7 +127,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     };
 
     await render(hbs`
-      {{#let (file-queue fileAdded=this.uploadImage) as |queue|}}
+      {{#let (file-queue onFileAdded=this.uploadImage) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>
           {{file.name}}

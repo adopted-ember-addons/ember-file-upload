@@ -7,13 +7,13 @@ import FileQueueService from './services/file-queue';
 export interface SelectFileModifierArgs extends ModifierArgs {
   named: {
     filter?: (file: File) => boolean;
-    filesSelected?: (files: UploadFile[]) => void;
+    onFilesSelected?: (files: UploadFile[]) => void;
   };
 }
 
 export interface QueueListener {
-  fileAdded?(file: UploadFile): void;
-  fileRemoved?(file: UploadFile): void;
+  onFileAdded?(file: UploadFile): void;
+  onFileRemoved?(file: UploadFile): void;
 }
 
 export type QueueName = string | symbol;
@@ -147,7 +147,7 @@ export default class Queue {
     this.#distinctFiles.add(file);
 
     for (const listener of this.#listeners) {
-      listener.fileAdded?.(file);
+      listener.onFileAdded?.(file);
     }
   }
 
@@ -165,7 +165,7 @@ export default class Queue {
     this.#distinctFiles.delete(file);
 
     for (const listener of this.#listeners) {
-      listener.fileRemoved?.(file);
+      listener.onFileRemoved?.(file);
     }
   }
 
@@ -226,7 +226,7 @@ export default class Queue {
         }
       }
 
-      named.filesSelected?.(selectedFiles);
+      named.onFilesSelected?.(selectedFiles);
 
       // this will reset the input, so the _same_ file can be picked again
       // Without, the `change` event wouldn't be fired, as it is still the same
