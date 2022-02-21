@@ -5,6 +5,7 @@
   ],
   "resolutions": {
     "ember-auto-import": "^2.0.0",
-    "ember-cli-babel": "^7.26.6"
+    "ember-cli-babel": "^7.26.6",
+    "ember-cli-typescript": "^5.0.0"
   }
 }
