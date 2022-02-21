@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
-import { next } from '@ember/runloop';
 import { modifier, ModifierArgs } from 'ember-modifier';
-import { TrackedArray, TrackedSet } from 'tracked-built-ins';
+import { TrackedSet } from 'tracked-built-ins';
 import UploadFile, { FileSource, FileState } from './upload-file';
 import FileQueueService from './services/file-queue';
 
@@ -75,9 +74,6 @@ export default class Queue {
   get files(): UploadFile[] {
     return [...this.#distinctFiles.values()];
   }
-
-  // @TODO: Is this needed? I think, this is what each dropzone needs to manage
-  _dropzones = new TrackedArray([]);
 
   /**
    * The total size of all files currently being uploaded in bytes.
@@ -171,41 +167,6 @@ export default class Queue {
     for (const listener of this.#listeners) {
       listener.fileRemoved?.(file);
     }
-  }
-
-  /**
-    @private
-    @method _addFiles
-    @param {FileList} fileList The event triggered from the DOM that contains a list of files
-   */
-  _addFiles(fileList: FileList, source: FileSource) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const onFileAdd = this.onFileAdd;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const disabled = this.disabled;
-    const files: UploadFile[] = [];
-
-    if (!disabled) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      for (let i = 0, len = fileList.length || fileList.size; i < len; i++) {
-        const file = fileList.item ? fileList.item(i) : fileList[i];
-        if (file instanceof File) {
-          const uploadFile = new UploadFile(file, source);
-
-          files.push(uploadFile);
-          this.push(uploadFile);
-
-          if (onFileAdd) {
-            next(onFileAdd, uploadFile);
-          }
-        }
-      }
-    }
-
-    return files;
   }
 
   /**
