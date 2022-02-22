@@ -6,6 +6,7 @@ import Queue from '../queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import { guidFor } from '@ember/object/internals';
 import { next } from '@ember/runloop';
+import { deprecate } from '@ember/debug';
 
 interface FileUploadArgs {
   queue?: Queue;
@@ -18,36 +19,38 @@ interface FileUploadArgs {
 
   // old/deprecated API
 
-  /** @deprecated use `queue` instead */
+  /**
+   * @deprecated Use `@queue` instead.
+   */
   name?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
    */
   multiple?: boolean;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
    */
   disabled?: boolean;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
    */
   accept?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
    */
   capture?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
    */
   for?: string;
 
   /**
-   * @deprecated use `onFilesSelected()` instead
+   * @deprecated Use `onFileAdded` with {{file-queue}} helper or `@onDrop`.
    */
   onFileAdd: (file: UploadFile) => void;
 }
@@ -88,10 +91,25 @@ interface FileUploadArgs {
  * }
  * ```
  *
- * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+ * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
  */
 export default class FileUploadComponent extends Component<FileUploadArgs> {
   @service declare fileQueue: FileQueueService;
+
+  constructor(owner: unknown, args: FileUploadArgs) {
+    super(owner, args);
+
+    deprecate(
+      `\`<FileUpload>\` is deprecated. Use \`{{file-queue}}\` helper with \`{{queue.selectFile}}\` modifier.`,
+      false,
+      {
+        for: 'ember-file-upload',
+        id: 'file-upload',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+  }
 
   get queue() {
     if (this.args.queue) {
