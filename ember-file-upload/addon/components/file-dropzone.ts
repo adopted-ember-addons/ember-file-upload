@@ -10,6 +10,8 @@ import Queue from '../queue';
 import UploadFile, { FileSource } from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import { modifier } from 'ember-modifier';
+import { deprecate } from '@ember/debug';
+import { isPresent } from '@ember/utils';
 
 interface FileDropzoneArgs {
   queue?: Queue;
@@ -18,6 +20,8 @@ interface FileDropzoneArgs {
    * Whether users can upload content from websites by dragging images from
    * another webpage and dropping it into your app. The default is `false`
    * to prevent cross-site scripting issues.
+   *
+   * @defaulValue false
    * */
   allowUploadsFromWebsites?: boolean;
 
@@ -27,8 +31,19 @@ interface FileDropzoneArgs {
    *
    * Corresponds to `DataTransfer.dropEffect`.
    * (https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect)
+   *
+   * @defaultValue 'copy'
    */
   cursor?: 'link' | 'none' | 'copy' | 'move';
+
+  /**
+   * Whether to add multiple files to the queue at once.
+   *
+   * If set to false only one file will be added when dropping mulitple files.
+   *
+   * @defaultValue true
+   */
+  multiple?: boolean;
 
   // actions
   filter?: (file: File, files: File[], index: number) => boolean;
@@ -51,35 +66,32 @@ interface FileDropzoneArgs {
   // old/deprecated API
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Use `@filter` instead.
    */
   accept?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated If necessary, disable uploads in your own implementation.
    */
   disabled?: boolean;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
-   */
-  multiple?: boolean;
-
-  /** @deprecated use `queue` instead */
+   * @deprecated Use `@queue` instead.
+   * */
   name?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Can be removed as it is non-functional.
    */
   capture?: string;
 
   /**
-   * @deprecated use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier
+   * @deprecated Can be removed as it is non-functional.
    */
   for?: string;
 
   /**
-   * @deprecated use `onDrop()` instead
+   * @deprecated Use `onFileAdded` with {{file-queue}} helper or `@onDrop`.
    */
   onFileAdd: (file: UploadFile) => void;
 }
@@ -122,6 +134,77 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     typeof window !== 'undefined' &&
     window.document &&
     'draggable' in document.createElement('span'))();
+
+  constructor(owner: unknown, args: FileDropzoneArgs) {
+    super(owner, args);
+
+    deprecate(
+      `\`@accept\` is deprecated. Use \`@filter\` instead.`,
+      !isPresent(args.accept),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.accept',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+        url: 'https://github.com/adopted-ember-addons/ember-file-upload/blob/master/docs/validation.md',
+      }
+    );
+
+    deprecate(
+      `\`@disabled\` is deprecated. If necessary, disable uploads in your own implementation.`,
+      !isPresent(args.disabled),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.disabled',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+
+    deprecate(
+      `\`@name\` is deprecated. Use \`@queue\` instead.`,
+      !isPresent(args.name),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.name',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+
+    deprecate(
+      `\`@capture\` is deprecated. It can be removed as it is non-functional.`,
+      !isPresent(args.capture),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.capture',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+
+    deprecate(
+      `\`@for\` is deprecated. It can be removed as it is non-functional.`,
+      !isPresent(args.for),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.for',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+
+    deprecate(
+      `\`@onFileAdd\` is deprecated. Use \`onFileAdded\` with {{file-queue}} helper or \`@onDrop\`.`,
+      !isPresent(args.onFileAdd),
+      {
+        for: 'ember-file-upload',
+        id: 'file-dropzone.on-file-add',
+        since: { enabled: 'v5.0.0' },
+        until: 'v6.0.0',
+      }
+    );
+  }
 
   get queue() {
     if (this.args.queue) {
