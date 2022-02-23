@@ -4,6 +4,7 @@
   ...attributes
   {{this.bindListeners}}
 >
+  {{~!~}}
   <input
     id={{this.for}}
     type="file"
@@ -15,6 +16,6 @@
     {{this.queue.selectFile filter=@filter onFilesSelected=@onFilesSelected}}
   />
 
-  {{yield this.queue}}
+  {{~yield this.queue~}}
 </label>
-
+{{~!~}}
