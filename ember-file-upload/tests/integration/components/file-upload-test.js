@@ -91,4 +91,10 @@ module('Integration | Component | FileUpload', function (hooks) {
     assert.dom('input[type="file"]').hasAttribute('disabled');
     assert.dom('input[type="file"]').hasAttribute('capture');
   });
+
+  test('renders with inline display', async function (assert) {
+    await render(hbs`(<FileUpload>label</FileUpload>)`);
+
+    assert.dom(this.element).hasText('(label)');
+  });
 });
