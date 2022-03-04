@@ -4,6 +4,27 @@
 
 
 
+
+## v5.0.0-beta.8 (2022-03-04)
+
+#### :boom: Breaking Change
+* [#705](https://github.com/adopted-ember-addons/ember-file-upload/pull/705) Prefix all callbacks with `on` ([@gilest](https://github.com/gilest))
+
+#### :rocket: Enhancement
+* [#678](https://github.com/adopted-ember-addons/ember-file-upload/pull/678) Update FileDropzone API ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#711](https://github.com/adopted-ember-addons/ember-file-upload/pull/711) Remove whitespace when rendering FileUpload ([@nwhittaker](https://github.com/nwhittaker))
+
+#### :house: Internal
+* [#710](https://github.com/adopted-ember-addons/ember-file-upload/pull/710) Restore project-wide doc files to repository root ([@nwhittaker](https://github.com/nwhittaker))
+* [#675](https://github.com/adopted-ember-addons/ember-file-upload/pull/675) Move into a monorepo ([@gossi](https://github.com/gossi))
+
+#### Committers: 3
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Nathan Whittaker ([@nwhittaker](https://github.com/nwhittaker))
+- Thomas Gossmann ([@gossi](https://github.com/gossi))
+
 ## v5.0.0-beta.7 (2022-02-19)
 
 #### :bug: Bug Fix
