@@ -3,6 +3,7 @@
   "workspaces": [
     "ember-file-upload"
   ],
+  "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "resolutions": {
     "ember-auto-import": "^2.0.0",
     "ember-cli-babel": "^7.26.6",
