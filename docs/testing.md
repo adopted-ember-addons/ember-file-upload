@@ -1,27 +1,52 @@
-# Acceptance Tests
+# Testing
 
-`ember-file-upload` provides a `selectFiles` helper for acceptance and integration tests:
+## `queue.selectFiles` modifer
 
-```javascript
-import { selectFiles } from 'ember-file-upload/test-support';
+Use the `selectFiles` helper to simulate a user choosing one or more files from a file input.
+
+```js
 import { module } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
+import { selectFiles } from 'ember-file-upload/test-support';
 
-module('/notes', function(hooks) {
+module('Acceptance | uploading notes', function(hooks) {
   setupApplicationTest(hooks);
 
-  test('showing a note', async function (assert) {
+  test('uploading a note', async function (assert) {
     let file = new File(['I can feel the money leaving my body'], 'douglas_coupland.txt', { type: 'text/plain' });
-    await selectFiles('#upload-note', file);
+    await selectFiles('input[type=file]', file);
 
     assert.dom('.note').hasText('I can feel the money leaving my body');
   });
 });
 ```
 
-It also integrates with `ember-cli-mirage` through an upload handler. This helper provides a way to realistically simulate file uploads, including progress events and failure states.
+## `<FileDropzone>` component
 
-```javascript
+Similarly the `dragAndDrop` helper is available to simulate a user dropping one or more files onto a `<FileDropzone>`.
+
+```js
+import { module } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { dragAndDrop } from 'ember-file-upload/test-support';
+
+module('Acceptance | drag and drop upload notes', function(hooks) {
+  setupApplicationTest(hooks);
+
+  test('drag and drop uploading a note', async function (assert) {
+    let file = new File(['I can feel the money leaving my body'], 'douglas_coupland.txt', { type: 'text/plain' });
+    await dragAndDrop('input[type=file]', file);
+
+    assert.dom('.note').hasText('I can feel the money leaving my body');
+  });
+});
+```
+
+## Mirage `upload` handler
+
+A mirage handler is provided which can realistically simulate file uploads, including progress events and failure states.
+
+```js
 // mirage/config.js
 
 import { upload } from 'ember-file-upload/mirage';
@@ -35,7 +60,7 @@ export default function () {
 }
 ```
 
-```javascript
+```js
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -64,7 +89,7 @@ module('/photos', function(hooks) {
 
 The upload handler only works with valid images. You could create dummy images for tests using a `canvas` element:
 
-```javascript
+```js
 function getImageBlob() {
   return new Promise((resolve) => {
     let canvas = document.createElement('canvas');
