@@ -20,9 +20,9 @@ interface FileQueueArgs {
  * using the default queue (no `name` property)
  *
  * ```hbs
- * {{#with (file-queue) as |queue|}}
+ * {{#let (file-queue) as |queue|}}
  *   {{queue.progress}}%
- * {{/with}}
+ * {{/let}}
  * ```
  *
  * @example
@@ -30,9 +30,9 @@ interface FileQueueArgs {
  * named queue:
  *
  * ```hbs
- * {{#with (file-queue name="photos") as |queue|}}
+ * {{#let (file-queue name="photos") as |queue|}}
  *   {{queue.progress}}%
- * {{/with}}
+ * {{/let}}
  * ```
  */
 export default class FileQueueHelper extends Helper implements QueueListener {
