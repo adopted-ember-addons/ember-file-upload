@@ -1,43 +1,11 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":preserveSemverRanges",
+    ":maintainLockFilesWeekly"
   ],
-  "ignoreDeps": [
-    "@ember/optional-features",
-    "@types/ember__application",
-    "@types/ember__array",
-    "@types/ember__component",
-    "@types/ember__controller",
-    "@types/ember__debug",
-    "@types/ember__destroyable",
-    "@types/ember__engine",
-    "@types/ember__error",
-    "@types/ember__object",
-    "@types/ember__polyfills",
-    "@types/ember__routing",
-    "@types/ember__runloop",
-    "@types/ember__service",
-    "@types/ember__string",
-    "@types/ember__template",
-    "@types/ember__test",
-    "@types/ember__utils",
-    "broccoli-asset-rev",
-    "ember-cli-babel",
-    "ember-cli-dependency-checker",
-    "ember-cli-htmlbars",
-    "ember-cli-inject-live-reload",
-    "ember-cli",
-    "ember-data",
-    "ember-load-initializers",
-    "ember-maybe-import-regenerator",
-    "ember-qunit",
-    "ember-resolver",
-    "ember-source",
-    "eslint-plugin-ember",
-    "loader.js",
-    "qunit-dom"
-  ],
+  "lockFileMaintenance": {
+    "automerge": true
+  },
   "postUpdateOptions": ["yarnDedupeFewer"],
-  "rangeStrategy": "update-lockfile"
 }
-
