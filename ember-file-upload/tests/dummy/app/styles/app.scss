@@ -1,3 +1,10 @@
+label[for=upload-photo] {
+  background-color: #666;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 2px;
+}
+
 .demo-dropzone {
   .dropzone-upload-area {
     display: flex;

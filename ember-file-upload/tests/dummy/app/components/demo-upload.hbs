@@ -14,12 +14,20 @@
 
         <p>
           {{#if dropzone.supported}}
-            Drag image, video or audio files here or
+            Drag image, video or audio files here to upload.
           {{/if}}
-          <FileUpload @for="upload-photo" @queue={{queue}} @multiple={{true}} @accept="image/*,video/*,audio/*">
-            <a {{!template-lint-disable link-href-attributes}}>choose files</a>
-          </FileUpload>
-          to upload.
+        </p>
+        <p>
+          <label for="upload-photo">
+            Or choose a file:
+            <input
+              type="file"
+              id="upload-photo"
+              accept="image/*,video/*,audio/*"
+              multiple
+              {{queue.selectFile}}
+            >
+          </label>
         </p>
 
         {{#if queue.files.length}}
