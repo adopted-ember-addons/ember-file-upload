@@ -18,9 +18,9 @@ Uploads can be managed through queues and continue in the background, even after
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
 * Strict Content Security Policy (CSP) except for mirage route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
 
-## Installation
+## Upgrading
 
-* `ember install ember-file-upload`
+See: [Upgrading to v5](docs/upgrade-guide.md#upgrading-to-v5).
 
 ## Contributing
 
