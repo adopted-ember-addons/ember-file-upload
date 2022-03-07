@@ -4,7 +4,7 @@ import RSVP from 'rsvp';
   Provides a promise-aware interface for reading files.
 
   ```js
-  import File from 'ember-file-upload/file';
+  import UploadFile from 'ember-file-upload/upload-file';
   import FileReader from 'ember-file-upload/system/file-reader';
 
   let reader = new FileReader();

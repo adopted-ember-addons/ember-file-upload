@@ -99,3 +99,14 @@ This technique is not necessarily endorsed, but it may be replicated with the fo
   </FileDropzone>
 {{/let}}
 ```
+
+### `File` class
+
+The `File` class has been renamed to `UploadFile`. This is to avoid conflict and confusion with the [native File class](https://developer.mozilla.org/en-US/docs/Web/API/File).
+
+```js
+// v4
+import File from 'ember-file-upload/file';
+// v5
+import UploadFile from 'ember-file-upload/upload-file';
+```
