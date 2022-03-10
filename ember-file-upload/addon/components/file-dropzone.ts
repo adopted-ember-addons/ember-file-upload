@@ -31,7 +31,7 @@ interface FileDropzoneArgs {
   cursor?: 'link' | 'none' | 'copy' | 'move';
 
   // actions
-  filter?: (file: UploadFile) => boolean;
+  filter?: (file: UploadFile, files: File[] | DataTransferItem[], index: number) => boolean;
 
   /**
    * Called when files have entered the dropzone.
@@ -310,10 +310,11 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   addFiles(files: File[] | DataTransferItem[]) {
     const addedFiles = [];
+    let index = 0;
     for (const file of files) {
       if (file instanceof File) {
         const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
-        if (this.args.filter && !this.args.filter(uploadFile)) continue;
+        if (this.args.filter && !this.args.filter(uploadFile, files, index++)) continue;
         this.queue.add(uploadFile);
         addedFiles.push(uploadFile);
       }

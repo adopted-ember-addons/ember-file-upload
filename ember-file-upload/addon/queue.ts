@@ -6,7 +6,7 @@ import FileQueueService from './services/file-queue';
 
 export interface SelectFileModifierArgs extends ModifierArgs {
   named: {
-    filter?: (file: File) => boolean;
+    filter?: (file: File, files: FileList, index: number) => boolean;
     onFilesSelected?: (files: UploadFile[]) => void;
   };
 }
@@ -204,9 +204,10 @@ export default class Queue {
       }
 
       const selectedFiles: UploadFile[] = [];
+      let index = 0;
 
       for (const file of files) {
-        if (named.filter && !named.filter?.(file)) {
+        if (named.filter && !named.filter?.(file, files, index++)) {
           continue;
         }
 
