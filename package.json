@@ -1,7 +1,8 @@
 {
   "private": "true",
   "workspaces": [
-    "ember-file-upload"
+    "ember-file-upload",
+    "website"
   ],
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "resolutions": {
