@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # Add files via Drag and Drop
 
 For adding files to your queue via Drag and Drop you can use the `<FileDropzone>` component.

@@ -1,3 +1,7 @@
+---
+order: 4
+---
+
 # File validation
 
 ## Accept attribute
