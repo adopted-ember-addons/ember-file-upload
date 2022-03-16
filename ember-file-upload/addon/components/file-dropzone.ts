@@ -31,11 +31,7 @@ interface FileDropzoneArgs {
   cursor?: 'link' | 'none' | 'copy' | 'move';
 
   // actions
-  filter?: (
-    file: File,
-    files: File[],
-    index: number
-  ) => boolean;
+  filter?: (file: File, files: File[], index: number) => boolean;
 
   /**
    * Called when files have entered the dropzone.
