@@ -5,6 +5,24 @@
 
 
 
+
+## v5.0.0-beta.9 (2022-03-18)
+
+#### :rocket: Enhancement
+* [#731](https://github.com/adopted-ember-addons/ember-file-upload/pull/731) Add `files` and `index` to `filter` callback ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#723](https://github.com/adopted-ember-addons/ember-file-upload/pull/723) Add Upgrading to v5 guide ([@gilest](https://github.com/gilest))
+* [#721](https://github.com/adopted-ember-addons/ember-file-upload/pull/721) Rewrite `docs/` markdown files with v5 API and add a support matrix to README ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#722](https://github.com/adopted-ember-addons/ember-file-upload/pull/722) Automate dependency upgrades within SemVer range ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 3
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v5.0.0-beta.8 (2022-03-04)
 
 #### :boom: Breaking Change
