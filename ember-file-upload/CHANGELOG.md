@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 ## v5.0.0-beta.9 (2022-03-18)
 
 #### :rocket: Enhancement
@@ -323,7 +315,7 @@ Please find more details in the [updated documentation for testing](https://adop
 - Maximilian Meier ([@maximilianmeier](https://github.com/maximilianmeier))
 - Tony Miller ([@mcfiredrill](https://github.com/mcfiredrill))
 
-# Ember FileUpload Changelog
+# Ember File Upload Changelog
 
 ## v2.7.0 (2019-05-15)
 
