@@ -19,9 +19,15 @@ module.exports = {
   sources: [
     {
       root: path.resolve(__dirname, '../docs'),
-      pattern: '**/*.md',
+      pattern: '*.md',
       urlSchema: 'manual',
       urlPrefix: 'docs',
+    },
+    {
+      root: path.resolve(__dirname, '../docs/api'),
+      pattern: '*/**.md',
+      urlSchema: 'manual',
+      urlPrefix: 'api',
     },
   ],
 };
