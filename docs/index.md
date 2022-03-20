@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 # Getting started
 
 Ember FileUpload is an ember addon that makes uploading files easy.

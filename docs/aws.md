@@ -1,3 +1,7 @@
+---
+order: 6
+---
+
 # AWS S3 Direct Uploads
 
 If you would like to use the addon to upload directly to S3, you'll need to configure your bucket to accept and expose headers to allow the addon to access your bucket.

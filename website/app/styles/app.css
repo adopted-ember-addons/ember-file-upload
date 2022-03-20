@@ -1,0 +1,34 @@
+main {
+  grid-column-gap: calc(var(--block-spacing-horizontal) * 3);
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+
+body > nav {
+  border-bottom: 1px solid #000;
+}
+
+body > header :where(h1, p) {
+  text-align: center;
+}
+
+body > header h1 ~ p {
+  color: var(--muted-color);
+}
+
+.docfy-demo__description__header {
+  position: relative;
+  min-height: 1.5em;
+}
+
+.docfy-demo__description__header__edit-url {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.75em;
+}
+
+[role='document'] footer {
+  display: flex;
+  justify-content: space-between;
+}

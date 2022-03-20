@@ -1,0 +1,68 @@
+<main class='container'>
+  <DocfyOutput @fromCurrentURL={{true}} as |page|>
+    {{page-title 'Documentation'}}
+    {{page-title page.title}}
+  </DocfyOutput>
+
+  <DocfyOutput @scope='docs' as |node|>
+    <aside>
+      <nav>
+        <ul>
+          {{#each node.pages as |page|}}
+            <li>
+              <DocfyLink @to={{page.url}}>
+                {{page.title}}
+              </DocfyLink>
+            </li>
+          {{/each}}
+
+          {{#each node.children as |child|}}
+            <li>
+              <div>
+                {{child.label}}
+              </div>
+
+              <ul>
+                {{#each child.pages as |page|}}
+                  <li>
+                    <DocfyLink @to={{page.url}}>
+                      {{page.title}}
+                    </DocfyLink>
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+          {{/each}}
+
+        </ul>
+      </nav>
+    </aside>
+  </DocfyOutput>
+
+  <div role='document'>
+    {{outlet}}
+
+    <footer>
+      <DocfyPreviousAndNextPage as |previous next|>
+        <div>
+          {{#if previous}}
+            Previous:
+
+            <DocfyLink @to={{previous.url}}>
+              {{previous.title}}
+            </DocfyLink>
+          {{/if}}
+        </div>
+        <div>
+          {{#if next}}
+            Next:
+
+            <DocfyLink @to={{next.url}}>
+              {{next.title}}
+            </DocfyLink>
+          {{/if}}
+        </div>
+      </DocfyPreviousAndNextPage>
+    </footer>
+  </div>
+</main>

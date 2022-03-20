@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # Uploading files
 
 Bind a [file input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file) to your queue with the `queue.selectFile` modifier. Files selected from the input will be added to your queue. For example:
