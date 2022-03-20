@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  parser: '@babel/eslint-parser',
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -33,6 +33,7 @@ module.exports = {
         './config/**/*.js',
         './lib/*/index.js',
         './server/**/*.js',
+        './.docfy-config.js',
       ],
       parserOptions: {
         sourceType: 'script',

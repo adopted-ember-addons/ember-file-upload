@@ -6,7 +6,7 @@ module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     autoImport: {
       watchDependencies: ['ember-file-upload'],
-    }
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

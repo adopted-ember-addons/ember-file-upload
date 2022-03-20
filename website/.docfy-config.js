@@ -10,7 +10,7 @@ const highlight = require('rehype-highlight');
 module.exports = {
   repository: {
     url: 'https://github.com/adopted-ember-addons/ember-file-upload',
-    editBranch: 'master'
+    editBranch: 'master',
   },
   tocMaxDepth: 3,
   // plugins: [withProse({ className: 'prose dark:prose-light' })],
@@ -21,7 +21,7 @@ module.exports = {
       root: path.resolve(__dirname, '../docs'),
       pattern: '**/*.md',
       urlSchema: 'manual',
-      urlPrefix: 'docs'
-    }
-  ]
+      urlPrefix: 'docs',
+    },
+  ],
 };
