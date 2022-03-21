@@ -1,8 +1,8 @@
 ---
-category: Component
+category: component
 ---
 
-# File Dropzone
+# FileDropzone
 
 `FileDropzone` is a component that will allow users to upload files by
 drag and drop.
