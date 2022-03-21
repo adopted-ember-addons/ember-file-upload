@@ -1,0 +1,33 @@
+---
+category: service
+---
+
+# FileQueue
+
+The `FileQueue` service is a global file queue that manages all files being uploaded.
+
+This service can be used to query the current upload state when a user leaves the app, asking them whether they want to cancel the remaining uploads.
+
+# Service API
+
+The `FileQueue` service provides the following fields.
+
+| Field   | Description                                                                                                    | Type           |
+| ------- | -------------------------------------------------------------------------------------------------------------- | -------------- |
+| `files` | The list of all files in queues. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]` |
+
+The `FileQueue` service provides the following accessors.
+
+| Accessor   | Description                                                                    | Type     |
+| ---------- | ------------------------------------------------------------------------------ | -------- |
+| `size`     | The total size of all files currently being uploaded in bytes.                 | `Number` |
+| `loaded`   | The number of bytes that have been uploaded to the server.                     | `Number` |
+| `progress` | The current progress of all uploads, as a percentage in the range of 0 to 100. | `Number` |
+
+The `FileQueue` service provides the following methods.
+
+| Method         | Description                                                  | Parameters     | Returns              |
+| -------------- | ------------------------------------------------------------ | -------------- | -------------------- |
+| `find`         | Returns a queue with the given name.                         | `name: string` | `Queue \| undefined` |
+| `findOrCreate` | Find or creat a new queue with the given name and return it. | `name: string` | `Queue`              |
+| `create`       | Create a new queue with the given name and return it.        | `name: string` | `Queue` |
