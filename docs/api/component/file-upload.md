@@ -4,7 +4,7 @@ category: component
 
 # FileUpload
 
-⚠️ This component has been deprecated in favour of the `queue.selectFiles` modifier. See: [Upgrading to v5](../../docs/upgrade-guide#fileupload-component).
+⚠️ This component has been deprecated in favour of the `queue.selectFile` modifier. See: [Upgrading to v5](../../docs/upgrade-guide#fileupload-component).
 
 `FileUpload` is a component that allows users to upload files using their browser's file chooser.
 

@@ -20,9 +20,9 @@ The `FileQueue` service provides the following accessors.
 
 | Accessor   | Description                                                                    | Type     |
 | ---------- | ------------------------------------------------------------------------------ | -------- |
-| `size`     | The total size of all files currently being uploaded in bytes.                 | `Number` |
-| `loaded`   | The number of bytes that have been uploaded to the server.                     | `Number` |
-| `progress` | The current progress of all uploads, as a percentage in the range of 0 to 100. | `Number` |
+| `size`     | The total size of all files currently being uploaded in bytes.                 | `number` |
+| `loaded`   | The number of bytes that have been uploaded to the server.                     | `number` |
+| `progress` | The current progress of all uploads, as a percentage in the range of 0 to 100. | `number` |
 
 The `FileQueue` service provides the following methods.
 
@@ -30,4 +30,4 @@ The `FileQueue` service provides the following methods.
 | -------------- | ------------------------------------------------------------ | -------------- | -------------------- |
 | `find`         | Returns a queue with the given name.                         | `name: string` | `Queue \| undefined` |
 | `findOrCreate` | Find or creat a new queue with the given name and return it. | `name: string` | `Queue`              |
-| `create`       | Create a new queue with the given name and return it.        | `name: string` | `Queue` |
+| `create`       | Create a new queue with the given name and return it.        | `name: string` | `Queue`              |

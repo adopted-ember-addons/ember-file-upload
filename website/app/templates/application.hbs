@@ -12,7 +12,7 @@
       <DocfyOutput @scope='api' as |node|>
         {{!-- Dynamically link to first API page --}}
         {{#let node.children.[0].pages.[0] as |page|}}
-          <DocfyLink @to={{page.url}}>API</DocfyLink>
+          <DocfyLink @to={{page.url}}>API Reference</DocfyLink>
         {{/let}}
       </DocfyOutput>
     </li>
