@@ -10,13 +10,13 @@ This service can be used to query the current upload state when a user leaves th
 
 # Service API
 
-The `FileQueue` service provides the following fields.
+## Fields
 
 | Field   | Description                                                                                                    | Type           |
 | ------- | -------------------------------------------------------------------------------------------------------------- | -------------- |
 | `files` | The list of all files in queues. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]` |
 
-The `FileQueue` service provides the following accessors.
+## Accessors
 
 | Accessor   | Description                                                                    | Type     |
 | ---------- | ------------------------------------------------------------------------------ | -------- |
@@ -24,7 +24,7 @@ The `FileQueue` service provides the following accessors.
 | `loaded`   | The number of bytes that have been uploaded to the server.                     | `number` |
 | `progress` | The current progress of all uploads, as a percentage in the range of 0 to 100. | `number` |
 
-The `FileQueue` service provides the following methods.
+## Methods
 
 | Method         | Description                                                  | Parameters     | Returns              |
 | -------------- | ------------------------------------------------------------ | -------------- | -------------------- |

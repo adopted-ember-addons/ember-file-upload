@@ -28,7 +28,7 @@ drag and drop.
 
 # Component API
 
-FileDropzone accepts the following arguments.
+## Arguments
 
 | Argument             | Description                                             | Type      | Default value |
 | -------------------- | ------------------------------------------------------- | --------- | ------------- |
@@ -39,9 +39,9 @@ FileDropzone accepts the following arguments.
 | `@onDragEnter`      | Called when files have left the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
 | `@onDragEnter`      | Called when file have been dropped on the dropzone. | `(files: UploadFile[], dataTransfer: DataTransferWrapper) => void`  |   |
 
-# Block API
+## Properties
 
-FileDropzone yields the following properties.
+Yielded by this component.
 
 | Property             | Description                                             | Type      |
 | -------------------- | ------------------------------------------------------- | --------- |

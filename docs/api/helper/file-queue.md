@@ -24,7 +24,7 @@ If a name is not provided, the default queue will be used.
 
 # Helper API
 
-file-queue accepts the following properties.
+## Arguments
 
 | Argument        | Description                       | Type                         | Default value |
 | --------------- | --------------------------------- | ---------------------------- | ------------- |
@@ -32,9 +32,9 @@ file-queue accepts the following properties.
 | `onFileAdded`   | Called when each file is added.   | `(file: UploadFile) => void` |               |
 | `onFileRemoved` | Called when each file is removed. | `(file: UploadFile) => void` |               |
 
-# Block API
+## Properties
 
-file-queue yields the following properties.
+Yielded by this helpers.
 
 | Property | Description         | Type    |
 | -------- | ------------------- | ------- |

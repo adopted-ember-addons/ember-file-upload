@@ -42,7 +42,7 @@ export default class ExampleComponent extends Component {
 
 # Component API
 
-FileUpload accepts the following arguments.
+## Arguments
 
 | Argument           | Description                                                                        | Type                                                    | Default value |
 | ------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------- |
@@ -50,9 +50,9 @@ FileUpload accepts the following arguments.
 | `@filter`          | Optionally provide this to validate dropped files before adding them to the queue. | `(file: File, files: File[], index: number) => boolean` |               |
 | `@onFilesSelected` | Called when files have been selected.                                              | `(files: UploadFile[]) => void`                         |               |
 
-# Block API
+## Properties
 
-FileUpload yields the following properties.
+Yielded by this component.
 
 | Property | Description                                                | Type    |
 | -------- | ---------------------------------------------------------- | ------- |

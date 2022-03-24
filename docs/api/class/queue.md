@@ -28,7 +28,7 @@ Upload failures can happen due to a timeout or a server response. If you choose 
 
 # Class API
 
-The `Queue` class provides the following fields.
+## Fields
 
 | Field       | Description                                                                                                   | Type           |
 | ----------- | ------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -36,14 +36,14 @@ The `Queue` class provides the following fields.
 | `name`      | The unique identifier of the queue.                                                                           | `string`       |
 | `files`     | The list of files in the queue. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]` |
 
-The `Queue` class provides the following methods.
+## Methods
 
 | Method   | Description                    | Parameters   | Returns |
 | -------- | ------------------------------ | ------------ | ------- |
 | `add`    | Add a file to this queue.      | `UploadFile` |         |
 | `remove` | Remove a file from this queue. | `UploadFile` |         |
 
-The queue class provides the following modifiers.
+## Modifiers
 
 | Modifier     | Description                                   | Parameters                                                                                                      |
 | ------------ | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |

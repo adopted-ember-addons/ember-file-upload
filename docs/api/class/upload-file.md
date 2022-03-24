@@ -48,13 +48,13 @@ The `source` property can be one of the following:
 
 # Class API
 
-The `UploadFile` service provides the following fields.
+## Fields
 
 | Field | Description                          | Type     |
 | ----- | ------------------------------------ | -------- |
 | `id`  | A unique id generated for this file. | `string` |
 
-The `UploadFile` service provides the following accessors.
+## Accessors
 
 | Accessor    | Description                                                                                                                 | Type     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -67,7 +67,7 @@ The `UploadFile` service provides the following accessors.
 | `state`     | The current state that the file is in.                                                                                      | `string` |
 | `source`    | The source of the file. This is useful for applications that want to gather analytics about how users upload their content. | `string` |
 
-The `UploadFile` service provides the following methods.
+## Methods
 
 | Method               | Description                                               | Parameters                                      | Returns            |
 | -------------------- | --------------------------------------------------------- | ----------------------------------------------- | ------------------ |
@@ -78,7 +78,7 @@ The `UploadFile` service provides the following methods.
 | `readAsBinaryString` | Resolves with Blob as binary string                       |                                                 | `Promise`          |
 | `readAsText`         | Resolves with Blob as plain text                          |                                                 | `Promise`          |
 
-The `UploadFile` service provides the following static methods.
+## Static methods
 
 | Method        | Description                                                                        | Parameters                            | Returns      |
 | ------------- | ---------------------------------------------------------------------------------- | ------------------------------------- | ------------ |
