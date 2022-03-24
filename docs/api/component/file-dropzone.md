@@ -28,7 +28,7 @@ drag and drop.
 
 # Component API
 
-FileDropzone accepts the following properties.
+FileDropzone accepts the following arguments.
 
 | Argument             | Description                                             | Type      | Default value |
 | -------------------- | ------------------------------------------------------- | --------- | ------------- |
