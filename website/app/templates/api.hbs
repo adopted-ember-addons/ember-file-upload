@@ -1,0 +1,45 @@
+<main class='container'>
+  <DocfyOutput @fromCurrentURL={{true}} as |page|>
+    {{page-title 'API Reference'}}
+    {{page-title page.title}}
+  </DocfyOutput>
+
+  <DocfyOutput @scope='api' as |node|>
+    <aside>
+      <nav>
+        <ul>
+          {{#each node.pages as |page|}}
+            <li>
+              <DocfyLink @to={{page.url}}>
+                {{page.title}}
+              </DocfyLink>
+            </li>
+          {{/each}}
+
+          {{#each node.children as |child|}}
+            <li>
+              <div>
+                {{titleize child.label}}
+              </div>
+
+              <ul>
+                {{#each child.pages as |page|}}
+                  <li>
+                    <DocfyLink @to={{page.url}}>
+                      {{page.title}}
+                    </DocfyLink>
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+          {{/each}}
+
+        </ul>
+      </nav>
+    </aside>
+  </DocfyOutput>
+
+  <div role='document'>
+    {{outlet}}
+  </div>
+</main>

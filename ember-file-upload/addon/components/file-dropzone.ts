@@ -36,18 +36,12 @@ interface FileDropzoneArgs {
   /**
    * Called when files have entered the dropzone.
    */
-  onDragEnter?: (
-    files: File[] | DataTransferItem[],
-    dataTransfer: DataTransferWrapper
-  ) => void;
+  onDragEnter?: (files: File[], dataTransfer: DataTransferWrapper) => void;
 
   /**
    * Called when files have left the dropzone.
    */
-  onDragLeave?: (
-    files: File[] | DataTransferItem[],
-    dataTransfer: DataTransferWrapper
-  ) => void;
+  onDragLeave?: (files: File[], dataTransfer: DataTransferWrapper) => void;
 
   /**
    * Called when file have been dropped on the dropzone.

@@ -5,7 +5,7 @@ order: 5
 
 # Testing
 
-## `queue.selectFiles` modifer
+## `queue.selectFile` modifer
 
 Use the `selectFiles` helper to simulate a user choosing one or more files from a file input.
 
