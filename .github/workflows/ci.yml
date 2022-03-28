@@ -115,7 +115,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Test
-        run: yarn workspace ember-file-upload test:ember --launch ${{ matrix.browser }}
+        run: yarn workspace test-app test:ember --launch ${{ matrix.browser }}
 
   floating-dependencies:
     name: Floating Dependencies
@@ -155,7 +155,7 @@ jobs:
         run: yarn install --no-lockfile --non-interactive
 
       - name: Test
-        run: yarn workspace ember-file-upload test:ember --launch ${{ matrix.browser }}
+        run: yarn workspace test-app test:ember --launch ${{ matrix.browser }}
 
   try-scenarios:
     name: Tests - ${{ matrix.ember-try-scenario }}
@@ -208,4 +208,4 @@ jobs:
       - name: Test
         env:
           EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-        run: yarn workspace ember-file-upload ember try:one $EMBER_TRY_SCENARIO
+        run: yarn workspace test-app ember try:one $EMBER_TRY_SCENARIO
