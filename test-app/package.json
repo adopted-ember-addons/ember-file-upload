@@ -44,7 +44,7 @@
     "ember-fetch": "^8.1.1",
     "ember-file-upload": "5.0.0-beta.9",
     "ember-load-initializers": "^2.1.2",
-    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-maybe-import-regenerator": "^1.0.0",
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
