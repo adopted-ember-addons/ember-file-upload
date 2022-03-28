@@ -7,9 +7,6 @@ module.exports = function (defaults) {
     autoImport: {
       forbidEval: true,
     },
-    sassOptions: {
-      includePaths: ['tests/dummy/app'],
-    },
   });
 
   /*
