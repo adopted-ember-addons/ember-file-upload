@@ -11,7 +11,7 @@ Uploads can be managed through queues and continue in the background, even after
 | Ember.js  | 3.16 to 3.28  | 3.25 or above |
 | Embroider  | 🤷  | ✅  |
 | ember-auto-import |  | 2.0 or above |
-| Documentation | [Docsite](https://adopted-ember-addons.github.io/ember-file-upload/docs/) | (Docsite WIP) [Doc files](docs/index.md)  |
+| Documentation | [Docsite](https://adopted-ember-addons.github.io/ember-file-upload/docs/) | [Docsite](https://ember-file-upload.pages.dev)  |
 
 * Ember CLI v2.13 or above
 * Node.js v12 or above
@@ -20,7 +20,7 @@ Uploads can be managed through queues and continue in the background, even after
 
 ## Upgrading
 
-See: [Upgrading to v5](docs/upgrade-guide.md#upgrading-to-v5).
+See: [Upgrading to v5](https://ember-file-upload.pages.dev/docs/upgrade-guide#upgrading-to-v5).
 
 ## Contributing
 

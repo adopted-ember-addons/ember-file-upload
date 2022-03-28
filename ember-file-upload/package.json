@@ -6,7 +6,7 @@
     "ember-addon",
     "file-upload"
   ],
-  "homepage": "https://adopted-ember-addons.github.io/ember-file-upload",
+  "homepage": "https://ember-file-upload.pages.dev",
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "license": "MIT",
   "author": {
