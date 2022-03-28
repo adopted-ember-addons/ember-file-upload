@@ -1,4 +1,3 @@
 import { JSONAPISerializer } from 'miragejs';
 
-export default JSONAPISerializer.extend({
-});
+export default JSONAPISerializer.extend({});
