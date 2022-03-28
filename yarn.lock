@@ -1038,13 +1038,6 @@
     unist-util-find "^1.0.2"
     unist-util-visit "^2.0.2"
 
-"@docfy/plugin-with-prose@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@docfy/plugin-with-prose/-/plugin-with-prose-0.5.0.tgz#1d330a02d10e4086fce1f9fd9cf9b573b23a7e5e"
-  integrity sha512-/vaMAOWI0ra80SsPAdlR9yEQ3+ZiJr8bEUvxcRw3P2cd/J855DvqInQVT99WEb1LFLm71VaKG2e/cxIIfnf7tg==
-  dependencies:
-    "@docfy/core" "^0.5.0"
-
 "@ember-data/rfc395-data@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@ember-data/rfc395-data/-/rfc395-data-0.0.4.tgz#ecb86efdf5d7733a76ff14ea651a1b0ed1f8a843"
