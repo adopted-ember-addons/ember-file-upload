@@ -71,8 +71,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Lint
         run: yarn workspace ember-file-upload lint
@@ -115,8 +113,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Test
         run: yarn workspace ember-file-upload test:ember --launch ${{ matrix.browser }}
@@ -210,8 +206,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
-        if: |
-          steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Test
         env:
