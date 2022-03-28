@@ -4840,7 +4840,7 @@ ember-cli-lodash-subset@^2.0.1:
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
   integrity sha1-IMtop5D+D94kiN39jvu332/nZvI=
 
-ember-cli-mirage@^2.0.0, ember-cli-mirage@^2.4.0:
+ember-cli-mirage@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/ember-cli-mirage/-/ember-cli-mirage-2.4.0.tgz#7414573c3f9c5d40cefa44835858103691af95f6"
   integrity sha512-cy8B+IZV07V6xgnFzktKUsntTQvIqPSS3u4+XaLdNW91yOowLsN2BsuQldN3eCnwswgE3a9eGNGS4I0BD4llNA==
