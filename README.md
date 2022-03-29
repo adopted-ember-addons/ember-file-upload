@@ -4,19 +4,20 @@ Ember File Upload is an ember addon that makes uploading files easy.
 
 Uploads can be managed through queues and continue in the background, even after a page transition. In other words they are persistent across routes in your application.
 
+## Documentation
+
+[View docs](https://ember-file-upload.pages.dev)
+
 ## Compatibility
 
-| Support | v4.x | v5.0.0-beta.x |
-| ----- | ----- | ----- |
-| Ember.js  | 3.16 to 3.28  | 3.25 or above |
-| Embroider  | 🤷  | ✅  |
-| ember-auto-import |  | 2.0 or above |
-| Documentation | [Docsite](https://adopted-ember-addons.github.io/ember-file-upload/docs/) | [Docsite](https://ember-file-upload.pages.dev)  |
-
+* Ember.js 3.25 or above
+* ember-auto-import 2.0 or above
 * Ember CLI v2.13 or above
 * Node.js v12 or above
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
 * Strict Content Security Policy (CSP) except for mirage route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
+
+For Ember.js < 3.25 use 4.x which is documented by [Legacy docs](https://adopted-ember-addons.github.io/ember-file-upload/docs/).
 
 ## Upgrading
 
