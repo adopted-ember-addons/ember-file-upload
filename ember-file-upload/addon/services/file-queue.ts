@@ -57,12 +57,6 @@ export default class FileQueueService extends Service {
     return this.find(name) ?? this.create(name);
   }
 
-  //
-  // @TODO
-  // Everything below this line should be deprecated ?
-  // -------------------------------------------------
-  //
-
   /**
    * The list of all files in queues. This automatically gets
    * flushed when all the files in the queue have settled.
@@ -78,7 +72,6 @@ export default class FileQueueService extends Service {
    * considered to be in a settled state.
    *
    * @defaultValue []
-   * @deprecated use a named queue instead
    */
   get files(): UploadFile[] {
     return [...this.queues.values()].reduce((acc, queue) => {
@@ -90,7 +83,6 @@ export default class FileQueueService extends Service {
    * The total size of all files currently being uploaded in bytes.
    *
    * @defaultValue 0
-   * @deprecated use a named queue instead
    */
   get size(): number {
     return this.files.reduce((acc, { size }) => {
@@ -102,7 +94,6 @@ export default class FileQueueService extends Service {
    * The number of bytes that have been uploaded to the server.
    *
    * @defaultValue 0
-   * @deprecated use a named queue instead
    */
   get loaded(): number {
     return this.files.reduce((acc, { loaded }) => {
@@ -115,7 +106,6 @@ export default class FileQueueService extends Service {
    * range of 0 to 100.
    *
    * @defaultValue 0
-   * @deprecated use a named queue instead
    */
   get progress(): number {
     const percent = this.loaded / this.size || 0;

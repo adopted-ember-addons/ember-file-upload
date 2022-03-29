@@ -16,7 +16,7 @@ module('service:file-queue', function (hooks) {
     assert.strictEqual(queue.loaded, 0);
     assert.strictEqual(queue.progress, 0);
 
-    queue1.push({
+    queue1.add({
       id: 'test',
       name: 'test-filename.jpg',
       size: 2000,
@@ -28,7 +28,7 @@ module('service:file-queue', function (hooks) {
     assert.strictEqual(queue.loaded, 0);
     assert.strictEqual(queue.progress, 0);
 
-    queue2.push({
+    queue2.add({
       id: 'test1',
       name: 'test-filename.jpg',
       size: 3500,
@@ -40,7 +40,7 @@ module('service:file-queue', function (hooks) {
     assert.strictEqual(queue.loaded, 0);
     assert.strictEqual(queue.progress, 0);
 
-    queue2.push({
+    queue2.add({
       id: 'test2',
       name: 'test-filename.jpg',
       size: 1400,
@@ -62,7 +62,7 @@ module('service:file-queue', function (hooks) {
     assert.strictEqual(queue.loaded, 0);
     assert.strictEqual(queue.progress, 0);
 
-    queue1.push({
+    queue1.add({
       id: 'test',
       name: 'test-filename.jpg',
       size: 2000,
@@ -76,7 +76,7 @@ module('service:file-queue', function (hooks) {
 
     var queue2 = queue.create('queue2');
 
-    queue2.push({
+    queue2.add({
       id: 'test1',
       name: 'test-filename.jpg',
       size: 3500,
@@ -90,7 +90,7 @@ module('service:file-queue', function (hooks) {
 
     queue.create('queue3');
 
-    queue2.push({
+    queue2.add({
       id: 'test2',
       name: 'test-filename.jpg',
       size: 1400,
@@ -110,21 +110,21 @@ module('service:file-queue', function (hooks) {
     const file0 = new UploadFile();
     file0.state = 'queued';
 
-    queue1.push(file0);
+    queue1.add(file0);
 
     assert.strictEqual(queue.files.length, 1);
 
     const file1 = new UploadFile();
     file1.state = 'queued';
 
-    queue1.push(file1);
+    queue1.add(file1);
 
     assert.strictEqual(queue.files.length, 2);
 
     const file2 = new UploadFile();
     file2.state = 'uploaded';
 
-    queue1.push(file2);
+    queue1.add(file2);
 
     assert.strictEqual(queue.files.length, 3);
 
