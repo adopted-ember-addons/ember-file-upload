@@ -19,7 +19,7 @@ drag and drop.
     <h4>Upload Images</h4>
     <p>
       {{#if dropzone.supported}}
-        Drag and drop images onto this area to upload them or
+        Drag and drop images onto this area to upload them
       {{/if}}
     </p>
   {{/if}}
@@ -36,8 +36,8 @@ drag and drop.
 | `@cursor`      | Type of cursor that should be shown when a drag event happens. Corresponds to [DataTransfer.dropEffect](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect). | `string`  | `'copy'`    |
 | `@filter`      | Optionally provide this to validate dropped files before adding them to the queue. | `(file: File, files: File[], index: number) => boolean`  |   |
 | `@onDragEnter`      | Called when files have entered the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
-| `@onDragEnter`      | Called when files have left the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
-| `@onDragEnter`      | Called when file have been dropped on the dropzone. | `(files: UploadFile[], dataTransfer: DataTransferWrapper) => void`  |   |
+| `@onDragLeave`      | Called when files have left the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
+| `@onDrop`           | Called when file have been dropped on the dropzone. | `(files: UploadFile[], dataTransfer: DataTransferWrapper) => void`  |   |
 
 ## Properties
 
