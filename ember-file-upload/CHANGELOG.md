@@ -1,3 +1,10 @@
+## v5.0.0 (2022-03-29)
+
+#### :memo: Documentation
+* [#754](https://github.com/adopted-ember-addons/ember-file-upload/pull/754) Correct typos in FileDropzone API docs ([@AddisonG](https://github.com/AddisonG))
+
+#### Committers: 1
+- Addison G ([@AddisonG](https://github.com/AddisonG))
 
 ## v5.0.0-beta.10 (2022-03-29)
 
