@@ -1,3 +1,23 @@
+
+## v5.0.0-beta.10 (2022-03-29)
+
+#### :rocket: Enhancement
+* [#706](https://github.com/adopted-ember-addons/ember-file-upload/pull/706) Deprecate `FileUpload` component and `FileDropzone` attribute args ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#752](https://github.com/adopted-ember-addons/ember-file-upload/pull/752) Add GitHub link and default page title to docs site ([@gilest](https://github.com/gilest))
+* [#748](https://github.com/adopted-ember-addons/ember-file-upload/pull/748) Point docs links to newly deployed website ([@gilest](https://github.com/gilest))
+* [#740](https://github.com/adopted-ember-addons/ember-file-upload/pull/740) Add API Reference section to docs site ([@gilest](https://github.com/gilest))
+* [#734](https://github.com/adopted-ember-addons/ember-file-upload/pull/734) Generate new Docfy documentation website ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#749](https://github.com/adopted-ember-addons/ember-file-upload/pull/749) Migrate tests into `test-app` package ([@gilest](https://github.com/gilest))
+* [#747](https://github.com/adopted-ember-addons/ember-file-upload/pull/747) Update test matrix ([@gilest](https://github.com/gilest))
+* [#746](https://github.com/adopted-ember-addons/ember-file-upload/pull/746) Run docs website CI in GitHub Actions ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0-beta.9 (2022-03-18)
 
 #### :rocket: Enhancement
