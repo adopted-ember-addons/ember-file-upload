@@ -10,7 +10,7 @@ order: 7
 
 Validating files with the `@accept` arg has been removed. See: [Custom validation](file-validation.md#custom-validation) for a more reliable solution.
 
-### `<FileUpload>` component
+### FileUpload component
 
 Due to accessibility concerns and DOM inflexibility, as of v5 this component is deprecated.
 
@@ -73,7 +73,7 @@ This technique is not necessarily endorsed, but it may be replicated with the fo
 > {{/let}}
 > ```
 
-### `<FileDropzone>` component
+### FileDropzone component
 
 - `@accept` has been removed in favour of [Custom validation](file-validation.md#custom-validation).
 - `@disabled` has been removed. Disable uploads in your application code.
@@ -104,7 +104,7 @@ This technique is not necessarily endorsed, but it may be replicated with the fo
 {{/let}}
 ```
 
-### `File` class
+### File class
 
 The `File` class has been renamed to `UploadFile`. This is to avoid conflict and confusion with the [native File class](https://developer.mozilla.org/en-US/docs/Web/API/File).
 
