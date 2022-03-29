@@ -146,7 +146,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.accept',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
-        url: 'https://github.com/adopted-ember-addons/ember-file-upload/blob/master/docs/validation.md',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
 
@@ -158,6 +158,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.disabled',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
 
@@ -169,6 +170,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.name',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
 
@@ -180,6 +182,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.capture',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
 
@@ -191,6 +194,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.for',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
 
@@ -202,6 +206,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
         id: 'file-dropzone.on-file-add',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
       }
     );
   }

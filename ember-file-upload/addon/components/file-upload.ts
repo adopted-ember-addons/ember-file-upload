@@ -107,6 +107,7 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
         id: 'file-upload',
         since: { enabled: 'v5.0.0' },
         until: 'v6.0.0',
+        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#fileupload-component',
       }
     );
   }
