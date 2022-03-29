@@ -28,7 +28,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.17.7.tgz#078d8b833fbbcc95286613be8c716cef2b519fa2"
   integrity sha512-p8pdE6j0a29TNGebNm7NzYZWB3xVZJBZ7XGs42uAKzQo8VQ3F0By/cQCtUEABwIqw5zo6WA4NbmxsfzADzMKnQ==
 
-"@babel/core@^7.12.0", "@babel/core@^7.13.10", "@babel/core@^7.13.15", "@babel/core@^7.13.8", "@babel/core@^7.16.7", "@babel/core@^7.3.4":
+"@babel/core@^7.12.0", "@babel/core@^7.13.10", "@babel/core@^7.13.8", "@babel/core@^7.16.7", "@babel/core@^7.3.4":
   version "7.17.8"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.17.8.tgz#3dac27c190ebc3a4381110d46c80e77efe172e1a"
   integrity sha512-OdQDV/7cRBtJHLSOBqqbYNkOcydOgnX59TZx4puf41fzcVtN3e/4yqY8lMQsK+5X2lJtAdmA+6OHqsj1hBJ4IQ==
@@ -4980,15 +4980,6 @@ ember-fetch@^8.1.1:
     ember-cli-version-checker "^5.1.2"
     node-fetch "^2.6.1"
     whatwg-fetch "^3.6.2"
-
-ember-file-upload@*:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/ember-file-upload/-/ember-file-upload-4.0.3.tgz#0cc66e1972cb462a80859a897550c147a279bab2"
-  integrity sha512-7IDNGolb9GkcIkQh0W30tL03v+1aOvJkCJ+kRm+0AZ0IbvkZD5T/v9jFwGDRchsMp/C3E8LqN3q8PkGi4BapYw==
-  dependencies:
-    "@babel/core" "^7.13.15"
-    ember-cli-babel "^7.26.3"
-    ember-cli-htmlbars "^5.7.1"
 
 "ember-get-config@0.2.4 - 0.5.0":
   version "0.5.0"
