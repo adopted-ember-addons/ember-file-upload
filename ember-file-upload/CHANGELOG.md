@@ -1,5 +1,12 @@
 ## v5.0.0 (2022-03-29)
 
+Ember Octane, v4 and Embroider support. Includes all changes since 4.0.3.
+
+Requires Ember 3.25 or above.
+Requires ember-auto-import 2.0 or above.
+
+[Upgrade guide](https://ember-file-upload.pages.dev/docs/upgrade-guide#upgrading-to-v5)
+
 #### :memo: Documentation
 * [#754](https://github.com/adopted-ember-addons/ember-file-upload/pull/754) Correct typos in FileDropzone API docs ([@AddisonG](https://github.com/AddisonG))
 
