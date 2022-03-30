@@ -120,6 +120,10 @@
     "type": "addon",
     "main": "addon-main.js"
   },
+  "files": [
+    "addon-main.js",
+    "dist"
+  ],
   "release-it": {
     "plugins": {
       "release-it-lerna-changelog": {
