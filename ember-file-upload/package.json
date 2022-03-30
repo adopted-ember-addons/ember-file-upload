@@ -88,6 +88,7 @@
     "release-it": "^14.14.3",
     "release-it-lerna-changelog": "^4.0.0",
     "rollup": "^2.70.1",
+    "rollup-plugin-ts": "^2.0.5",
     "typescript": "^4.5.3"
   },
   "peerDependencies": {
@@ -114,7 +115,14 @@
   "ember-addon": {
     "version": 2,
     "type": "addon",
-    "main": "addon-main.js"
+    "main": "addon-main.js",
+    "app-js": {
+      "./components/file-dropzone.js": "./dist/_app_/components/file-dropzone.js",
+      "./helpers/file-queue.js": "./dist/_app_/helpers/file-queue.js",
+      "./modifiers/drag-listener.js": "./dist/_app_/modifiers/drag-listener.js",
+      "./modifiers/update-queue.js": "./dist/_app_/modifiers/update-queue.js",
+      "./services/file-queue.js": "./dist/_app_/services/file-queue.js"
+    }
   },
   "files": [
     "addon-main.js",
