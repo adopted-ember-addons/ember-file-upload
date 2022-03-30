@@ -63,6 +63,7 @@ module.exports = {
         './blueprints/*/index.js',
         './config/**/*.js',
         './tests/dummy/config/**/*.js',
+        './addon-main.js',
       ],
       parser: 'babel-eslint',
       parserOptions: {
