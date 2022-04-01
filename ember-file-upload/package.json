@@ -119,8 +119,6 @@
     "app-js": {
       "./components/file-dropzone.js": "./dist/_app_/components/file-dropzone.js",
       "./helpers/file-queue.js": "./dist/_app_/helpers/file-queue.js",
-      "./modifiers/drag-listener.js": "./dist/_app_/modifiers/drag-listener.js",
-      "./modifiers/update-queue.js": "./dist/_app_/modifiers/update-queue.js",
       "./services/file-queue.js": "./dist/_app_/services/file-queue.js"
     }
   },

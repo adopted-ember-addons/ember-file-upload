@@ -21,7 +21,6 @@ export default defineConfig({
     addon.appReexports([
       'components/**/*.{js,ts}',
       'helpers/**/*.{js,ts}',
-      'modifiers/**/*.{js,ts}',
       'services/**/*.{js,ts}',
     ]),
     // This babel config should *not* apply presets or compile away ES modules.
