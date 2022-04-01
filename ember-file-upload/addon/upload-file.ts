@@ -1,10 +1,12 @@
 import { tracked } from '@glimmer/tracking';
 
 import FileReader from './system/file-reader';
-import { upload } from './system/upload';
+import { upload, UploadOptions } from './system/upload';
+import HTTPRequest, { HTTPRequestResponse } from './system/http-request';
 
 import Queue from './queue';
 import { guidFor } from '@ember/object/internals';
+import RSVP from 'rsvp';
 
 /**
  * Possible file states.
@@ -159,9 +161,6 @@ export default class UploadFile {
     this.queue?.flush();
   }
 
-  // @TODO: For both `upload*()` methods, the return value `Promise<unknown>` is
-  // very much unspecified and needs more details
-
   // /**
   //   The source of the file. This is useful
   //   for applications that want to gather
@@ -208,13 +207,8 @@ export default class UploadFile {
    * @param url Your server endpoint where to upload the file
    * @param options additional request options
    */
-  uploadBinary(
-    url: string,
-    options: Record<string, unknown>
-  ): Promise<unknown> {
+  uploadBinary(url: string, options: UploadOptions) {
     options.contentType = 'application/octet-stream';
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore this is not typed
     return upload(this, url, options, (request) => {
       return request.send(this.file);
     });
@@ -226,23 +220,34 @@ export default class UploadFile {
    * @param url Your server endpoint where to upload the file
    * @param options additional options, eg. `{ fileKey: string, data: { key: string } }`
    */
-  upload(url: string, options: Record<string, unknown>): Promise<unknown> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore this is not typed
-    return upload(this, url, options, (request, opts) => {
-      // Build the form
-      const form = new FormData();
-
-      for (const key of Object.keys(opts.data)) {
-        if (key === opts.fileKey) {
-          form.append(key, opts.data[key], this.name);
-        } else {
-          form.append(key, opts.data[key]);
+  upload(url: string, options?: UploadOptions) {
+    return upload(
+      this,
+      url,
+      options,
+      (
+        request: HTTPRequest,
+        opts: UploadOptions
+      ): RSVP.Promise<HTTPRequestResponse> => {
+        // Build the form
+        const form = new FormData();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        for (const key of Object.keys(opts.data)) {
+          if (key === opts.fileKey) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            form.append(key, opts.data[key], this.name);
+          } else {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            form.append(key, opts.data[key]);
+          }
         }
-      }
 
-      return request.send(form);
-    });
+        return request.send(form);
+      }
+    );
   }
 
   /**

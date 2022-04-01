@@ -184,9 +184,9 @@ module('http-request', function (hooks) {
     assert.true(this.request.withCredentials);
   });
 
-  test(`confirm withCredentials: undefined by default`, function (assert) {
+  test(`confirm withCredentials: false by default`, function (assert) {
     this.subject.open('POST', 'http://emberjs.com');
-    assert.strictEqual(this.request.withCredentials, undefined);
+    assert.false(this.request.withCredentials);
   });
 
   test('promise is cancellable', function (assert) {

@@ -1,18 +1,35 @@
 import { assert } from '@ember/debug';
-import HTTPRequest from './http-request';
+import HTTPRequest, { HTTPRequestResponse } from './http-request';
 import RSVP from 'rsvp';
 import { buildWaiter } from '@ember/test-waiters';
+import UploadFile, { FileState } from 'ember-file-upload/upload-file';
+
+export interface UploadOptions {
+  url?: string;
+  method?: string;
+  accepts?: string[];
+  headers?: Record<string, string>;
+  fileKey?: string;
+  contentType?: string;
+  data?: Record<string, string | File>;
+  withCredentials?: boolean;
+  timeout?: number;
+}
 
 const uploadWaiter = buildWaiter('ember-file-upload:upload');
 
-function clone(object) {
+function clone(object: object | undefined) {
   return object ? { ...object } : {};
 }
 
-function normalizeOptions(file, url, options) {
+function normalizeOptions(
+  file: UploadFile,
+  url: string | object | undefined,
+  options?: UploadOptions
+) {
   if (typeof url === 'object') {
     options = url;
-    url = null;
+    url = undefined;
   }
 
   options = clone(options);
@@ -48,7 +65,15 @@ function normalizeOptions(file, url, options) {
   return options;
 }
 
-export function upload(file, url, opts, uploadFn) {
+export function upload(
+  file: UploadFile,
+  url: string | object,
+  opts: UploadOptions | undefined,
+  uploadFn: (
+    request: HTTPRequest,
+    options: UploadOptions
+  ) => Promise<HTTPRequestResponse>
+) {
   if (['queued', 'failed', 'timed_out', 'aborted'].indexOf(file.state) === -1) {
     assert(
       `The file ${file.id} is in the state "${file.state}" and cannot be requeued.`
@@ -62,9 +87,13 @@ export function upload(file, url, opts, uploadFn) {
     label: `${options.method} ${file.name} to ${options.url}`,
   });
 
-  request.open(options.method, options.url);
+  request.open(options.method ?? 'POST', options.url ?? '', true, '', '');
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   Object.keys(options.headers).forEach(function (key) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     request.setRequestHeader(key, options.headers[key]);
   });
 
@@ -74,9 +103,8 @@ export function upload(file, url, opts, uploadFn) {
     request.timeout = options.timeout;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   request.onprogress = function (evt) {
+    if (!evt) return;
     if (!evt.lengthComputable || evt.total === 0) return;
 
     file.loaded = evt.loaded;
@@ -84,26 +112,24 @@ export function upload(file, url, opts, uploadFn) {
     file.progress = (evt.loaded / evt.total) * 100;
   };
 
-  request.ontimeout = function () {
-    file.state = 'timed_out';
+  request.ontimeout = () => {
+    file.state = FileState.TimedOut;
   };
-
-  request.onabort = function () {
-    file.state = 'aborted';
+  request.onabort = () => {
+    file.state = FileState.Aborted;
   };
-
-  file.state = 'uploading';
+  file.state = FileState.Uploading;
 
   const token = uploadWaiter.beginAsync();
 
   return uploadFn(request, options)
     .then(
-      function (result) {
-        file.state = 'uploaded';
-        return result;
+      function (response) {
+        file.state = FileState.Uploaded;
+        return response;
       },
       function (error) {
-        file.state = 'failed';
+        file.state = FileState.Failed;
         return RSVP.reject(error);
       }
     )
