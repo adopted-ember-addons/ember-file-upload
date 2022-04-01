@@ -39,23 +39,10 @@ import RSVP from 'rsvp';
 export default class UploadFileReader {
   label;
   reader;
-  promise;
-  aborted: RSVP.Deferred<unknown> | undefined;
 
   constructor(options: { label: string } = { label: '' }) {
     this.label = options.label;
-
-    const { resolve, reject, promise } = RSVP.defer(
-      `ember-file-upload: ${this.label}`
-    );
-
-    this.promise = promise;
     this.reader = new FileReader();
-    this.reader.onload = resolve;
-    this.reader.onerror = reject;
-    this.reader.onabort = () => {
-      this.aborted?.resolve();
-    };
   }
 
   /**
@@ -66,7 +53,8 @@ export default class UploadFileReader {
     @return {Promise} A promise that will return the file as an ArrayBuffer
    */
   readAsArrayBuffer(blob: Blob) {
-    return this.read('readAsArrayBuffer', blob);
+    this.reader.readAsArrayBuffer(blob);
+    return this.cancellablePromise;
   }
 
   /**
@@ -80,7 +68,8 @@ export default class UploadFileReader {
     @return {Promise} A promise that will return the file as a data URL
    */
   readAsDataURL(blob: Blob) {
-    return this.read('readAsDataURL', blob);
+    this.reader.readAsDataURL(blob);
+    return this.cancellablePromise;
   }
 
   /**
@@ -94,7 +83,8 @@ export default class UploadFileReader {
     @return {Promise} A promise that will return the file as a binary string
    */
   readAsBinaryString(blob: Blob) {
-    return this.read('readAsBinaryString', blob);
+    this.reader.readAsBinaryString(blob);
+    return this.cancellablePromise;
   }
 
   /**
@@ -107,19 +97,16 @@ export default class UploadFileReader {
     @return {Promise} A promise that will return the file as text
    */
   readAsText(blob: Blob) {
-    return this.read('readAsText', blob);
+    this.reader.readAsText(blob);
+    return this.cancellablePromise;
   }
 
-  read(
-    methodName:
-      | 'readAsArrayBuffer'
-      | 'readAsDataURL'
-      | 'readAsBinaryString'
-      | 'readAsText',
-    blob: Blob
-  ) {
-    this.reader[methodName](blob);
-    const promise = this.promise.then(
+  get cancellablePromise() {
+    const { promise, resolve, reject } = RSVP.defer(
+      `ember-file-upload: ${this.label}`
+    );
+
+    const cancellable = promise.then(
       () => {
         return this.reader.result;
       },
@@ -128,15 +115,25 @@ export default class UploadFileReader {
       },
       `ember-file-upload: Unpack ${this.label}`
     );
+
+    let abort: RSVP.Deferred<string> | undefined;
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    promise.cancel = () => {
-      if (this.aborted == null) {
-        this.aborted = RSVP.defer(`ember-file-upload: Abort ${this.label}`);
+    cancellable.cancel = () => {
+      if (abort == null) {
+        abort = RSVP.defer(`ember-file-upload: Abort ${this.label}`);
         this.reader.abort();
       }
-      return this.aborted.promise;
+      return abort.promise;
     };
-    return promise;
+
+    this.reader.onload = resolve;
+    this.reader.onerror = reject;
+    this.reader.onabort = () => {
+      abort?.resolve();
+    };
+
+    return cancellable;
   }
 }
