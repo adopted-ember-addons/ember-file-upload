@@ -9,9 +9,10 @@ import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
 import UploadFile, { FileSource } from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
-import { modifier } from 'ember-modifier';
+import Modifier, { modifier } from 'ember-modifier';
 import { deprecate } from '@ember/debug';
 import { isPresent } from '@ember/utils';
+import DragListener from '../system/drag-listener';
 
 interface FileDropzoneArgs {
   queue?: Queue;
@@ -407,4 +408,24 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     }
     return addedFiles;
   }
+
+  dragListener = class DragListenerModifier extends Modifier {
+    listener = new DragListener();
+
+    didReceiveArguments() {
+      const { dragenter, dragleave, dragover, drop } = this.args.named;
+
+      this.listener.removeEventListeners(this.element);
+      this.listener.addEventListeners(this.element, {
+        dragenter,
+        dragleave,
+        dragover,
+        drop,
+      });
+    }
+
+    willRemove() {
+      this.listener.removeEventListeners(this.element);
+    }
+  };
 }
