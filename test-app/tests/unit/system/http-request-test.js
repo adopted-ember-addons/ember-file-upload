@@ -2,7 +2,7 @@ import FakeXMLHttpRequest from 'fake-xml-http-request';
 import HttpRequest from 'ember-file-upload/system/http-request';
 import { module, test, skip } from 'qunit';
 
-module('http-request', function (hooks) {
+module('Unit | HttpRequest', function (hooks) {
   hooks.beforeEach(function () {
     this._XMLHttpRequest = window.XMLHttpRequest;
     let test = this;

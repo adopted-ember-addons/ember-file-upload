@@ -1,7 +1,7 @@
 import DataTransferWrapper from 'ember-file-upload/system/data-transfer-wrapper';
 import { module, test } from 'qunit';
 
-module('data-transfer-wrapper', function (hooks) {
+module('Unit | DataTransferWrapper', function (hooks) {
   hooks.beforeEach(function () {
     this.subject = new DataTransferWrapper({});
   });

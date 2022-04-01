@@ -1,6 +1,6 @@
 import RSVP from 'rsvp';
 
-import FileReader from 'ember-file-upload/system/file-reader';
+import UploadFileReader from '../system/upload-file-reader';
 
 export function extractFormData(formData) {
   let data = {};
@@ -22,7 +22,7 @@ export function extractFormData(formData) {
 
 let pipelines = {
   gif(file) {
-    let reader = new FileReader();
+    let reader = new UploadFileReader();
     return reader.readAsArrayBuffer(file).then(function (buffer) {
       let data = new Uint8Array(buffer);
       let duration = 0;
@@ -139,7 +139,7 @@ export function extractFileMetadata(file) {
     extension: (file.name.match(/\.(.*)$/) || [])[1],
   };
 
-  let reader = new FileReader();
+  let reader = new UploadFileReader();
   return reader
     .readAsDataURL(file)
     .then(function (url) {
