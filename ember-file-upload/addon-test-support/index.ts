@@ -28,11 +28,11 @@ import { assert } from '@ember/debug';
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function selectFiles(selector, ...files) {
-  let input = find(selector);
+export async function selectFiles(selector: string, ...files: (File | Blob)[]) {
+  const input = find(selector);
   assert(
     `Selector '${selector}' is not input element.`,
-    input.tagName === 'INPUT'
+    input && input.tagName === 'INPUT'
   );
   assert(
     'All files must be instances of File/Blob type',
@@ -69,15 +69,15 @@ export async function selectFiles(selector, ...files) {
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragAndDrop(selector, ...files) {
-  let dropzone = find(selector);
+export async function dragAndDrop(selector: string, ...files: (File | Blob)[]) {
+  const dropzone = find(selector);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
     files.every((file) => file instanceof Blob)
   );
 
-  let dataTransfer = { files };
+  const dataTransfer = { files };
 
   await triggerEvent(dropzone, 'dragenter', { dataTransfer });
   await triggerEvent(dropzone, 'dragover', { dataTransfer });
@@ -111,15 +111,15 @@ export async function dragAndDrop(selector, ...files) {
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragEnter(selector, ...files) {
-  let dropzone = find(selector);
+export async function dragEnter(selector: string, ...files: (File | Blob)[]) {
+  const dropzone = find(selector);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
     files.every((file) => file instanceof Blob)
   );
 
-  let dataTransfer = { files };
+  const dataTransfer = { files };
 
   return triggerEvent(dropzone, 'dragenter', { dataTransfer });
 }
@@ -151,15 +151,15 @@ export async function dragEnter(selector, ...files) {
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragLeave(selector, ...files) {
-  let dropzone = find(selector);
+export async function dragLeave(selector: string, ...files: (File | Blob)[]) {
+  const dropzone = find(selector);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
     files.every((file) => file instanceof Blob)
   );
 
-  let dataTransfer = { files };
+  const dataTransfer = { files };
 
   return triggerEvent(dropzone, 'dragleave', { dataTransfer });
 }
