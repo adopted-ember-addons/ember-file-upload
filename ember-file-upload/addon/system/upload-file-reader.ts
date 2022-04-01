@@ -5,9 +5,9 @@ import RSVP from 'rsvp';
 
   ```js
   import UploadFile from 'ember-file-upload/upload-file';
-  import FileReader from 'ember-file-upload/system/file-reader';
+  import UploadFileReader from 'ember-file-upload/system/file-reader';
 
-  let reader = new FileReader();
+  let reader = new UploadFileReader();
   let file = File.fromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAACNJREFUCB1jYICC6dOn/4exwTRMAEYzwBnoOmASMBpuDLIAAIVVFiE0cg0oAAAAAElFTkSuQmCC');
 
   reader.readAsDataURL(file.blob).then((url) => {
@@ -32,30 +32,18 @@ import RSVP from 'rsvp';
   });
   ```
 
-  @class FileReader
+  @class UploadFileReader
   @constructor
   @param [options] An object with a label to use to mark the promise.
  */
-export default function (options = {}) {
-  let { resolve, reject, promise } = RSVP.defer(
-    `ember-file-upload: ${options.label}`
-  );
-  let reader = new FileReader();
+export default class UploadFileReader {
+  label;
+  reader;
 
-  reader.onload = resolve;
-  reader.onerror = reject;
-
-  let aborted;
-  let cancel = function () {
-    if (aborted == null) {
-      aborted = RSVP.defer(`ember-file-upload: Abort ${options.label}`);
-      reader.abort();
-    }
-    return aborted.promise;
-  };
-  reader.onabort = function () {
-    aborted.resolve();
-  };
+  constructor(options: { label: string } = { label: '' }) {
+    this.label = options.label;
+    this.reader = new FileReader();
+  }
 
   /**
     Reads the file and returns a promise that will
@@ -64,6 +52,10 @@ export default function (options = {}) {
     @method readAsArrayBuffer
     @return {Promise} A promise that will return the file as an ArrayBuffer
    */
+  readAsArrayBuffer(blob: Blob) {
+    this.reader.readAsArrayBuffer(blob);
+    return this.cancellablePromise;
+  }
 
   /**
     Reads the file and returns a promise that will
@@ -75,6 +67,10 @@ export default function (options = {}) {
     @method readAsDataURL
     @return {Promise} A promise that will return the file as a data URL
    */
+  readAsDataURL(blob: Blob) {
+    this.reader.readAsDataURL(blob);
+    return this.cancellablePromise;
+  }
 
   /**
     Reads the file and returns a promise that will
@@ -86,6 +82,10 @@ export default function (options = {}) {
     @method readAsBinaryString
     @return {Promise} A promise that will return the file as a binary string
    */
+  readAsBinaryString(blob: Blob) {
+    this.reader.readAsBinaryString(blob);
+    return this.cancellablePromise;
+  }
 
   /**
     Reads the file and returns a promise that will
@@ -96,25 +96,44 @@ export default function (options = {}) {
     @method readAsText
     @return {Promise} A promise that will return the file as text
    */
-  [
-    'readAsArrayBuffer',
-    'readAsDataURL',
-    'readAsBinaryString',
-    'readAsText',
-  ].forEach((methodName) => {
-    this[methodName] = function (blob) {
-      reader[methodName](blob);
-      let p = promise.then(
-        function () {
-          return reader.result;
-        },
-        function () {
-          return RSVP.reject(reader.error);
-        },
-        `ember-file-upload: Unpack ${options.label}`
-      );
-      p.cancel = cancel;
-      return p;
+  readAsText(blob: Blob) {
+    this.reader.readAsText(blob);
+    return this.cancellablePromise;
+  }
+
+  get cancellablePromise() {
+    const { promise, resolve, reject } = RSVP.defer(
+      `ember-file-upload: ${this.label}`
+    );
+
+    const cancellable = promise.then(
+      () => {
+        return this.reader.result;
+      },
+      () => {
+        return RSVP.reject(this.reader.error);
+      },
+      `ember-file-upload: Unpack ${this.label}`
+    );
+
+    let abort: RSVP.Deferred<string> | undefined;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    cancellable.cancel = () => {
+      if (abort == null) {
+        abort = RSVP.defer(`ember-file-upload: Abort ${this.label}`);
+        this.reader.abort();
+      }
+      return abort.promise;
     };
-  });
+
+    this.reader.onload = resolve;
+    this.reader.onerror = reject;
+    this.reader.onabort = () => {
+      abort?.resolve();
+    };
+
+    return cancellable;
+  }
 }

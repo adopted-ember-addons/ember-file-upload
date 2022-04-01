@@ -1,8 +1,8 @@
 import { tracked } from '@glimmer/tracking';
 
-import FileReader from './system/file-reader';
 import { upload, UploadOptions } from './system/upload';
 import HTTPRequest, { HTTPRequestResponse } from './system/http-request';
+import UploadFileReader from './system/upload-file-reader';
 
 import Queue from './queue';
 import { guidFor } from '@ember/object/internals';
@@ -254,7 +254,7 @@ export default class UploadFile {
    * Resolves with Blob as ArrayBuffer
    */
   readAsArrayBuffer() {
-    const reader = new FileReader({
+    const reader = new UploadFileReader({
       label: `Read ${this.name} as an ArrayBuffer`,
     });
     return reader.readAsArrayBuffer(this.file);
@@ -264,7 +264,7 @@ export default class UploadFile {
    * Resolves with Blob as DataURL
    */
   readAsDataURL() {
-    const reader = new FileReader({
+    const reader = new UploadFileReader({
       label: `Read ${this.name} as a Data URI`,
     });
     return reader.readAsDataURL(this.file);
@@ -274,7 +274,7 @@ export default class UploadFile {
    * Resolves with Blob as binary string
    */
   readAsBinaryString() {
-    const reader = new FileReader({
+    const reader = new UploadFileReader({
       label: `Read ${this.name} as a binary string`,
     });
     return reader.readAsBinaryString(this.file);
@@ -284,7 +284,7 @@ export default class UploadFile {
    * Resolves with Blob as plain text
    */
   readAsText() {
-    const reader = new FileReader({ label: `Read ${this.name} as text` });
+    const reader = new UploadFileReader({ label: `Read ${this.name} as text` });
     return reader.readAsText(this.file);
   }
 

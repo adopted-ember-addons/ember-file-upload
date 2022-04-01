@@ -1,4 +1,4 @@
-import FileReader from 'ember-file-upload/system/file-reader';
+import UploadFileReader from 'ember-file-upload/system/upload-file-reader';
 import { module, test } from 'qunit';
 
 const FakeFileReader = {
@@ -20,13 +20,13 @@ const FakeFileReader = {
   },
 };
 
-module('file-reader', function (hooks) {
+module('Unit | UploadFileReader', function (hooks) {
   hooks.beforeEach(function () {
     this._FileReader = window.FileReader;
     window.FileReader = function () {
       return FakeFileReader;
     };
-    this.subject = new FileReader();
+    this.subject = new UploadFileReader();
   });
 
   hooks.afterEach(function () {

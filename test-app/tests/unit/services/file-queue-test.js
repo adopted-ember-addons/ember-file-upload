@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import UploadFile from 'ember-file-upload/upload-file';
 
-module('service:file-queue', function (hooks) {
+module('Unit | Service | file-queue', function (hooks) {
   setupTest(hooks);
 
   test('the size of the queue is the aggregate of all queues', function (assert) {
