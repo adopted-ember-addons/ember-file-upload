@@ -97,6 +97,16 @@ interface FileDropzoneArgs {
   onFileAdd: (file: UploadFile) => void;
 }
 
+interface DragListenerModifierArgs {
+  positional: [];
+  named: {
+    dragenter?: (event: FileUploadDragEvent) => void;
+    dragleave?: (event: FileUploadDragEvent) => void;
+    dragover?: (event: FileUploadDragEvent) => void;
+    drop?: (event: FileUploadDragEvent) => void;
+  };
+}
+
 /**
   `FileDropzone` is a component that will allow users to upload files by
    drag and drop.
@@ -409,7 +419,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     return addedFiles;
   }
 
-  dragListener = class DragListenerModifier extends Modifier {
+  dragListener = class DragListenerModifier extends Modifier<DragListenerModifierArgs> {
     listener = new DragListener();
 
     didReceiveArguments() {
