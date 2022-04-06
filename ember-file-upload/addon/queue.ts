@@ -1,23 +1,16 @@
 import { action } from '@ember/object';
-import { modifier, ModifierArgs } from 'ember-modifier';
+import { modifier } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
-import UploadFile, { FileSource, FileState } from './upload-file';
+import UploadFile from './upload-file';
 import FileQueueService from './services/file-queue';
 import { deprecate } from '@ember/debug';
-
-export interface SelectFileModifierArgs extends ModifierArgs {
-  named: {
-    filter?: (file: File, files: File[], index: number) => boolean;
-    onFilesSelected?: (files: UploadFile[]) => void;
-  };
-}
-
-export interface QueueListener {
-  onFileAdded?(file: UploadFile): void;
-  onFileRemoved?(file: UploadFile): void;
-}
-
-export type QueueName = string | symbol;
+import {
+  FileSource,
+  FileState,
+  QueueListener,
+  QueueName,
+  SelectFileModifierArgs,
+} from './interfaces';
 
 /**
  * The Queue is a collection of files that

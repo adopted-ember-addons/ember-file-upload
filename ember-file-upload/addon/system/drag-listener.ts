@@ -2,36 +2,12 @@ import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import { cancel, next, bind } from '@ember/runloop';
 import { EmberRunTimer } from '@ember/runloop/types';
-import { FileUploadDragEvent } from './data-transfer-wrapper';
-
-type DragListenerHandler = (ev: DragEvent) => void;
-
-export interface DragListenerHandlers {
-  dragenter?: DragListenerHandler;
-  dragleave?: DragListenerHandler;
-  dragover?: DragListenerHandler;
-  drop?: DragListenerHandler;
-}
-
-interface DragEventListener {
-  element: Element;
-  handlers: DragListenerHandlers;
-}
-
-interface DragListenerEvent {
-  eventName: string;
-  listener: DragEventListener;
-  event: DragEvent;
-}
-
-interface SyntheticDragEvent {
-  source: FileUploadDragEvent['source'];
-  dataTransfer: DataTransfer | null;
-  itemDetails: Array<{
-    kind: string;
-    type: string;
-  }>;
-}
+import {
+  DragEventListener,
+  DragListenerEvent,
+  DragListenerHandlers,
+  SyntheticDragEvent,
+} from 'ember-file-upload/interfaces';
 
 export default class DragListener {
   _listeners: DragEventListener[] = [];
