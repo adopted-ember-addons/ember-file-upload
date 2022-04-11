@@ -12,7 +12,7 @@ import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import Modifier, { modifier } from 'ember-modifier';
 import { deprecate } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import DragListener from '../system/drag-listener';
+import DragListener, { DragListenerHandlers } from '../system/drag-listener';
 
 interface FileDropzoneArgs {
   queue?: Queue;
@@ -99,12 +99,7 @@ interface FileDropzoneArgs {
 
 interface DragListenerModifierArgs {
   positional: [];
-  named: {
-    dragenter?: (event: FileUploadDragEvent) => void;
-    dragleave?: (event: FileUploadDragEvent) => void;
-    dragover?: (event: FileUploadDragEvent) => void;
-    drop?: (event: FileUploadDragEvent) => void;
-  };
+  named: DragListenerHandlers;
 }
 
 /**
