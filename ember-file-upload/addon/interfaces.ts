@@ -110,7 +110,7 @@ export interface DragListenerModifierArgs {
   named: DragListenerHandlers;
 }
 
-type DragListenerHandler = (event: DragEvent) => void;
+type DragListenerHandler = (event: DragEvent | SyntheticDragEvent) => void;
 
 export interface DragListenerHandlers {
   dragenter?: DragListenerHandler;
@@ -124,10 +124,10 @@ export interface DragEventListener {
   handlers: DragListenerHandlers;
 }
 
-export interface DragListenerEvent {
-  eventName: string;
+export interface QueuedDragEvent {
+  eventName: 'dragenter' | 'dragleave' | 'dragover' | 'drop';
   listener: DragEventListener;
-  event: DragEvent;
+  event: DragEvent | SyntheticDragEvent;
 }
 
 export interface SyntheticDragEvent {

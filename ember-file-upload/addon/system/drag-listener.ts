@@ -4,10 +4,10 @@ import { cancel, next, bind } from '@ember/runloop';
 import { EmberRunTimer } from '@ember/runloop/types';
 import {
   DragEventListener,
-  DragListenerEvent,
+  QueuedDragEvent,
   DragListenerHandlers,
-  SyntheticDragEvent,
 } from 'ember-file-upload/interfaces';
+import MutableArray from '@ember/array/mutable';
 
 export default class DragListener {
   _listeners: DragEventListener[] = [];
@@ -19,7 +19,7 @@ export default class DragListener {
   // `dragleave` / `dragenter` are called on the
   // same element back to back, which isn't what
   // we want to provide as an API.
-  _events = A();
+  _events: MutableArray<QueuedDragEvent> = A();
 
   _handlers: DragListenerHandlers = {};
   _handlersAttached = false;
@@ -188,21 +188,17 @@ export default class DragListener {
   }
 
   scheduleEvent(
-    eventName: DragListenerEvent['eventName'],
-    listener: DragListenerEvent['listener'],
-    event: DragListenerEvent['event'] | SyntheticDragEvent
+    eventName: QueuedDragEvent['eventName'],
+    listener: QueuedDragEvent['listener'],
+    event: QueuedDragEvent['event']
   ) {
-    const isDuplicate = this._events.find(function (
-      queuedEvent: DragListenerEvent
-    ) {
+    const isDuplicate = this._events.find((queuedEvent: QueuedDragEvent) => {
       return (
         queuedEvent.eventName === eventName && queuedEvent.listener === listener
       );
     });
 
-    const cancelledEvent = this._events.find(function (
-      queuedEvent: DragListenerEvent
-    ) {
+    const cancelledEvent = this._events.find((queuedEvent: QueuedDragEvent) => {
       return (
         (queuedEvent.listener === listener &&
           queuedEvent.eventName === 'dragleave' &&
@@ -220,7 +216,7 @@ export default class DragListener {
         this._scheduled = null;
       }
     } else if (!isDuplicate) {
-      this._events.push({ eventName, listener, event });
+      this._events.pushObject({ eventName, listener, event });
       if (!this._scheduled) {
         this._scheduled = next(this, 'sendEvents');
       }
@@ -234,7 +230,7 @@ export default class DragListener {
       } else if (eventName === 'dragleave') {
         this._stack.pop();
       }
-      listener.handlers[eventName](event);
+      listener.handlers[eventName]?.(event);
     });
 
     this._events = A();
