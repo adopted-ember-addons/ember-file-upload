@@ -121,9 +121,3 @@ export default class FileQueueService extends Service {
     return Math.floor(percent * 100);
   }
 }
-
-declare module '@ember/service' {
-  interface Registry {
-    'file-queue': FileQueueService;
-  }
-}
