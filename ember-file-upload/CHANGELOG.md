@@ -1,3 +1,21 @@
+
+## v5.1.0 (2022-04-14)
+
+#### :rocket: Enhancement
+* [#765](https://github.com/adopted-ember-addons/ember-file-upload/pull/765) Migrate drag listener and parsers to typescript. Move all types definitions to interface file ([@gilest](https://github.com/gilest))
+* [#762](https://github.com/adopted-ember-addons/ember-file-upload/pull/762) Add typed args interface to DragListenerModifier ([@gilest](https://github.com/gilest))
+* [#760](https://github.com/adopted-ember-addons/ember-file-upload/pull/760) Delete unused update-queue modifier and inline drag-listener modifier ([@gilest](https://github.com/gilest))
+* [#759](https://github.com/adopted-ember-addons/ember-file-upload/pull/759) Rename `FileReader` to `UploadFileReader` and convert to typescript ([@gilest](https://github.com/gilest))
+* [#757](https://github.com/adopted-ember-addons/ember-file-upload/pull/757) Convert HttpRequest and upload() to typescript ([@gilest](https://github.com/gilest))
+* [#756](https://github.com/adopted-ember-addons/ember-file-upload/pull/756) Convert test support to typescript ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#766](https://github.com/adopted-ember-addons/ember-file-upload/pull/766) Move DragListenerModifier to its own file ([@gilest](https://github.com/gilest))
+* [#758](https://github.com/adopted-ember-addons/ember-file-upload/pull/758) Upload test - filesize bump now that CI runs Chrome 100 ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.0.0 (2022-03-29)
 
 Ember Octane, v4 and Embroider support. Includes all changes since 4.0.3.
