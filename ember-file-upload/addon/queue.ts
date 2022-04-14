@@ -9,7 +9,7 @@ import {
   FileState,
   QueueListener,
   QueueName,
-  SelectFileModifierArgs,
+  SelectFileModifierSignature,
 } from './interfaces';
 
 /**
@@ -198,52 +198,51 @@ export default class Queue {
     }
   }
 
-  selectFile = modifier<
-    HTMLInputElement,
-    SelectFileModifierArgs['positional'],
-    SelectFileModifierArgs['named']
-  >((element, _positional, named) => {
-    const changeHandler = (event: Event) => {
-      const { files: fileList } = event.target as HTMLInputElement;
-      if (!fileList) {
-        return;
-      }
-
-      const files = Array.from(fileList);
-      const selectedFiles: UploadFile[] = [];
-
-      for (const file of files) {
-        if (named.filter && !named.filter?.(file, files, files.indexOf(file))) {
-          continue;
+  selectFile = modifier<SelectFileModifierSignature>(
+    (element, _positional, { filter, onFilesSelected }) => {
+      const changeHandler = (event: Event) => {
+        const { files: fileList } = event.target as HTMLInputElement;
+        if (!fileList) {
+          return;
         }
 
-        let uploadFile;
-        if (file instanceof File) {
-          uploadFile = new UploadFile(file, FileSource.Browse);
+        const files = Array.from(fileList);
+        const selectedFiles: UploadFile[] = [];
+
+        for (const file of files) {
+          if (filter && !filter?.(file, files, files.indexOf(file))) {
+            continue;
+          }
+
+          let uploadFile;
+          if (file instanceof File) {
+            uploadFile = new UploadFile(file, FileSource.Browse);
+          }
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          else if (file instanceof Blob) {
+            uploadFile = UploadFile.fromBlob(file, FileSource.Browse);
+          }
+
+          if (uploadFile) {
+            selectedFiles.push(uploadFile);
+            this.add(uploadFile);
+          }
         }
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        else if (file instanceof Blob) {
-          uploadFile = UploadFile.fromBlob(file, FileSource.Browse);
-        }
 
-        if (uploadFile) {
-          selectedFiles.push(uploadFile);
-          this.add(uploadFile);
-        }
-      }
+        onFilesSelected?.(selectedFiles);
 
-      named.onFilesSelected?.(selectedFiles);
+        // this will reset the input, so the _same_ file can be picked again
+        // Without, the `change` event wouldn't be fired, as it is still the same
+        // value
+        element.value = '';
+      };
+      element.addEventListener('change', changeHandler);
 
-      // this will reset the input, so the _same_ file can be picked again
-      // Without, the `change` event wouldn't be fired, as it is still the same
-      // value
-      element.value = '';
-    };
-    element.addEventListener('change', changeHandler);
-
-    return () => {
-      element.removeEventListener('change', changeHandler);
-    };
-  });
+      return () => {
+        element.removeEventListener('change', changeHandler);
+      };
+    },
+    { eager: false }
+  );
 }

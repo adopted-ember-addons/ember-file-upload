@@ -124,10 +124,13 @@ export default class FileUploadComponent extends Component<FileUploadArgs> {
     return this.args.for ?? `file-input-${guidFor(this)}`;
   }
 
-  bindListeners = modifier(() => {
-    this.queue.addListener(this);
-    return () => this.queue.removeListener(this);
-  });
+  bindListeners = modifier(
+    () => {
+      this.queue.addListener(this);
+      return () => this.queue.removeListener(this);
+    },
+    { eager: false }
+  );
 
   onFileAdded(file: UploadFile) {
     if (this.args.onFileAdd) next(this, this.args.onFileAdd, file);
