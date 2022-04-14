@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import UploadFile from 'ember-file-upload/upload-file';
-import Queue from '../queue';
+import Queue from 'ember-file-upload/queue';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import { guidFor } from '@ember/object/internals';
 import { next } from '@ember/runloop';

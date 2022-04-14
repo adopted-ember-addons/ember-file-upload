@@ -4,7 +4,7 @@ import { upload } from './system/upload';
 import HTTPRequest from './system/http-request';
 import UploadFileReader from './system/upload-file-reader';
 
-import Queue from './queue';
+import Queue from 'ember-file-upload/queue';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import {
@@ -12,7 +12,7 @@ import {
   FileState,
   HTTPRequestResponse,
   UploadOptions,
-} from 'ember-file-upload/interfaces';
+} from './interfaces';
 
 /**
  * Files provide a uniform interface for interacting

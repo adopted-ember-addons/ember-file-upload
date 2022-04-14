@@ -1,9 +1,10 @@
 import Helper from '@ember/component/helper';
 import { registerDestructor } from '@ember/destroyable';
 import { inject as service } from '@ember/service';
-import UploadFile from '../upload-file';
-import type FileQueueService from '../services/file-queue';
-import { DEFAULT_QUEUE } from '../services/file-queue';
+import UploadFile from 'ember-file-upload/upload-file';
+import FileQueueService, {
+  DEFAULT_QUEUE,
+} from 'ember-file-upload/services/file-queue';
 import { QueueListener } from 'ember-file-upload/interfaces';
 
 interface FileQueueArgs {

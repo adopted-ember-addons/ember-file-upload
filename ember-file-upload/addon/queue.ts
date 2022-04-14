@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
-import UploadFile from './upload-file';
-import FileQueueService from './services/file-queue';
+import UploadFile from 'ember-file-upload/upload-file';
+import FileQueueService from 'ember-file-upload/services/file-queue';
 import { deprecate } from '@ember/debug';
 import {
   FileSource,
