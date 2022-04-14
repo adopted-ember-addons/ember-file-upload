@@ -37,7 +37,7 @@ export default class Queue {
    * photos, the good name for this queue may be `"photos"`.
    *
    * If you're uploading images to an artwork, the
-   * best name would incoporate both `"artworks"` and
+   * best name would incorporate both `"artworks"` and
    * the identifier of the artwork. A good name for this
    * queue may be `"artworks/{{id}}/photos"`, where `{{id}}`
    * is a dynamic segment that is generated from the artwork id.
@@ -62,7 +62,7 @@ export default class Queue {
    * file from its queue. Upload failures can happen due to a
    * timeout or a server response. If you choose to use the
    * `abort` method, the file will fail to upload, but will
-   * be removed from the requeuing proccess, and will be
+   * be removed from the requeuing process, and will be
    * considered to be in a settled state.
    *
    * @defaultValue []
