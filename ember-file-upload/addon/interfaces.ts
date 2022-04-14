@@ -106,7 +106,6 @@ export interface HTTPRequestResponse {
 }
 
 export interface DragListenerModifierArgs {
-  positional: [];
   named: DragListenerHandlers;
 }
 

@@ -22,16 +22,6 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "paths": {
-      "dummy/tests/*": [
-        "tests/*"
-      ],
-      "dummy/mirage/*": [
-        "tests/dummy/mirage/*"
-      ],
-      "dummy/*": [
-        "tests/dummy/app/*",
-        "app/*"
-      ],
       "ember-file-upload": [
         "addon"
       ],
