@@ -155,7 +155,7 @@ export default class UploadFile {
    */
   uploadBinary(url: string, options: UploadOptions) {
     options.contentType = 'application/octet-stream';
-    return upload(this, url, options, (request) => {
+    return upload(this as UploadFile, url, options, (request) => {
       return request.send(this.file);
     });
   }
@@ -168,7 +168,7 @@ export default class UploadFile {
    */
   upload(url: string, options?: UploadOptions) {
     return upload(
-      this,
+      this as UploadFile,
       url,
       options,
       (
