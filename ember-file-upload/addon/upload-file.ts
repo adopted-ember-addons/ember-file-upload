@@ -20,13 +20,13 @@ import {
  */
 export default class UploadFile {
   file: File;
-  #source: FileSource;
+  private _source: FileSource;
 
   queue?: Queue;
 
   constructor(file: File, source: FileSource) {
     this.file = file;
-    this.#source = source;
+    this._source = source;
   }
 
   /**
@@ -36,35 +36,35 @@ export default class UploadFile {
    * content.
    */
   get source(): FileSource {
-    return this.#source;
+    return this._source;
   }
 
-  #id = `file-${guidFor(this)}`;
+  private _id = `file-${guidFor(this)}`;
 
   /** A unique id generated for this file. */
   get id(): string {
-    return this.#id;
+    return this._id;
   }
 
-  #name?: string;
+  private _name?: string;
 
   /** The file name */
   get name(): string {
-    return this.#name ?? this.file?.name;
+    return this._name ?? this.file?.name;
   }
   set name(value: string) {
-    this.#name = value;
+    this._name = value;
   }
 
-  #size = 0;
+  private _size = 0;
 
   /** The size of the file in bytes. */
   get size() {
-    return this.#size || this.file.size;
+    return this._size || this.file.size;
   }
 
   set size(value) {
-    this.#size = value;
+    this._size = value;
   }
 
   /**

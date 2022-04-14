@@ -21,9 +21,9 @@ import {
  * application.
  */
 export default class Queue {
-  #listeners: Set<QueueListener> = new Set();
+  private _listeners: Set<QueueListener> = new Set();
 
-  #name: QueueName;
+  private _name: QueueName;
 
   /**
    * The unique identifier of the queue.
@@ -43,13 +43,13 @@ export default class Queue {
    * is a dynamic segment that is generated from the artwork id.
    */
   get name(): QueueName {
-    return this.#name;
+    return this._name;
   }
 
   /** The FileQueue service. */
   fileQueue: FileQueueService;
 
-  #distinctFiles: Set<UploadFile> = new TrackedSet();
+  private _distinctFiles: Set<UploadFile> = new TrackedSet();
 
   /**
    * The list of files in the queue. This automatically gets
@@ -68,7 +68,7 @@ export default class Queue {
    * @defaultValue []
    */
   get files(): UploadFile[] {
-    return [...this.#distinctFiles.values()];
+    return [...this._distinctFiles.values()];
   }
 
   /**
@@ -111,16 +111,16 @@ export default class Queue {
     name: QueueName;
     fileQueue: FileQueueService;
   }) {
-    this.#name = name;
+    this._name = name;
     this.fileQueue = fileQueue;
   }
 
   addListener(listener: QueueListener) {
-    this.#listeners.add(listener);
+    this._listeners.add(listener);
   }
 
   removeListener(listener: QueueListener) {
-    this.#listeners.delete(listener);
+    this._listeners.delete(listener);
   }
 
   /** @deprecated Use `add()` instead. */
@@ -145,14 +145,14 @@ export default class Queue {
    */
   @action
   add(file: UploadFile) {
-    if (this.#distinctFiles.has(file)) {
+    if (this._distinctFiles.has(file)) {
       return;
     }
 
-    file.queue = this;
-    this.#distinctFiles.add(file);
+    file.queue = this as Queue;
+    this._distinctFiles.add(file);
 
-    for (const listener of this.#listeners) {
+    for (const listener of this._listeners) {
       listener.onFileAdded?.(file);
     }
   }
@@ -163,14 +163,14 @@ export default class Queue {
    */
   @action
   remove(file: UploadFile) {
-    if (!this.#distinctFiles.has(file)) {
+    if (!this._distinctFiles.has(file)) {
       return;
     }
 
     file.queue = undefined;
-    this.#distinctFiles.delete(file);
+    this._distinctFiles.delete(file);
 
-    for (const listener of this.#listeners) {
+    for (const listener of this._listeners) {
       listener.onFileRemoved?.(file);
     }
   }
@@ -194,7 +194,7 @@ export default class Queue {
 
     if (allFilesHaveSettled) {
       this.files.forEach((file) => (file.queue = undefined));
-      this.#distinctFiles.clear();
+      this._distinctFiles.clear();
     }
   }
 
