@@ -73,6 +73,8 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   get isAllowed() {
     const { environment } =
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       getOwner(this).resolveRegistration('config:environment');
 
     return (
