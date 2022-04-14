@@ -1,66 +1,26 @@
 import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
-import parseHTML from './parse-html';
-import parseXML from './parse-xml';
-import parseJSON from './parse-json';
-import {
-  HTTPRequestOptions,
-  HTTPRequestResponse,
-} from 'ember-file-upload/interfaces';
+import { HTTPRequestOptions } from 'ember-file-upload/interfaces';
 
-function getHeader(headers: HTTPRequestResponse['headers'], header: string) {
-  const headerKeys = Object.keys(headers);
-  const headerIdx = headerKeys
-    .map((key) => key.toLowerCase())
-    .indexOf(header.toLowerCase());
-  if (headerIdx !== -1) {
-    return headers[headerKeys[headerIdx]];
-  }
-  return null;
+function parseHeaders(headerString: string) {
+  return headerString
+    .split(/\n|\r/)
+    .filter((str) => str !== '')
+    .reduce((headers: Headers, headerString: string) => {
+      const parts = headerString.split(/^([0-9A-Za-z_-]*:)/);
+      if (parts.length > 0 && parts[1] && parts[2]) {
+        headers.append(parts[1].slice(0, -1), parts[2].trim());
+      }
+      return headers;
+    }, new Headers());
 }
 
-function parseResponse(request: XMLHttpRequest): HTTPRequestResponse {
-  let body: HTTPRequestResponse['body'] = request.responseText.trim();
-  const rawHeaders = request
-    .getAllResponseHeaders()
-    .split(/\n|\r/)
-    .filter(function (header) {
-      return header !== '';
-    });
-
-  const headers = rawHeaders.reduce(function (
-    acc: HTTPRequestResponse['headers'],
-    header
-  ) {
-    const parts = header.split(/^([0-9A-Za-z_-]*:)/);
-    if (parts.length > 0 && parts[1] && parts[2]) {
-      acc[parts[1].slice(0, -1)] = parts[2].trim();
-    }
-    return acc;
-  },
-  {});
-
-  const contentType = (getHeader(headers, 'Content-Type') || '').split(';');
-
-  // Parse body according to the Content-Type received by the server
-  if (contentType.indexOf('text/html') !== -1) {
-    body = parseHTML(body);
-  } else if (contentType.indexOf('text/xml') !== -1) {
-    body = parseXML(body);
-  } else if (
-    contentType.indexOf('application/json') !== -1 ||
-    contentType.indexOf('application/vnd.api+json') !== -1 ||
-    contentType.indexOf('text/javascript') !== -1 ||
-    contentType.indexOf('application/javascript') !== -1
-  ) {
-    body = parseJSON(body);
-  }
-
-  return {
+function parseResponse(request: XMLHttpRequest): Response {
+  return new Response(request.response, {
     status: request.status,
-    body,
-    headers,
-  };
+    statusText: request.statusText,
+    headers: parseHeaders(request.getAllResponseHeaders()),
+  });
 }
 
 export default class HTTPRequest {
@@ -77,7 +37,7 @@ export default class HTTPRequest {
   request;
   resolve;
   reject;
-  promise: RSVP.Promise<HTTPRequestResponse>;
+  promise: RSVP.Promise<Response>;
 
   constructor(options: HTTPRequestOptions = {}) {
     const { resolve, reject, promise } = RSVP.defer(

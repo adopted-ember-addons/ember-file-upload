@@ -31,7 +31,8 @@ export default class DemoUpload extends Component {
       return;
     }
 
-    let { filename, url, type } = response.body.data.attributes;
+    const json = await response.json();
+    let { filename, url, type } = json.data.attributes;
     Object.assign(asset, {
       filename,
       preview: url,
