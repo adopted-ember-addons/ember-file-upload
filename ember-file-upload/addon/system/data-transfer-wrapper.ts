@@ -1,8 +1,4 @@
-export interface FileUploadDragEvent extends DragEvent {
-  source: 'os' | 'web';
-  dataTransfer: DataTransfer;
-  itemDetails: DataTransferItem[];
-}
+import { FileUploadDragEvent } from '../interfaces';
 
 const getDataSupport = {};
 

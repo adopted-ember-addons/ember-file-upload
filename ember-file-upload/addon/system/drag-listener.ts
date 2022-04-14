@@ -1,30 +1,39 @@
 import { assert } from '@ember/debug';
 import { A } from '@ember/array';
 import { cancel, next, bind } from '@ember/runloop';
+import { EmberRunTimer } from '@ember/runloop/types';
+import {
+  DragEventListener,
+  QueuedDragEvent,
+  DragListenerHandlers,
+} from 'ember-file-upload/interfaces';
+import MutableArray from '@ember/array/mutable';
 
 export default class DragListener {
-  constructor() {
-    this._listeners = A();
-    this._stack = [];
+  _listeners: DragEventListener[] = [];
+  _stack: DragEventListener[] = [];
+  _listener: DragEventListener | null = null;
 
-    // Keep a stack of deferred actions to take
-    // on listeners to provide sane events.
-    // `dragleave` / `dragenter` are called on the
-    // same element back to back, which isn't what
-    // we want to provide as an API.
-    this._events = A();
-    this._handlersAttached = false;
-  }
+  // Keep a stack of deferred actions to take
+  // on listeners to provide sane events.
+  // `dragleave` / `dragenter` are called on the
+  // same element back to back, which isn't what
+  // we want to provide as an API.
+  _events: MutableArray<QueuedDragEvent> = A();
+
+  _handlers: DragListenerHandlers = {};
+  _handlersAttached = false;
+  _scheduled: EmberRunTimer | null = null;
 
   beginListening() {
-    let handlers = (this._handlers = {
+    const handlers = (this._handlers = {
       dragenter: bind(this, 'dragenter'),
       dragleave: bind(this, 'dragleave'),
       dragover: bind(this, 'dragover'),
       drop: bind(this, 'drop'),
     });
 
-    let body = document.body;
+    const body = document.body;
     body.addEventListener('dragenter', handlers.dragenter, {
       passive: true,
     });
@@ -42,26 +51,26 @@ export default class DragListener {
   }
 
   endListening() {
-    let body = document.body;
-    let handlers = this._handlers;
+    const body = document.body;
+    const handlers = this._handlers;
 
     if (!this._handlersAttached) return;
 
-    body.removeEventListener('dragenter', handlers.dragenter, {
-      passive: true,
-    });
-    body.removeEventListener('dragleave', handlers.dragleave, {
-      passive: true,
-    });
-    body.removeEventListener('dragover', handlers.dragover, {
-      passive: false,
-    });
-    body.removeEventListener('drop', handlers.drop, {
-      passive: false,
-    });
+    if (handlers.dragenter) {
+      body.removeEventListener('dragenter', handlers.dragenter);
+    }
+    if (handlers.dragleave) {
+      body.removeEventListener('dragleave', handlers.dragleave);
+    }
+    if (handlers.dragover) {
+      body.removeEventListener('dragover', handlers.dragover);
+    }
+    if (handlers.drop) {
+      body.removeEventListener('drop', handlers.drop);
+    }
   }
 
-  addEventListeners(element, handlers) {
+  addEventListeners(element: Element, handlers: DragListenerHandlers) {
     if (this._listeners.length === 0) {
       this.beginListening();
     }
@@ -70,35 +79,40 @@ export default class DragListener {
     let insertAt = this._listeners.length;
 
     for (let i = 0, len = this._listeners.length; i < len; i++) {
-      let listener = this._listeners[i];
-      assert(
-        `Cannot add multiple listeners for the same element ${element}, ${listener.element}`,
-        element !== listener.element
-      );
+      const listener = this._listeners[i];
 
-      if (listener.element.contains(element)) {
-        insertAt = i;
+      if (listener) {
+        assert(
+          `Cannot add multiple listeners for the same element ${element}, ${listener.element}`,
+          element !== listener.element
+        );
+
+        if (listener.element.contains(element)) {
+          insertAt = i;
+        }
       }
     }
 
     this._listeners.splice(insertAt, 0, { element, handlers });
   }
 
-  removeEventListeners(element) {
-    this._listeners.removeObject(this._listeners.findBy('element', element));
+  removeEventListeners(element: Element) {
+    this._listeners = this._listeners.filter(
+      (listener) => listener.element !== element
+    );
     if (this._listeners.length === 0) {
       this.endListening();
     }
   }
 
-  findListener(evt) {
-    return this._listeners.find(function ({ element }) {
-      return element === evt.target || element.contains(evt.target);
+  findListener(evt: DragEvent) {
+    return this._listeners.find(({ element }) => {
+      return element === evt.target || element.contains(evt.target as Element);
     });
   }
 
-  getEventSource(evt) {
-    let types = evt.dataTransfer.types || [];
+  getEventSource(evt: DragEvent) {
+    const types = evt.dataTransfer?.types ?? [];
     let areSomeTypesFiles = false;
     for (let i = 0, len = types.length; i < len; i++) {
       if (types[i] === 'Files' || types[i] === 'application/x-moz-file') {
@@ -109,12 +123,12 @@ export default class DragListener {
     return areSomeTypesFiles ? 'os' : 'web';
   }
 
-  getDataTransferItemDetails(evt) {
-    let itemDetails = [];
+  getDataTransferItemDetails(evt: DragEvent) {
+    const itemDetails = [];
 
-    if (evt.dataTransfer.items) {
+    if (evt.dataTransfer?.items) {
       for (let i = 0; i < evt.dataTransfer.items.length; i++) {
-        let item = evt.dataTransfer.items[i];
+        const item = evt.dataTransfer.items[i];
         itemDetails.push({
           kind: item.kind,
           type: item.type,
@@ -125,9 +139,9 @@ export default class DragListener {
     return itemDetails;
   }
 
-  dragenter(evt) {
-    let listener = this.findListener(evt);
-    let lastListener = this._stack[this._stack.length - 1];
+  dragenter(evt: DragEvent) {
+    const listener = this.findListener(evt);
+    const lastListener = this._stack[this._stack.length - 1];
 
     // Trigger dragleave on the previous listener
     if (lastListener) {
@@ -141,10 +155,10 @@ export default class DragListener {
         itemDetails: this.getDataTransferItemDetails(evt),
       });
     }
-    this._listener = listener;
+    this._listener = listener ?? null;
   }
 
-  dragleave(evt) {
+  dragleave(evt: DragEvent) {
     // Trigger a dragleave if the file leaves the browser
     if (this._stack.length) {
       this.scheduleEvent('dragleave', this._stack[0], evt);
@@ -152,11 +166,11 @@ export default class DragListener {
     }
   }
 
-  dragover(evt) {
+  dragover(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 
-    let listener = this.findListener(evt);
+    const listener = this.findListener(evt);
     if (listener) {
       if (this._listener) {
         this.scheduleEvent('dragleave', this._listener, evt);
@@ -166,21 +180,25 @@ export default class DragListener {
         dataTransfer: evt.dataTransfer,
         itemDetails: this.getDataTransferItemDetails(evt),
       });
-      if (this._stack.indexOf(listener) !== -1) {
-        listener.handlers.dragover(evt);
+      if (this._stack.includes(listener)) {
+        listener.handlers?.dragover?.(evt);
       }
     }
-    this._listener = listener;
+    this._listener = listener ?? null;
   }
 
-  scheduleEvent(eventName, listener, event) {
-    let isDuplicate = this._events.find(function (queuedEvent) {
+  scheduleEvent(
+    eventName: QueuedDragEvent['eventName'],
+    listener: QueuedDragEvent['listener'],
+    event: QueuedDragEvent['event']
+  ) {
+    const isDuplicate = this._events.find((queuedEvent: QueuedDragEvent) => {
       return (
         queuedEvent.eventName === eventName && queuedEvent.listener === listener
       );
     });
 
-    let cancelledEvent = this._events.find(function (queuedEvent) {
+    const cancelledEvent = this._events.find((queuedEvent: QueuedDragEvent) => {
       return (
         (queuedEvent.listener === listener &&
           queuedEvent.eventName === 'dragleave' &&
@@ -192,11 +210,13 @@ export default class DragListener {
     if (cancelledEvent) {
       this._events.removeObject(cancelledEvent);
       if (this._events.length === 0) {
-        cancel(this._scheduled);
+        if (this._scheduled) {
+          cancel(this._scheduled);
+        }
         this._scheduled = null;
       }
     } else if (!isDuplicate) {
-      this._events.push({ eventName, listener, event });
+      this._events.pushObject({ eventName, listener, event });
       if (!this._scheduled) {
         this._scheduled = next(this, 'sendEvents');
       }
@@ -210,24 +230,22 @@ export default class DragListener {
       } else if (eventName === 'dragleave') {
         this._stack.pop();
       }
-      listener.handlers[eventName](event);
+      listener.handlers[eventName]?.(event);
     });
 
     this._events = A();
-    this._scheduled = false;
+    this._scheduled = null;
   }
 
-  drop(evt) {
+  drop(evt: DragEvent) {
     this._stack = [];
     this._events = A();
-    this._scheduled = false;
+    this._scheduled = null;
     this._listener = null;
 
     evt.preventDefault();
     evt.stopPropagation();
-    let listener = this.findListener(evt);
-    if (listener) {
-      listener.handlers.drop(evt);
-    }
+    const listener = this.findListener(evt);
+    listener?.handlers?.drop?.(evt);
   }
 }

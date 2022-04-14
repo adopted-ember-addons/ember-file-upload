@@ -1,18 +1,21 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
-import DataTransferWrapper, {
-  FileUploadDragEvent,
-} from '../system/data-transfer-wrapper';
+import DataTransferWrapper from '../system/data-transfer-wrapper';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
-import UploadFile, { FileSource } from 'ember-file-upload/upload-file';
+import UploadFile from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import Modifier, { modifier } from 'ember-modifier';
 import { deprecate } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import DragListener from '../system/drag-listener';
+import {
+  FileUploadDragEvent,
+  FileSource,
+  DragListenerModifierArgs,
+} from 'ember-file-upload/interfaces';
+import DragListener from 'ember-file-upload/system/drag-listener';
 
 interface FileDropzoneArgs {
   queue?: Queue;
@@ -95,16 +98,6 @@ interface FileDropzoneArgs {
    * @deprecated Use `onFileAdded` with {{file-queue}} helper or `@onDrop`.
    */
   onFileAdd: (file: UploadFile) => void;
-}
-
-interface DragListenerModifierArgs {
-  positional: [];
-  named: {
-    dragenter?: (event: FileUploadDragEvent) => void;
-    dragleave?: (event: FileUploadDragEvent) => void;
-    dragover?: (event: FileUploadDragEvent) => void;
-    drop?: (event: FileUploadDragEvent) => void;
-  };
 }
 
 /**

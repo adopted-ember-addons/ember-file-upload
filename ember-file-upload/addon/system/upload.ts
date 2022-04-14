@@ -1,20 +1,13 @@
 import { assert } from '@ember/debug';
-import HTTPRequest, { HTTPRequestResponse } from './http-request';
+import HTTPRequest from './http-request';
 import RSVP from 'rsvp';
 import { buildWaiter } from '@ember/test-waiters';
-import UploadFile, { FileState } from 'ember-file-upload/upload-file';
-
-export interface UploadOptions {
-  url?: string;
-  method?: string;
-  accepts?: string[];
-  headers?: Record<string, string>;
-  fileKey?: string;
-  contentType?: string;
-  data?: Record<string, string | File>;
-  withCredentials?: boolean;
-  timeout?: number;
-}
+import UploadFile from 'ember-file-upload/upload-file';
+import {
+  FileState,
+  HTTPRequestResponse,
+  UploadOptions,
+} from 'ember-file-upload/interfaces';
 
 const uploadWaiter = buildWaiter('ember-file-upload:upload');
 

@@ -3,18 +3,10 @@ import RSVP from 'rsvp';
 import parseHTML from './parse-html';
 import parseXML from './parse-xml';
 import parseJSON from './parse-json';
-
-export interface HTTPRequestOptions {
-  label?: string;
-  withCredentials?: boolean;
-  timeout?: number;
-}
-
-export interface HTTPRequestResponse {
-  status: number;
-  body: string | Document | HTMLElement[] | null | undefined;
-  headers: Record<string, string>;
-}
+import {
+  HTTPRequestOptions,
+  HTTPRequestResponse,
+} from 'ember-file-upload/interfaces';
 
 function getHeader(headers: HTTPRequestResponse['headers'], header: string) {
   const headerKeys = Object.keys(headers);

@@ -1,9 +1,9 @@
 import { assert } from '@ember/debug';
 import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
-
-import Queue, { QueueName } from '../queue';
+import Queue from '../queue';
 import UploadFile from '../upload-file';
+import { QueueName } from 'ember-file-upload/interfaces';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
 
