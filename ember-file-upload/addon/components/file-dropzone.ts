@@ -7,9 +7,6 @@ import { tracked } from '@glimmer/tracking';
 import Queue from '../queue';
 import UploadFile from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
-import { modifier } from 'ember-modifier';
-import { deprecate } from '@ember/debug';
-import { isPresent } from '@ember/utils';
 import { FileUploadDragEvent, FileSource } from 'ember-file-upload/interfaces';
 import DragListenerModifier from '../system/drag-listener-modifier';
 
@@ -62,38 +59,6 @@ interface FileDropzoneArgs {
    * Called when file have been dropped on the dropzone.
    */
   onDrop?: (files: UploadFile[], dataTransfer: DataTransferWrapper) => void;
-
-  // old/deprecated API
-
-  /**
-   * @deprecated Use `@filter` instead.
-   */
-  accept?: string;
-
-  /**
-   * @deprecated If necessary, disable uploads in your own implementation.
-   */
-  disabled?: boolean;
-
-  /**
-   * @deprecated Use `@queue` instead.
-   * */
-  name?: string;
-
-  /**
-   * @deprecated Can be removed as it is non-functional.
-   */
-  capture?: string;
-
-  /**
-   * @deprecated Can be removed as it is non-functional.
-   */
-  for?: string;
-
-  /**
-   * @deprecated Use `onFileAdded` with {{file-queue}} helper or `@onDrop`.
-   */
-  onFileAdd: (file: UploadFile) => void;
 }
 
 /**
@@ -135,88 +100,12 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     window.document &&
     'draggable' in document.createElement('span'))();
 
-  constructor(owner: unknown, args: FileDropzoneArgs) {
-    super(owner, args);
-
-    deprecate(
-      `\`@accept\` is deprecated. Use \`@filter\` instead.`,
-      !isPresent(args.accept),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.accept',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-
-    deprecate(
-      `\`@disabled\` is deprecated. If necessary, disable uploads in your own implementation.`,
-      !isPresent(args.disabled),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.disabled',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-
-    deprecate(
-      `\`@name\` is deprecated. Use \`@queue\` instead.`,
-      !isPresent(args.name),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.name',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-
-    deprecate(
-      `\`@capture\` is deprecated. It can be removed as it is non-functional.`,
-      !isPresent(args.capture),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.capture',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-
-    deprecate(
-      `\`@for\` is deprecated. It can be removed as it is non-functional.`,
-      !isPresent(args.for),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.for',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-
-    deprecate(
-      `\`@onFileAdd\` is deprecated. Use \`onFileAdded\` with {{file-queue}} helper or \`@onDrop\`.`,
-      !isPresent(args.onFileAdd),
-      {
-        for: 'ember-file-upload',
-        id: 'file-dropzone.on-file-add',
-        since: { enabled: 'v5.0.0' },
-        until: 'v6.0.0',
-        url: 'https://ember-file-upload.pages.dev/docs/upgrade-guide#filedropzone-component',
-      }
-    );
-  }
-
   get queue() {
     if (this.args.queue) {
       return this.args.queue;
     }
 
-    return this.fileQueue.findOrCreate(this.args.name ?? DEFAULT_QUEUE);
+    return this.fileQueue.findOrCreate(DEFAULT_QUEUE);
   }
 
   get multiple() {
@@ -243,18 +132,6 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   get cursor() {
     return this.args.cursor ?? 'copy';
-  }
-
-  bindListeners = modifier(
-    () => {
-      this.queue.addListener(this);
-      return () => this.queue.removeListener(this);
-    },
-    { eager: false }
-  );
-
-  onFileAdded(file: UploadFile) {
-    this.args.onFileAdd?.(file);
   }
 
   @action
