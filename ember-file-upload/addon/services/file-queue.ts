@@ -4,6 +4,7 @@ import { registerDestructor } from '@ember/destroyable';
 import Queue from '../queue';
 import UploadFile from '../upload-file';
 import { QueueName } from 'ember-file-upload/interfaces';
+import { TrackedMap } from 'tracked-built-ins';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
 
@@ -17,7 +18,7 @@ export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
  * the remaining uploads.
  */
 export default class FileQueueService extends Service {
-  queues: Map<QueueName, Queue> = new Map();
+  queues: TrackedMap<QueueName, Queue> = new TrackedMap();
 
   /**
    * Returns a queue with the given name
