@@ -245,10 +245,13 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
     return this.args.cursor ?? 'copy';
   }
 
-  bindListeners = modifier(() => {
-    this.queue.addListener(this);
-    return () => this.queue.removeListener(this);
-  });
+  bindListeners = modifier(
+    () => {
+      this.queue.addListener(this);
+      return () => this.queue.removeListener(this);
+    },
+    { eager: false }
+  );
 
   onFileAdded(file: UploadFile) {
     this.args.onFileAdd?.(file);
