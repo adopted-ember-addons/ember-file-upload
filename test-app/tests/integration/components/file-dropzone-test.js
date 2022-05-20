@@ -12,31 +12,30 @@ import Queue from 'ember-file-upload/queue';
 module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('new api', function (hooks) {
-    hooks.beforeEach(function () {
-      const fileQueueService = this.owner.lookup('service:file-queue');
-      this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
-    });
+  hooks.beforeEach(function () {
+    const fileQueueService = this.owner.lookup('service:file-queue');
+    this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
+  });
 
-    test('onDragEnter is called when a file is dragged over', async function (assert) {
-      this.onDragEnter = () => assert.step('onDragEnter');
+  test('onDragEnter is called when a file is dragged over', async function (assert) {
+    this.onDragEnter = () => assert.step('onDragEnter');
 
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @onDragEnter={{this.onDragEnter}} />
       `);
 
-      await dragEnter('.test-dropzone');
+    await dragEnter('.test-dropzone');
 
-      assert.verifySteps(['onDragEnter']);
-    });
+    assert.verifySteps(['onDragEnter']);
+  });
 
-    test('filter and onDrop', async function (assert) {
-      this.filter = (file) => file.name.includes('.txt');
-      this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-      await render(hbs`
+  test('filter and onDrop', async function (assert) {
+    this.filter = (file) => file.name.includes('.txt');
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -45,139 +44,119 @@ module('Integration | Component | FileDropzone', function (hooks) {
         />
       `);
 
-      await dragAndDrop(
-        '.test-dropzone',
-        new File([], 'dingus.txt'),
-        new File([], 'dangus.wmv'),
-        new File([], 'dongus.txt')
-      );
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.txt'),
+      new File([], 'dangus.wmv'),
+      new File([], 'dongus.txt')
+    );
 
-      assert.verifySteps(['dingus.txt', 'dongus.txt']);
-    });
+    assert.verifySteps(['dingus.txt', 'dongus.txt']);
+  });
 
-    test('dropping a file calls onDrop', async function (assert) {
-      this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
+  test('dropping a file calls onDrop', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @onDrop={{this.onDrop}} />
       `);
 
-      await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
+    await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
 
-      assert.verifySteps(['dingus.txt']);
-    });
+    assert.verifySteps(['dingus.txt']);
+  });
 
-    test('onDragLeave is called when a file is dragged out', async function (assert) {
-      this.onDragLeave = () => assert.step('onDragLeave');
+  test('onDragLeave is called when a file is dragged out', async function (assert) {
+    this.onDragLeave = () => assert.step('onDragLeave');
 
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @onDragLeave={{this.onDragLeave}} />
       `);
 
-      await dragEnter('.test-dropzone', new File([], 'dingus.txt'));
-      await dragLeave('.test-dropzone', new File([], 'dingus.txt'));
+    await dragEnter('.test-dropzone', new File([], 'dingus.txt'));
+    await dragLeave('.test-dropzone', new File([], 'dingus.txt'));
 
-      assert.verifySteps(['onDragLeave']);
-    });
-
-    test('yielded properties', async function (assert) {
-      await render(hbs`
-        <FileDropzone @name="test" as |dropzone queue|>
-          <div class="supported">{{dropzone.supported}}</div>
-          <div class="active">{{dropzone.active}}</div>
-          <div class="queue-name">{{queue.name}}</div>
-        </FileDropzone>
-      `);
-
-      assert.dom('.supported').hasText('true');
-      assert.dom('.active').hasText('false');
-      assert.dom('.queue-name').hasText('test');
-    });
+    assert.verifySteps(['onDragLeave']);
   });
 
-  module('deprecated api', function () {
-    test('dropping multiple files calls onFileAdd with each file', async function (assert) {
-      this.onFileAdd = (file) => assert.step(file.name);
-
-      await render(hbs`
-        <FileDropzone
-          class="test-dropzone"
-          @name="test"
-          @onFileAdd={{this.onFileAdd}} />
+  test('yielded properties', async function (assert) {
+    await render(hbs`
+        {{#let (file-queue name='test') as |helperQueue|}}
+          <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
+            <div class="supported">{{dropzone.supported}}</div>
+            <div class="active">{{dropzone.active}}</div>
+            <div class="queue-name">{{queue.name}}</div>
+          </FileDropzone>
+        {{/let}}
       `);
 
-      await dragAndDrop(
-        '.test-dropzone',
-        new File([], 'dingus.txt'),
-        new File([], 'dingus.png')
-      );
+    assert.dom('.supported').hasText('true');
+    assert.dom('.active').hasText('false');
+    assert.dom('.queue-name').hasText('test');
+  });
 
-      assert.verifySteps(['dingus.txt', 'dingus.png']);
-    });
+  test('dropping multiple files calls onDrop with both files', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-    test('dropping multiple files calls onDrop with both files', async function (assert) {
-      this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @onDrop={{this.onDrop}} />
       `);
 
-      await dragAndDrop(
-        '.test-dropzone',
-        new File([], 'dingus.txt'),
-        new File([], 'dingus.png')
-      );
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
 
-      assert.verifySteps(['dingus.txt', 'dingus.png']);
-    });
+    assert.verifySteps(['dingus.txt', 'dingus.png']);
+  });
 
-    test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
-      this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
+  test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @multiple={{true}}
           @onDrop={{this.onDrop}} />
       `);
 
-      await dragAndDrop(
-        '.test-dropzone',
-        new File([], 'dingus.txt'),
-        new File([], 'dingus.png')
-      );
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
 
-      assert.verifySteps(['dingus.txt', 'dingus.png']);
-    });
+    assert.verifySteps(['dingus.txt', 'dingus.png']);
+  });
 
-    test('multiple=false dropping multiple files calls onDrop with one file', async function (assert) {
-      this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
+  test('multiple=false dropping multiple files calls onDrop with one file', async function (assert) {
+    this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-      await render(hbs`
+    await render(hbs`
         <FileDropzone
           class="test-dropzone"
-          @name="test"
+          @queue={{this.queue}}
           @multiple={{false}}
           @onDrop={{this.onDrop}} />
       `);
 
-      await dragAndDrop(
-        '.test-dropzone',
-        new File([], 'dingus.txt'),
-        new File([], 'dingus.png')
-      );
+    await dragAndDrop(
+      '.test-dropzone',
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png')
+    );
 
-      assert.verifySteps(['dingus.txt']);
-    });
+    assert.verifySteps(['dingus.txt']);
   });
 });

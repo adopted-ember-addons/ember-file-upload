@@ -44,15 +44,13 @@ module('Integration | queue listeners', function (hooks) {
 
     await render(hbs`
       {{#if this.state.firstComponent}}
-        <FileUpload
-          @queue={{this.queue}}
-          @onFilesSelected={{this.firstListener}}
-        />
+        <label>
+          <input type="file" {{this.queue.selectFile onFilesSelected=this.firstListener}} />
+        </label>
       {{else}}
-        <FileUpload
-          @queue={{this.queue}}
-          @onFilesSelected={{this.secondListener}}
-        />
+        <label>
+          <input type="file" {{this.queue.selectFile onFilesSelected=this.secondListener}} />
+        </label>
       {{/if}}
     `);
 
@@ -72,15 +70,17 @@ module('Integration | queue listeners', function (hooks) {
 
     await render(hbs`
       {{#if this.state.firstComponent}}
-        <FileUpload
-          @queue={{this.queue}}
-          @onFileAdd={{this.firstListener}}
-        />
+        {{#let (file-queue onFileAdded=this.firstListener) as |queue|}}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+          </label>
+        {{/let}}
       {{else}}
-        <FileUpload
-          @queue={{this.queue}}
-          @onFileAdd={{this.secondListener}}
-        />
+        {{#let (file-queue onFileAdded=this.secondListener) as |queue|}}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+          </label>
+        {{/let}}
       {{/if}}
     `);
 
