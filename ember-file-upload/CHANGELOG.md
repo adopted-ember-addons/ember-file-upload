@@ -1,6 +1,10 @@
-
-
 ## v6.0.1 (2022-05-20)
+
+#### :bug: Bug Fix
+* [#785](https://github.com/adopted-ember-addons/ember-file-upload/pull/785) Remove file-upload component export ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
 
 ## v6.0.0 (2022-05-20)
 
