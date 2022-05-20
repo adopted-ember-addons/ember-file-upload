@@ -10,7 +10,6 @@ import RSVP from 'rsvp';
 import {
   FileSource,
   FileState,
-  HTTPRequestResponse,
   UploadOptions,
 } from 'ember-file-upload/interfaces';
 
@@ -171,10 +170,7 @@ export default class UploadFile {
       this,
       url,
       options,
-      (
-        request: HTTPRequest,
-        opts: UploadOptions
-      ): RSVP.Promise<HTTPRequestResponse> => {
+      (request: HTTPRequest, opts: UploadOptions): RSVP.Promise<Response> => {
         // Build the form
         const form = new FormData();
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

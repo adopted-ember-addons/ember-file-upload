@@ -99,12 +99,6 @@ export interface HTTPRequestOptions {
   timeout?: number;
 }
 
-export interface HTTPRequestResponse {
-  status: number;
-  body: string | Document | HTMLElement[] | null | undefined;
-  headers: Record<string, string>;
-}
-
 export interface DragListenerModifierArgs {
   named: DragListenerHandlers;
 }

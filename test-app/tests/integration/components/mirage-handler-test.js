@@ -82,7 +82,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
       `upload handler throws if invalid ${type} is provided`,
       async function (assert) {
         let errorCount = 0;
-        setupOnerror((error) => {
+        setupOnerror(async (error) => {
           // expect two errors:
           // 1. error thrown by our upload handler
           // 2. error thrown by 500 response that includes the first error as body
@@ -94,7 +94,8 @@ module('Integration | Component | mirage-handler', function (hooks) {
             // error from 500 response
             assert.step('500 response');
             assert.equal(error.status, 500);
-            assert.ok(error.body.error.includes(`invalid ${type}`));
+            const json = await error.json();
+            assert.ok(json.error.includes(`invalid ${type}`));
           }
 
           errorCount++;

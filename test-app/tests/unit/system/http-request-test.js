@@ -53,20 +53,23 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test('successful send with a text/plain response', function (assert) {
-    assert.expect(2);
+    assert.expect(4);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
         filename: 'rfc.md',
       })
       .then(function (response) {
-        assert.deepEqual(response, {
-          body: 'ok',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          status: 200,
-        });
+        assert.deepEqual(
+          Array.from(response.headers.entries()),
+          [['content-type', 'text/plain']],
+          'headers match'
+        );
+        assert.equal(response.status, 200, 'status is 200');
+        return response.text();
+      })
+      .then((responeText) => {
+        assert.equal(responeText, 'ok', 'response text matches');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -86,10 +89,15 @@ module('Unit | HttpRequest', function (hooks) {
         filename: 'rfc.md',
       })
       .then(function (response) {
-        assert.deepEqual(response.headers, {
-          'Content-Type': 'text/html',
-        });
-        assert.strictEqual(response.body[0].textContent, 'ok');
+        assert.deepEqual(
+          Array.from(response.headers.entries()),
+          [['content-type', 'text/html']],
+          'headers match'
+        );
+        return response.text();
+      })
+      .then((html) => {
+        assert.strictEqual(html, '<html><body>ok</body></html>');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -116,13 +124,15 @@ module('Unit | HttpRequest', function (hooks) {
         filename: 'rfc.md',
       })
       .then(function (response) {
-        assert.deepEqual(response.headers, {
-          'Content-Type': 'text/xml',
-        });
-        assert.strictEqual(
-          new window.XMLSerializer().serializeToString(response.body),
-          xml
+        assert.deepEqual(
+          Array.from(response.headers.entries()),
+          [['content-type', 'text/xml']],
+          'headers match'
         );
+        return response.text();
+      })
+      .then((reponseXml) => {
+        assert.equal(reponseXml, xml, 'xml response matches');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -141,23 +151,27 @@ module('Unit | HttpRequest', function (hooks) {
     'application/javascript',
   ].forEach(function (contentType) {
     test(`successful send with a ${contentType} response`, function (assert) {
-      assert.expect(2);
+      assert.expect(4);
       this.subject.open('PUT', 'http://emberjs.com');
       let promise = this.subject
         .send({
           filename: 'rfc.md',
         })
         .then(function (response) {
-          assert.deepEqual(response, {
-            body: {
-              name: 'rfc.md',
-              size: 1024,
-            },
-            headers: {
-              'Content-Type': contentType,
-            },
-            status: 200,
-          });
+          assert.deepEqual(
+            Array.from(response.headers.entries()),
+            [['content-type', contentType]],
+            'headers match'
+          );
+          assert.equal(response.status, 200, 'status is 200');
+          return response.json();
+        })
+        .then((responseJson) => {
+          assert.deepEqual(
+            responseJson,
+            { name: 'rfc.md', size: 1024 },
+            'json response matches'
+          );
         });
 
       assert.deepEqual(this.request.requestBody, {
