@@ -1,17 +1,15 @@
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-
 import { selectFiles } from 'ember-file-upload/test-support';
 import { DEFAULT_QUEUE } from 'ember-file-upload/services/file-queue';
+import { FileState } from 'ember-file-upload/interfaces';
+import { later } from '@ember/runloop';
 
-import { upload as uploadHandler } from 'ember-file-upload/mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Integration | Helper | file-queue', function (hooks) {
   setupRenderingTest(hooks);
-  setupMirage(hooks);
 
   test('filter is triggered when selecting files', async function (assert) {
     this.filter = (file) => assert.step(`filter: ${file.name}`);
@@ -113,51 +111,45 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist();
   });
 
-  skip('uploading twice will manage files in queue', async function (assert) {
-    this.server.post(
-      '/folder/:id/file',
-      uploadHandler(function (/*schema, request*/) {
-        // do sth
-      }),
-      { timing: 200 }
-    );
-
-    this.uploadImage = (file) => {
-      return file.upload('/folder/1/file');
+  test('files in the queue are autotracked', async function (assert) {
+    this.simulateUpload = (file) => {
+      file.state = FileState.Uploading;
+      later(() => (file.state = FileState.Uploaded), 100);
     };
 
     await render(hbs`
-      {{#let (file-queue onFileAdded=this.uploadImage) as |queue|}}
+      {{#let (file-queue onFileAdded=this.simulateUpload) as |queue|}}
         {{#each queue.files as |file|}}
-          <span data-test-file>
-          {{file.name}}
-          </span>
+          <span data-test-file>{{file.name}}</span>
         {{/each}}
 
         <label>
-          <input type="file" {{queue.selectFile}} hidden>
+          <input type="file" {{queue.selectFile}}>
           Select File
         </label>
       {{/let}}
     `);
 
-    assert.dom('[data-test-file]').doesNotExist();
+    // Choose file (but don't wait)
+    selectFiles('input[type=file]', new File([], 'first.txt'));
 
-    // first upload
-    selectFiles('input[type=file]', new File([], 'dingus.txt'));
+    // Enqueued file should be visible
     await waitFor('[data-test-file]');
-    assert.dom('[data-test-file]').hasText('dingus.txt');
+    assert.dom('[data-test-file]').hasText('first.txt', 'first.txt is queued');
 
+    // Allow upload to complete
     await settled();
-    assert.dom('[data-test-file]').doesNotExist();
+    assert.dom('[data-test-file]').doesNotExist('queue was flushed');
 
-    // second upload (retention teset)
-    // to check `Queue.flush()` will keep auto-tracking intact
-    selectFiles('input[type=file]', new File([], 'dingus.txt'));
+    // Choose file (but don't wait)
+    selectFiles('input[type=file]', new File([], 'second.txt'));
+
+    // Enqueued file should be visible
     await waitFor('[data-test-file]');
-    assert.dom('[data-test-file]').hasText('dingus.txt');
+    assert.dom('[data-test-file]').hasText('second.txt', 'second.txt is queued');
 
+    // Allow upload to complete
     await settled();
-    assert.dom('[data-test-file]').doesNotExist();
+    assert.dom('[data-test-file]').doesNotExist('queue was flushed');
   });
 });
