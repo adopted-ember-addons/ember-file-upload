@@ -1,4 +1,22 @@
 
+
+## v6.0.0 (2022-05-20)
+
+#### :boom: Breaking Change
+* [#777](https://github.com/adopted-ember-addons/ember-file-upload/pull/777) Update tracked-built-ins to v3 ([@renovate[bot]](https://github.com/apps/renovate))
+* [#767](https://github.com/adopted-ember-addons/ember-file-upload/pull/767) Drop ember modifier v2 and resolve deprecations ([@gilest](https://github.com/gilest))
+* [#770](https://github.com/adopted-ember-addons/ember-file-upload/pull/770) Resolve `File.upload` with a `Response` object ([@gilest](https://github.com/gilest))
+* [#780](https://github.com/adopted-ember-addons/ember-file-upload/pull/780) Drop support for node 12 ([@gilest](https://github.com/gilest))
+
+#### :rocket: Enhancement
+* [#779](https://github.com/adopted-ember-addons/ember-file-upload/pull/779) Remove all v5 deprecations ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#782](https://github.com/adopted-ember-addons/ember-file-upload/pull/782) Refactor queued files autotracking test ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v5.1.0 (2022-04-14)
 
 #### :rocket: Enhancement
