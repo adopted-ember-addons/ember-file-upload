@@ -60,8 +60,8 @@
     "eslint-plugin-qunit": "^6.2.0",
     "fake-xml-http-request": "^2.1.2",
     "loader.js": "^4.7.0",
+    "miragejs": "^0.1.43",
     "npm-run-all": "^4.1.5",
-    "miragejs":"^0.1.43",
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
     "qunit-dom": "^2.0.0"
