@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -113,7 +113,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist();
   });
 
-  test('uploading twice will manage files in queue', async function (assert) {
+  skip('uploading twice will manage files in queue', async function (assert) {
     this.server.post(
       '/folder/:id/file',
       uploadHandler(function (/*schema, request*/) {
