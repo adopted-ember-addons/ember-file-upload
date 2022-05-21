@@ -4,6 +4,7 @@ import { registerDestructor } from '@ember/destroyable';
 import Queue from '../queue';
 import UploadFile from '../upload-file';
 import { QueueName } from 'ember-file-upload/interfaces';
+import { TrackedMap } from 'tracked-built-ins';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
 
@@ -17,7 +18,13 @@ export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
  * the remaining uploads.
  */
 export default class FileQueueService extends Service {
-  queues: Map<QueueName, Queue> = new Map();
+  queues: TrackedMap<QueueName, Queue> = new TrackedMap();
+
+  /**
+   * Identical untracked map to avoid mutating tracked state during rendering
+   * when checking for existing queues.
+   */
+  #queues: Map<QueueName, Queue> = new Map();
 
   /**
    * Returns a queue with the given name
@@ -26,7 +33,7 @@ export default class FileQueueService extends Service {
    * @returns The queue if it exists
    */
   find(name: QueueName): Queue | undefined {
-    return this.queues.get(name);
+    return this.#queues.get(name);
   }
 
   /**
@@ -40,15 +47,17 @@ export default class FileQueueService extends Service {
       `Queue names are required to be unique. "${String(
         name
       )}" has already been reserved.`,
-      !this.queues.has(name)
+      !this.#queues.has(name)
     );
 
     const queue = new Queue({ name, fileQueue: this });
 
     registerDestructor(queue, () => {
+      this.#queues.delete(name);
       this.queues.delete(name);
     });
 
+    this.#queues.set(name, queue);
     this.queues.set(name, queue);
     return queue;
   }
