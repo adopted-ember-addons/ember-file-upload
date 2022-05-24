@@ -1,3 +1,15 @@
+
+## v6.0.2 (2022-05-24)
+
+#### :bug: Bug Fix
+* [#787](https://github.com/adopted-ember-addons/ember-file-upload/pull/787) Track `queues` in `FileQueue` service ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#789](https://github.com/adopted-ember-addons/ember-file-upload/pull/789) Update for `website` and `test-app` packages from 4.3.0 blueprints ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v6.0.1 (2022-05-20)
 
 #### :bug: Bug Fix
