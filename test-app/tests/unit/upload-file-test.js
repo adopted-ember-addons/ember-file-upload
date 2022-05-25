@@ -81,4 +81,11 @@ module('Unit | UploadFile', function (hooks) {
     assert.strictEqual(file.size, 13);
     assert.strictEqual(file.file.size, 9);
   });
+
+  test('replaceWithType', async function (assert) {
+    const file = new UploadFile(new File([], 'dingus.txt', { type: 'text/plain' }), FileSource.Browse);
+    assert.strictEqual(file.type, 'text/plain', 'is original type');
+    await file.replaceWithType('text/csv');
+    assert.strictEqual(file.type, 'text/csv', 'is new type');
+  });
 });

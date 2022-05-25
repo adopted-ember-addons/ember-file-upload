@@ -18,7 +18,7 @@ import {
  * with data that can be uploaded or read.
  */
 export default class UploadFile {
-  file: File;
+  @tracked file: File;
   #source: FileSource;
 
   queue?: Queue;
@@ -73,6 +73,21 @@ export default class UploadFile {
    */
   get type(): string {
     return this.file.type;
+  }
+
+  /*
+   * Allows users to update the MIME type by duplicating the file.
+   *
+   * Necessary because `File` properties are read only.
+   *
+   * Must be an async function rather than a setter since it's an async operation.
+   */
+  async replaceWithType(value: string) {
+    const bits = await this.file.arrayBuffer();
+    this.file = new File([bits], this.name, {
+      lastModified: this.file.lastModified,
+      type: value,
+    });
   }
 
   /**
