@@ -1,0 +1,1 @@
+ember-file-upload/CHANGELOG.md
