@@ -1,4 +1,16 @@
 
+
+## v6.0.3 (2022-05-25)
+
+#### :bug: Bug Fix
+* [#793](https://github.com/adopted-ember-addons/ember-file-upload/pull/793) Listen for drag-and-drop events on the Dropzone element rather than document ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#792](https://github.com/adopted-ember-addons/ember-file-upload/pull/792) Move .md files to package root ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v6.0.2 (2022-05-24)
 
 #### :bug: Bug Fix
