@@ -4,14 +4,13 @@ import DragListener from './drag-listener';
 import { registerDestructor } from '@ember/destroyable';
 
 function cleanup(instance: DragListenerModifier) {
-  if (!instance.dragElement) return;
+  if (!instance.listener) return;
 
-  instance.listener.removeEventListeners(instance.dragElement);
+  instance.listener.removeEventListeners();
 }
 
 export default class DragListenerModifier extends Modifier<DragListenerModifierSignature> {
-  listener = new DragListener();
-  dragElement?: Element;
+  listener?: DragListener;
 
   constructor(owner: unknown, args: ArgsFor<DragListenerModifierSignature>) {
     super(owner, args);
@@ -19,7 +18,7 @@ export default class DragListenerModifier extends Modifier<DragListenerModifierS
   }
 
   modify(
-    element: Element,
+    dropzone: Element,
     _: [],
     {
       dragenter,
@@ -28,10 +27,10 @@ export default class DragListenerModifier extends Modifier<DragListenerModifierS
       drop,
     }: NamedArgs<DragListenerModifierSignature>
   ) {
-    this.dragElement = element;
+    this.listener = new DragListener(dropzone);
 
-    this.listener.removeEventListeners(element);
-    this.listener.addEventListeners(element, {
+    this.listener.removeEventListeners();
+    this.listener.addEventListeners({
       dragenter,
       dragleave,
       dragover,
