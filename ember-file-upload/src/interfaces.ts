@@ -15,16 +15,6 @@ declare module '@ember/service' {
   }
 }
 
-export interface SelectFileModifierSignature {
-  Args: {
-    Named: {
-      filter?: (file: File, files: File[], index: number) => boolean;
-      onFilesSelected?: (files: UploadFile[]) => void;
-    };
-  };
-  Element: HTMLInputElement;
-}
-
 export interface QueueListener {
   onFileAdded?(file: UploadFile): void;
   onFileRemoved?(file: UploadFile): void;
@@ -92,58 +82,14 @@ export enum FileSource {
   Blob = 'blob',
 }
 
-export interface SelectFileModifierArgs extends ModifierArgs {
-  named: {
-    filter?: (file: File, files: File[], index: number) => boolean;
-    onFilesSelected?: (files: UploadFile[]) => void;
+export interface SelectFileModifierSignature {
+  Args: {
+    Named: {
+      filter?: (file: File, files: File[], index: number) => boolean;
+      onFilesSelected?: (files: UploadFile[]) => void;
+    };
   };
-}
-
-export interface FileUploadArgs {
-  queue?: Queue;
-
-  // actions
-  filter?: (file: UploadFile) => boolean;
-
-  // events
-  onFilesSelected?: (files: UploadFile[]) => void;
-
-  // old/deprecated API
-
-  /**
-   * @deprecated Use `@queue` instead.
-   */
-  name?: string;
-
-  /**
-   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
-   */
-  multiple?: boolean;
-
-  /**
-   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
-   */
-  disabled?: boolean;
-
-  /**
-   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
-   */
-  accept?: string;
-
-  /**
-   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
-   */
-  capture?: string;
-
-  /**
-   * @deprecated Use `{{file-queue}}` helper with `{{queue.selectFile}}` modifier.
-   */
-  for?: string;
-
-  /**
-   * @deprecated Use `onFileAdded` with {{file-queue}} helper or `@onDrop`.
-   */
-  onFileAdd: (file: UploadFile) => void;
+  Element: HTMLInputElement;
 }
 
 export interface FileDropzoneArgs {
