@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   dragAndDrop,
@@ -158,5 +158,20 @@ module('Integration | Component | FileDropzone', function (hooks) {
     );
 
     assert.verifySteps(['dingus.txt']);
+  });
+
+  // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
+  test('regression: drop events from other DOM nodes are not prevented', async function (assert) {
+    this.documentDragListener = () => assert.step('documentDragListener called');
+    await render(hbs`
+      <FileDropzone @queue={{this.queue}} />
+
+      <div class="independent-drag-target"></div>
+    `);
+    document.addEventListener('drop', this.documentDragListener);
+
+    await triggerEvent('.independent-drag-target', 'drop');
+
+    assert.verifySteps(['documentDragListener called'], 'event reached documentDragListener');
   });
 });
