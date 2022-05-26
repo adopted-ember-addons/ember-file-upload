@@ -73,6 +73,7 @@ The `source` property can be one of the following:
 | -------------------- | --------------------------------------------------------- | ----------------------------------------------- | ------------------ |
 | `upload`             | Upload file to your server.                               | `url: string, options: Record<string, unknown>` | `Promise<unknown>` |
 | `uploadBinary`       | Upload file with `application/octet-stream` content type. | `url: string, options: Record<string, unknown>` | `Promise<unknown>` |
+| `replaceWithType`    | Asynchronously replace file with specified MIME type.     | `type: string`                                  | `Promise<void>`    |
 | `readAsArrayBuffer`  | Upload file with `application/octet-stream` content type. |                                                 | `Promise`          |
 | `readAsDataUrl`      | Resolves with Blob as DataURL.                            |                                                 | `Promise`          |
 | `readAsBinaryString` | Resolves with Blob as binary string                       |                                                 | `Promise`          |
