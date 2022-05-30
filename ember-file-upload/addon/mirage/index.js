@@ -51,24 +51,20 @@ export function upload(fn, options = { network: null, timeout: null }) {
               loaded: Math.min(loaded, total),
             });
 
-            metadata
-              .then((metadata) => {
-                request.requestBody = Object.assign(
-                  {
-                    [file.key]: metadata,
-                  },
-                  data
-                );
-                if (timedOut) {
-                  resolve(new Response(408));
-                  return;
-                }
+            metadata.then((metadata) => {
+              request.requestBody = Object.assign(
+                {
+                  [file.key]: metadata,
+                },
+                data
+              );
+              if (timedOut) {
+                resolve(new Response(408));
+                return;
+              }
 
-                resolve(fn.call(this, db, request));
-              })
-              .catch((error) => {
-                resolve(new Response(500, {}, { error: error.message }));
-              });
+              resolve(fn.call(this, db, request));
+            });
           } else {
             request.upload.onprogress({
               lengthComputable: true,

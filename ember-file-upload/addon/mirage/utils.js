@@ -44,6 +44,7 @@ let pipelines = {
       }
 
       return {
+        hasAdditionalMetadata: true,
         duration: duration / 1000,
         animated: duration > 0,
       };
@@ -51,82 +52,69 @@ let pipelines = {
   },
 
   image(file, metadata) {
-    return new RSVP.Promise(function (resolve, reject) {
+    return new RSVP.Promise(function (resolve) {
       let img = new Image();
       img.onload = function () {
-        resolve(img);
+        resolve({ hasAdditionalMetadata: true, img });
       };
       img.onerror = function () {
-        reject(
-          new Error(
-            'You tried to upload an invalid image. The upload handler for mirage ' +
-              'shipped with ember-file-upload does not support invalid images. ' +
-              'Please make sure that your image is valid and can be parsed by browsers.'
-          )
-        );
+        resolve({ hasAdditionalMetadata: false });
       };
       img.src = metadata.url;
-    }).then(function (img) {
+    }).then(function ({ hasAdditionalMetadata, img }) {
       return {
-        width: img.naturalWidth,
-        height: img.naturalHeight,
+        hasAdditionalMetadata,
+        width: img?.naturalWidth,
+        height: img?.naturalHeight,
       };
     });
   },
 
   video(file, metadata) {
-    let video = document.createElement('video');
-    return new RSVP.Promise(function (resolve, reject) {
-      video.addEventListener('loadeddata', resolve);
-      video.onerror = () => {
-        reject(
-          new Error(
-            'You tried to upload an invalid video. The upload handler for mirage ' +
-              'shipped with ember-file-upload does not support invalid videos. ' +
-              'Please make sure that your video is valid and can be parsed by browsers.'
-          )
-        );
-      };
-      video.src = metadata.url;
-      document.body.appendChild(video);
-      video.load();
+    const videoEl = document.createElement('video');
+    return new RSVP.Promise(function (resolve) {
+      videoEl.addEventListener('loadeddata', () =>
+        resolve({ hasAdditionalMetadata: true, video: videoEl })
+      );
+      videoEl.onerror = () => resolve({ hasAdditionalMetadata: false });
+      videoEl.src = metadata.url;
+      document.body.appendChild(videoEl);
+      videoEl.load();
     })
-      .then(function () {
+      .then(function ({ hasAdditionalMetadata, video }) {
         return {
-          duration: video.duration,
-          width: video.videoWidth,
-          height: video.videoHeight,
+          hasAdditionalMetadata,
+          duration: video?.duration,
+          width: video?.videoWidth,
+          height: video?.videoHeight,
         };
       })
       .finally(function () {
-        document.body.removeChild(video);
+        document.body.removeChild(videoEl);
       });
   },
 
   audio(file, metadata) {
-    let audio = document.createElement('audio');
-    return new RSVP.Promise(function (resolve, reject) {
-      audio.addEventListener('loadeddata', resolve);
-      audio.onerror = () => {
-        reject(
-          new Error(
-            'You tried to upload an invalid audio file. The upload handler for mirage ' +
-              'shipped with ember-file-upload does not support invalid audio files. ' +
-              'Please make sure that your audio is valid and can be parsed by browsers.'
-          )
-        );
+    const audioEl = document.createElement('audio');
+    return new RSVP.Promise(function (resolve) {
+      audioEl.addEventListener('loadeddata', () => {
+        resolve({ hasAdditionalMetadata: true, audio: audioEl });
+      });
+      audioEl.onerror = () => {
+        resolve({ hasAdditionalMetadata: false });
       };
-      audio.src = metadata.url;
-      document.body.appendChild(audio);
-      audio.load();
+      audioEl.src = metadata.url;
+      document.body.appendChild(audioEl);
+      audioEl.load();
     })
-      .then(function () {
+      .then(function ({ hasAdditionalMetadata, audio }) {
         return {
-          duration: audio.duration,
+          hasAdditionalMetadata,
+          duration: audio?.duration,
         };
       })
       .finally(function () {
-        document.body.removeChild(audio);
+        document.body.removeChild(audioEl);
       });
   },
 };
