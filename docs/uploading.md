@@ -32,6 +32,12 @@ export default class ExampleComponent extends Component {
 
 > ⚠️ Remember that uploads continue in the background. A component may unmount while an upload is in progress. Consider the lifecycle of objects in your application when performing uploads from within them. In general it's safer to perform uploads in a long-lived object like a Service.
 
+## Request options
+
+The HTTP request made by `upload()` may be configured by passing `UploadOptions` as a second argument.
+
+For more details see the API reference: [Upload Options](../docs/api/class/upload-file.md#upload-options).
+
 ## Displaying upload progress
 
 In addition to the file list, the queue tracks properties that indicate the progess of your uploads.
