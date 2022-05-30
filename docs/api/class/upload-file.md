@@ -46,6 +46,21 @@ The `source` property can be one of the following:
 - `data-url` is the source when the file is created from a data URL using the fromDataURL method for files. This usually means that the file was created manually by the developer on behalf of the user.
 - `blob` is the source when the file is created from a blob using the fromBlob method for files. This usually means that the file was created manually by the developer.
 
+## Upload options
+
+An object which may be passed as an optional second argument to `upload()` and `uploadBinary()`.
+
+| Property          | Description                                                                                                                                                    | Type             |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `accepts`         | A list of MIME types to send as the `Accept` header. Default: `['application/json', 'text/javascript']`.                                                       | `Array<string> ` |
+| `contentType`     | Override the `Content-Type` value of the data payload. Defaults to the `type` of your file.                                                                    | `string`         |
+| `data`            | The data payload to send. Values will be added to this such as `file` and `Content-Type`. Default `{}`.                                                        | `object`         |
+| `fileKey`         | The key within the data payload where the file data is set. Default: `'file'`.                                                                                 | `string`         |
+| `headers`         | An object representing additional HTTP headers to send with the upload request.                                                                                | `object`         |
+| `method`          | The HTTP method to upload with. Default: `'POST'`.                                                                                                             | `string `        |
+| `timeout`         | Time in ms to perform the request before considering it timed out. Timed out uploads will transition the file's state to `FileState.TimedOut`. Default `null`. | `number `        |
+| `withCredentials` | Include credentials (cookies) with the upload request. Default `false`.                                                                                        | `boolean `       |
+
 # Class API
 
 ## Fields
@@ -69,14 +84,14 @@ The `source` property can be one of the following:
 
 ## Methods
 
-| Method               | Description                                               | Parameters                                      | Returns            |
-| -------------------- | --------------------------------------------------------- | ----------------------------------------------- | ------------------ |
-| `upload`             | Upload file to your server.                               | `url: string, options: Record<string, unknown>` | `Promise<unknown>` |
-| `uploadBinary`       | Upload file with `application/octet-stream` content type. | `url: string, options: Record<string, unknown>` | `Promise<unknown>` |
-| `readAsArrayBuffer`  | Upload file with `application/octet-stream` content type. |                                                 | `Promise`          |
-| `readAsDataUrl`      | Resolves with Blob as DataURL.                            |                                                 | `Promise`          |
-| `readAsBinaryString` | Resolves with Blob as binary string                       |                                                 | `Promise`          |
-| `readAsText`         | Resolves with Blob as plain text                          |                                                 | `Promise`          |
+| Method               | Description                                               | Parameters                            | Returns                                       |
+| -------------------- | --------------------------------------------------------- | ------------------------------------- | --------------------------------------------- |
+| `upload`             | Upload file to your server.                               | `url: string, options: UploadOptions` | `Promise<Response>`                           |
+| `uploadBinary`       | Upload file with `application/octet-stream` content type. | `url: string, options: UploadOptions` | `Promise<Response>`                           |
+| `readAsArrayBuffer`  | Resolves with Blob as ArrayBuffer.                        |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
+| `readAsDataUrl`      | Resolves with Blob as DataURL.                            |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
+| `readAsBinaryString` | Resolves with Blob as binary string                       |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
+| `readAsText`         | Resolves with Blob as plain text                          |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
 
 ## Static methods
 
