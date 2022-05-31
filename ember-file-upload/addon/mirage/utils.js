@@ -21,34 +21,32 @@ export function extractFormData(formData) {
 }
 
 const pipelines = {
-  gif(file) {
-    const reader = new UploadFileReader();
-    return reader.readAsArrayBuffer(file).then(function (buffer) {
-      const data = new Uint8Array(buffer);
-      let duration = 0;
-      for (let i = 0; i < data.length; i++) {
-        // Find a Graphic Control Extension hex(21F904__ ____ __00)
-        if (
-          data[i] === 0x21 &&
-          data[i + 1] === 0xf9 &&
-          data[i + 2] === 0x04 &&
-          data[i + 7] === 0x00
-        ) {
-          // Swap 5th and 6th bytes to get the delay per frame
-          let delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
+  async gif(file) {
+    const buffer = await new UploadFileReader().readAsArrayBuffer(file);
+    const data = new Uint8Array(buffer);
+    let duration = 0;
+    for (let i = 0; i < data.length; i++) {
+      // Find a Graphic Control Extension hex(21F904__ ____ __00)
+      if (
+        data[i] === 0x21 &&
+        data[i + 1] === 0xf9 &&
+        data[i + 2] === 0x04 &&
+        data[i + 7] === 0x00
+      ) {
+        // Swap 5th and 6th bytes to get the delay per frame
+        let delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
 
-          // Should be aware browsers have a minimum frame delay
-          // e.g. 6ms for IE, 2ms modern browsers (50fps)
-          duration += delay < 2 ? 10 : delay;
-        }
+        // Should be aware browsers have a minimum frame delay
+        // e.g. 6ms for IE, 2ms modern browsers (50fps)
+        duration += delay < 2 ? 10 : delay;
       }
+    }
 
-      return {
-        hasAdditionalMetadata: true,
-        duration: duration / 1000,
-        animated: duration > 0,
-      };
-    });
+    return {
+      hasAdditionalMetadata: true,
+      duration: duration / 1000,
+      animated: duration > 0,
+    };
   },
 
   image(file, metadata) {
@@ -113,7 +111,7 @@ const pipelines = {
   },
 };
 
-export function extractFileMetadata(file) {
+export async function extractFileMetadata(file) {
   const metadata = {
     name: file.name,
     size: file.size,
@@ -121,37 +119,35 @@ export function extractFileMetadata(file) {
     extension: (file.name.match(/\.(.*)$/) || [])[1],
   };
 
-  const reader = new UploadFileReader();
-  return reader
-    .readAsDataURL(file)
-    .then(function (url) {
-      metadata.url = url;
+  const url = await new UploadFileReader().readAsDataURL(file);
+  metadata.url = url;
 
-      const metadataPipelines = [];
+  const metadataPipelines = [];
 
-      if (metadata.type === 'image/gif') {
-        metadataPipelines.push(pipelines.gif(file, metadata));
-      }
-      if (metadata.type.match(/^image\//)) {
-        metadataPipelines.push(pipelines.image(file, metadata));
-      }
-      if (metadata.type.match(/^video\//)) {
-        metadataPipelines.push(pipelines.video(file, metadata));
-      }
-      if (metadata.type.match(/^audio\//)) {
-        metadataPipelines.push(pipelines.audio(file, metadata));
-      }
-      return RSVP.all(metadataPipelines);
-    })
-    .then(function (additionalMetadata) {
-      additionalMetadata.forEach(function (data) {
-        Object.assign(metadata, data);
-      });
-      // Collapse state of `hasAdditionalMetadata` from multiple pipelines
-      // Should be `true` if at least one pipeline succeeded
-      metadata.hasAdditionalMetadata = additionalMetadata.any(
-        (data) => data.hasAdditionalMetadata
-      );
-      return metadata;
-    });
+  if (metadata.type === 'image/gif') {
+    metadataPipelines.push(pipelines.gif(file, metadata));
+  }
+  if (metadata.type.match(/^image\//)) {
+    metadataPipelines.push(pipelines.image(file, metadata));
+  }
+  if (metadata.type.match(/^video\//)) {
+    metadataPipelines.push(pipelines.video(file, metadata));
+  }
+  if (metadata.type.match(/^audio\//)) {
+    metadataPipelines.push(pipelines.audio(file, metadata));
+  }
+
+  const additionalMetadata = await RSVP.all(metadataPipelines);
+
+  additionalMetadata.forEach(function (data) {
+    Object.assign(metadata, data);
+  });
+
+  // Collapse state of `hasAdditionalMetadata` from multiple pipelines
+  // Should be `true` if at least one pipeline succeeded
+  metadata.hasAdditionalMetadata = additionalMetadata.any(
+    (data) => data.hasAdditionalMetadata
+  );
+
+  return metadata;
 }

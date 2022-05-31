@@ -40,7 +40,7 @@ export function upload(fn, options = { network: null, timeout: null }) {
       return new RSVP.Promise((resolve) => {
         const start = new Date().getTime();
 
-        const upload = () => {
+        const upload = async () => {
           const timedOut =
             options.timeout && new Date().getTime() - start > options.timeout;
           if (timedOut || loaded >= total) {
@@ -50,20 +50,20 @@ export function upload(fn, options = { network: null, timeout: null }) {
               loaded: Math.min(loaded, total),
             });
 
-            extractFileMetadata(file.value).then((metadata) => {
-              request.requestBody = Object.assign(
-                {
-                  [file.key]: metadata,
-                },
-                data
-              );
-              if (timedOut) {
-                resolve(new Response(408));
-                return;
-              }
+            const metadata = await extractFileMetadata(file.value);
+            request.requestBody = Object.assign(
+              {
+                [file.key]: metadata,
+              },
+              data
+            );
 
-              resolve(fn.call(this, db, request));
-            });
+            if (timedOut) {
+              resolve(new Response(408));
+              return;
+            }
+
+            resolve(fn.call(this, db, request));
           } else {
             request.upload.onprogress({
               lengthComputable: true,
