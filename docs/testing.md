@@ -49,7 +49,7 @@ module('Acceptance | drag and drop upload notes', function(hooks) {
 
 ## Mirage `upload` handler
 
-A mirage handler is provided which can realistically simulate file uploads, including progress events and failure states.
+A mirage handler is provided which can realistically simulate file uploads, including progress events.
 
 ```js
 // mirage/config.js
@@ -58,9 +58,8 @@ import { upload } from 'ember-file-upload/mirage';
 
 export default function () {
   this.post('/photos/new', upload(function (schema, request) {
-    let { name: fileName, size: fileSize, url } = request.requestBody.file;
-    let photo = schema.create('photo', { fileName, fileSize, url, uploadedAt: new Date() });
-    return photo;
+    const { name, size, url, width, height, hasAdditionalMetadata } = request.requestBody.file;
+    return schema.create('photo', { name, size, url, width, height, hasAdditionalMetadata, uploadedAt: new Date() });
   }));
 }
 ```
@@ -90,17 +89,6 @@ module('/photos', function(hooks) {
     assert.equal(photo.filename, 'smile.png');
   });
 });
-```
-
-The upload handler only works with valid images. You could create dummy images for tests using a `canvas` element:
-
-```js
-function getImageBlob() {
-  return new Promise((resolve) => {
-    let canvas = document.createElement('canvas');
-    canvas.toBlob(resolve, 'image/png');
-  });
-}
 ```
 
 ## Content Security Policy

@@ -22,6 +22,7 @@ module('Unit | UploadFile', function (hooks) {
             size: 12,
             type: 'text',
             url: 'data:text;base64,TXkgVGVzdCBGaWxl',
+            hasAdditionalMetadata: false,
             extension: undefined,
           },
           'Successfully uploaded the file'
