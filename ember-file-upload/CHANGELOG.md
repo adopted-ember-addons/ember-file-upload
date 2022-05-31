@@ -1,5 +1,17 @@
 
 
+
+## v6.1.0 (2022-05-31)
+
+#### :rocket: Enhancement
+* [#797](https://github.com/adopted-ember-addons/ember-file-upload/pull/797) Mirage hander: Don't send error response when file metadata can't be generated ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#796](https://github.com/adopted-ember-addons/ember-file-upload/pull/796) Document `UploadOptions` and provide a link from the "Uploading files" page ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v6.0.3 (2022-05-25)
 
 #### :bug: Bug Fix
