@@ -3,8 +3,8 @@ import RSVP from 'rsvp';
 import UploadFileReader from '../system/upload-file-reader';
 
 export function extractFormData(formData) {
-  let data = {};
-  let items = formData.entries();
+  const data = {};
+  const items = formData.entries();
   let item = items.next();
   let file = null;
   while (!item.done) {
@@ -20,11 +20,11 @@ export function extractFormData(formData) {
   return { file, data };
 }
 
-let pipelines = {
+const pipelines = {
   gif(file) {
-    let reader = new UploadFileReader();
+    const reader = new UploadFileReader();
     return reader.readAsArrayBuffer(file).then(function (buffer) {
-      let data = new Uint8Array(buffer);
+      const data = new Uint8Array(buffer);
       let duration = 0;
       for (let i = 0; i < data.length; i++) {
         // Find a Graphic Control Extension hex(21F904__ ____ __00)
@@ -53,7 +53,7 @@ let pipelines = {
 
   image(file, metadata) {
     return new RSVP.Promise(function (resolve) {
-      let img = new Image();
+      const img = new Image();
       img.onload = function () {
         resolve({ hasAdditionalMetadata: true, img });
       };
@@ -120,34 +120,34 @@ let pipelines = {
 };
 
 export function extractFileMetadata(file) {
-  let metadata = {
+  const metadata = {
     name: file.name,
     size: file.size,
     type: file.type,
     extension: (file.name.match(/\.(.*)$/) || [])[1],
   };
 
-  let reader = new UploadFileReader();
+  const reader = new UploadFileReader();
   return reader
     .readAsDataURL(file)
     .then(function (url) {
       metadata.url = url;
 
-      let additionalMetadata = [];
+      const metadataPipelines = [];
 
       if (metadata.type === 'image/gif') {
-        additionalMetadata.push(pipelines.gif(file, metadata));
+        metadataPipelines.push(pipelines.gif(file, metadata));
       }
       if (metadata.type.match(/^image\//)) {
-        additionalMetadata.push(pipelines.image(file, metadata));
+        metadataPipelines.push(pipelines.image(file, metadata));
       }
       if (metadata.type.match(/^video\//)) {
-        additionalMetadata.push(pipelines.video(file, metadata));
+        metadataPipelines.push(pipelines.video(file, metadata));
       }
       if (metadata.type.match(/^audio\//)) {
-        additionalMetadata.push(pipelines.audio(file, metadata));
+        metadataPipelines.push(pipelines.audio(file, metadata));
       }
-      return RSVP.all(additionalMetadata);
+      return RSVP.all(metadataPipelines);
     })
     .then(function (additionalMetadata) {
       additionalMetadata.forEach(function (data) {

@@ -33,16 +33,15 @@ export function upload(fn, options = { network: null, timeout: null }) {
         speed = NETWORK[options.network] * 1024;
       }
 
-      let { file, data } = extractFormData(request.requestBody);
+      const { file, data } = extractFormData(request.requestBody);
       let loaded = 0;
-      let total = file.value.size;
+      const total = file.value.size;
 
       return new RSVP.Promise((resolve) => {
-        let start = new Date().getTime();
-        let metadata = extractFileMetadata(file.value);
+        const start = new Date().getTime();
 
-        let upload = () => {
-          let timedOut =
+        const upload = () => {
+          const timedOut =
             options.timeout && new Date().getTime() - start > options.timeout;
           if (timedOut || loaded >= total) {
             request.upload.onprogress({
@@ -51,7 +50,7 @@ export function upload(fn, options = { network: null, timeout: null }) {
               loaded: Math.min(loaded, total),
             });
 
-            metadata.then((metadata) => {
+            extractFileMetadata(file.value).then((metadata) => {
               request.requestBody = Object.assign(
                 {
                   [file.key]: metadata,
