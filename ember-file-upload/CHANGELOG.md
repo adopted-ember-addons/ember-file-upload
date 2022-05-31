@@ -1,6 +1,15 @@
 
 
 
+
+## v6.1.1 (2022-05-31)
+
+#### :bug: Bug Fix
+* [#798](https://github.com/adopted-ember-addons/ember-file-upload/pull/798) Replace usage of ember array prototype .any() with native .some() ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v6.1.0 (2022-05-31)
 
 #### :rocket: Enhancement
