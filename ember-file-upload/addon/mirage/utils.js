@@ -145,7 +145,7 @@ export async function extractFileMetadata(file) {
 
   // Collapse state of `hasAdditionalMetadata` from multiple pipelines
   // Should be `true` if at least one pipeline succeeded
-  metadata.hasAdditionalMetadata = additionalMetadata.any(
+  metadata.hasAdditionalMetadata = additionalMetadata.some(
     (data) => data.hasAdditionalMetadata
   );
 
