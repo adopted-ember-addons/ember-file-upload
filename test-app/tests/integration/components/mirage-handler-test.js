@@ -43,9 +43,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
       })
     );
 
-    this.set('uploadImage', (file) => {
-      return file.upload('/folder/1/file');
-    });
+    this.uploadImage = (file) =>  file.upload('/folder/1/file');
     await render(hbs`
       {{#let (file-queue name="test" onFileAdded=this.uploadImage) as |queue|}}
         <label>
@@ -119,7 +117,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         assert.expect(2);
 
         this.server.post(
-          '/image',
+          '/upload-file',
           uploadHandler((_schema, request) => {
             assert.true(
               request.requestBody.file.hasAdditionalMetadata,
@@ -134,7 +132,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         );
 
         this.upload = (file) => {
-          return file.upload('/image');
+          return file.upload('/upload-file');
         };
         await render(hbs`
           {{#let (file-queue name="test" onFileAdded=this.upload) as |queue|}}
@@ -164,7 +162,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         assert.expect(1);
 
         this.server.post(
-          '/image',
+          '/upload-file',
           uploadHandler((_schema, request) =>
             assert.false(
               request.requestBody.file.hasAdditionalMetadata,
@@ -174,7 +172,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         );
 
         this.upload = (file) => {
-          return file.upload('/image');
+          return file.upload('/upload-file');
         };
         await render(hbs`
           {{#let (file-queue name="test" onFileAdded=this.upload) as |queue|}}
