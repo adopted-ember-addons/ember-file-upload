@@ -33,6 +33,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
           'Content-Type': 'text/plain',
           file: {
             extension: 'txt',
+            hasAdditionalMetadata: false,
             name: 'text.txt',
             size: 9,
             type: 'text/plain',

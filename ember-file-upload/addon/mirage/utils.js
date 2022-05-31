@@ -54,12 +54,8 @@ const pipelines = {
   image(file, metadata) {
     return new RSVP.Promise(function (resolve) {
       const img = new Image();
-      img.onload = function () {
-        resolve({ hasAdditionalMetadata: true, img });
-      };
-      img.onerror = function () {
-        resolve({ hasAdditionalMetadata: false });
-      };
+      img.onload = () => resolve({ hasAdditionalMetadata: true, img });
+      img.onerror = () => resolve({ hasAdditionalMetadata: false });
       img.src = metadata.url;
     }).then(function ({ hasAdditionalMetadata, img }) {
       return {
@@ -97,12 +93,10 @@ const pipelines = {
   audio(file, metadata) {
     const audioEl = document.createElement('audio');
     return new RSVP.Promise(function (resolve) {
-      audioEl.addEventListener('loadeddata', () => {
-        resolve({ hasAdditionalMetadata: true, audio: audioEl });
-      });
-      audioEl.onerror = () => {
-        resolve({ hasAdditionalMetadata: false });
-      };
+      audioEl.addEventListener('loadeddata', () =>
+        resolve({ hasAdditionalMetadata: true, audio: audioEl })
+      );
+      audioEl.onerror = () => resolve({ hasAdditionalMetadata: false });
       audioEl.src = metadata.url;
       document.body.appendChild(audioEl);
       audioEl.load();
@@ -153,6 +147,11 @@ export function extractFileMetadata(file) {
       additionalMetadata.forEach(function (data) {
         Object.assign(metadata, data);
       });
+      // Collapse state of `hasAdditionalMetadata` from multiple pipelines
+      // Should be `true` if at least one pipeline succeeded
+      metadata.hasAdditionalMetadata = additionalMetadata.any(
+        (data) => data.hasAdditionalMetadata
+      );
       return metadata;
     });
 }
