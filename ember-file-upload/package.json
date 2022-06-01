@@ -89,7 +89,7 @@
     "release-it-lerna-changelog": "^4.0.0",
     "rollup": "^2.70.1",
     "rollup-plugin-ts": "^2.0.5",
-    "typescript": "^4.5.3"
+    "typescript": "~4.6.4"
   },
   "peerDependencies": {
     "ember-cli-mirage": "*",
