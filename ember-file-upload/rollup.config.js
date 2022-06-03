@@ -13,7 +13,19 @@ export default defineConfig({
   plugins: [
     // These are the modules that users should be able to import from your
     // addon. Anything not listed here may get optimized away.
-    addon.publicEntrypoints(['**/*.ts', 'mirage/*.js']),
+    addon.publicEntrypoints([
+      'components/**/*.ts',
+      'helpers/**/*.ts',
+      'services/**/*.ts',
+      'mirage/*.js',
+      'interfaces.ts',
+      'queue.ts',
+      'upload-file.ts',
+      'test-support.ts',
+      'system/upload-file-reader.ts',
+      'system/data-transfer-wrapper.ts',
+      'system/http-request.ts',
+    ]),
 
     // These are the modules that should get reexported into the traditional
     // "app" tree. Things in here should also be in publicEntrypoints above, but
@@ -23,14 +35,8 @@ export default defineConfig({
       'helpers/**/*.js',
       'services/**/*.js',
     ]),
-    // This babel config should *not* apply presets or compile away ES modules.
-    // It exists only to provide development niceties for you, like automatic
-    // template colocation.
-    // See `babel.config.json` for the actual Babel configuration!
+
     typescript({
-      // can be changed to swc or other transpilers later
-      // but we need the ember plugins converted first
-      // (template compilation and co-location)
       transpiler: 'babel',
       browserslist: false,
       transpileOnly: false,
