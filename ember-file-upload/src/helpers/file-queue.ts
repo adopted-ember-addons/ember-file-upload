@@ -30,9 +30,9 @@ import { FileQueueArgs, QueueListener } from 'ember-file-upload/interfaces';
  * ```
  */
 export default class FileQueueHelper extends Helper implements QueueListener {
-  @service declare fileQueue: FileQueueService;
+  @service fileQueue!: FileQueueService;
 
-  declare args: FileQueueArgs;
+  args!: FileQueueArgs;
 
   compute(_positional: unknown[], args: FileQueueArgs) {
     this.args = args;

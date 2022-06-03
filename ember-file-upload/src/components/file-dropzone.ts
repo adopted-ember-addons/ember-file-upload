@@ -42,7 +42,7 @@ import DragListenerModifier from '../system/drag-listener-modifier';
   @yield {Queue} queue
  */
 export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
-  @service declare fileQueue: FileQueueService;
+  @service fileQueue!: FileQueueService;
 
   @tracked active = false;
   @tracked dataTransferWrapper?: DataTransferWrapper;
