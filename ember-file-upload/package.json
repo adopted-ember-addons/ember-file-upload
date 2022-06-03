@@ -60,6 +60,7 @@
     "@babel/core": "^7.17.8",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-decorators": "^7.17.8",
+    "@babel/preset-typescript": "^7.17.12",
     "@embroider/addon-dev": "^1.5.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@types/ember__component": "^3.16.6",
