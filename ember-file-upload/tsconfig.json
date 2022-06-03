@@ -28,12 +28,6 @@
       "ember-file-upload/*": [
         "src/*"
       ],
-      "ember-file-upload/test-support": [
-        "addon-test-support"
-      ],
-      "ember-file-upload/test-support/*": [
-        "addon-test-support/*"
-      ],
       "*": [
         "types/*"
       ]
@@ -41,6 +35,5 @@
   },
   "include": [
     "src/**/*",
-    "addon-test-support/**/*"
   ]
 }
