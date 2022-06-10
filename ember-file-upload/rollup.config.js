@@ -42,7 +42,15 @@ export default defineConfig({
       transpileOnly: false,
       tsconfig: {
         fileName: 'tsconfig.json',
-        hook: (config) => ({ ...config, declaration: true }),
+        hook: (config) => ({
+          ...config,
+          declaration: true,
+          declarationMap: true,
+          // See: https://devblogs.microsoft.com/typescript/announcing-typescript-4-5/#beta-delta
+          // Allows us to use `exports` to define types per export
+          // However, we can't use that feature until the minimum supported TS is 4.7+
+          declarationDir: './dist',
+        }),
       },
     }),
 
