@@ -33,7 +33,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment=production",
+    "build": "rollup --config",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint .",
@@ -41,41 +41,34 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
-    "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
-    "postversion": "git push && git push --tags",
-    "prepack": "ember ts:precompile",
-    "postpack": "ember ts:clean"
+    "start": "rollup --config --watch",
+    "test": "echo 'Addon does not have tests, run tests in test-app'",
+    "prepare": "yarn build"
   },
   "dependencies": {
+    "@ember/test-helpers": "^2.4.2",
     "@ember/test-waiters": "^3.0.0",
+    "@embroider/addon-shim": "^1.5.0",
     "@embroider/macros": "^1.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "broccoli-funnel": "^3.0.8",
     "ember-auto-import": "^2.0.0",
-    "ember-cli-babel": "^7.26.6",
-    "ember-cli-htmlbars": "^5.7.1 || ^6.0.1",
-    "ember-cli-typescript": "^5.0.0",
     "ember-modifier": "^3.2.7",
     "tracked-built-ins": "^3.0.0"
   },
   "devDependencies": {
-    "@ember/test-helpers": "^2.4.2",
-    "@embroider/test-setup": "^1.0.0",
-    "@types/ember__application": "^3.16.3",
-    "@types/ember__array": "^3.16.4",
+    "@babel/core": "^7.17.8",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-decorators": "^7.17.8",
+    "@babel/plugin-transform-runtime": "^7.18.2",
+    "@babel/plugin-transform-typescript": "^7.18.4",
+    "@babel/preset-typescript": "^7.17.12",
+    "@embroider/addon-dev": "^1.5.0",
+    "@rollup/plugin-babel": "^5.3.1",
     "@types/ember__component": "^3.16.6",
-    "@types/ember__controller": "^3.16.6",
     "@types/ember__debug": "^3.16.5",
     "@types/ember__destroyable": "^3.22.0",
     "@types/ember__engine": "^3.16.3",
-    "@types/ember__error": "^3.16.1",
-    "@types/ember__object": "^3.12.6",
-    "@types/ember__polyfills": "^3.12.1",
-    "@types/ember__routing": "^3.16.15",
     "@types/ember__runloop": "^3.16.3",
     "@types/ember__service": "^3.16.1",
     "@types/ember__string": "^3.16.3",
@@ -83,29 +76,23 @@
     "@types/ember__test": "^3.16.1",
     "@types/ember__test-helpers": "^2.6.0",
     "@types/ember__utils": "^3.16.2",
-    "@types/htmlbars-inline-precompile": "^3.0.0",
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "babel-eslint": "^10.1.0",
-    "broccoli-asset-rev": "^3.0.0",
-    "ember-cli": "4.3.0",
-    "ember-cli-dependency-checker": "^3.2.0",
-    "ember-cli-typescript-blueprints": "^3.0.0",
-    "ember-source": "~4.4.0",
     "ember-template-lint": "^4.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^10.5.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "release-it": "^14.14.3",
     "release-it-lerna-changelog": "^4.0.0",
-    "typescript": "^4.5.3",
-    "webpack": "5"
+    "rollup": "^2.70.1",
+    "rollup-plugin-ts": "^3.0.1",
+    "typescript": "^4.7.2"
   },
   "peerDependencies": {
     "ember-cli-mirage": "*",
@@ -129,8 +116,22 @@
     "edition": "octane"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "demoURL": "https://adopted-ember-addons.github.io/ember-file-upload/"
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.js",
+    "app-js": {
+      "./components/file-dropzone.js": "./dist/_app_/components/file-dropzone.js",
+      "./helpers/file-queue.js": "./dist/_app_/helpers/file-queue.js",
+      "./services/file-queue.js": "./dist/_app_/services/file-queue.js"
+    }
+  },
+  "files": [
+    "addon-main.js",
+    "dist"
+  ],
+  "exports": {
+    "./*": "./dist/*",
+    "./addon-main.js": "./addon-main.js"
   },
   "release-it": {
     "plugins": {

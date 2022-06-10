@@ -4,62 +4,14 @@ import { getOwner } from '@ember/application';
 import DataTransferWrapper from '../system/data-transfer-wrapper';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import Queue from '../queue';
 import UploadFile from 'ember-file-upload/upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
-import { FileUploadDragEvent, FileSource } from 'ember-file-upload/interfaces';
+import {
+  FileUploadDragEvent,
+  FileSource,
+  FileDropzoneArgs,
+} from 'ember-file-upload/interfaces';
 import DragListenerModifier from '../system/drag-listener-modifier';
-
-interface FileDropzoneArgs {
-  queue?: Queue;
-
-  /**
-   * Whether users can upload content from websites by dragging images from
-   * another webpage and dropping it into your app. The default is `false`
-   * to prevent cross-site scripting issues.
-   *
-   * @defaulValue false
-   * */
-  allowUploadsFromWebsites?: boolean;
-
-  /**
-   * This is the type of cursor that should
-   * be shown when a drag event happens.
-   *
-   * Corresponds to `DataTransfer.dropEffect`.
-   * (https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect)
-   *
-   * @defaultValue 'copy'
-   */
-  cursor?: 'link' | 'none' | 'copy' | 'move';
-
-  /**
-   * Whether to add multiple files to the queue at once.
-   *
-   * If set to false only one file will be added when dropping mulitple files.
-   *
-   * @defaultValue true
-   */
-  multiple?: boolean;
-
-  // actions
-  filter?: (file: File, files: File[], index: number) => boolean;
-
-  /**
-   * Called when files have entered the dropzone.
-   */
-  onDragEnter?: (files: File[], dataTransfer: DataTransferWrapper) => void;
-
-  /**
-   * Called when files have left the dropzone.
-   */
-  onDragLeave?: (files: File[], dataTransfer: DataTransferWrapper) => void;
-
-  /**
-   * Called when file have been dropped on the dropzone.
-   */
-  onDrop?: (files: UploadFile[], dataTransfer: DataTransferWrapper) => void;
-}
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
@@ -121,6 +73,8 @@ export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
 
   get isAllowed() {
     const { environment } =
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       getOwner(this).resolveRegistration('config:environment');
 
     return (

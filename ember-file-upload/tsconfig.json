@@ -23,16 +23,10 @@
     "skipLibCheck": true,
     "paths": {
       "ember-file-upload": [
-        "addon"
+        "src"
       ],
       "ember-file-upload/*": [
-        "addon/*"
-      ],
-      "ember-file-upload/test-support": [
-        "addon-test-support"
-      ],
-      "ember-file-upload/test-support/*": [
-        "addon-test-support/*"
+        "src/*"
       ],
       "*": [
         "types/*"
@@ -40,11 +34,6 @@
     }
   },
   "include": [
-    "app/**/*",
-    "addon/**/*",
-    "tests/**/*",
-    "types/**/*",
-    "test-support/**/*",
-    "addon-test-support/**/*"
+    "src/**/*",
   ]
 }

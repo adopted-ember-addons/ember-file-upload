@@ -1,11 +1,9 @@
 import { assert } from '@ember/debug';
 import HTTPRequest from './http-request';
 import RSVP from 'rsvp';
-import { buildWaiter } from '@ember/test-waiters';
-import UploadFile from 'ember-file-upload/upload-file';
+import { waitForPromise } from '@ember/test-waiters';
+import type UploadFile from 'ember-file-upload/upload-file';
 import { FileState, UploadOptions } from 'ember-file-upload/interfaces';
-
-const uploadWaiter = buildWaiter('ember-file-upload:upload');
 
 function clone(object: object | undefined) {
   return object ? { ...object } : {};
@@ -106,10 +104,8 @@ export function upload(
   };
   file.state = FileState.Uploading;
 
-  const token = uploadWaiter.beginAsync();
-
-  return uploadFn(request, options)
-    .then(
+  return waitForPromise(
+    uploadFn(request, options).then(
       function (response) {
         file.state = FileState.Uploaded;
         return response;
@@ -119,5 +115,5 @@ export function upload(
         return RSVP.reject(error);
       }
     )
-    .finally(() => uploadWaiter.endAsync(token));
+  );
 }
