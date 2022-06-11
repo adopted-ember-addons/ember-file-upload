@@ -43,8 +43,7 @@
   "dependencies": {
     "@embroider/addon-shim": "^1.5.0",
     "ember-auto-import": "^2.0.0",
-    "ember-cli-mirage": "^2.4.0",
-    "miragejs": "^0.1.44"
+    "miragejs": "^0.1.45"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
