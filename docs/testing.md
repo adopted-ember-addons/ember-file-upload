@@ -49,15 +49,21 @@ module('Acceptance | drag and drop upload notes', function(hooks) {
 
 ## Mirage `upload` handler
 
-A mirage handler is provided which can realistically simulate file uploads, including progress events.
+A mirage handler is provided by the `ember-file-upload-mirage` addon.
+
+```sh
+ember install ember-file-upload-mirage
+```
+
+It can realistically simulate file uploads, including progress events.
 
 ```js
 // mirage/config.js
 
-import { upload } from 'ember-file-upload/mirage';
+import { uploadHandler } from 'ember-file-upload-mirage';
 
 export default function () {
-  this.post('/photos/new', upload(function (schema, request) {
+  this.post('/photos/new', uploadHandler(function (schema, request) {
     const { name, size, url, width, height, hasAdditionalMetadata } = request.requestBody.file;
     return schema.create('photo', { name, size, url, width, height, hasAdditionalMetadata, uploadedAt: new Date() });
   }));

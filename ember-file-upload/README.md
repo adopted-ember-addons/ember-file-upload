@@ -15,7 +15,7 @@ Uploads can be managed through queues and continue in the background, even after
 * Ember CLI v2.13 or above
 * Node.js v14 or above
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
-* Strict Content Security Policy (CSP) except for mirage route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
+* Strict Content Security Policy (CSP) except for `ember-file-upload-mirage` route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
 
 For Ember.js < 3.25 use 4.x which is documented by [Legacy docs](https://adopted-ember-addons.github.io/ember-file-upload/docs/).
 
