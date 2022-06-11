@@ -6,7 +6,8 @@
     "test-app"
   ],
   "scripts": {
-    "prepare": "yarn workspace ember-file-upload prepare"
+    "prepare": "yarn workspace ember-file-upload prepare",
+    "test": "yarn workspace test-app test:ember -s"
   },
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "resolutions": {
