@@ -1,28 +1,45 @@
 import RSVP from 'rsvp';
-
 import UploadFileReader from '../system/upload-file-reader';
+import { assert } from '@ember/debug';
 
-export function extractFormData(formData) {
-  const data = {};
-  const items = formData.entries();
-  let item = items.next();
-  let file = null;
-  while (!item.done) {
-    let [key, value] = item.value;
+interface AdditionalMetadata {
+  hasAdditionalMetadata?: boolean;
+  duration?: number;
+  animated?: boolean;
+  width?: number;
+  height?: number;
+}
+
+interface FileMetadata extends AdditionalMetadata {
+  name: string;
+  size: number;
+  type: string;
+  extension: string;
+  url: string;
+}
+
+export function extractFormData(formData: FormData) {
+  let data = {};
+  let file: { key: string; value: File } | null = null;
+
+  for (const [key, value] of formData.entries()) {
     if (value instanceof File) {
       file = { key, value };
-    } else {
-      data[key] = value;
+      continue;
     }
-    item = items.next();
+    data = { ...data, [key]: value };
   }
+
+  assert('Failed find a file in request body', file?.key && file?.value);
 
   return { file, data };
 }
 
 const pipelines = {
-  async gif(file) {
-    const buffer = await new UploadFileReader().readAsArrayBuffer(file);
+  async gif(file: File): Promise<AdditionalMetadata> {
+    const buffer = (await new UploadFileReader().readAsArrayBuffer(
+      file
+    )) as ArrayBuffer;
     const data = new Uint8Array(buffer);
     let duration = 0;
     for (let i = 0; i < data.length; i++) {
@@ -34,7 +51,7 @@ const pipelines = {
         data[i + 7] === 0x00
       ) {
         // Swap 5th and 6th bytes to get the delay per frame
-        let delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
+        const delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
 
         // Should be aware browsers have a minimum frame delay
         // e.g. 6ms for IE, 2ms modern browsers (50fps)
@@ -49,7 +66,7 @@ const pipelines = {
     };
   },
 
-  image(file, metadata) {
+  image(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
     return new RSVP.Promise(function (resolve) {
       const img = new Image();
       img.onload = () => resolve({ hasAdditionalMetadata: true, img });
@@ -64,7 +81,7 @@ const pipelines = {
     });
   },
 
-  video(file, metadata) {
+  video(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
     const videoEl = document.createElement('video');
     return new RSVP.Promise(function (resolve) {
       videoEl.addEventListener('loadeddata', () =>
@@ -88,7 +105,7 @@ const pipelines = {
       });
   },
 
-  audio(file, metadata) {
+  audio(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
     const audioEl = document.createElement('audio');
     return new RSVP.Promise(function (resolve) {
       audioEl.addEventListener('loadeddata', () =>
@@ -111,21 +128,21 @@ const pipelines = {
   },
 };
 
-export async function extractFileMetadata(file) {
-  const metadata = {
+export async function extractFileMetadata(file: File) {
+  const url = (await new UploadFileReader().readAsDataURL(file)) as string;
+
+  const metadata: FileMetadata = {
     name: file.name,
     size: file.size,
     type: file.type,
     extension: (file.name.match(/\.(.*)$/) || [])[1],
+    url,
   };
-
-  const url = await new UploadFileReader().readAsDataURL(file);
-  metadata.url = url;
 
   const metadataPipelines = [];
 
   if (metadata.type === 'image/gif') {
-    metadataPipelines.push(pipelines.gif(file, metadata));
+    metadataPipelines.push(pipelines.gif(file));
   }
   if (metadata.type.match(/^image\//)) {
     metadataPipelines.push(pipelines.image(file, metadata));
