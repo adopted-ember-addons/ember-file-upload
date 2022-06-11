@@ -2,11 +2,15 @@
   "private": true,
   "workspaces": [
     "ember-file-upload",
+    "ember-file-upload-mirage",
     "website",
     "test-app"
   ],
   "scripts": {
-    "prepare": "yarn workspace ember-file-upload prepare"
+    "prepare": "npm-run-all --aggregate-output --continue-on-error --parallel prepare:*",
+    "prepare:ember-file-upload": "yarn workspace ember-file-upload prepare",
+    "prepare:ember-file-upload-mirage": "yarn workspace ember-file-upload-mirage prepare",
+    "test": "yarn workspace test-app ember t -s"
   },
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "resolutions": {

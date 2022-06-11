@@ -48,7 +48,6 @@ module.exports = {
       files: [
         './.eslintrc.js',
         './.prettierrc.js',
-        './.template-lintrc.js',
         './config/**/*.js',
         './addon-main.js',
       ],

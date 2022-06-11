@@ -1,4 +1,4 @@
-import { upload } from 'ember-file-upload/mirage';
+import { upload } from 'ember-file-upload-mirage';
 import { discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer } from 'miragejs';
 
