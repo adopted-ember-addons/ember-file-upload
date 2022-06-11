@@ -18,6 +18,7 @@ export default defineConfig({
       'helpers/**/*.ts',
       'services/**/*.ts',
       'index.ts',
+      'internal.ts',
       'test-support.ts',
     ]),
 

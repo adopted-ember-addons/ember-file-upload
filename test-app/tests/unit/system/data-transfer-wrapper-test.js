@@ -1,4 +1,4 @@
-import { DataTransferWrapper } from 'ember-file-upload';
+import { DataTransferWrapper } from 'ember-file-upload/internal';
 import { module, test } from 'qunit';
 
 module('Unit | DataTransferWrapper', function (hooks) {

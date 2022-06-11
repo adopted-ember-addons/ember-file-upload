@@ -1,5 +1,5 @@
 import FakeXMLHttpRequest from 'fake-xml-http-request';
-import { HTTPRequest } from 'ember-file-upload';
+import { HTTPRequest } from 'ember-file-upload/internal';
 import { module, test, skip } from 'qunit';
 
 module('Unit | HttpRequest', function (hooks) {
