@@ -17,7 +17,7 @@ export default defineConfig({
       'components/**/*.ts',
       'helpers/**/*.ts',
       'services/**/*.ts',
-      'mirage/*.js',
+      'mirage/index.ts',
       'interfaces.ts',
       'queue.ts',
       'upload-file.ts',
