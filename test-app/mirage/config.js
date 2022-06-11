@@ -1,4 +1,4 @@
-import { upload } from 'ember-file-upload/mirage';
+import { uploadHandler } from 'ember-file-upload';
 import { discoverEmberDataModels } from 'ember-cli-mirage';
 import { createServer } from 'miragejs';
 
@@ -9,7 +9,7 @@ export default function (config) {
     routes() {
       this.post(
         '/photos/new',
-        upload(function (db, request) {
+        uploadHandler(function (db, request) {
           let { type, name, size, url } = request.requestBody.file;
           return db.create('photo', {
             filename: name,
