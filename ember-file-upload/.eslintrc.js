@@ -71,10 +71,5 @@ module.exports = {
       plugins: ['node'],
       extends: ['eslint:recommended'],
     },
-    {
-      // Test files:
-      files: ['tests/**/*-test.{js,ts}'],
-      extends: ['plugin:qunit/recommended'],
-    },
   ],
 };

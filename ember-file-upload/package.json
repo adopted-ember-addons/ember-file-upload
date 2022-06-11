@@ -28,10 +28,6 @@
       "url": "http://gilesthompson.co.nz"
     }
   ],
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
   "scripts": {
     "build": "rollup --config",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
@@ -93,18 +89,6 @@
     "rollup": "^2.70.1",
     "rollup-plugin-ts": "^3.0.1",
     "typescript": "^4.7.2"
-  },
-  "peerDependencies": {
-    "ember-cli-mirage": "*",
-    "miragejs": "*"
-  },
-  "peerDependenciesMeta": {
-    "ember-cli-mirage": {
-      "optional": true
-    },
-    "miragejs": {
-      "optional": true
-    }
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
