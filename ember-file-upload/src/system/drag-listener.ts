@@ -6,7 +6,7 @@ import {
   DragEventListener,
   QueuedDragEvent,
   DragListenerHandlers,
-} from 'ember-file-upload/interfaces';
+} from '../interfaces';
 import MutableArray from '@ember/array/mutable';
 import { action } from '@ember/object';
 

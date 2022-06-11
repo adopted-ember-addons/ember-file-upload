@@ -2,8 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import UploadFile from 'ember-file-upload/upload-file';
-import { FileSource } from 'ember-file-upload/interfaces';
+import { UploadFile, FileSource } from 'ember-file-upload';
 
 module('Integration | Service | file queue', function (hooks) {
   setupRenderingTest(hooks);

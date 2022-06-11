@@ -2,9 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { DEFAULT_QUEUE } from 'ember-file-upload/services/file-queue';
-import { FileState } from 'ember-file-upload/interfaces';
 import { later } from '@ember/runloop';
 
 

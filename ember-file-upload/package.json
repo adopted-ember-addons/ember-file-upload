@@ -130,7 +130,10 @@
     "dist"
   ],
   "exports": {
+    ".": "./dist/index.js",
     "./*": "./dist/*",
+    "./mirage": "./dist/mirage/index.js",
+    "./test-support": "./dist/test-support.js",
     "./addon-main.js": "./addon-main.js"
   },
   "release-it": {

@@ -7,7 +7,7 @@ import {
   dragEnter,
   dragLeave,
 } from 'ember-file-upload/test-support';
-import Queue from 'ember-file-upload/queue';
+import { Queue } from 'ember-file-upload';
 
 module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);

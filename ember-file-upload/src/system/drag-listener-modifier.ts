@@ -1,5 +1,5 @@
 import Modifier, { ArgsFor, NamedArgs } from 'ember-modifier';
-import { DragListenerModifierSignature } from 'ember-file-upload/interfaces';
+import { DragListenerModifierSignature } from '../interfaces';
 import DragListener from './drag-listener';
 import { registerDestructor } from '@ember/destroyable';
 

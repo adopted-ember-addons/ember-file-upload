@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import type UploadFile from '../upload-file';
 import type FileQueueService from '../services/file-queue';
 import { DEFAULT_QUEUE } from '../services/file-queue';
-import { FileQueueArgs, QueueListener } from 'ember-file-upload/interfaces';
+import { FileQueueArgs, QueueListener } from '../interfaces';
 
 /**
  * `file-queue` helper is one of the core primitives of ember-file-upload.

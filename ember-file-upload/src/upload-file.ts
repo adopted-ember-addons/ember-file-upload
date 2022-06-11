@@ -7,11 +7,7 @@ import UploadFileReader from './system/upload-file-reader';
 import Queue from './queue';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
-import {
-  FileSource,
-  FileState,
-  UploadOptions,
-} from 'ember-file-upload/interfaces';
+import { FileSource, FileState, UploadOptions } from './interfaces';
 
 /**
  * Files provide a uniform interface for interacting
