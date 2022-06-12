@@ -2,6 +2,25 @@
 
 
 
+
+## v7.0.0 (2022-06-12)
+
+#### :boom: Breaking Change
+* [#803](https://github.com/adopted-ember-addons/ember-file-upload/pull/803) Named export all modules ([@gilest](https://github.com/gilest))
+* [#800](https://github.com/adopted-ember-addons/ember-file-upload/pull/800) Migrate addon to v2 ([@gilest](https://github.com/gilest))
+
+#### :rocket: Enhancement
+* [#804](https://github.com/adopted-ember-addons/ember-file-upload/pull/804) Migrate mirage handler to TypeScript ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#805](https://github.com/adopted-ember-addons/ember-file-upload/pull/805) Add v7 upgrade guide ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#799](https://github.com/adopted-ember-addons/ember-file-upload/pull/799) Disable all prototype extensions in test app ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v6.1.1 (2022-05-31)
 
 #### :bug: Bug Fix
