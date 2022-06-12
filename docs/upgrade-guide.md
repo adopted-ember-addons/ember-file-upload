@@ -4,6 +4,36 @@ order: 7
 
 # Upgrade guide
 
+## Upgrading to v7
+
+No changes are required unless an app directly imports modules from this addon.
+
+Public modules are now name-exported from the top level of the package.
+
+For example:
+```js
+// before v7
+import UploadFile from 'ember-file-upload/upload-file';
+import Queue from 'ember-file-upload/queue';
+// after v7
+import { UploadFile, Queue } from 'ember-file-upload';
+```
+
+### Mirage handler
+
+The mirage handler has been renamed for clarity.
+
+```js
+// before v7
+import { upload } from 'ember-file-upload/mirage';
+// after v7
+import { uploadHandler } from 'ember-file-upload';
+```
+
+## Upgrading to v6
+
+ALl v5 deprecations have been removed. See "Upgrading to v5" for instructions.
+
 ## Upgrading to v5
 
 ### File validation

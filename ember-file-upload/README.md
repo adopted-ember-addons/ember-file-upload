@@ -21,7 +21,7 @@ For Ember.js < 3.25 use 4.x which is documented by [Legacy docs](https://adopted
 
 ## Upgrading
 
-See: [Upgrading to v5](https://ember-file-upload.pages.dev/docs/upgrade-guide#upgrading-to-v5).
+See: [Upgrade guide](https://ember-file-upload.pages.dev/docs/upgrade-guide).
 
 ## Contributing
 
