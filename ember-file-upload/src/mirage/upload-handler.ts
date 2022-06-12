@@ -20,7 +20,7 @@ interface FakeRequest {
   };
 }
 
-export function uploadHandler(
+export default function uploadHandler(
   fn: (this: void, db: any, request: FakeRequest) => void,
   options = { network: null, timeout: null }
 ) {

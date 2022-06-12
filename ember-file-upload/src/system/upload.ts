@@ -2,8 +2,8 @@ import { assert } from '@ember/debug';
 import HTTPRequest from './http-request';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
-import type UploadFile from 'ember-file-upload/upload-file';
-import { FileState, UploadOptions } from 'ember-file-upload/interfaces';
+import type UploadFile from '../upload-file';
+import { FileState, UploadOptions } from '../interfaces';
 
 function clone(object: object | undefined) {
   return object ? { ...object } : {};

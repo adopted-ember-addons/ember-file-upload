@@ -1,6 +1,6 @@
 import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
-import { HTTPRequestOptions } from 'ember-file-upload/interfaces';
+import { HTTPRequestOptions } from '../interfaces';
 
 function parseHeaders(headerString: string) {
   return headerString

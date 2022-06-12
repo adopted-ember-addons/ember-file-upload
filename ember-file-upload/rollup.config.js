@@ -17,14 +17,9 @@ export default defineConfig({
       'components/**/*.ts',
       'helpers/**/*.ts',
       'services/**/*.ts',
-      'mirage/index.ts',
-      'interfaces.ts',
-      'queue.ts',
-      'upload-file.ts',
+      'index.ts',
+      'internal.ts',
       'test-support.ts',
-      'system/upload-file-reader.ts',
-      'system/data-transfer-wrapper.ts',
-      'system/http-request.ts',
     ]),
 
     // These are the modules that should get reexported into the traditional

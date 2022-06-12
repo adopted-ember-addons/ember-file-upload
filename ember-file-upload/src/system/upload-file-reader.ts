@@ -4,8 +4,7 @@ import RSVP from 'rsvp';
   Provides a promise-aware interface for reading files.
 
   ```js
-  import UploadFile from 'ember-file-upload/upload-file';
-  import UploadFileReader from 'ember-file-upload/system/file-reader';
+  import { UploadFile, UploadFileReader } from 'ember-file-upload';
 
   let reader = new UploadFileReader();
   let file = File.fromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAACNJREFUCB1jYICC6dOn/4exwTRMAEYzwBnoOmASMBpuDLIAAIVVFiE0cg0oAAAAAElFTkSuQmCC');

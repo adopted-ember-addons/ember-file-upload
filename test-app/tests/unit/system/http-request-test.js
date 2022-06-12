@@ -1,5 +1,5 @@
 import FakeXMLHttpRequest from 'fake-xml-http-request';
-import HttpRequest from 'ember-file-upload/system/http-request';
+import { HTTPRequest } from 'ember-file-upload/internal';
 import { module, test, skip } from 'qunit';
 
 module('Unit | HttpRequest', function (hooks) {
@@ -14,7 +14,7 @@ module('Unit | HttpRequest', function (hooks) {
       };
       return request;
     };
-    this.subject = new HttpRequest();
+    this.subject = new HTTPRequest();
   });
 
   hooks.afterEach(function () {
@@ -192,7 +192,7 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test(`succesful open with 'withCredentials: true'`, function (assert) {
-    this.subject = new HttpRequest({ withCredentials: true });
+    this.subject = new HTTPRequest({ withCredentials: true });
     this.subject.open('POST', 'http://emberjs.com');
 
     assert.true(this.request.withCredentials);

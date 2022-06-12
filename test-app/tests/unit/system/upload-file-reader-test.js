@@ -1,4 +1,4 @@
-import UploadFileReader from 'ember-file-upload/system/upload-file-reader';
+import { UploadFileReader } from 'ember-file-upload/internal';
 import { module, test } from 'qunit';
 
 const FakeFileReader = {

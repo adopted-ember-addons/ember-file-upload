@@ -4,13 +4,13 @@ import { getOwner } from '@ember/application';
 import DataTransferWrapper from '../system/data-transfer-wrapper';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import UploadFile from 'ember-file-upload/upload-file';
+import UploadFile from '../upload-file';
 import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
 import {
   FileUploadDragEvent,
   FileSource,
   FileDropzoneArgs,
-} from 'ember-file-upload/interfaces';
+} from '../interfaces';
 import DragListenerModifier from '../system/drag-listener-modifier';
 
 /**

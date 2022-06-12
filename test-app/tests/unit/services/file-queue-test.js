@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import UploadFile from 'ember-file-upload/upload-file';
+import { UploadFile } from 'ember-file-upload';
 
 module('Unit | Service | file-queue', function (hooks) {
   setupTest(hooks);
