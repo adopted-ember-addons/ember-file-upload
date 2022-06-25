@@ -3,6 +3,16 @@
 
 
 
+
+## v7.0.1 (2022-06-25)
+
+#### :bug: Bug Fix
+* [#811](https://github.com/adopted-ember-addons/ember-file-upload/pull/811) HttpRequest: Allow empty string as body (204 Response) ([@gilest](https://github.com/gilest))
+* [#810](https://github.com/adopted-ember-addons/ember-file-upload/pull/810) Correct type exports ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.0.0 (2022-06-12)
 
 #### :boom: Breaking Change
