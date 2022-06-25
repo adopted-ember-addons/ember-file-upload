@@ -1,5 +1,5 @@
-import type UploadFile from './upload-file';
-import type Queue from './queue';
+import type { UploadFile } from './upload-file';
+import type { Queue } from './queue';
 import type FileQueueService from './services/file-queue';
 import type DataTransferWrapper from './system/data-transfer-wrapper';
 

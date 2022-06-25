@@ -4,7 +4,7 @@ import { upload } from './system/upload';
 import HTTPRequest from './system/http-request';
 import UploadFileReader from './system/upload-file-reader';
 
-import Queue from './queue';
+import type { Queue } from './queue';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { FileSource, FileState, UploadOptions } from './interfaces';
@@ -13,7 +13,7 @@ import { FileSource, FileState, UploadOptions } from './interfaces';
  * Files provide a uniform interface for interacting
  * with data that can be uploaded or read.
  */
-export default class UploadFile {
+export class UploadFile {
   file: File;
   #source: FileSource;
 

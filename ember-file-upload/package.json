@@ -135,6 +135,13 @@
     "./test-support": "./dist/test-support.js",
     "./addon-main.js": "./addon-main.js"
   },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
   "release-it": {
     "plugins": {
       "release-it-lerna-changelog": {

@@ -2,7 +2,7 @@ import { assert } from '@ember/debug';
 import HTTPRequest from './http-request';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
-import type UploadFile from '../upload-file';
+import type { UploadFile } from '../upload-file';
 import { FileState, UploadOptions } from '../interfaces';
 
 function clone(object: object | undefined) {

@@ -1,8 +1,8 @@
 import { assert } from '@ember/debug';
 import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
-import Queue from '../queue';
-import type UploadFile from '../upload-file';
+import { Queue } from '../queue';
+import type { UploadFile } from '../upload-file';
 import { QueueName } from '../interfaces';
 import { TrackedMap } from 'tracked-built-ins';
 
