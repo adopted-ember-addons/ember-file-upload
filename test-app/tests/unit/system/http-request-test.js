@@ -224,6 +224,27 @@ module('Unit | HttpRequest', function (hooks) {
     );
   });
 
+  // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/809
+  test('regression: successful send with a 204 and empty string response body', function (assert) {
+    assert.expect(2);
+    this.subject.open('PUT', 'http://emberjs.com');
+    let promise = this.subject
+      .send({
+        filename: 'rfc.md',
+      })
+      .then(function (response) {
+        assert.strictEqual(response.status, 204, 'status is 204');
+        return response.text();
+      })
+      .then((responeText) => {
+        assert.strictEqual(responeText, '', 'response text matches');
+      });
+
+    this.respond(204, { 'Content-Type': 'text/plain' }, '');
+
+    return promise;
+  });
+
   skip('onprogress', function () {});
 
   skip('ontimeout', function () {});
