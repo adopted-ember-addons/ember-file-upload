@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { A } from '@ember/array';
 import { cancel, next } from '@ember/runloop';
 import { EmberRunTimer } from '@ember/runloop/types';
 import {
@@ -7,7 +6,6 @@ import {
   QueuedDragEvent,
   DragListenerHandlers,
 } from '../interfaces';
-import MutableArray from '@ember/array/mutable';
 import { action } from '@ember/object';
 
 export default class DragListener {
@@ -22,7 +20,7 @@ export default class DragListener {
   // `dragleave` / `dragenter` are called on the
   // same element back to back, which isn't what
   // we want to provide as an API.
-  _events: MutableArray<QueuedDragEvent> = A();
+  _events: QueuedDragEvent[] = [];
 
   _handlers: DragListenerHandlers = {};
   _handlersAttached = false;
@@ -188,13 +186,13 @@ export default class DragListener {
     listener: QueuedDragEvent['listener'],
     event: QueuedDragEvent['event']
   ) {
-    const isDuplicate = this._events.find((queuedEvent: QueuedDragEvent) => {
+    const isDuplicate = this._events.find((queuedEvent) => {
       return (
         queuedEvent.eventName === eventName && queuedEvent.listener === listener
       );
     });
 
-    const cancelledEvent = this._events.find((queuedEvent: QueuedDragEvent) => {
+    const cancelledEvent = this._events.find((queuedEvent) => {
       return (
         (queuedEvent.listener === listener &&
           queuedEvent.eventName === 'dragleave' &&
@@ -204,7 +202,14 @@ export default class DragListener {
     });
 
     if (cancelledEvent) {
-      this._events.removeObject(cancelledEvent);
+      // Remove cancelled event
+      this._events = this._events.filter((queuedEvent) => {
+        return (
+          queuedEvent.listener !== cancelledEvent.listener &&
+          queuedEvent.eventName !== cancelledEvent.eventName &&
+          queuedEvent.event !== cancelledEvent.event
+        );
+      });
       if (this._events.length === 0) {
         if (this._scheduled) {
           cancel(this._scheduled);
@@ -212,7 +217,7 @@ export default class DragListener {
         this._scheduled = null;
       }
     } else if (!isDuplicate) {
-      this._events.pushObject({ eventName, listener, event });
+      this._events.push({ eventName, listener, event });
       if (!this._scheduled) {
         this._scheduled = next(this, this.sendEvents);
       }
@@ -229,14 +234,14 @@ export default class DragListener {
       listener.handlers[eventName]?.(event);
     });
 
-    this._events = A();
+    this._events = [];
     this._scheduled = null;
   }
 
   @action
   drop(evt: DragEvent) {
     this._stack = [];
-    this._events = A();
+    this._events = [];
     this._scheduled = null;
     this._listener = null;
 
