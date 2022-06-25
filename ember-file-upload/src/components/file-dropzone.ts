@@ -4,8 +4,9 @@ import { getOwner } from '@ember/application';
 import DataTransferWrapper from '../system/data-transfer-wrapper';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import UploadFile from '../upload-file';
-import FileQueueService, { DEFAULT_QUEUE } from '../services/file-queue';
+import { UploadFile } from '../upload-file';
+import type FileQueueService from '../services/file-queue';
+import { DEFAULT_QUEUE } from '../services/file-queue';
 import {
   FileUploadDragEvent,
   FileSource,
