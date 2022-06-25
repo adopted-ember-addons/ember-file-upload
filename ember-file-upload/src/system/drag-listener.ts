@@ -214,7 +214,7 @@ export default class DragListener {
     } else if (!isDuplicate) {
       this._events.pushObject({ eventName, listener, event });
       if (!this._scheduled) {
-        this._scheduled = next(this, 'sendEvents');
+        this._scheduled = next(this, this.sendEvents);
       }
     }
   }
