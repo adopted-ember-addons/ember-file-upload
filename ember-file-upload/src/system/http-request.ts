@@ -16,7 +16,8 @@ function parseHeaders(headerString: string) {
 }
 
 function parseResponse(request: XMLHttpRequest): Response {
-  return new Response(request.response, {
+  const body = request.response === '' ? null : request.response;
+  return new Response(body, {
     status: request.status,
     statusText: request.statusText,
     headers: parseHeaders(request.getAllResponseHeaders()),
