@@ -4,6 +4,20 @@
 
 
 
+
+## v7.0.2 (2022-06-27)
+
+#### :bug: Bug Fix
+* [#817](https://github.com/adopted-ember-addons/ember-file-upload/pull/817) Restore embroider macros around mirage handler ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#814](https://github.com/adopted-ember-addons/ember-file-upload/pull/814) Update ember-cli projects from 4.4.0 blueprint ([@gilest](https://github.com/gilest))
+* [#813](https://github.com/adopted-ember-addons/ember-file-upload/pull/813) Replace ember array with native array ([@gilest](https://github.com/gilest))
+* [#812](https://github.com/adopted-ember-addons/ember-file-upload/pull/812) Update method invocation of next() ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.0.1 (2022-06-25)
 
 #### :bug: Bug Fix
