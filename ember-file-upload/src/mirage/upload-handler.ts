@@ -1,6 +1,10 @@
 import RSVP from 'rsvp';
-import { Response } from 'miragejs';
 import { extractFormData, extractFileMetadata } from './utils';
+import {
+  macroCondition,
+  dependencySatisfies,
+  importSync,
+} from '@embroider/macros';
 
 const NETWORK = {
   wired: 50000, // 500 Mb/s
@@ -24,57 +28,69 @@ export function uploadHandler(
   fn: (this: void, db: any, request: FakeRequest) => void,
   options = { network: null, timeout: null }
 ) {
-  return function (db: any, request: FakeRequest) {
-    let speed = Infinity;
+  if (
+    macroCondition(
+      dependencySatisfies('miragejs', '*') &&
+        dependencySatisfies('ember-cli-mirage', '*')
+    )
+  ) {
+    const { Response } = importSync('miragejs') as { Response: any };
+    return function (db: any, request: FakeRequest) {
+      let speed = Infinity;
 
-    if (options.network && NETWORK[options.network]) {
-      speed = NETWORK[options.network] * 1024;
-    }
+      if (options.network && NETWORK[options.network]) {
+        speed = NETWORK[options.network] * 1024;
+      }
 
-    const { file, data } = extractFormData(request.requestBody as FormData);
-    let loaded = 0;
-    const total = file.value.size;
+      const { file, data } = extractFormData(request.requestBody as FormData);
+      let loaded = 0;
+      const total = file.value.size;
 
-    return new RSVP.Promise((resolve) => {
-      const start = new Date().getTime();
+      return new RSVP.Promise((resolve) => {
+        const start = new Date().getTime();
 
-      const upload = async () => {
-        const timedOut =
-          options.timeout && new Date().getTime() - start > options.timeout;
-        if (timedOut || loaded >= total) {
-          request.upload.onprogress(
-            new ProgressEvent('progress', {
-              lengthComputable: true,
-              total,
-              loaded: Math.min(loaded, total),
-            })
-          );
+        const upload = async () => {
+          const timedOut =
+            options.timeout && new Date().getTime() - start > options.timeout;
+          if (timedOut || loaded >= total) {
+            request.upload.onprogress(
+              new ProgressEvent('progress', {
+                lengthComputable: true,
+                total,
+                loaded: Math.min(loaded, total),
+              })
+            );
 
-          const metadata = await extractFileMetadata(file.value);
-          request.requestBody = { [file.key]: metadata, ...data };
+            const metadata = await extractFileMetadata(file.value);
+            request.requestBody = { [file.key]: metadata, ...data };
 
-          if (timedOut) {
-            resolve(new Response(408));
-            return;
+            if (timedOut) {
+              resolve(new Response(408));
+              return;
+            }
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            resolve(fn.call(this, db, request));
+          } else {
+            request.upload.onprogress(
+              new ProgressEvent('progress', {
+                lengthComputable: true,
+                total,
+                loaded,
+              })
+            );
+
+            loaded += speed / 20;
+            setTimeout(upload, 50);
           }
-
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          resolve(fn.call(this, db, request));
-        } else {
-          request.upload.onprogress(
-            new ProgressEvent('progress', {
-              lengthComputable: true,
-              total,
-              loaded,
-            })
-          );
-
-          loaded += speed / 20;
-          setTimeout(upload, 50);
-        }
-      };
-      upload();
-    });
-  };
+        };
+        upload();
+      });
+    };
+  } else {
+    throw new Error(
+      'You must add ember-cli-mirage and miragejs to your app to use this helper.'
+    );
+  }
 }
