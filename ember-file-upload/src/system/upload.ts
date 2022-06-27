@@ -105,15 +105,22 @@ export function upload(
   file.state = FileState.Uploading;
 
   return waitForPromise(
-    uploadFn(request, options).then(
-      function (response) {
-        file.state = FileState.Uploaded;
+    uploadFn(request, options)
+      .then(function (response) {
+        file.queue?.uploadSucceeded(file, response);
+        // Don't update file.state if it was updated in the callback
+        if (file.state === FileState.Uploading) {
+          file.state = FileState.Uploaded;
+        }
         return response;
-      },
-      function (error) {
-        file.state = FileState.Failed;
-        return RSVP.reject(error);
-      }
-    )
+      })
+      .catch(function (response) {
+        file.queue?.uploadFailed(file, response);
+        // Don't update file.state if it was updated in the callback
+        if (file.state === FileState.Uploading) {
+          file.state = FileState.Failed;
+        }
+        return RSVP.reject(response);
+      })
   );
 }

@@ -54,4 +54,16 @@ export default class FileQueueHelper extends Helper implements QueueListener {
   onFileRemoved(file: UploadFile) {
     this.args.onFileRemoved?.(file);
   }
+
+  onUploadStarted(file: UploadFile) {
+    this.args.onUploadStarted?.(file);
+  }
+
+  onUploadSucceeded(file: UploadFile, response: Response) {
+    this.args.onUploadSucceeded?.(file, response);
+  }
+
+  onUploadFailed(file: UploadFile, response: Response) {
+    this.args.onUploadFailed?.(file, response);
+  }
 }
