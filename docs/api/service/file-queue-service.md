@@ -2,11 +2,15 @@
 category: service
 ---
 
-# FileQueue
+# FileQueueService
 
-The `FileQueue` service is a global file queue that manages all files being uploaded.
+The `FileQueueService` is a global file queue that manages all files being uploaded.
 
 This service can be used to query the current upload state when a user leaves the app, asking them whether they want to cancel the remaining uploads.
+
+```js
+import { FileQueueService } from 'ember-file-upload';
+```
 
 # Service API
 
