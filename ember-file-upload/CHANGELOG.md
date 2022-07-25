@@ -5,6 +5,18 @@
 
 
 
+
+## v7.0.3 (2022-07-25)
+
+#### :bug: Bug Fix
+* [#828](https://github.com/adopted-ember-addons/ember-file-upload/pull/828) Add missing public export of `FileQueueService` ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#822](https://github.com/adopted-ember-addons/ember-file-upload/pull/822) Update ember-cli projects from 4.5.0 blueprint ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.0.2 (2022-06-27)
 
 #### :bug: Bug Fix
