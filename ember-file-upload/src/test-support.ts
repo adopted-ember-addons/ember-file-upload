@@ -24,12 +24,15 @@ import { assert } from '@ember/debug';
   Returns `Promise<void>` which resolves when the application is settled.
 
   @function selectFiles
-  @param {String} selector DOM selector for a FileUpload input
+  @param {(String | HTMLElement)} selector DOM selector for a FileUpload input or the FileUpload input HTML Element
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function selectFiles(selector: string, ...files: (File | Blob)[]) {
-  const input = find(selector);
+export async function selectFiles(
+  selector: string | HTMLElement,
+  ...files: (File | Blob)[]
+) {
+  const input = selector instanceof HTMLElement ? selector : find(selector);
   assert(
     `Selector '${selector}' is not input element.`,
     input && input.tagName === 'INPUT'
@@ -65,12 +68,16 @@ export async function selectFiles(selector: string, ...files: (File | Blob)[]) {
   Returns `Promise<void>` which resolves when the application is settled.
 
   @function dragAndDrop
-  @param {String} selector DOM selector for a FileDropzone
+  @param {(String | HTMLElement)} selector DOM selector for a FileDropzone or the FileDropzone  HTML Element
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragAndDrop(selector: string, ...files: (File | Blob)[]) {
-  const dropzone = find(selector);
+export async function dragAndDrop(
+  selector: string | HTMLElement,
+  ...files: (File | Blob)[]
+) {
+  const dropzone = selector instanceof HTMLElement ? selector : find(selector);
+
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
@@ -107,12 +114,16 @@ export async function dragAndDrop(selector: string, ...files: (File | Blob)[]) {
   Returns `Promise<void>` which resolves when the application is settled.
 
   @function dragEnter
-  @param {String} selector DOM selector for a FileDropzone
+  @param {(String | HTMLElement)} selector DOM selector for a FileDropzone or the FileDropzone HTML Element
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragEnter(selector: string, ...files: (File | Blob)[]) {
-  const dropzone = find(selector);
+export async function dragEnter(
+  selector: string | HTMLElement,
+  ...files: (File | Blob)[]
+) {
+  const dropzone = selector instanceof HTMLElement ? selector : find(selector);
+
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
@@ -147,12 +158,16 @@ export async function dragEnter(selector: string, ...files: (File | Blob)[]) {
   Returns `Promise<void>` which resolves when the application is settled.
 
   @function dragLeave
-  @param {String} selector DOM selector for a FileDropzone
+  @param {(String | HTMLElement)} selector DOM selector for a FileDropzone or the FileDropzone HTML Element
   @param {File} ...files One or more File objects
   @return {Promise}
  */
-export async function dragLeave(selector: string, ...files: (File | Blob)[]) {
-  const dropzone = find(selector);
+export async function dragLeave(
+  selector: string | HTMLElement,
+  ...files: (File | Blob)[]
+) {
+  const dropzone = selector instanceof HTMLElement ? selector : find(selector);
+
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
