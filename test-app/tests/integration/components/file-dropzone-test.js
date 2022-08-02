@@ -4,6 +4,7 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   dragAndDrop,
+  dragAndDropDirectory,
   dragEnter,
   dragLeave,
 } from 'ember-file-upload/test-support';
@@ -160,9 +161,31 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
+  test('allowFolderDrop=true allows dropping a directory and reads out the content', async function (assert) {
+    this.onDrop = (files) => {
+      files.forEach((file) => assert.step(file.name));
+    };
+
+    await render(hbs`
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{this.queue}}
+          @allowFolderDrop={{true}}
+          @onDrop={{this.onDrop}} />
+      `);
+
+    await dragAndDropDirectory('.test-dropzone', 'directory-name', [
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png'),
+    ]);
+
+    assert.verifySteps(['directory-name', 'dingus.txt', 'dingus.png']);
+  });
+
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
   test('regression: drop events from other DOM nodes are not prevented', async function (assert) {
-    this.documentDragListener = () => assert.step('documentDragListener called');
+    this.documentDragListener = () =>
+      assert.step('documentDragListener called');
     await render(hbs`
       <FileDropzone @queue={{this.queue}} />
 
@@ -172,6 +195,9 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
     await triggerEvent('.independent-drag-target', 'drop');
 
-    assert.verifySteps(['documentDragListener called'], 'event reached documentDragListener');
+    assert.verifySteps(
+      ['documentDragListener called'],
+      'event reached documentDragListener'
+    );
   });
 });

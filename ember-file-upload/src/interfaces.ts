@@ -105,6 +105,13 @@ export interface FileDropzoneArgs {
   allowUploadsFromWebsites?: boolean;
 
   /**
+   *
+   *
+   * @defaulValue false
+   * */
+  allowFolderDrop?: boolean;
+
+  /**
    * This is the type of cursor that should
    * be shown when a drag event happens.
    *
