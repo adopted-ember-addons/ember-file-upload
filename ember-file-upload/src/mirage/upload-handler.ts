@@ -25,7 +25,7 @@ interface FakeRequest {
 }
 
 export function uploadHandler(
-  fn: (this: void, db: any, request: FakeRequest) => void,
+  fn: (this: void, db: unknown, request: FakeRequest) => void,
   options = { network: null, timeout: null }
 ) {
   if (
@@ -34,8 +34,9 @@ export function uploadHandler(
         dependencySatisfies('ember-cli-mirage', '*')
     )
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { Response } = importSync('miragejs') as { Response: any };
-    return function (db: any, request: FakeRequest) {
+    return function (db: unknown, request: FakeRequest) {
       let speed = Infinity;
 
       if (options.network && NETWORK[options.network]) {
