@@ -6,6 +6,18 @@
 
 
 
+
+## v7.1.0 (2022-08-30)
+
+#### :rocket: Enhancement
+* [#840](https://github.com/adopted-ember-addons/ember-file-upload/pull/840) Test helpers accept element or CSS selector ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#838](https://github.com/adopted-ember-addons/ember-file-upload/pull/838) UploadHandler – use `unknown` type for Mirage DB ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.0.3 (2022-07-25)
 
 #### :bug: Bug Fix
