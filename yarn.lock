@@ -1116,12 +1116,12 @@
     ember-cli-version-checker "^5.1.2"
     semver "^7.3.5"
 
-"@embroider/addon-dev@^1.5.0":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@embroider/addon-dev/-/addon-dev-1.8.3.tgz#aefcd9ada0dfb3aa9819b44c2215066bee5ec6db"
-  integrity sha512-h3lv3YNZ0v1vnNc+Nvu6KHIos1A/gwsoTe/F4Y9LNHO+2K8Fx7skpevegBL9Wwb4aGaY9y0hS2xktIfBS0V3Qw==
+"@embroider/addon-dev@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@embroider/addon-dev/-/addon-dev-2.0.0.tgz#6dc42d9a856c25f65a507b1b63a3da24a325a452"
+  integrity sha512-XOThXF6/4rQWmKOaD20xFsdPkNzmSCRUsLG2Qb9z/NpNonN9AFjo385OkUgMju2bp1E+U2QQNqCEsZLH9jdG9w==
   dependencies:
-    "@embroider/core" "^1.8.3"
+    "@embroider/core" "^1.9.0"
     "@rollup/pluginutils" "^4.1.1"
     assert-never "^1.2.1"
     fs-extra "^10.0.0"
@@ -1139,10 +1139,10 @@
     "@embroider/shared-internals" "^1.8.3"
     semver "^7.3.5"
 
-"@embroider/core@^1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@embroider/core/-/core-1.8.3.tgz#a3014a0c790c5469339a10aba2d0447631871267"
-  integrity sha512-/VdguyT/yhibgrjxL/J1ZFLvHo3EvUaBAxu9jAT3CYO9hIjWUKmJ81EZ0uK4zWykdifaefoz1/ctHnFjvm3/+w==
+"@embroider/core@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@embroider/core/-/core-1.9.0.tgz#7a5f1612a89be1f8de47dd520ccb8d6304f5eeae"
+  integrity sha512-fjPb1pU7a+V9clpfBCa8CHdxbz7hr6azwNw/DqRQIMM272nrOPml65YVsBE24z7NrHdkqHjvmvDQ+qtl6oBhPw==
   dependencies:
     "@babel/core" "^7.14.5"
     "@babel/parser" "^7.14.5"
@@ -1150,7 +1150,7 @@
     "@babel/plugin-transform-runtime" "^7.14.5"
     "@babel/runtime" "^7.14.5"
     "@babel/traverse" "^7.14.5"
-    "@embroider/macros" "1.8.3"
+    "@embroider/macros" "1.9.0"
     "@embroider/shared-internals" "1.8.3"
     assert-never "^1.2.1"
     babel-import-util "^1.1.0"
@@ -1176,7 +1176,7 @@
     walk-sync "^3.0.0"
     wrap-legacy-hbs-plugin-if-needed "^1.0.1"
 
-"@embroider/macros@1.8.3", "@embroider/macros@^0.41.0", "@embroider/macros@^0.50.0 || ^1.0.0", "@embroider/macros@^1.0.0", "@embroider/macros@^1.5.0", "@embroider/macros@^1.6.0":
+"@embroider/macros@1.8.3", "@embroider/macros@1.9.0", "@embroider/macros@^0.41.0", "@embroider/macros@^0.50.0 || ^1.0.0", "@embroider/macros@^1.0.0", "@embroider/macros@^1.5.0", "@embroider/macros@^1.6.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-1.8.3.tgz#2f0961ab8871f6ad819630208031d705b357757e"
   integrity sha512-gnIOfTL/pUkoD6oI7JyWOqXlVIUgZM+CnbH10/YNtZr2K0hij9eZQMdgjOZZVgN0rKOFw9dIREqc1ygrJHRYQA==
