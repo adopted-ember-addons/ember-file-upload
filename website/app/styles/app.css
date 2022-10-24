@@ -32,3 +32,10 @@ body > header h1 ~ p {
   display: flex;
   justify-content: space-between;
 }
+
+.demo-upload__dropzone {
+  padding: 100px;
+  border-radius: 15px;
+  border: 3px dashed grey;
+  margin-bottom: 2rem;
+}
