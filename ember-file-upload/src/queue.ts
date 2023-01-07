@@ -8,7 +8,6 @@ import {
   FileState,
   QueueListener,
   QueueName,
-  SelectFileModifierSignature,
 } from './interfaces';
 
 /**
@@ -181,8 +180,11 @@ export class Queue {
     }
   }
 
-  selectFile = modifier<SelectFileModifierSignature>(
-    (element, _positional, { filter, onFilesSelected }) => {
+  selectFile = modifier(
+    (element: HTMLInputElement, _positional: [], { filter, onFilesSelected }: {
+      filter?: (file: File, files: File[], index: number) => boolean;
+      onFilesSelected?: (files: UploadFile[]) => void;
+    }) => {
       const changeHandler = (event: Event) => {
         const { files: fileList } = event.target as HTMLInputElement;
         if (!fileList) {

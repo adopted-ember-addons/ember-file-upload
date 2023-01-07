@@ -82,16 +82,6 @@ export enum FileSource {
   Blob = 'blob',
 }
 
-export interface SelectFileModifierSignature {
-  Args: {
-    Named: {
-      filter?: (file: File, files: File[], index: number) => boolean;
-      onFilesSelected?: (files: UploadFile[]) => void;
-    };
-  };
-  Element: HTMLInputElement;
-}
-
 export interface FileDropzoneArgs {
   queue?: Queue;
 
