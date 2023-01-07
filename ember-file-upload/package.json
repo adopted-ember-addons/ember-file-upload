@@ -53,7 +53,7 @@
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "ember-auto-import": "^2.0.0",
-    "ember-modifier": "^3.2.7",
+    "ember-modifier": "^3.2.7 || ^4.0.0",
     "tracked-built-ins": "^3.0.0"
   },
   "devDependencies": {

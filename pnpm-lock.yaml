@@ -48,7 +48,7 @@ importers:
       babel-eslint: ^10.1.0
       ember-auto-import: ^2.0.0
       ember-cli-htmlbars: ^6.1.1
-      ember-modifier: ^3.2.7
+      ember-modifier: ^3.2.7 || ^4.0.0
       ember-source: ~4.8.0
       ember-template-lint: ^5.0.0
       eslint: ^7.32.0
@@ -14279,7 +14279,7 @@ packages:
     resolution: {directory: ember-file-upload, type: directory}
     id: file:ember-file-upload
     name: ember-file-upload
-    version: 7.1.0
+    version: 7.1.1
     engines: {node: 14.* || 16.* || >= 18}
     peerDependencies:
       ember-cli-mirage: '*'
