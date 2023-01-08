@@ -74,7 +74,7 @@
     "@types/ember__string": "^3.16.3",
     "@types/ember__template": "^4.0.0",
     "@types/ember__test": "^4.0.0",
-    "@types/ember__test-helpers": "~2.6.0",
+    "@types/ember__test-helpers": "~2.8.0",
     "@types/ember__utils": "^4.0.0",
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
