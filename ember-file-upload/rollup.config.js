@@ -16,6 +16,7 @@ export default defineConfig({
     addon.publicEntrypoints([
       'components/**/*.ts',
       'helpers/**/*.ts',
+      'interfaces/**/*.ts',
       'services/**/*.ts',
       'index.ts',
       'internal.ts',
