@@ -5,6 +5,10 @@
     "website",
     "test-app"
   ],
+  "nohoist": [
+    "**/@ember/**",
+    "**/ember-source"
+  ],
   "scripts": {
     "prepare": "yarn workspace ember-file-upload prepare",
     "test": "yarn workspace test-app test:ember -s",
