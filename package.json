@@ -6,9 +6,14 @@
     "test-app"
   ],
   "nohoist": [
-    "**/@ember/**",
-    "**/ember-source"
-  ],
+    "**/@embroider/*",
+    "**/@embroider/*/**",
+    "**/@ember/*",
+    "**/@ember/*/**",
+    "**/@glimmer/*",
+    "**/ember-*",
+    "**/ember-*/**"
+],
   "scripts": {
     "prepare": "yarn workspace ember-file-upload prepare",
     "test": "yarn workspace test-app test:ember -s",
