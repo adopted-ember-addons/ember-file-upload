@@ -46,6 +46,7 @@ importers:
       ember-auto-import: ^2.0.0
       ember-cli-htmlbars: ^6.1.1
       ember-modifier: ^3.2.7
+      ember-source: ~4.8.0
       ember-template-lint: ^5.0.0
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
@@ -90,13 +91,14 @@ importers:
       '@types/ember__string': 3.16.3
       '@types/ember__template': 4.0.1
       '@types/ember__test': 4.0.1_@babel+core@7.20.12
-      '@types/ember__test-helpers': 2.8.3_4e3l3ftfrqjw54z4lxfk6hgxue
+      '@types/ember__test-helpers': 2.8.3_kvpkv7hyczkw57u2tjfmexl73u
       '@types/ember__utils': 4.0.2_@babel+core@7.20.12
       '@types/rsvp': 4.0.4
       '@typescript-eslint/eslint-plugin': 5.48.1_s66zx5d3yhyn34ft2zz26bcwti
       '@typescript-eslint/parser': 5.48.1_yfqovispp7u7jaktymfaqwl2py
       babel-eslint: 10.1.0_eslint@7.32.0
       ember-cli-htmlbars: 6.1.1
+      ember-source: 4.8.4_ipwtokbwlukr3yko7oz5lbj6xy
       ember-template-lint: 5.3.1_ember-cli-htmlbars@6.1.1
       eslint: 7.32.0
       eslint-config-prettier: 8.6.0_eslint@7.32.0
@@ -2248,11 +2250,11 @@ packages:
       '@types/ms': 0.7.31
     dev: true
 
-  /@types/ember-resolver/9.0.0_@ember+string@3.0.1:
+  /@types/ember-resolver/9.0.0_o4eitmply7g7d6kovp6ywo46cy:
     resolution: {integrity: sha512-lEuC2QD8K6rRAbELMejrALFBgelRPt6OQtapny4Oke07ZtK/Lbf9zn5KIDl7PNkirxMD0AStsQTdUqFu6eVbVw==}
     deprecated: This is a stub types definition. ember-resolver provides its own type definitions, so you do not need this installed.
     dependencies:
-      ember-resolver: 10.0.0_@ember+string@3.0.1
+      ember-resolver: 10.0.0_o4eitmply7g7d6kovp6ywo46cy
     transitivePeerDependencies:
       - '@ember/string'
       - ember-source
@@ -2433,10 +2435,10 @@ packages:
     resolution: {integrity: sha512-hAxzdJa0zNvZSoHoCbtd0KGt6Dls4Aph9EwdtbUcdnlMiSUtEDUdKTtDbUrysqJjxGBr4vWIdJEqWtZ0/Y8KBw==}
     dev: true
 
-  /@types/ember__test-helpers/2.8.3_4e3l3ftfrqjw54z4lxfk6hgxue:
+  /@types/ember__test-helpers/2.8.3_kvpkv7hyczkw57u2tjfmexl73u:
     resolution: {integrity: sha512-1GVCW8ok5IaYXM0GBswT5lFSeHu3NCBas6Sz4Tsvkc0Myc6lzSSRDG3sj6pacgJr71n4eBqaVaYu/ZHw7DjYfQ==}
     dependencies:
-      '@types/ember-resolver': 9.0.0_@ember+string@3.0.1
+      '@types/ember-resolver': 9.0.0_o4eitmply7g7d6kovp6ywo46cy
       '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__error': 4.0.2
       '@types/ember__owner': 4.0.3
@@ -6081,7 +6083,7 @@ packages:
       - webpack
     dev: true
 
-  /ember-resolver/10.0.0_@ember+string@3.0.1:
+  /ember-resolver/10.0.0_o4eitmply7g7d6kovp6ywo46cy:
     resolution: {integrity: sha512-e99wFJ4ZpleJ6JMEcIk4WEYP4s3nc+9/iNSXtwBHXC8ADJHJTeN3HjnT/eEbFbswdui4FYxIYuK+UCdP09811Q==}
     engines: {node: 14.* || 16.* || >= 18}
     peerDependencies:
@@ -6093,6 +6095,7 @@ packages:
     dependencies:
       '@ember/string': 3.0.1
       ember-cli-babel: 7.26.11
+      ember-source: 4.8.4_ipwtokbwlukr3yko7oz5lbj6xy
     transitivePeerDependencies:
       - supports-color
     dev: true
