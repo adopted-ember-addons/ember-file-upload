@@ -1,0 +1,4 @@
+packages:
+  - 'ember-file-upload'
+  - 'test-app'
+  - 'website'

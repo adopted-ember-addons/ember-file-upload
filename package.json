@@ -11,7 +11,7 @@
     "website": "yarn workspace website ember s"
   },
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
-  "resolutions": {
+  "overrides": {
     "@embroider/macros": "^1.5.0",
     "@embroider/util": "^1.5.0",
     "ember-auto-import": "^2.0.0",
