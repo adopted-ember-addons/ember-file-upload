@@ -28,10 +28,12 @@ importers:
       '@glimmer/component': ^1.0.4
       '@glimmer/tracking': ^1.0.4
       '@rollup/plugin-babel': ^6.0.0
+      '@types/ember__application': ^4.0.0
       '@types/ember__component': ^4.0.0
       '@types/ember__debug': ^4.0.0
       '@types/ember__destroyable': ^4.0.0
       '@types/ember__engine': ^4.0.0
+      '@types/ember__object': ^4.0.0
       '@types/ember__runloop': ^4.0.0
       '@types/ember__service': ^4.0.0
       '@types/ember__string': ^3.16.3
@@ -82,10 +84,12 @@ importers:
       '@ember/string': 3.0.1
       '@embroider/addon-dev': 3.0.0_rollup@2.79.1
       '@rollup/plugin-babel': 6.0.3_3dsfpkpoyvuuxyfgdbpn4j4uzm
+      '@types/ember__application': 4.0.5_@babel+core@7.20.12
       '@types/ember__component': 4.0.12_@babel+core@7.20.12
       '@types/ember__debug': 4.0.3_@babel+core@7.20.12
       '@types/ember__destroyable': 4.0.1
       '@types/ember__engine': 4.0.4_@babel+core@7.20.12
+      '@types/ember__object': 4.0.5_@babel+core@7.20.12
       '@types/ember__runloop': 4.0.2_@babel+core@7.20.12
       '@types/ember__service': 4.0.2_@babel+core@7.20.12
       '@types/ember__string': 3.16.3
@@ -2305,7 +2309,7 @@ packages:
     resolution: {integrity: sha512-G6kbLaS3ke4QspHkgLlGY0t1v0G22hGavyphezZucj7LLk1N+r11w913CYkBg3cJsJD+TG2Wo4eVbgRcotvuvQ==}
     dependencies:
       '@types/ember': 4.0.3_@babel+core@7.20.12
-      '@types/ember__object': 4.0.5_@babel+core@7.20.12
+      '@types/ember__object': 4.0.5
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -2315,7 +2319,7 @@ packages:
     resolution: {integrity: sha512-qHjCGo1p9I4VJR3qfil7h0jJWTy52uNJw87MNwNEi1SYk+EaVJaqyyyoZHJmZGdn8hw3JjXvyFt/zeFZpbK/6A==}
     dependencies:
       '@types/ember': 4.0.3_@babel+core@7.20.12
-      '@types/ember__object': 4.0.5_@babel+core@7.20.12
+      '@types/ember__object': 4.0.5
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
