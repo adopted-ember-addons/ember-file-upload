@@ -73,7 +73,7 @@ export default class HTTPRequest {
     };
     this.request.onabort = bind(this, function () {
       this.onabort?.();
-      aborted.resolve();
+      return aborted.resolve();
     });
 
     this.request.onloadstart =
@@ -90,14 +90,14 @@ export default class HTTPRequest {
     this.request.onload = bind(this, function () {
       const response = parseResponse(this.request);
       if (Math.floor(response.status / 200) === 1) {
-        resolve(response);
+        return resolve(response);
       } else {
-        reject(response);
+        return reject(response);
       }
     });
 
     this.request.onerror = bind(this, function () {
-      reject(parseResponse(this.request));
+      return reject(parseResponse(this.request));
     });
 
     Object.defineProperty(this, 'timeout', {
@@ -113,7 +113,7 @@ export default class HTTPRequest {
 
     this.request.ontimeout = bind(this, function () {
       this.ontimeout?.();
-      reject(parseResponse(this.request));
+      return reject(parseResponse(this.request));
     });
   }
 
