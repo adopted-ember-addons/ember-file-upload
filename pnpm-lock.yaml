@@ -19,6 +19,7 @@ importers:
       '@babel/plugin-transform-runtime': ^7.18.2
       '@babel/plugin-transform-typescript': ^7.18.4
       '@babel/preset-typescript': ^7.17.12
+      '@babel/runtime': ^7.20.7
       '@ember/string': ^3.0.1
       '@ember/test-helpers': ~2.7.0
       '@ember/test-waiters': ^3.0.0
@@ -81,6 +82,7 @@ importers:
       '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.12
       '@babel/plugin-transform-typescript': 7.20.7_@babel+core@7.20.12
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.12
+      '@babel/runtime': 7.20.7
       '@ember/string': 3.0.1
       '@embroider/addon-dev': 3.0.0_rollup@2.79.1
       '@rollup/plugin-babel': 6.0.3_3dsfpkpoyvuuxyfgdbpn4j4uzm
@@ -114,7 +116,7 @@ importers:
       release-it: 14.14.3
       release-it-lerna-changelog: 5.0.0_release-it@14.14.3
       rollup: 2.79.1
-      rollup-plugin-ts: 3.1.1_bwrq7finmvvff2pu26f34adly4
+      rollup-plugin-ts: 3.1.1_ap3vsxtmpogdjjwmz2gh4bzxy4
       typescript: 4.9.4
       webpack: 5.75.0
 
@@ -2309,7 +2311,7 @@ packages:
     resolution: {integrity: sha512-G6kbLaS3ke4QspHkgLlGY0t1v0G22hGavyphezZucj7LLk1N+r11w913CYkBg3cJsJD+TG2Wo4eVbgRcotvuvQ==}
     dependencies:
       '@types/ember': 4.0.3_@babel+core@7.20.12
-      '@types/ember__object': 4.0.5
+      '@types/ember__object': 4.0.5_@babel+core@7.20.12
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -2319,7 +2321,7 @@ packages:
     resolution: {integrity: sha512-qHjCGo1p9I4VJR3qfil7h0jJWTy52uNJw87MNwNEi1SYk+EaVJaqyyyoZHJmZGdn8hw3JjXvyFt/zeFZpbK/6A==}
     dependencies:
       '@types/ember': 4.0.3_@babel+core@7.20.12
-      '@types/ember__object': 4.0.5
+      '@types/ember__object': 4.0.5_@babel+core@7.20.12
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -2328,7 +2330,7 @@ packages:
   /@types/ember__controller/4.0.4:
     resolution: {integrity: sha512-+f0knTIJJkRX5xijeSI/n4FvLfhMFFxIxODyFFFFB483EryYuts3QzpTwU5D66WQ5rAbZvpPRXRMPTTCNJoUhg==}
     dependencies:
-      '@types/ember__object': 4.0.5
+      '@types/ember__object': 4.0.5_@babel+core@7.20.12
     dev: true
 
   /@types/ember__controller/4.0.4_@babel+core@7.20.12:
@@ -11780,7 +11782,7 @@ packages:
       del: 5.1.0
     dev: true
 
-  /rollup-plugin-ts/3.1.1_bwrq7finmvvff2pu26f34adly4:
+  /rollup-plugin-ts/3.1.1_ap3vsxtmpogdjjwmz2gh4bzxy4:
     resolution: {integrity: sha512-Zm+cq11QVV6thgGdvrhz1tUQGN7pzK/jt2+6ttqfUaX1bk6QB4rFIHm/bW5O057eAXd1H8gBi47QFE0+tqMopw==}
     engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     peerDependencies:
@@ -11812,6 +11814,7 @@ packages:
       '@babel/core': 7.20.12
       '@babel/plugin-transform-runtime': 7.19.6_@babel+core@7.20.12
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.12
+      '@babel/runtime': 7.20.7
       '@rollup/pluginutils': 5.0.2_rollup@2.79.1
       '@wessberg/stringutil': 1.0.19
       ansi-colors: 4.1.3
