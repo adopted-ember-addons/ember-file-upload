@@ -43,7 +43,7 @@
     "lint:types": "tsc --noEmit",
     "start": "rollup --config --watch",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm build"
   },
   "dependencies": {
     "@ember/test-helpers": "~2.7.0",

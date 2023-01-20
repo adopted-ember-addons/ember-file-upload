@@ -20,7 +20,8 @@
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "npm-run-all --print-name \"lint\" \"test:*\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "test:ember-try": "ember try:one"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
