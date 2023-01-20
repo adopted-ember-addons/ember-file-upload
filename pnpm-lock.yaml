@@ -251,6 +251,7 @@ importers:
       eslint-plugin-node: ^11.1.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-qunit: ^7.3.1
+      highlight.js: ^11.7.0
       loader.js: ^4.7.0
       npm-run-all: ^4.1.5
       prettier: ^2.7.1
@@ -297,6 +298,7 @@ importers:
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-prettier: 4.2.1_o6s4toj67ba3vratins5wgouge
       eslint-plugin-qunit: 7.3.4_eslint@7.32.0
+      highlight.js: 11.7.0
       loader.js: 4.7.0
       npm-run-all: 4.1.5
       prettier: 2.8.3
@@ -7974,6 +7976,11 @@ packages:
 
   /highlight.js/10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+    dev: true
+
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /homedir-polyfill/1.0.3:
