@@ -113,15 +113,24 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import fetch from 'fetch';
 
+const parseXml = (rawXml) => {
+  return new DOMParser().parseFromString(rawXml, 'text/xml');
+};
+
 export default class ExampleComponent extends Component {
   @task({ maxConcurrency: 3, enqueue: true })
   *uploadImage(file) {
     const { product } = this.args;
+
     const apiResponse = yield fetch('/api/s3_direct');
-    const s3Response = yield file.upload(apiResponse.url, {
-        data: apiResponse.credentials
-      });
-    product.url = s3Response.headers.Location;
+    const apiResponseJson = yield apiResponse.json();
+
+    const s3Response = yield file.upload(apiResponseJson.url, {
+      data: apiResponseJson.credentials,
+    });
+    const s3ResponseText = yield s3Response.text();
+
+    product.url = parseXml(s3ResponseText).getElementsByTagName('Location')[0].textContent;
     yield product.save();
   }
 }
