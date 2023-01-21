@@ -6,15 +6,17 @@
     "test-app"
   ],
   "scripts": {
-    "prepare": "yarn workspace ember-file-upload prepare",
-    "test": "yarn workspace test-app test:ember -s",
-    "website": "yarn workspace website ember s"
+    "prepare": "pnpm --filter ember-file-upload run prepare",
+    "test": "pnpm --filter test-app run test:ember -s",
+    "website": "pnpm --filter website run ember s"
   },
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
-  "resolutions": {
-    "@embroider/macros": "^1.5.0",
-    "@embroider/util": "^1.5.0",
-    "ember-auto-import": "^2.0.0",
-    "ember-cli-babel": "^7.26.6"
+  "pnpm": {
+    "overrides": {
+      "@embroider/macros": "^1.5.0",
+      "@embroider/util": "^1.5.0",
+      "ember-auto-import": "^2.0.0",
+      "ember-cli-babel": "^7.26.6"
+    }
   }
 }

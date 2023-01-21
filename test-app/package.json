@@ -20,12 +20,13 @@
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "npm-run-all --print-name \"lint\" \"test:*\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "test:ember-try": "ember try:one"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "~2.7.0",
+    "@ember/test-helpers": "^2.9.3",
     "@embroider/test-setup": "^2.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
@@ -43,7 +44,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-fetch": "^8.1.2",
-    "ember-file-upload": "*",
+    "ember-file-upload": "workspace:*",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^6.0.0",
@@ -66,6 +67,11 @@
     "qunit": "^2.19.2",
     "qunit-dom": "^2.0.0",
     "webpack": "^5.74.0"
+  },
+  "dependenciesMeta": {
+    "ember-file-upload": {
+      "injected": true
+    }
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
