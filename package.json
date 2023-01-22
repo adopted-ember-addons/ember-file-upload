@@ -6,9 +6,9 @@
     "test-app"
   ],
   "scripts": {
-    "prepare": "pnpm --filter ember-file-upload run prepare",
-    "test": "pnpm --filter test-app run test:ember -s",
-    "website": "pnpm --filter website run ember s"
+    "prepare": "pnpm --filter ember-file-upload prepare",
+    "test": "pnpm --filter test-app test:ember -s",
+    "website": "pnpm --filter website start"
   },
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "pnpm": {
