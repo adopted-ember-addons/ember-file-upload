@@ -230,7 +230,7 @@ export class Queue {
         element.removeEventListener('change', changeHandler);
       };
     },
-    // ember-modifier@^3 requires an options hash as second argument
+    // @ts-expect-error ember-modifier@^3 requires an options hash as second argument
     // used to opt-in to lazy argument handling, which is the default for ember-modifier@^4
     { eager: false }
   );

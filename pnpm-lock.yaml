@@ -74,7 +74,7 @@ importers:
       '@glimmer/component': 1.1.2_@babel+core@7.20.12
       '@glimmer/tracking': 1.1.2
       ember-auto-import: 2.5.0_webpack@5.75.0
-      ember-modifier: 3.2.7_@babel+core@7.20.12
+      ember-modifier: 4.0.0_ember-source@4.8.4
       tracked-built-ins: 3.1.0
     devDependencies:
       '@babel/core': 7.20.12
@@ -6219,17 +6219,20 @@ packages:
       - supports-color
     dev: true
 
-  /ember-modifier/3.2.7_@babel+core@7.20.12:
-    resolution: {integrity: sha512-ezcPQhH8jUfcJQbbHji4/ZG/h0yyj1jRDknfYue/ypQS8fM8LrGcCMo0rjDZLzL1Vd11InjNs3BD7BdxFlzGoA==}
-    engines: {node: 12.* || >= 14}
+  /ember-modifier/4.0.0_ember-source@4.8.4:
+    resolution: {integrity: sha512-OdconmrqKP2haK4kBwNmtnA2NiC2MFmIJC3LgJ1WhwZ49GaktM+bRIuFxF/S5W0oaegzKs1qH2ZDlqMeO2L3nw==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: '*'
+    peerDependenciesMeta:
+      ember-source:
+        optional: true
     dependencies:
-      ember-cli-babel: 7.26.11
+      '@embroider/addon-shim': 1.8.4
       ember-cli-normalize-entity-name: 1.0.0
       ember-cli-string-utils: 1.1.0
-      ember-cli-typescript: 5.2.1
-      ember-compatibility-helpers: 1.2.6_@babel+core@7.20.12
+      ember-source: 4.8.4_ipwtokbwlukr3yko7oz5lbj6xy
     transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
 
   /ember-page-title/7.0.0:
@@ -14300,7 +14303,7 @@ packages:
       '@glimmer/tracking': 1.1.2
       ember-auto-import: 2.5.0_webpack@5.75.0
       ember-cli-mirage: 2.4.0_7rsiotbptge5bdp46rto6capma
-      ember-modifier: 3.2.7_@babel+core@7.20.12
+      ember-modifier: 4.0.0_ember-source@4.8.4
       miragejs: 0.1.47
       tracked-built-ins: 3.1.0
     transitivePeerDependencies:
