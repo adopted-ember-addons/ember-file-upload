@@ -7,6 +7,22 @@
 
 
 
+
+## v7.1.1 (2023-01-22)
+
+#### :memo: Documentation
+* [#898](https://github.com/adopted-ember-addons/ember-file-upload/pull/898) Update s3 `uploadImage` example ([@gilest](https://github.com/gilest))
+* [#860](https://github.com/adopted-ember-addons/ember-file-upload/pull/860) Demo page for documentation site ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#900](https://github.com/adopted-ember-addons/ember-file-upload/pull/900) Restore base website package script ([@gilest](https://github.com/gilest))
+* [#894](https://github.com/adopted-ember-addons/ember-file-upload/pull/894) Switch to pnpm and restore `@ember/test-helpers` to latest patch ([@gilest](https://github.com/gilest))
+* [#885](https://github.com/adopted-ember-addons/ember-file-upload/pull/885) Revert @ember/test-helpers update and pin to 2.7.0 ([@gilest](https://github.com/gilest))
+* [#859](https://github.com/adopted-ember-addons/ember-file-upload/pull/859) Update ember-cli projects from 4.8.0 blueprint  ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.1.0 (2022-08-30)
 
 #### :rocket: Enhancement
