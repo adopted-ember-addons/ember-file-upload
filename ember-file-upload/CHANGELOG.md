@@ -8,6 +8,15 @@
 
 
 
+
+## v7.2.0 (2023-01-22)
+
+#### :rocket: Enhancement
+* [#888](https://github.com/adopted-ember-addons/ember-file-upload/pull/888) Support ember-modifier v4 ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 1
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+
 ## v7.1.1 (2023-01-22)
 
 #### :memo: Documentation
