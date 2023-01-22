@@ -6,7 +6,6 @@
     "test-app"
   ],
   "scripts": {
-    "prepare": "pnpm --filter ember-file-upload prepare",
     "test": "pnpm --filter test-app test:ember -s",
     "website": "pnpm --filter website start"
   },
