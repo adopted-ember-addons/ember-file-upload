@@ -35,6 +35,7 @@ importers:
       '@types/ember__destroyable': ^4.0.0
       '@types/ember__engine': ^4.0.0
       '@types/ember__object': ^4.0.0
+      '@types/ember__owner': ^4.0.0
       '@types/ember__runloop': ^4.0.0
       '@types/ember__service': ^4.0.0
       '@types/ember__string': ^3.16.3
@@ -92,6 +93,7 @@ importers:
       '@types/ember__destroyable': 4.0.1
       '@types/ember__engine': 4.0.4_@babel+core@7.20.12
       '@types/ember__object': 4.0.5_@babel+core@7.20.12
+      '@types/ember__owner': 4.0.3
       '@types/ember__runloop': 4.0.2_@babel+core@7.20.12
       '@types/ember__service': 4.0.2_@babel+core@7.20.12
       '@types/ember__string': 3.16.3
