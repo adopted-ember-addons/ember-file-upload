@@ -2,6 +2,7 @@ import Modifier, { ArgsFor, NamedArgs } from 'ember-modifier';
 import { DragListenerModifierSignature } from '../interfaces';
 import DragListener from './drag-listener';
 import { registerDestructor } from '@ember/destroyable';
+import type Owner from '@ember/owner';
 
 function cleanup(instance: DragListenerModifier) {
   if (!instance.listener) return;
@@ -12,7 +13,7 @@ function cleanup(instance: DragListenerModifier) {
 export default class DragListenerModifier extends Modifier<DragListenerModifierSignature> {
   listener?: DragListener;
 
-  constructor(owner: unknown, args: ArgsFor<DragListenerModifierSignature>) {
+  constructor(owner: Owner, args: ArgsFor<DragListenerModifierSignature>) {
     super(owner, args);
     registerDestructor(this, cleanup);
   }

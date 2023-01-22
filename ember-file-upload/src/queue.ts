@@ -3,13 +3,7 @@ import { modifier } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
 import { UploadFile } from './upload-file';
 import type FileQueueService from './services/file-queue';
-import {
-  FileSource,
-  FileState,
-  QueueListener,
-  QueueName,
-  SelectFileModifierSignature,
-} from './interfaces';
+import { FileSource, FileState, QueueListener, QueueName } from './interfaces';
 
 /**
  * The Queue is a collection of files that
@@ -181,8 +175,18 @@ export class Queue {
     }
   }
 
-  selectFile = modifier<SelectFileModifierSignature>(
-    (element, _positional, { filter, onFilesSelected }) => {
+  selectFile = modifier(
+    (
+      element: HTMLInputElement,
+      _positional: [],
+      {
+        filter,
+        onFilesSelected,
+      }: {
+        filter?: (file: File, files: File[], index: number) => boolean;
+        onFilesSelected?: (files: UploadFile[]) => void;
+      }
+    ) => {
       const changeHandler = (event: Event) => {
         const { files: fileList } = event.target as HTMLInputElement;
         if (!fileList) {
@@ -226,6 +230,8 @@ export class Queue {
         element.removeEventListener('change', changeHandler);
       };
     },
+    // @ts-expect-error ember-modifier@^3 requires an options hash as second argument
+    // used to opt-in to lazy argument handling, which is the default for ember-modifier@^4
     { eager: false }
   );
 }

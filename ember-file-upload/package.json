@@ -53,7 +53,7 @@
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "ember-auto-import": "^2.0.0",
-    "ember-modifier": "^3.2.7",
+    "ember-modifier": "^3.2.7 || ^4.0.0",
     "tracked-built-ins": "^3.0.0"
   },
   "devDependencies": {
@@ -73,6 +73,7 @@
     "@types/ember__destroyable": "^4.0.0",
     "@types/ember__engine": "^4.0.0",
     "@types/ember__object": "^4.0.0",
+    "@types/ember__owner": "^4.0.0",
     "@types/ember__runloop": "^4.0.0",
     "@types/ember__service": "^4.0.0",
     "@types/ember__string": "^3.16.3",
