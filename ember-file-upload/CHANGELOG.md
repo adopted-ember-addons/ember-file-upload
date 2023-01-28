@@ -9,6 +9,15 @@
 
 
 
+
+## v7.3.0 (2023-01-28)
+
+#### :rocket: Enhancement
+* [#897](https://github.com/adopted-ember-addons/ember-file-upload/pull/897) Export QueueName type ([@BoussonKarel](https://github.com/BoussonKarel))
+
+#### Committers: 1
+- [@BoussonKarel](https://github.com/BoussonKarel)
+
 ## v7.2.0 (2023-01-22)
 
 #### :rocket: Enhancement
