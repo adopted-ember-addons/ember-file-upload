@@ -15,17 +15,13 @@ Bind a [file input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/in
 {{/let}}
 ```
 
-After a file is added to your queue, the `onFileAdded` callback will be called. You may then upload the file to a URL by calling `file.upload()`. This returns a promise that is resolved when the file has finished uploading, or is rejected if the file couldn't be uploaded.
+After a file is added to your queue, the `onFileAdded` callback will be called. You may then upload the file to a URL by calling `file.upload()`. This returns a promise that is resolved when the file has finished uploading.
 
 ```js
 export default class ExampleComponent extends Component {
   @action
   async uploadPhoto(file) {
-    try {
-      const response = await file.upload('/api/images/upload');
-    } catch (error) {
-      file.state = 'aborted';
-    }
+    const response = await file.upload('/api/images/upload');
   }
 }
 ```
