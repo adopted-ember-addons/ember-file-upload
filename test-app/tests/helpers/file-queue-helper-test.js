@@ -126,7 +126,11 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.uploadStarted = (file) => {
       assert.step('upload started');
       assert.strictEqual(file.name, 'dingus.txt', 'file name present');
-      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+      assert.strictEqual(
+        file.state,
+        FileState.Uploading,
+        'file state is uploading'
+      );
     };
 
     await render(hbs`
@@ -156,7 +160,11 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.uploadSucceeded = (file, response) => {
       assert.step('upload succeeded');
       assert.strictEqual(file.name, 'dingus.txt', 'file name present');
-      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+      assert.strictEqual(
+        file.state,
+        FileState.Uploaded,
+        'file state is uploaded'
+      );
       assert.strictEqual(response.status, 201, 'response status present');
     };
 
@@ -187,7 +195,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.uploadFailed = (file, response) => {
       assert.step('upload failed');
       assert.strictEqual(file.name, 'dingus.txt', 'file name present');
-      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+      assert.strictEqual(file.state, FileState.Failed, 'file state is failed');
       assert.strictEqual(response.status, 500, 'response status present');
     };
 
@@ -208,7 +216,10 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('files in the queue are autotracked', async function (assert) {
     this.simulateUpload = (file) => {
       file.state = FileState.Uploading;
-      later(() => (file.state = FileState.Uploaded), 100);
+      later(() => {
+        file.state = FileState.Uploaded;
+        file.queue.flush();
+      }, 100);
     };
 
     await render(hbs`

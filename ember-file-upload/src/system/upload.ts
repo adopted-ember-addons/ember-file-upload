@@ -98,29 +98,26 @@ export function upload(
 
   request.ontimeout = () => {
     file.state = FileState.TimedOut;
+    file.queue?.flush();
   };
   request.onabort = () => {
     file.state = FileState.Aborted;
+    file.queue?.flush();
   };
   file.state = FileState.Uploading;
 
   return waitForPromise(
     uploadFn(request, options)
       .then(function (response) {
+        file.state = FileState.Uploaded;
         file.queue?.uploadSucceeded(file, response);
-        // Don't update file.state if it was updated in the callback
-        if (file.state === FileState.Uploading) {
-          file.state = FileState.Uploaded;
-        }
         return response;
       })
       .catch(function (response) {
+        file.state = FileState.Failed;
         file.queue?.uploadFailed(file, response);
-        // Don't update file.state if it was updated in the callback
-        if (file.state === FileState.Uploading) {
-          file.state = FileState.Failed;
-        }
         return RSVP.reject(response);
       })
+      .finally(() => file.queue?.flush())
   );
 }

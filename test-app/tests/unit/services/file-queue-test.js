@@ -103,7 +103,7 @@ module('Unit | Service | file-queue', function (hooks) {
     assert.strictEqual(queue.progress, 28);
   });
 
-  test('the queue is emptied when all files are completed', function (assert) {
+  test('the queue is emptied when all files are completed and flush is called', function (assert) {
     var queue = this.owner.lookup('service:file-queue');
     var queue1 = queue.create('queue1');
 
@@ -133,6 +133,7 @@ module('Unit | Service | file-queue', function (hooks) {
     assert.strictEqual(queue.files.length, 3);
 
     file1.state = 'aborted';
+    queue1.flush();
 
     assert.strictEqual(queue.files.length, 0);
     assert.strictEqual(queue1.files.length, 0);
