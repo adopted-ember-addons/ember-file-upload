@@ -114,6 +114,8 @@ module('Integration | Helper | file-queue', function (hooks) {
   });
 
   test('will be notified when an upload starts', async function (assert) {
+    assert.expect(4);
+
     this.server.post(
       '/upload-file',
       uploadHandler(() => {})
@@ -121,8 +123,11 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     this.upload = (file) => file.upload('/upload-file');
 
-    this.uploadStarted = (file) =>
-      assert.step(`upload started: ${file.name}, state: ${file.state}`);
+    this.uploadStarted = (file) => {
+      assert.step('upload started');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+    };
 
     await render(hbs`
       {{#let (file-queue onFileAdded=this.upload onUploadStarted=this.uploadStarted) as |queue|}}
@@ -135,10 +140,12 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
-    assert.verifySteps(['upload started: dingus.txt, state: uploading']);
+    assert.verifySteps(['upload started']);
   });
 
   test('will be notified when an upload is successful', async function (assert) {
+    assert.expect(5);
+
     this.server.post(
       '/upload-file',
       uploadHandler(() => {})
@@ -146,10 +153,12 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     this.upload = (file) => file.upload('/upload-file');
 
-    this.uploadSucceeded = (file, response) =>
-      assert.step(
-        `upload succeeded: ${file.name}, state: ${file.state}, response.status: ${response.status}`
-      );
+    this.uploadSucceeded = (file, response) => {
+      assert.step('upload succeeded');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+      assert.strictEqual(response.status, 201, 'response status present');
+    };
 
     await render(hbs`
       {{#let (file-queue onFileAdded=this.upload onUploadSucceeded=this.uploadSucceeded) as |queue|}}
@@ -162,12 +171,12 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
-    assert.verifySteps([
-      'upload succeeded: dingus.txt, state: uploading, response.status: 201',
-    ]);
+    assert.verifySteps(['upload succeeded']);
   });
 
   test('will be notified when an upload fails', async function (assert) {
+    assert.expect(5);
+
     this.server.post(
       '/upload-file',
       uploadHandler(() => new Response(500))
@@ -176,9 +185,10 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.upload = (file) => file.upload('/upload-file');
 
     this.uploadFailed = (file, response) => {
-      assert.step(
-        `upload failed: ${file.name}, state: ${file.state}, status: ${response.status}`
-      );
+      assert.step('upload failed');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(file.state, FileState.Uploading, 'file state present');
+      assert.strictEqual(response.status, 500, 'response status present');
     };
 
     await render(hbs`
@@ -192,9 +202,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
-    assert.verifySteps([
-      'upload failed: dingus.txt, state: uploading, status: 500',
-    ]);
+    assert.verifySteps(['upload failed']);
   });
 
   test('files in the queue are autotracked', async function (assert) {
