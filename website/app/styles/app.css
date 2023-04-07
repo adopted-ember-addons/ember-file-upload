@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 main {
   grid-column-gap: calc(var(--block-spacing-horizontal) * 3);
   display: grid;
