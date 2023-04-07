@@ -13551,7 +13551,7 @@ packages:
     resolution: {integrity: sha512-/CLuzodHO2wyyHTzls5Qr+EFeG6RcW4u6//gjYvUfcfyuplIX1SSccU+A5A9A78Gmezkl3NBkFAMxLbzTY9TJA==}
     engines: {node: 8.* || 10.* || >= 12}
     dependencies:
-      path-root: 0.1.1
+      path-root: registry.npmjs.org/path-root/0.1.1
       resolve: registry.npmjs.org/resolve/1.22.2
 
   /resolve-package-path/3.1.0:
@@ -21043,7 +21043,6 @@ packages:
     name: path-root-regex
     version: 0.1.2
     engines: {node: '>=0.10.0'}
-    dev: true
 
   registry.npmjs.org/path-root/0.1.1:
     resolution: {integrity: sha512-QLcPegTHF11axjfojBIoDygmS2E3Lf+8+jI6wOVmNVenrKSo3mFdSGiIgdSHenczw3wPtlVMQaFVwGmM7BJdtg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/path-root/-/path-root-0.1.1.tgz}
@@ -21052,7 +21051,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       path-root-regex: registry.npmjs.org/path-root-regex/0.1.2
-    dev: true
 
   registry.npmjs.org/picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz}
