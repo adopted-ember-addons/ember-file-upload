@@ -91,16 +91,7 @@ export class UploadFile {
   /**
    * The current state that the file is in.
    */
-  @tracked private internalState: FileState = FileState.Queued;
-
-  get state() {
-    return this.internalState;
-  }
-
-  set state(value) {
-    this.internalState = value;
-    this.queue?.flush();
-  }
+  @tracked state: FileState = FileState.Queued;
 
   // /**
   //   The source of the file. This is useful
