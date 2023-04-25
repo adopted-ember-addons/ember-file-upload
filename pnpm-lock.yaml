@@ -235,7 +235,7 @@ importers:
       '@babel/core': ^7.16.7
       '@babel/eslint-parser': ^7.21.3
       '@babel/plugin-proposal-decorators': ^7.21.0
-      '@docfy/ember': ^0.5.0
+      '@docfy/ember': ^0.6.0
       '@ember/optional-features': ^2.0.0
       '@ember/string': ^3.0.1
       '@ember/test-helpers': ^2.9.3
@@ -290,7 +290,7 @@ importers:
       '@babel/core': 7.21.4
       '@babel/eslint-parser': 7.21.3_awdqtp74dga4gnyb5cnw6hcaya
       '@babel/plugin-proposal-decorators': 7.21.0_@babel+core@7.21.4
-      '@docfy/ember': 0.5.0
+      '@docfy/ember': 0.6.0
       '@ember/optional-features': 2.0.0
       '@ember/string': 3.0.1
       '@ember/test-helpers': 2.9.3_3c5csdy6uf32qc6o4whwbzv4nu
@@ -1588,8 +1588,8 @@ packages:
       postcss-selector-parser: 6.0.11
     dev: true
 
-  /@docfy/core/0.5.0:
-    resolution: {integrity: sha512-4SBim8DAveFju1CiUfiHXGiWc+zC7CMWKid+jbwPW1AiVlwitrY2KJYGe+LN1dNxd3EcIVV8QULl7Po7ZTqxgg==}
+  /@docfy/core/0.6.0:
+    resolution: {integrity: sha512-2L5UiE720h6tmkTxvB43Q+nZybKV/8UC6jYVBqiyP9YriVjWxxVpTkR80Egg4rrMnGfYKedOI4ZgxekgdoHDMQ==}
     engines: {node: '>= 12.*'}
     dependencies:
       debug: 4.3.4
@@ -1616,11 +1616,11 @@ packages:
       - supports-color
     dev: true
 
-  /@docfy/ember/0.5.0:
-    resolution: {integrity: sha512-kgBGrryYXTQ5pB5q8X1R6IoJMwka6W6Z/+NFYbrxv6r2BY+4pR+P8Of7rBDf/ViPRMCYIU0BtZcQWZFPeN45KA==}
+  /@docfy/ember/0.6.0:
+    resolution: {integrity: sha512-TcZoNwZpQGs7EuvSvuxLp6gt11Fq/9qIHUESYR5j9qZOwLFvuvRXaui27n+Rq03LZQW/eGtBUQM06nSn9FsuXg==}
     engines: {node: '>= 12'}
     dependencies:
-      '@docfy/core': 0.5.0
+      '@docfy/core': 0.6.0
       broccoli-bridge: 1.0.0
       broccoli-file-creator: 2.1.1
       broccoli-funnel: 3.0.8
