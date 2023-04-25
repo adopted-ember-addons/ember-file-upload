@@ -255,7 +255,7 @@ importers:
       ember-cli-sri: ^2.1.1
       ember-cli-string-helpers: ^6.1.0
       ember-cli-terser: ^4.0.2
-      ember-concurrency: ^2.3.7
+      ember-concurrency: ^3.0.0
       ember-fetch: ^8.1.2
       ember-file-upload: workspace:*
       ember-intl: ^5.7.2
@@ -310,7 +310,7 @@ importers:
       ember-cli-sri: 2.1.1
       ember-cli-string-helpers: 6.1.0
       ember-cli-terser: 4.0.2
-      ember-concurrency: 2.3.7_@babel+core@7.21.4
+      ember-concurrency: 3.0.0_@babel+core@7.21.4
       ember-fetch: 8.1.2
       ember-file-upload: link:../ember-file-upload
       ember-intl: 5.7.2
@@ -6961,8 +6961,8 @@ packages:
       - '@babel/core'
       - supports-color
 
-  /ember-concurrency/2.3.7_@babel+core@7.21.4:
-    resolution: {integrity: sha512-sz6sTIXN/CuLb5wdpauFa+rWXuvXXSnSHS4kuNzU5GSMDX1pLBWSuovoUk61FUe6CYRqBmT1/UushObwBGickQ==}
+  /ember-concurrency/3.0.0_@babel+core@7.21.4:
+    resolution: {integrity: sha512-MUsOgl4qLkINxrY+9FuohSOsn7Ytd3xCxu9mThSrMPatxomscZz/0lT4M95S7xy2aNO4o/zGfAEULECQ09YkWA==}
     engines: {node: 10.* || 12.* || 14.* || >= 16}
     dependencies:
       '@babel/helper-plugin-utils': 7.20.2
@@ -12653,7 +12653,7 @@ packages:
       got: 12.6.0
       registry-auth-token: 5.0.2
       registry-url: 6.0.1
-      semver: 7.3.8
+      semver: 7.5.0
     dev: true
 
   /pako/1.0.11:
@@ -14187,7 +14187,7 @@ packages:
     resolution: {integrity: sha512-0Ju4+6A8iOnpL/Thra7dZsSlOHYAHIeMxfhWQRI1/VLcT3WDBZKKtQt/QkBOsiIN9ZpuvHE6cGZ0x4glCMmfiA==}
     engines: {node: '>=12'}
     dependencies:
-      semver: 7.3.8
+      semver: 7.5.0
     dev: true
 
   /semver/5.7.1:
@@ -15884,7 +15884,7 @@ packages:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.1.0
-      semver: 7.3.8
+      semver: 7.5.0
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
     dev: true
