@@ -12,6 +12,16 @@
 
 
 
+
+## v8.0.0 (2023-05-01)
+
+#### :boom: Breaking Change
+* [#922](https://github.com/adopted-ember-addons/ember-file-upload/pull/922) Drop support for node 14 ([@gilest](https://github.com/gilest))
+* [#917](https://github.com/adopted-ember-addons/ember-file-upload/pull/917) Move blueprint provided packages to peerDependencies ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.4.0 (2023-05-01)
 
 #### :rocket: Enhancement
