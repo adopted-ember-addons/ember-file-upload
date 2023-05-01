@@ -245,6 +245,20 @@ module('Unit | HttpRequest', function (hooks) {
     return promise;
   });
 
+  test('it returns an error response if the response status is ouside of the [200, 599] range', function (assert) {
+    assert.expect(3);
+
+    this.subject.open('PUT', 'http://emberjs.com');
+
+    this.subject.send({ filename: 'rfc.md' }).catch((response) => {
+      assert.strictEqual(response.status, 0, 'response status is 0');
+      assert.false(response.ok, 'response is not ok');
+      assert.strictEqual(response.type, 'error', 'response type is error');
+    });
+
+    this.respond(0, {}, 'timeout');
+  });
+
   skip('onprogress', function () {});
 
   skip('ontimeout', function () {});
