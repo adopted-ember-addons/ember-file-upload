@@ -7,6 +7,9 @@ export interface FileQueueArgs {
   name?: string;
   onFileAdded?: (file: UploadFile) => void;
   onFileRemoved?: (file: UploadFile) => void;
+  onUploadStarted?: (file: UploadFile) => void;
+  onUploadSucceeded?: (file: UploadFile, response: Response) => void;
+  onUploadFailed?: (file: UploadFile, response: Response) => void;
 }
 
 declare module '@ember/service' {
@@ -18,6 +21,9 @@ declare module '@ember/service' {
 export interface QueueListener {
   onFileAdded?(file: UploadFile): void;
   onFileRemoved?(file: UploadFile): void;
+  onUploadStarted?(file: UploadFile): void;
+  onUploadSucceeded?(file: UploadFile, response: Response): void;
+  onUploadFailed?(file: UploadFile, response: Response): void;
 }
 
 export type QueueName = string | symbol;

@@ -152,6 +152,24 @@ export class Queue {
     }
   }
 
+  uploadStarted(file: UploadFile) {
+    for (const listener of this.#listeners) {
+      listener.onUploadStarted?.(file);
+    }
+  }
+
+  uploadSucceeded(file: UploadFile, response: Response) {
+    for (const listener of this.#listeners) {
+      listener.onUploadSucceeded?.(file, response);
+    }
+  }
+
+  uploadFailed(file: UploadFile, response: Response) {
+    for (const listener of this.#listeners) {
+      listener.onUploadFailed?.(file, response);
+    }
+  }
+
   /**
    * Flushes the `files` property if they have settled. This
    * will only flush files when all files have arrived at a terminus

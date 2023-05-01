@@ -91,16 +91,7 @@ export class UploadFile {
   /**
    * The current state that the file is in.
    */
-  @tracked private internalState: FileState = FileState.Queued;
-
-  get state() {
-    return this.internalState;
-  }
-
-  set state(value) {
-    this.internalState = value;
-    this.queue?.flush();
-  }
+  @tracked state: FileState = FileState.Queued;
 
   // /**
   //   The source of the file. This is useful
@@ -151,6 +142,7 @@ export class UploadFile {
   uploadBinary(url: string, options: UploadOptions) {
     options.contentType = 'application/octet-stream';
     return upload(this, url, options, (request) => {
+      this.queue?.uploadStarted(this);
       return request.send(this.file);
     });
   }
@@ -183,6 +175,7 @@ export class UploadFile {
           }
         }
 
+        this.queue?.uploadStarted(this);
         return request.send(form);
       }
     );

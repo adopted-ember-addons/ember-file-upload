@@ -26,11 +26,14 @@ If a name is not provided, the default queue will be used.
 
 ## Arguments
 
-| Argument        | Description                       | Type                         | Default value |
-| --------------- | --------------------------------- | ---------------------------- | ------------- |
-| `name`          | Name of queue to find or create.  | `string`                     |               |
-| `onFileAdded`   | Called when each file is added.   | `(file: UploadFile) => void` |               |
-| `onFileRemoved` | Called when each file is removed. | `(file: UploadFile) => void` |               |
+| Argument            | Description                                             | Type                                             | Default value |
+| ------------------- | ------------------------------------------------------- | ------------------------------------------------ | ------------- |
+| `name`              | Name of queue to find or create.                        | `string`                                         |               |
+| `onFileAdded`       | Called when a file is added to this queue.              | `(file: UploadFile) => void`                     |               |
+| `onFileRemoved`     | Called when a file is removed from this queue.          | `(file: UploadFile) => void`                     |               |
+| `onUploadStarted`   | Called when an upload for a file in this queue starts.  | `(file: UploadFile) => void`                     |               |
+| `onUploadSucceeded` | Called when an upload of a file in this queue succeeds. | `(file: UploadFile, response: Response) => void` |               |
+| `onUploadFailed`    | Called when an upload of a file in this queue fails.    | `(file: UploadFile, response: Response) => void` |               |
 
 ## Properties
 

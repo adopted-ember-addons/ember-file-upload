@@ -98,22 +98,26 @@ export function upload(
 
   request.ontimeout = () => {
     file.state = FileState.TimedOut;
+    file.queue?.flush();
   };
   request.onabort = () => {
     file.state = FileState.Aborted;
+    file.queue?.flush();
   };
   file.state = FileState.Uploading;
 
   return waitForPromise(
-    uploadFn(request, options).then(
-      function (response) {
+    uploadFn(request, options)
+      .then(function (response) {
         file.state = FileState.Uploaded;
+        file.queue?.uploadSucceeded(file, response);
         return response;
-      },
-      function (error) {
+      })
+      .catch(function (response) {
         file.state = FileState.Failed;
-        return RSVP.reject(error);
-      }
-    )
+        file.queue?.uploadFailed(file, response);
+        return RSVP.reject(response);
+      })
+      .finally(() => file.queue?.flush())
   );
 }

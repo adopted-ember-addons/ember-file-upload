@@ -1,14 +1,17 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { Response } from 'miragejs';
 import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
+import { uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
-
 
 module('Integration | Helper | file-queue', function (hooks) {
   setupRenderingTest(hooks);
+  setupMirage(hooks);
 
   test('filter is triggered when selecting files', async function (assert) {
     this.filter = (file) => assert.step(`filter: ${file.name}`);
@@ -110,10 +113,113 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist();
   });
 
+  test('will be notified when an upload starts', async function (assert) {
+    assert.expect(4);
+
+    this.server.post(
+      '/upload-file',
+      uploadHandler(() => {})
+    );
+
+    this.upload = (file) => file.upload('/upload-file');
+
+    this.uploadStarted = (file) => {
+      assert.step('upload started');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(
+        file.state,
+        FileState.Uploading,
+        'file state is uploading'
+      );
+    };
+
+    await render(hbs`
+      {{#let (file-queue onFileAdded=this.upload onUploadStarted=this.uploadStarted) as |queue|}}
+        <label>
+          <input type="file" {{queue.selectFile}}>
+          Select File
+        </label>
+      {{/let}}
+    `);
+
+    await selectFiles('input[type=file]', new File([], 'dingus.txt'));
+
+    assert.verifySteps(['upload started']);
+  });
+
+  test('will be notified when an upload is successful', async function (assert) {
+    assert.expect(5);
+
+    this.server.post(
+      '/upload-file',
+      uploadHandler(() => {})
+    );
+
+    this.upload = (file) => file.upload('/upload-file');
+
+    this.uploadSucceeded = (file, response) => {
+      assert.step('upload succeeded');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(
+        file.state,
+        FileState.Uploaded,
+        'file state is uploaded'
+      );
+      assert.strictEqual(response.status, 201, 'response status present');
+    };
+
+    await render(hbs`
+      {{#let (file-queue onFileAdded=this.upload onUploadSucceeded=this.uploadSucceeded) as |queue|}}
+        <label>
+          <input type="file" {{queue.selectFile}}>
+          Select File
+        </label>
+      {{/let}}
+    `);
+
+    await selectFiles('input[type=file]', new File([], 'dingus.txt'));
+
+    assert.verifySteps(['upload succeeded']);
+  });
+
+  test('will be notified when an upload fails', async function (assert) {
+    assert.expect(5);
+
+    this.server.post(
+      '/upload-file',
+      uploadHandler(() => new Response(500))
+    );
+
+    this.upload = (file) => file.upload('/upload-file');
+
+    this.uploadFailed = (file, response) => {
+      assert.step('upload failed');
+      assert.strictEqual(file.name, 'dingus.txt', 'file name present');
+      assert.strictEqual(file.state, FileState.Failed, 'file state is failed');
+      assert.strictEqual(response.status, 500, 'response status present');
+    };
+
+    await render(hbs`
+      {{#let (file-queue onFileAdded=this.upload onUploadFailed=this.uploadFailed) as |queue|}}
+        <label>
+          <input type="file" {{queue.selectFile}}>
+          Select File
+        </label>
+      {{/let}}
+    `);
+
+    await selectFiles('input[type=file]', new File([], 'dingus.txt'));
+
+    assert.verifySteps(['upload failed']);
+  });
+
   test('files in the queue are autotracked', async function (assert) {
     this.simulateUpload = (file) => {
       file.state = FileState.Uploading;
-      later(() => (file.state = FileState.Uploaded), 100);
+      later(() => {
+        file.state = FileState.Uploaded;
+        file.queue.flush();
+      }, 100);
     };
 
     await render(hbs`
@@ -145,7 +251,9 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     // Enqueued file should be visible
     await waitFor('[data-test-file]');
-    assert.dom('[data-test-file]').hasText('second.txt', 'second.txt is queued');
+    assert
+      .dom('[data-test-file]')
+      .hasText('second.txt', 'second.txt is queued');
 
     // Allow upload to complete
     await settled();
