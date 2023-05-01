@@ -26,7 +26,7 @@ export default class ExampleComponent extends Component {
     try {
       const response = await file.upload('/api/images/upload');
     } catch (response) {
-      // Handle error response somehow
+      console.error(`File upload failed: ${response}`);
     }
   }
 }
