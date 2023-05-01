@@ -10,6 +10,23 @@
 
 
 
+
+## v7.3.1 (2023-05-01)
+
+#### :bug: Bug Fix
+* [#914](https://github.com/adopted-ember-addons/ember-file-upload/pull/914) Return `Reponse.error` when status is outside of 200-599 range ([@herzzanu](https://github.com/herzzanu))
+
+#### :house: Internal
+* [#924](https://github.com/adopted-ember-addons/ember-file-upload/pull/924) Constrain renovate to pnpm version 7 ([@gilest](https://github.com/gilest))
+* [#923](https://github.com/adopted-ember-addons/ember-file-upload/pull/923) Bump ember-source to 4.12 ([@gilest](https://github.com/gilest))
+* [#920](https://github.com/adopted-ember-addons/ember-file-upload/pull/920) Bump build dependencies ([@gilest](https://github.com/gilest))
+* [#918](https://github.com/adopted-ember-addons/ember-file-upload/pull/918) Upgrade ember-cli to 4.12.0 ([@gilest](https://github.com/gilest))
+* [#916](https://github.com/adopted-ember-addons/ember-file-upload/pull/916) Add `@ember/string` as a dependency of ember packages ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Sabin Hertanu ([@herzzanu](https://github.com/herzzanu))
+
 ## v7.3.0 (2023-01-28)
 
 #### :rocket: Enhancement
