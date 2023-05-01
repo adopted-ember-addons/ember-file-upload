@@ -11,6 +11,15 @@
 
 
 
+
+## v7.4.0 (2023-05-01)
+
+#### :rocket: Enhancement
+* [#925](https://github.com/adopted-ember-addons/ember-file-upload/pull/925) Add `onUploadStarted`, `onUploadSucceeded` and `onUploadFailed` to `file-queue` helper  ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v7.3.1 (2023-05-01)
 
 #### :bug: Bug Fix
