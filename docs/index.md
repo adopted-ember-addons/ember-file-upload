@@ -14,6 +14,20 @@ Uploads can be managed through queues and continue in the background, even after
 ember install ember-file-upload
 ```
 
+To ensure your app has all requred `devDependencies` you may also run:
+
+```sh
+# pnpm
+pnpm add --save-dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+
+# npm
+npm install --save-dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+
+# Yarn
+yarn add --dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+```
+
+
 ## Introducing queues
 
 Queues contain the state of file uploads as a user navigates around your application. They are the core of this addon.
