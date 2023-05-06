@@ -42,5 +42,6 @@ export default class DemoUploadComponent extends Component {
     }
 
     file.state = FileState.Uploaded;
+    file.queue.flush();
   }
 }
