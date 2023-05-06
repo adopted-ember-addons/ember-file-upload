@@ -4,6 +4,33 @@ order: 7
 
 # Upgrade guide
 
+## Upgrading to v8
+
+The following packages are now `peerDependencies` of `ember-file-upload`:
+
+- `@ember/test-helpers`
+- `@glimmer/component`
+- `@glimmer/tracking`
+- `ember-modifier`
+- `tracked-built-ins`
+
+This means your app or addon must provide its own version of these packages via `devDependencies` or `dependencies`.
+
+Most apps will already have these packages installed as they are included in new Ember apps by default.
+
+To ensure an existing app has all requred `devDependencies` you may run:
+
+```sh
+# pnpm
+pnpm add --save-dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+
+# npm
+npm install --save-dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+
+# Yarn
+yarn add --dev @ember/test-helpers @glimmer/component @glimmer/tracking ember-modifier tracked-built-ins
+```
+
 ## Upgrading to v7
 
 No changes are required unless an app directly imports modules from this addon.
