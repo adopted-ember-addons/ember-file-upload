@@ -1,19 +1,6 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## v8.0.0 (2023-05-01)
+
+[Upgrade guide](https://ember-file-upload.pages.dev/docs/upgrade-guide#upgrading-to-v8)
 
 #### :boom: Breaking Change
 * [#922](https://github.com/adopted-ember-addons/ember-file-upload/pull/922) Drop support for node 14 ([@gilest](https://github.com/gilest))
