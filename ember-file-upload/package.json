@@ -82,7 +82,7 @@
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.11.0",
     "ember-cli-htmlbars": "^6.1.1",
     "ember-modifier": "^4.0.0",
     "ember-source": "~4.12.0",
