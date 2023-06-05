@@ -10,11 +10,26 @@ interface AdditionalMetadata {
   height?: number;
 }
 
+interface ImageResult {
+  hasAdditionalMetadata: boolean;
+  img?: HTMLImageElement;
+}
+
+interface VideoResult {
+  hasAdditionalMetadata: boolean;
+  video?: HTMLVideoElement;
+}
+
+interface AudioResult {
+  hasAdditionalMetadata: boolean;
+  audio?: HTMLAudioElement;
+}
+
 interface FileMetadata extends AdditionalMetadata {
   name: string;
   size: number;
   type: string;
-  extension: string;
+  extension?: string;
   url: string;
 }
 
@@ -43,15 +58,20 @@ const pipelines = {
     const data = new Uint8Array(buffer);
     let duration = 0;
     for (let i = 0; i < data.length; i++) {
+      const byte4 = data[i + 4];
+      const byte5 = data[i + 5];
+
       // Find a Graphic Control Extension hex(21F904__ ____ __00)
       if (
         data[i] === 0x21 &&
         data[i + 1] === 0xf9 &&
         data[i + 2] === 0x04 &&
+        byte4 !== undefined &&
+        byte5 !== undefined &&
         data[i + 7] === 0x00
       ) {
         // Swap 5th and 6th bytes to get the delay per frame
-        const delay = (data[i + 5] << 8) | (data[i + 4] & 0xff);
+        const delay = (byte5 << 8) | (byte4 & 0xff);
 
         // Should be aware browsers have a minimum frame delay
         // e.g. 6ms for IE, 2ms modern browsers (50fps)
@@ -67,7 +87,7 @@ const pipelines = {
   },
 
   image(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve: (result: ImageResult) => void) {
       const img = new Image();
       img.onload = () => resolve({ hasAdditionalMetadata: true, img });
       img.onerror = () => resolve({ hasAdditionalMetadata: false });
@@ -83,7 +103,7 @@ const pipelines = {
 
   video(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
     const videoEl = document.createElement('video');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve: (result: VideoResult) => void) {
       videoEl.addEventListener('loadeddata', () =>
         resolve({ hasAdditionalMetadata: true, video: videoEl })
       );
@@ -107,7 +127,7 @@ const pipelines = {
 
   audio(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
     const audioEl = document.createElement('audio');
-    return new RSVP.Promise(function (resolve) {
+    return new RSVP.Promise(function (resolve: (result: AudioResult) => void) {
       audioEl.addEventListener('loadeddata', () =>
         resolve({ hasAdditionalMetadata: true, audio: audioEl })
       );
@@ -135,7 +155,7 @@ export async function extractFileMetadata(file: File) {
     name: file.name,
     size: file.size,
     type: file.type,
-    extension: (file.name.match(/\.(.*)$/) || [])[1],
+    extension: (file.name.match(/\.(.*)$/) ?? [])[1],
     url,
   };
 

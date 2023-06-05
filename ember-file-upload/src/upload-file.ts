@@ -76,7 +76,7 @@ export class UploadFile {
    * the file according to the type
    */
   get extension(): string {
-    return this.type.split('/').slice(-1)[0];
+    return this.type.split('/').slice(-1)[0] ?? '';
   }
 
   /** The number of bytes that have been uploaded to the server */
@@ -246,6 +246,8 @@ export class UploadFile {
     // @ts-ignore
     const mimeType = typeInfo.match(/:(.*?);/)[1];
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const binaryString = atob(base64String);
     const binaryData = new Uint8Array(binaryString.length);
 

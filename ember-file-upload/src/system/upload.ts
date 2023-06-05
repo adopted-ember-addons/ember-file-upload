@@ -31,11 +31,11 @@ function normalizeOptions(
   options.data = clone(options.data);
   options.fileKey = options.fileKey || 'file';
 
-  if (options.headers.Accept == null) {
+  if (options.headers['Accept'] == null) {
     if (!Array.isArray(options.accepts)) {
       options.accepts = [options.accepts];
     }
-    options.headers.Accept = options.accepts.join(',');
+    options.headers['Accept'] = options.accepts.join(',');
   }
 
   // Set Content-Type in the data payload

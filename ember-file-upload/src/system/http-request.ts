@@ -67,6 +67,8 @@ export default class HTTPRequest {
       }
       return aborted.promise;
     };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     promise.then = function (...args) {
       const newPromise = RSVP.Promise.prototype.then.apply(this, args);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
