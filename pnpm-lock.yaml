@@ -79,6 +79,9 @@ importers:
       '@glimmer/tracking':
         specifier: ^1.0.4
         version: 1.1.2
+      '@tsconfig/ember':
+        specifier: ^2.0.0
+        version: registry.npmjs.org/@tsconfig/ember@2.0.0
       '@types/ember__application':
         specifier: ^4.0.0
         version: 4.0.5(@babel/core@7.22.1)
@@ -19114,6 +19117,12 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': registry.npmjs.org/@jridgewell/resolve-uri@3.1.0
       '@jridgewell/sourcemap-codec': registry.npmjs.org/@jridgewell/sourcemap-codec@1.4.14
+
+  registry.npmjs.org/@tsconfig/ember@2.0.0:
+    resolution: {integrity: sha512-RzbDYYcjxVdG8Ki0xe99HN3+nHTZe6EBgw6N7B3yup7QogVFQQxA9nY7X80j1XzF15xqetwWiYfAjv5lkkp0/A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@tsconfig/ember/-/ember-2.0.0.tgz}
+    name: '@tsconfig/ember'
+    version: 2.0.0
+    dev: true
 
   registry.npmjs.org/@types/ember-resolver@9.0.0(@ember/string@3.0.1)(ember-source@4.12.0):
     resolution: {integrity: sha512-lEuC2QD8K6rRAbELMejrALFBgelRPt6OQtapny4Oke07ZtK/Lbf9zn5KIDl7PNkirxMD0AStsQTdUqFu6eVbVw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@types/ember-resolver/-/ember-resolver-9.0.0.tgz}
