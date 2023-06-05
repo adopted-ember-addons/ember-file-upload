@@ -13,8 +13,5 @@
       "matchPackagePrefixes": ["@types/ember__"],
       "groupName": "ember types"
     }
-  ],
-  "constraints": {
-    "pnpm": "7"
-  }
+  ]
 }
