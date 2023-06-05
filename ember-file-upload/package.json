@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
+    "@babel/eslint-parser": "^7.21.3",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-decorators": "^7.17.8",
     "@babel/plugin-transform-runtime": "^7.18.2",
@@ -82,12 +83,11 @@
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
-    "babel-eslint": "^10.1.0",
     "ember-cli-htmlbars": "^6.1.1",
     "ember-modifier": "^4.0.0",
     "ember-source": "~4.12.0",
     "ember-template-lint": "^5.0.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^11.0.0",
     "eslint-plugin-node": "^11.1.0",
@@ -131,7 +131,7 @@
   "ember-addon": {
     "version": 2,
     "type": "addon",
-    "main": "addon-main.js",
+    "main": "addon-main.cjs",
     "app-js": {
       "./components/file-dropzone.js": "./dist/_app_/components/file-dropzone.js",
       "./helpers/file-queue.js": "./dist/_app_/helpers/file-queue.js",
@@ -146,7 +146,7 @@
     ".": "./dist/index.js",
     "./*": "./dist/*",
     "./test-support": "./dist/test-support.js",
-    "./addon-main.js": "./addon-main.js"
+    "./addon-main.js": "./addon-main.cjs"
   },
   "typesVersions": {
     "*": {
