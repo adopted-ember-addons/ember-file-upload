@@ -69,6 +69,7 @@
     "@embroider/addon-dev": "^3.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@tsconfig/ember": "^2.0.0",
     "@types/ember__application": "^4.0.0",
     "@types/ember__component": "^4.0.0",
     "@types/ember__debug": "^4.0.0",

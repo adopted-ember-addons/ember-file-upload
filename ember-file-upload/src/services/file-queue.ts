@@ -83,7 +83,7 @@ export default class FileQueueService extends Service {
    * @defaultValue []
    */
   get files(): UploadFile[] {
-    return [...this.queues.values()].reduce((acc, queue) => {
+    return [...this.queues.values()].reduce((acc: UploadFile[], queue) => {
       return [...acc, ...queue.files];
     }, []);
   }
