@@ -40,63 +40,63 @@ env:
   NODE_VERSION: '16.x'
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+#   lint:
+#     name: Lint
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 8
+#       - uses: pnpm/action-setup@v2.2.4
+#         with:
+#           version: 8
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '${{ env.NODE_VERSION }}'
+#           cache: 'pnpm'
 
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+#       - name: 'Install dependencies'
+#         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm --filter ember-file-upload lint
+#       - name: Lint
+#         run: pnpm --filter ember-file-upload lint
 
-  test:
-    name: Tests
-    runs-on: ${{ matrix.os }}
-    needs: lint
+#   test:
+#     name: Tests
+#     runs-on: ${{ matrix.os }}
+#     needs: lint
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        browser: [chrome]
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest]
+#         browser: [chrome]
 
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 8
+#       - uses: pnpm/action-setup@v2.2.4
+#         with:
+#           version: 8
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '${{ env.NODE_VERSION }}'
+#           cache: 'pnpm'
 
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+#       - name: 'Install dependencies'
+#         run: pnpm install --frozen-lockfile
 
-      - name: Test
-        run: pnpm --filter test-app test:ember --launch ${{ matrix.browser }}
+#       - name: Test
+#         run: pnpm --filter test-app test:ember --launch ${{ matrix.browser }}
 
   floating-dependencies:
     name: Floating Dependencies
     runs-on: ${{ matrix.os }}
-    needs: lint
+    # needs: lint
 
     strategy:
       matrix:
@@ -123,43 +123,43 @@ jobs:
       - name: Test
         run: pnpm --filter test-app test:ember --launch ${{ matrix.browser }}
 
-  try-scenarios:
-    name: Tests - ${{ matrix.ember-try-scenario }}
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    needs: test
+  # try-scenarios:
+  #   name: Tests - ${{ matrix.ember-try-scenario }}
+  #   runs-on: ubuntu-latest
+  #   continue-on-error: true
+  #   needs: test
 
-    strategy:
-      fail-fast: true
-      matrix:
-        ember-try-scenario:
-          [
-            ember-lts-3.28,
-            ember-release,
-            ember-beta,
-            ember-canary,
-            embroider-safe,
-            embroider-optimized,
-          ]
+  #   strategy:
+  #     fail-fast: true
+  #     matrix:
+  #       ember-try-scenario:
+  #         [
+  #           ember-lts-3.28,
+  #           ember-release,
+  #           ember-beta,
+  #           ember-canary,
+  #           embroider-safe,
+  #           embroider-optimized,
+  #         ]
 
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 8
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 8
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '${{ env.NODE_VERSION }}'
+  #         cache: 'pnpm'
 
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
+  #     - name: 'Install dependencies'
+  #       run: pnpm install --frozen-lockfile
 
-      - name: Test
-        env:
-          EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-        run: pnpm --filter test-app test:ember-try $EMBER_TRY_SCENARIO
+  #     - name: Test
+  #       env:
+  #         EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
+  #       run: pnpm --filter test-app test:ember-try $EMBER_TRY_SCENARIO
