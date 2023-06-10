@@ -7,7 +7,7 @@
   "lockFileMaintenance": {
     "automerge": true
   },
-  "postUpdateOptions": ["yarnDedupeFewer"],
+  "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
       "matchPackagePrefixes": ["@types/ember__"],
