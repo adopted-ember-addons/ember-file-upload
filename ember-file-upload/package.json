@@ -146,7 +146,7 @@
     }
   },
   "files": [
-    "addon-main.js",
+    "addon-main.cjs",
     "dist"
   ],
   "exports": {
