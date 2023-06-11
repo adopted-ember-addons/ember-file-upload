@@ -1,19 +1,32 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { Response } from 'miragejs';
+import { Response as MirageResponse } from 'miragejs';
 import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
+import type { UploadFile } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
 import { uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
+
+import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+
+interface LocalContext extends MirageTestContext {
+  filter: (file: UploadFile) => void;
+  filesSelected: (files: UploadFile[]) => void;
+  fileAdded: (file: UploadFile) => void;
+  fileRemoved: (file: UploadFile) => void;
+  upload: (file: UploadFile) => void;
+  uploadStarted: (file: UploadFile) => void;
+  uploadSucceeded: (file: UploadFile, response: Response) => void;
+  uploadFailed: (file: UploadFile, response: Response) => void;
+}
 
 module('Integration | Helper | file-queue', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('filter is triggered when selecting files', async function (assert) {
+  test('filter is triggered when selecting files', async function (this: LocalContext, assert) {
     this.filter = (file) => assert.step(`filter: ${file.name}`);
 
     await render(hbs`
@@ -30,8 +43,8 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.verifySteps(['filter: dingus.txt']);
   });
 
-  test('files selected is triggered when selecting files', async function (assert) {
-    this.selectFiles = (files) =>
+  test('files selected is triggered when selecting files', async function (this: LocalContext, assert) {
+    this.filesSelected = (files) =>
       assert.step(
         `files selected: ${files.map((file) => file.name).join(', ')}`
       );
@@ -39,7 +52,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     await render(hbs`
       {{#let (file-queue) as |queue|}}
         <label>
-          <input type="file" {{queue.selectFile onFilesSelected=this.selectFiles}} hidden>
+          <input type="file" {{queue.selectFile onFilesSelected=this.filesSelected}} hidden>
           Select File
         </label>
       {{/let}}
@@ -56,7 +69,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     ]);
   });
 
-  test('falls back to default name', async function (assert) {
+  test('falls back to default name', async function (this: LocalContext, assert) {
     await render(hbs`
       {{#let (file-queue) as |queue|}}
         <output>{{queue.name}}</output>
@@ -66,7 +79,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('output').hasText(DEFAULT_QUEUE.toString());
   });
 
-  test('can be parametrized by name', async function (assert) {
+  test('can be parametrized by name', async function (this: LocalContext, assert) {
     await render(hbs`
       {{#let (file-queue name="line-up") as |queue|}}
         <output>{{queue.name}}</output>
@@ -76,12 +89,12 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('output').hasText('line-up');
   });
 
-  test('will be notified when adding and removing files', async function (assert) {
-    this.addFile = (file) => assert.step(`file added: ${file.name}`);
-    this.removeFile = (file) => assert.step(`file removed: ${file.name}`);
+  test('will be notified when adding and removing files', async function (this: LocalContext, assert) {
+    this.fileAdded = (file) => assert.step(`file added: ${file.name}`);
+    this.fileRemoved = (file) => assert.step(`file removed: ${file.name}`);
 
     await render(hbs`
-      {{#let (file-queue onFileAdded=this.addFile onFileRemoved=this.removeFile) as |queue|}}
+      {{#let (file-queue onFileAdded=this.fileAdded onFileRemoved=this.fileRemoved) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>
           {{file.name}}
@@ -113,11 +126,12 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist();
   });
 
-  test('will be notified when an upload starts', async function (assert) {
+  test('will be notified when an upload starts', async function (this: LocalContext, assert) {
     assert.expect(4);
 
     this.server.post(
       '/upload-file',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       uploadHandler(() => {})
     );
 
@@ -147,11 +161,12 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.verifySteps(['upload started']);
   });
 
-  test('will be notified when an upload is successful', async function (assert) {
+  test('will be notified when an upload is successful', async function (this: LocalContext, assert) {
     assert.expect(5);
 
     this.server.post(
       '/upload-file',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       uploadHandler(() => {})
     );
 
@@ -182,12 +197,12 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.verifySteps(['upload succeeded']);
   });
 
-  test('will be notified when an upload fails', async function (assert) {
+  test('will be notified when an upload fails', async function (this: LocalContext, assert) {
     assert.expect(5);
 
     this.server.post(
       '/upload-file',
-      uploadHandler(() => new Response(500))
+      uploadHandler(() => new MirageResponse(500))
     );
 
     this.upload = (file) => file.upload('/upload-file');
@@ -213,17 +228,17 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.verifySteps(['upload failed']);
   });
 
-  test('files in the queue are autotracked', async function (assert) {
-    this.simulateUpload = (file) => {
+  test('files in the queue are autotracked', async function (this: LocalContext, assert) {
+    this.fileAdded = (file) => {
       file.state = FileState.Uploading;
       later(() => {
         file.state = FileState.Uploaded;
-        file.queue.flush();
+        file.queue?.flush();
       }, 100);
     };
 
     await render(hbs`
-      {{#let (file-queue onFileAdded=this.simulateUpload) as |queue|}}
+      {{#let (file-queue onFileAdded=this.fileAdded) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>{{file.name}}</span>
         {{/each}}
