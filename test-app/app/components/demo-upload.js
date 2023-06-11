@@ -22,7 +22,7 @@ export default class DemoUpload extends Component {
       file,
     });
 
-    this.args.files.pushObject(asset);
+    this.args.files.push(asset);
 
     let response;
     try {

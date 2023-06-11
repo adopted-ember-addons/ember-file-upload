@@ -1,32 +1,39 @@
 import { module, test } from 'qunit';
 import { findAll } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { A } from '@ember/array';
+import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import { TrackedArray } from 'tracked-built-ins';
 
-function getImageBlob() {
+function getImageBlob(): Promise<Blob | null> {
   return new Promise((resolve) => {
-    let canvas = document.createElement('canvas');
+    const canvas = document.createElement('canvas');
     canvas.toBlob(resolve, 'image/png');
   });
+}
+
+interface LocalTestContext extends MirageTestContext {
+  files: TrackedArray;
 }
 
 module('Integration | upload', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('upload works for File', async function (assert) {
-    this.files = A([]);
+  test('upload works for File', async function (this: LocalTestContext, assert) {
+    this.files = new TrackedArray([]);
     await render(hbs`<DemoUpload @files={{this.files}} />`);
 
-    let data = await getImageBlob();
-    let photo = new File([data], 'image.png', { type: 'image/png' });
-    await selectFiles('#upload-photo', photo);
+    const data = await getImageBlob();
 
-    let uploadedPhoto = this.server.db.photos[0];
+    if (data) {
+      const photo = new File([data], 'image.png', { type: 'image/png' });
+      await selectFiles('#upload-photo', photo);
+    }
+
+    const uploadedPhoto = this.server.db.photos[0];
     assert.strictEqual(uploadedPhoto.filename, 'image.png');
     assert.strictEqual(uploadedPhoto.filesize, 1192);
     assert.strictEqual(uploadedPhoto.type, 'image');
@@ -38,17 +45,17 @@ module('Integration | upload', function (hooks) {
     );
   });
 
-  test('upload works for Blob', async function (assert) {
-    this.files = A([]);
+  test('upload works for Blob', async function (this: LocalTestContext, assert) {
+    this.files = new TrackedArray([]);
     await render(hbs`<DemoUpload @files={{this.files}} />`);
 
-    let photo = await getImageBlob();
-    photo.name = 'image.png';
+    const photo = await getImageBlob();
 
-    await selectFiles('#upload-photo', photo);
+    if (photo) {
+      await selectFiles('#upload-photo', photo);
+    }
 
-    let uploadedPhoto = this.server.db.photos[0];
-    // assert.strictEqual(uploadedPhoto.filename, 'image.png');
+    const uploadedPhoto = this.server.db.photos[0];
     assert.strictEqual(uploadedPhoto.filename, 'blob');
     assert.strictEqual(uploadedPhoto.filesize, 1192);
     assert.strictEqual(uploadedPhoto.type, 'image');
