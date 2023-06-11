@@ -4,14 +4,25 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { uploadHandler } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { animatedGif, staticGif, mp4, ogg, png } from '../../utils/file-data';
+import {
+  animatedGif,
+  staticGif,
+  mp4,
+  ogg,
+  png,
+} from 'test-app/tests/utils/file-data';
+import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import type { UploadFile } from 'ember-file-upload';
+
+interface LocalTestContext extends MirageTestContext {
+  fileAdded: (file: UploadFile) => void;
+}
 
 module('Integration | Component | mirage-handler', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('upload handler passes schema and request through providing additional file metadata as request body', async function (assert) {
+  test('upload handler passes schema and request through providing additional file metadata as request body', async function (this: LocalTestContext, assert) {
     assert.expect(6);
     this.server.post(
       '/folder/:id/file',
@@ -20,11 +31,15 @@ module('Integration | Component | mirage-handler', function (hooks) {
 
         assert.strictEqual(schema, this.server.schema, 'schema is provided');
         assert.strictEqual(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           typeof request.params,
           'object',
           'params property on request is an object'
         );
         assert.strictEqual(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           request.params.id,
           '1',
           'value of dynamic segment is present on params object'
@@ -43,16 +58,16 @@ module('Integration | Component | mirage-handler', function (hooks) {
       })
     );
 
-    this.uploadImage = (file) =>  file.upload('/folder/1/file');
+    this.fileAdded = (file) => file.upload('/folder/1/file');
     await render(hbs`
-      {{#let (file-queue name="test" onFileAdded=this.uploadImage) as |queue|}}
+      {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile}} />
         </label>
       {{/let}}
     `);
 
-    let file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
+    const file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
     await selectFiles('input', file);
 
     assert.verifySteps(['mirage-handler']);
@@ -112,18 +127,22 @@ module('Integration | Component | mirage-handler', function (hooks) {
       },
     };
 
-    for (let [type, scenario] of Object.entries(VALID_SCENARIOS)) {
-      test(`${type}: upload handler resolves with hasAdditionalMetadata: true when additional metadata can be extracted`, async function (assert) {
+    for (const [type, scenario] of Object.entries(VALID_SCENARIOS)) {
+      test(`${type}: upload handler resolves with hasAdditionalMetadata: true when additional metadata can be extracted`, async function (this: LocalTestContext, assert) {
         assert.expect(2);
 
         this.server.post(
           '/upload-file',
           uploadHandler((_schema, request) => {
             assert.true(
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               request.requestBody.file.hasAdditionalMetadata,
               'has additional metadata'
             );
             assert.propContains(
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               request.requestBody.file,
               scenario.additionalMetadata,
               'additional metadata extracted'
@@ -131,11 +150,11 @@ module('Integration | Component | mirage-handler', function (hooks) {
           })
         );
 
-        this.upload = (file) => {
+        this.fileAdded = (file) => {
           return file.upload('/upload-file');
         };
         await render(hbs`
-          {{#let (file-queue name="test" onFileAdded=this.upload) as |queue|}}
+          {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
             <label>
               <input type="file" {{queue.selectFile}} />
             </label>
@@ -157,25 +176,27 @@ module('Integration | Component | mirage-handler', function (hooks) {
         type: 'video/webm',
       }),
     };
-    for (let [type, file] of Object.entries(INVALID_SCENARIOS)) {
-      test(`${type}: upload handler resolves with hasAdditionalMetadata: false when additional metadata cannot be extracted`, async function (assert) {
+    for (const [type, file] of Object.entries(INVALID_SCENARIOS)) {
+      test(`${type}: upload handler resolves with hasAdditionalMetadata: false when additional metadata cannot be extracted`, async function (this: LocalTestContext, assert) {
         assert.expect(1);
 
         this.server.post(
           '/upload-file',
           uploadHandler((_schema, request) =>
             assert.false(
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               request.requestBody.file.hasAdditionalMetadata,
               'does not have additional metadata'
             )
           )
         );
 
-        this.upload = (file) => {
+        this.fileAdded = (file) => {
           return file.upload('/upload-file');
         };
         await render(hbs`
-          {{#let (file-queue name="test" onFileAdded=this.upload) as |queue|}}
+          {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
             <label>
               <input type="file" {{queue.selectFile}} />
             </label>
