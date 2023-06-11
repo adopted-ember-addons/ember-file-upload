@@ -1,0 +1,34 @@
+name: Website CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  NODE_VERSION: '16.x'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
+          cache: 'pnpm'
+
+      - name: 'Install dependencies'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm --filter website lint
