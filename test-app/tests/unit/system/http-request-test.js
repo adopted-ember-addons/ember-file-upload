@@ -65,11 +65,11 @@ module('Unit | HttpRequest', function (hooks) {
           [['content-type', 'text/plain']],
           'headers match'
         );
-        assert.equal(response.status, 200, 'status is 200');
+        assert.strictEqual(response.status, 200, 'status is 200');
         return response.text();
       })
       .then((responeText) => {
-        assert.equal(responeText, 'ok', 'response text matches');
+        assert.strictEqual(responeText, 'ok', 'response text matches');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -132,7 +132,7 @@ module('Unit | HttpRequest', function (hooks) {
         return response.text();
       })
       .then((reponseXml) => {
-        assert.equal(reponseXml, xml, 'xml response matches');
+        assert.strictEqual(reponseXml, xml, 'xml response matches');
       });
 
     assert.deepEqual(this.request.requestBody, {
@@ -163,7 +163,7 @@ module('Unit | HttpRequest', function (hooks) {
             [['content-type', contentType]],
             'headers match'
           );
-          assert.equal(response.status, 200, 'status is 200');
+          assert.strictEqual(response.status, 200, 'status is 200');
           return response.json();
         })
         .then((responseJson) => {

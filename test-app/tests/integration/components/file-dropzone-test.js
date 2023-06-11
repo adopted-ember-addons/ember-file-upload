@@ -162,7 +162,8 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
   test('regression: drop events from other DOM nodes are not prevented', async function (assert) {
-    this.documentDragListener = () => assert.step('documentDragListener called');
+    this.documentDragListener = () =>
+      assert.step('documentDragListener called');
     await render(hbs`
       <FileDropzone @queue={{this.queue}} />
 
@@ -172,6 +173,9 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
     await triggerEvent('.independent-drag-target', 'drop');
 
-    assert.verifySteps(['documentDragListener called'], 'event reached documentDragListener');
+    assert.verifySteps(
+      ['documentDragListener called'],
+      'event reached documentDragListener'
+    );
   });
 });

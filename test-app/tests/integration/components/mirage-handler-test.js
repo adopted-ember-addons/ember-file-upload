@@ -43,7 +43,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
       })
     );
 
-    this.uploadImage = (file) =>  file.upload('/folder/1/file');
+    this.uploadImage = (file) => file.upload('/folder/1/file');
     await render(hbs`
       {{#let (file-queue name="test" onFileAdded=this.uploadImage) as |queue|}}
         <label>
