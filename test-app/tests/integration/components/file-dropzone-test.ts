@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent, TestContext } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   dragAndDrop,
@@ -8,16 +8,25 @@ import {
   dragLeave,
 } from 'ember-file-upload/test-support';
 import { Queue } from 'ember-file-upload';
+import type { UploadFile } from 'ember-file-upload';
+
+interface LocalTestContext extends TestContext {
+  queue: Queue;
+  filter: (file: UploadFile) => void;
+  onDragEnter: (files: File[]) => void;
+  onDragLeave: (files: File[]) => void;
+  onDrop: (files: UploadFile[]) => void;
+}
 
 module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function (this: LocalTestContext) {
     const fileQueueService = this.owner.lookup('service:file-queue');
     this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
   });
 
-  test('onDragEnter is called when a file is dragged over', async function (assert) {
+  test('onDragEnter is called when a file is dragged over', async function (this: LocalTestContext, assert) {
     this.onDragEnter = () => assert.step('onDragEnter');
 
     await render(hbs`
@@ -32,7 +41,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['onDragEnter']);
   });
 
-  test('filter and onDrop', async function (assert) {
+  test('filter and onDrop', async function (this: LocalTestContext, assert) {
     this.filter = (file) => file.name.includes('.txt');
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
     await render(hbs`
@@ -54,7 +63,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dongus.txt']);
   });
 
-  test('dropping a file calls onDrop', async function (assert) {
+  test('dropping a file calls onDrop', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
@@ -69,7 +78,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt']);
   });
 
-  test('onDragLeave is called when a file is dragged out', async function (assert) {
+  test('onDragLeave is called when a file is dragged out', async function (this: LocalTestContext, assert) {
     this.onDragLeave = () => assert.step('onDragLeave');
 
     await render(hbs`
@@ -85,7 +94,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['onDragLeave']);
   });
 
-  test('yielded properties', async function (assert) {
+  test('yielded properties', async function (this: LocalTestContext, assert) {
     await render(hbs`
         {{#let (file-queue name='test') as |helperQueue|}}
           <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
@@ -101,7 +110,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.dom('.queue-name').hasText('test');
   });
 
-  test('dropping multiple files calls onDrop with both files', async function (assert) {
+  test('dropping multiple files calls onDrop with both files', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
@@ -120,7 +129,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
-  test('multiple=true dropping multiple files calls onDrop with both files', async function (assert) {
+  test('multiple=true dropping multiple files calls onDrop with both files', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
@@ -140,7 +149,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['dingus.txt', 'dingus.png']);
   });
 
-  test('multiple=false dropping multiple files calls onDrop with one file', async function (assert) {
+  test('multiple=false dropping multiple files calls onDrop with one file', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
     await render(hbs`
@@ -161,15 +170,15 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
-  test('regression: drop events from other DOM nodes are not prevented', async function (assert) {
-    this.documentDragListener = () =>
+  test('regression: drop events from other DOM nodes are not prevented', async function (this: LocalTestContext, assert) {
+    const documentDragListener = () =>
       assert.step('documentDragListener called');
     await render(hbs`
       <FileDropzone @queue={{this.queue}} />
 
       <div class="independent-drag-target"></div>
     `);
-    document.addEventListener('drop', this.documentDragListener);
+    document.addEventListener('drop', documentDragListener);
 
     await triggerEvent('.independent-drag-target', 'drop');
 
