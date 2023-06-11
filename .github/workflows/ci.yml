@@ -93,6 +93,36 @@ jobs:
       - name: Test
         run: pnpm --filter test-app test:ember --launch ${{ matrix.browser }}
 
+  typecheck:
+    name: Typecheck
+    runs-on: ${{ matrix.os }}
+    needs: lint
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        browser: [chrome]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
+          cache: 'pnpm'
+
+      - name: 'Install dependencies'
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm --filter test-app lint:types
+
   floating-dependencies:
     name: Floating Dependencies
     runs-on: ${{ matrix.os }}
