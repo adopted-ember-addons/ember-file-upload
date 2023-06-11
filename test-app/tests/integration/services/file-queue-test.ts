@@ -1,13 +1,17 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, settled, TestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { UploadFile, FileSource } from 'ember-file-upload';
+import { UploadFile, FileSource, FileQueueService } from 'ember-file-upload';
+
+interface LocalTestContext extends TestContext {
+  subject: FileQueueService;
+}
 
 module('Integration | Service | file queue', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('files is reactive', async function (assert) {
+  test('files is reactive', async function (this: LocalTestContext, assert) {
     this.subject = this.owner.lookup('service:file-queue');
 
     const existingQueue = this.subject.create('existing-queue');

@@ -3,6 +3,7 @@ import {
   setupRenderingTest as upstreamSetupRenderingTest,
   setupTest as upstreamSetupTest,
 } from 'ember-qunit';
+import 'qunit-dom';
 import type Resolver from 'ember-resolver';
 
 interface SetupTestOptions {
