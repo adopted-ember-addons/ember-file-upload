@@ -1,20 +1,23 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { uploadHandler } from 'ember-file-upload';
 import { UploadFile, FileSource } from 'ember-file-upload';
+
+import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 
 module('Unit | UploadFile', function (hooks) {
   setupTest(hooks);
   setupMirage(hooks);
 
-  test('it can upload without a `queue`', async function (assert) {
+  test('it can upload without a `queue`', async function (this: MirageTestContext, assert) {
     assert.expect(1);
 
     this.server.post(
       '/image',
-      uploadHandler((schema, request) => {
+      uploadHandler((_schema, request) => {
         assert.deepEqual(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           request.requestBody.file,
           {
             name: 'blob',
@@ -36,8 +39,9 @@ module('Unit | UploadFile', function (hooks) {
     await file.upload('/image');
   });
 
-  test('it does not mutate the provided options', async function (assert) {
-    this.server.post('/image', () => {});
+  test('it does not mutate the provided options', async function (this: MirageTestContext, assert) {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.server.post('/image', function () {});
 
     const file = UploadFile.fromBlob(
       new Blob(['My Test File'], { type: 'text' })
