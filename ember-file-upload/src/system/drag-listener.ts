@@ -1,6 +1,5 @@
 import { assert } from '@ember/debug';
-import { cancel, next } from '@ember/runloop';
-import { EmberRunTimer } from '@ember/runloop/types';
+import { type Timer, cancel, next } from '@ember/runloop';
 import {
   DragEventListener,
   QueuedDragEvent,
@@ -24,7 +23,7 @@ export default class DragListener {
 
   _handlers: DragListenerHandlers = {};
   _handlersAttached = false;
-  _scheduled: EmberRunTimer | null = null;
+  _scheduled: Timer | null = null;
 
   constructor(dropzone: Element) {
     this._dropzone = dropzone;

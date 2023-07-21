@@ -4,7 +4,7 @@ import { TestContext, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import { tracked } from '@glimmer/tracking';
-import type { Queue, UploadFile } from 'ember-file-upload';
+import type { FileQueueService, Queue, UploadFile } from 'ember-file-upload';
 
 class State {
   @tracked firstComponent = true;
@@ -23,7 +23,9 @@ module('Integration | queue listeners', function (hooks) {
   setupRenderingTest(hooks);
 
   const setupState = function (this: LocalTestContext) {
-    const fileQueueService = this.owner.lookup('service:file-queue');
+    const fileQueueService = this.owner.lookup(
+      'service:file-queue'
+    ) as FileQueueService;
 
     this.state = new State();
     this.queue = fileQueueService.create('listener-test');
