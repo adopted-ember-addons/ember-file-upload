@@ -1,4 +1,16 @@
 
+
+## v8.1.1 (2023-07-22)
+
+#### :bug: Bug Fix
+* [#962](https://github.com/adopted-ember-addons/ember-file-upload/pull/962) Fix ember-modifier resolution path ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#953](https://github.com/adopted-ember-addons/ember-file-upload/pull/953) Bump @ember/test-helpers and ember-qunit ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v8.1.0 (2023-06-20)
 
 #### :rocket: Enhancement
