@@ -12,7 +12,7 @@ module('Integration | Service | file queue', function (hooks) {
   setupRenderingTest(hooks);
 
   test('files is reactive', async function (this: LocalTestContext, assert) {
-    this.subject = this.owner.lookup('service:file-queue');
+    this.subject = this.owner.lookup('service:file-queue') as FileQueueService;
 
     const existingQueue = this.subject.create('existing-queue');
     const existingQueueFile = new UploadFile(

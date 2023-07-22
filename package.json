@@ -14,6 +14,7 @@
     "overrides": {
       "@embroider/macros": "^1.5.0",
       "@embroider/util": "^1.5.0",
+      "@glimmer/validator": "^0.84.3",
       "ember-cli-babel": "^7.26.6",
       "unist-util-find": "1.0.2"
     }

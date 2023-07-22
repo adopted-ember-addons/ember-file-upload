@@ -7,11 +7,5 @@
   "lockFileMaintenance": {
     "automerge": true
   },
-  "postUpdateOptions": ["pnpmDedupe"],
-  "packageRules": [
-    {
-      "matchPackagePrefixes": ["@types/ember__"],
-      "groupName": "ember types"
-    }
-  ]
+  "postUpdateOptions": ["pnpmDedupe"]
 }

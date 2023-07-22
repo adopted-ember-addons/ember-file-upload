@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent, TestContext } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import {
   dragAndDrop,
   dragEnter,
   dragLeave,
 } from 'ember-file-upload/test-support';
 import { Queue } from 'ember-file-upload';
-import type { UploadFile } from 'ember-file-upload';
+import type { FileQueueService, UploadFile } from 'ember-file-upload';
 
 interface LocalTestContext extends TestContext {
   queue: Queue;
@@ -22,7 +22,9 @@ module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function (this: LocalTestContext) {
-    const fileQueueService = this.owner.lookup('service:file-queue');
+    const fileQueueService = this.owner.lookup(
+      'service:file-queue'
+    ) as FileQueueService;
     this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
   });
 
