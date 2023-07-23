@@ -10,11 +10,22 @@ export interface FileQueueArgs {
   onUploadStarted?: (file: UploadFile) => void;
   onUploadSucceeded?: (file: UploadFile, response: Response) => void;
   onUploadFailed?: (file: UploadFile, response: Response) => void;
-};
+}
 
 export interface FileQueueSignature {
   Args: FileQueueArgs;
   Return: Queue;
+}
+
+export interface SelectFileSignature {
+  Element: HTMLInputElement;
+  Args: {
+    Positional: [];
+    Named: {
+      filter?: (file: File, files: File[], index: number) => boolean;
+      onFilesSelected?: (files: UploadFile[]) => void;
+    };
+  };
 }
 
 declare module '@ember/service' {
