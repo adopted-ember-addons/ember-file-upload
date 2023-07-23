@@ -10,6 +10,11 @@ export interface FileQueueArgs {
   onUploadStarted?: (file: UploadFile) => void;
   onUploadSucceeded?: (file: UploadFile, response: Response) => void;
   onUploadFailed?: (file: UploadFile, response: Response) => void;
+};
+
+export interface FileQueueSignature {
+  Args: FileQueueArgs;
+  Return: Queue;
 }
 
 declare module '@ember/service' {

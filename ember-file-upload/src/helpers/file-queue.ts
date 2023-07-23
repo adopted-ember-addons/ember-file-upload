@@ -4,7 +4,11 @@ import { inject as service } from '@ember/service';
 import type { UploadFile } from '../upload-file';
 import type FileQueueService from '../services/file-queue';
 import { DEFAULT_QUEUE } from '../services/file-queue';
-import { FileQueueArgs, QueueListener } from '../interfaces';
+import type {
+  FileQueueArgs,
+  FileQueueSignature,
+  QueueListener,
+} from '../interfaces';
 
 /**
  * `file-queue` helper is one of the core primitives of ember-file-upload.
@@ -29,14 +33,17 @@ import { FileQueueArgs, QueueListener } from '../interfaces';
  * {{/let}}
  * ```
  */
-export default class FileQueueHelper extends Helper implements QueueListener {
+export default class FileQueueHelper
+  extends Helper<FileQueueSignature>
+  implements QueueListener
+{
   @service declare fileQueue: FileQueueService;
 
-  declare args: FileQueueArgs;
+  declare named: FileQueueArgs;
 
-  compute(_positional: unknown[], args: FileQueueArgs) {
-    this.args = args;
-    const queue = this.fileQueue.findOrCreate(args.name ?? DEFAULT_QUEUE);
+  compute(_positional: unknown[], named: FileQueueArgs) {
+    this.named = named;
+    const queue = this.fileQueue.findOrCreate(named.name ?? DEFAULT_QUEUE);
 
     queue.addListener(this);
 
@@ -48,22 +55,22 @@ export default class FileQueueHelper extends Helper implements QueueListener {
   }
 
   onFileAdded(file: UploadFile) {
-    this.args.onFileAdded?.(file);
+    this.named.onFileAdded?.(file);
   }
 
   onFileRemoved(file: UploadFile) {
-    this.args.onFileRemoved?.(file);
+    this.named.onFileRemoved?.(file);
   }
 
   onUploadStarted(file: UploadFile) {
-    this.args.onUploadStarted?.(file);
+    this.named.onUploadStarted?.(file);
   }
 
   onUploadSucceeded(file: UploadFile, response: Response) {
-    this.args.onUploadSucceeded?.(file, response);
+    this.named.onUploadSucceeded?.(file, response);
   }
 
   onUploadFailed(file: UploadFile, response: Response) {
-    this.args.onUploadFailed?.(file, response);
+    this.named.onUploadFailed?.(file, response);
   }
 }
