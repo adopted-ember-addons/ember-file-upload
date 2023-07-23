@@ -88,61 +88,67 @@ export enum FileSource {
   Blob = 'blob',
 }
 
-export interface FileDropzoneArgs {
-  queue?: Queue;
+export interface FileDropzoneSignature {
+  Element: HTMLElement;
+  Args: {
+    queue?: Queue;
 
-  /**
-   * Whether users can upload content from websites by dragging images from
-   * another webpage and dropping it into your app. The default is `false`
-   * to prevent cross-site scripting issues.
-   *
-   * @defaulValue false
-   * */
-  allowUploadsFromWebsites?: boolean;
+    /**
+     * Whether users can upload content from websites by dragging images from
+     * another webpage and dropping it into your app. The default is `false`
+     * to prevent cross-site scripting issues.
+     *
+     * @defaulValue false
+     * */
+    allowUploadsFromWebsites?: boolean;
 
-  /**
-   * This is the type of cursor that should
-   * be shown when a drag event happens.
-   *
-   * Corresponds to `DataTransfer.dropEffect`.
-   * (https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect)
-   *
-   * @defaultValue 'copy'
-   */
-  cursor?: 'link' | 'none' | 'copy' | 'move';
+    /**
+     * This is the type of cursor that should
+     * be shown when a drag event happens.
+     *
+     * Corresponds to `DataTransfer.dropEffect`.
+     * (https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect)
+     *
+     * @defaultValue 'copy'
+     */
+    cursor?: 'link' | 'none' | 'copy' | 'move';
 
-  /**
-   * Whether to add multiple files to the queue at once.
-   *
-   * If set to false only one file will be added when dropping mulitple files.
-   *
-   * @defaultValue true
-   */
-  multiple?: boolean;
+    /**
+     * Whether to add multiple files to the queue at once.
+     *
+     * If set to false only one file will be added when dropping mulitple files.
+     *
+     * @defaultValue true
+     */
+    multiple?: boolean;
 
-  // actions
-  filter?: (file: File, files: File[], index: number) => boolean;
+    // actions
+    filter?: (file: File, files: File[], index: number) => boolean;
 
-  /**
-   * Called when files have entered the dropzone.
-   */
-  onDragEnter?: (files: File[], dataTransfer: DataTransferWrapper) => void;
+    /**
+     * Called when files have entered the dropzone.
+     */
+    onDragEnter?: (files: File[], dataTransfer: DataTransferWrapper) => void;
 
-  /**
-   * Called when files have left the dropzone.
-   */
-  onDragLeave?: (files: File[], dataTransfer: DataTransferWrapper) => void;
+    /**
+     * Called when files have left the dropzone.
+     */
+    onDragLeave?: (files: File[], dataTransfer: DataTransferWrapper) => void;
 
-  /**
-   * Called when file have been dropped on the dropzone.
-   */
-  onDrop?: (files: UploadFile[], dataTransfer: DataTransferWrapper) => void;
+    /**
+     * Called when file have been dropped on the dropzone.
+     */
+    onDrop?: (files: UploadFile[], dataTransfer: DataTransferWrapper) => void;
+  };
+  Blocks: {
+    default: [dropzone: { supported: boolean; active: boolean }, queue: Queue];
+  };
 }
 
 export interface FileUploadDragEvent extends DragEvent {
-  source: 'os' | 'web';
   dataTransfer: DataTransfer;
-  itemDetails: DataTransferItem[];
+  source?: 'os' | 'web';
+  itemDetails?: DataTransferItem[] | { kind: string; type: string }[];
 }
 
 export interface UploadOptions {
@@ -175,7 +181,7 @@ export interface DragListenerModifierSignature {
   };
 }
 
-type DragListenerHandler = (event: DragEvent | SyntheticDragEvent) => void;
+type DragListenerHandler = (event: FileUploadDragEvent) => void;
 
 export interface DragListenerHandlers {
   dragenter?: DragListenerHandler;
@@ -192,7 +198,7 @@ export interface DragEventListener {
 export interface QueuedDragEvent {
   eventName: 'dragenter' | 'dragleave' | 'dragover' | 'drop';
   listener: DragEventListener;
-  event: DragEvent | SyntheticDragEvent;
+  event: FileUploadDragEvent;
 }
 
 export interface SyntheticDragEvent {

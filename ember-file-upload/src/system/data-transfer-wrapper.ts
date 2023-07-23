@@ -4,7 +4,7 @@ const getDataSupport = {};
 
 export default class DataTransferWrapper {
   dataTransfer?: DataTransfer;
-  itemDetails?: DataTransferItem[];
+  itemDetails?: FileUploadDragEvent['itemDetails'];
   source?: FileUploadDragEvent['source'];
 
   constructor(event: FileUploadDragEvent) {
