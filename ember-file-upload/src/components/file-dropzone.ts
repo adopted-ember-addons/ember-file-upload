@@ -8,9 +8,9 @@ import { UploadFile } from '../upload-file';
 import type FileQueueService from '../services/file-queue';
 import { DEFAULT_QUEUE } from '../services/file-queue';
 import {
-  FileUploadDragEvent,
+  type FileUploadDragEvent,
+  type FileDropzoneSignature,
   FileSource,
-  FileDropzoneSignature,
 } from '../interfaces';
 import DragListenerModifier from '../system/drag-listener-modifier';
 
