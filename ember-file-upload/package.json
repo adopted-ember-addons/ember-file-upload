@@ -40,7 +40,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
-    "lint:types": "tsc --noEmit",
+    "lint:types": "glint",
     "start": "rollup --config --watch",
     "test": "echo 'Addon does not have tests, run tests in test-app'",
     "prepare": "pnpm build"
