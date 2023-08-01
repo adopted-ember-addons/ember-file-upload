@@ -1,9 +1,10 @@
 import { assert } from '@ember/debug';
 import { type Timer, cancel, next } from '@ember/runloop';
-import {
+import type {
   DragEventListener,
   QueuedDragEvent,
   DragListenerHandlers,
+  FileUploadDragEvent,
 } from '../interfaces';
 import { action } from '@ember/object';
 
@@ -95,13 +96,13 @@ export default class DragListener {
     }
   }
 
-  findListener(evt: DragEvent) {
+  findListener(evt: FileUploadDragEvent) {
     return this._listeners.find(({ element }) => {
       return element === evt.target || element.contains(evt.target as Element);
     });
   }
 
-  getEventSource(evt: DragEvent) {
+  getEventSource(evt: FileUploadDragEvent) {
     const types = evt.dataTransfer?.types ?? [];
     let areSomeTypesFiles = false;
     for (let i = 0, len = types.length; i < len; i++) {
@@ -113,7 +114,7 @@ export default class DragListener {
     return areSomeTypesFiles ? 'os' : 'web';
   }
 
-  getDataTransferItemDetails(evt: DragEvent) {
+  getDataTransferItemDetails(evt: FileUploadDragEvent) {
     const itemDetails = [];
 
     if (evt.dataTransfer?.items) {
@@ -134,7 +135,7 @@ export default class DragListener {
 
   @action
   dragenter(evt: Event) {
-    const event = evt as DragEvent;
+    const event = evt as FileUploadDragEvent;
     const listener = this.findListener(event);
     const lastListener = this._stack[this._stack.length - 1];
 
@@ -145,6 +146,7 @@ export default class DragListener {
 
     if (listener) {
       this.scheduleEvent('dragenter', listener, {
+        ...event,
         source: this.getEventSource(event),
         dataTransfer: event.dataTransfer,
         itemDetails: this.getDataTransferItemDetails(event),
@@ -155,7 +157,7 @@ export default class DragListener {
 
   @action
   dragleave(evt: Event) {
-    const event = evt as DragEvent;
+    const event = evt as FileUploadDragEvent;
     // Trigger a dragleave if the file leaves the browser
     if (this._stack[0]) {
       this.scheduleEvent('dragleave', this._stack[0], event);
@@ -165,7 +167,7 @@ export default class DragListener {
 
   @action
   dragover(evt: Event) {
-    const event = evt as DragEvent;
+    const event = evt as FileUploadDragEvent;
 
     event.preventDefault();
     event.stopPropagation();
@@ -176,6 +178,7 @@ export default class DragListener {
         this.scheduleEvent('dragleave', this._listener, event);
       }
       this.scheduleEvent('dragenter', listener, {
+        ...event,
         source: this.getEventSource(event),
         dataTransfer: event.dataTransfer,
         itemDetails: this.getDataTransferItemDetails(event),
@@ -246,7 +249,7 @@ export default class DragListener {
 
   @action
   drop(evt: Event) {
-    const event = evt as DragEvent;
+    const event = evt as FileUploadDragEvent;
 
     this._stack = [];
     this._events = [];

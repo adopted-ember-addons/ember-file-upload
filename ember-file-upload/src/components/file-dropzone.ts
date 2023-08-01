@@ -10,7 +10,7 @@ import { DEFAULT_QUEUE } from '../services/file-queue';
 import {
   FileUploadDragEvent,
   FileSource,
-  FileDropzoneArgs,
+  FileDropzoneSignature,
 } from '../interfaces';
 import DragListenerModifier from '../system/drag-listener-modifier';
 
@@ -42,7 +42,7 @@ import DragListenerModifier from '../system/drag-listener-modifier';
   @yield {boolean} dropzone.active
   @yield {Queue} queue
  */
-export default class FileDropzoneComponent extends Component<FileDropzoneArgs> {
+export default class FileDropzoneComponent extends Component<FileDropzoneSignature> {
   @service declare fileQueue: FileQueueService;
 
   @tracked active = false;

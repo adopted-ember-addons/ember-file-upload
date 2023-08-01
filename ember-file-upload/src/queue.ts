@@ -3,7 +3,13 @@ import { modifier } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
 import { UploadFile } from './upload-file';
 import type FileQueueService from './services/file-queue';
-import { FileSource, FileState, QueueListener, QueueName } from './interfaces';
+import {
+  FileSource,
+  FileState,
+  type QueueListener,
+  type QueueName,
+  type SelectFileSignature,
+} from './interfaces';
 
 /**
  * The Queue is a collection of files that
@@ -193,18 +199,8 @@ export class Queue {
     }
   }
 
-  selectFile = modifier(
-    (
-      element: HTMLInputElement,
-      _positional: [],
-      {
-        filter,
-        onFilesSelected,
-      }: {
-        filter?: (file: File, files: File[], index: number) => boolean;
-        onFilesSelected?: (files: UploadFile[]) => void;
-      }
-    ) => {
+  selectFile = modifier<SelectFileSignature>(
+    (element, _positional, { filter, onFilesSelected }) => {
       const changeHandler = (event: Event) => {
         const { files: fileList } = event.target as HTMLInputElement;
         if (!fileList) {

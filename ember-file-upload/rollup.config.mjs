@@ -21,6 +21,7 @@ export default {
       'index.ts',
       'internal.ts',
       'test-support.ts',
+      'template-registry.ts',
     ]),
 
     // These are the modules that should get reexported into the traditional
