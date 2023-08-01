@@ -1,15 +1,15 @@
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import { TrackedSet } from 'tracked-built-ins';
-import { UploadFile } from './upload-file';
-import type FileQueueService from './services/file-queue';
+import { UploadFile } from './upload-file.ts';
+import type FileQueueService from './services/file-queue.ts';
 import {
   FileSource,
   FileState,
   type QueueListener,
   type QueueName,
   type SelectFileSignature,
-} from './interfaces';
+} from './interfaces.ts';
 
 /**
  * The Queue is a collection of files that

@@ -1,7 +1,7 @@
-import type { UploadFile } from './upload-file';
-import type { Queue } from './queue';
-import type FileQueueService from './services/file-queue';
-import type DataTransferWrapper from './system/data-transfer-wrapper';
+import type { UploadFile } from './upload-file.ts';
+import type { Queue } from './queue.ts';
+import type FileQueueService from './services/file-queue.ts';
+import type DataTransferWrapper from './system/data-transfer-wrapper.ts';
 
 export interface FileQueueArgs {
   name?: string;

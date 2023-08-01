@@ -1,13 +1,13 @@
 import { tracked } from '@glimmer/tracking';
 
-import { upload } from './system/upload';
-import HTTPRequest from './system/http-request';
-import UploadFileReader from './system/upload-file-reader';
+import { upload } from './system/upload.ts';
+import HTTPRequest from './system/http-request.ts';
+import UploadFileReader from './system/upload-file-reader.ts';
 
-import type { Queue } from './queue';
+import type { Queue } from './queue.ts';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
-import { FileSource, FileState, UploadOptions } from './interfaces';
+import { FileSource, FileState, UploadOptions } from './interfaces.ts';
 
 /**
  * Files provide a uniform interface for interacting

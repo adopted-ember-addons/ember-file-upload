@@ -1,9 +1,9 @@
-import { Queue } from './queue';
-import { UploadFile } from './upload-file';
-import FileQueueService from './services/file-queue';
-import { uploadHandler } from './mirage/upload-handler';
-import { FileSource, FileState, type QueueName } from './interfaces';
-import { DEFAULT_QUEUE } from './services/file-queue';
+import { Queue } from './queue.ts';
+import { UploadFile } from './upload-file.ts';
+import FileQueueService from './services/file-queue.ts';
+import { uploadHandler } from './mirage/upload-handler.ts';
+import { FileSource, FileState, type QueueName } from './interfaces.ts';
+import { DEFAULT_QUEUE } from './services/file-queue.ts';
 
 export {
   // Public API classes
