@@ -407,7 +407,7 @@ importers:
         version: 8.1.2
       ember-file-upload:
         specifier: workspace:*
-        version: link:../ember-file-upload
+        version: file:ember-file-upload(@ember/test-helpers@3.2.0)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(ember-cli-mirage@2.4.0)(ember-modifier@4.1.0)(miragejs@0.1.47)(tracked-built-ins@3.1.1)(webpack@5.88.1)
       ember-intl:
         specifier: ^5.7.2
         version: 5.7.2
@@ -492,6 +492,9 @@ importers:
       webpack:
         specifier: ^5.78.0
         version: 5.88.1
+    dependenciesMeta:
+      ember-file-upload:
+        injected: true
 
 packages:
 
