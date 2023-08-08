@@ -16,6 +16,9 @@
     "moduleResolution": "node16",
     "skipLibCheck": true
   },
+  "glint": {
+    "environment": "ember-loose"
+  },
   "include": [
     "app/**/*",
     "tests/**/*",
