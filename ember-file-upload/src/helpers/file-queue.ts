@@ -4,11 +4,7 @@ import { inject as service } from '@ember/service';
 import type { UploadFile } from '../upload-file.ts';
 import type FileQueueService from '../services/file-queue.ts';
 import { DEFAULT_QUEUE } from '../services/file-queue.ts';
-import type {
-  FileQueueArgs,
-  FileQueueSignature,
-  QueueListener,
-} from '../interfaces.ts';
+import type { FileQueueSignature, QueueListener } from '../interfaces.ts';
 
 /**
  * `file-queue` helper is one of the core primitives of ember-file-upload.
@@ -39,9 +35,12 @@ export default class FileQueueHelper
 {
   @service declare fileQueue: FileQueueService;
 
-  declare named: FileQueueArgs;
+  declare named: FileQueueSignature['Args']['Named'];
 
-  compute(_positional: unknown[], named: FileQueueArgs) {
+  compute(
+    _positional: FileQueueSignature['Args']['Positional'],
+    named: FileQueueSignature['Args']['Named']
+  ) {
     this.named = named;
     const queue = this.fileQueue.findOrCreate(named.name ?? DEFAULT_QUEUE);
 
