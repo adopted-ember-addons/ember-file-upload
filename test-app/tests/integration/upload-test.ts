@@ -24,7 +24,7 @@ module('Integration | upload', function (hooks) {
 
   test('upload works for File', async function (this: LocalTestContext, assert) {
     this.files = new TrackedArray([]);
-    await render(hbs`<DemoUpload @files={{this.files}} />`);
+    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
 
     const data = await getImageBlob();
 
@@ -47,7 +47,7 @@ module('Integration | upload', function (hooks) {
 
   test('upload works for Blob', async function (this: LocalTestContext, assert) {
     this.files = new TrackedArray([]);
-    await render(hbs`<DemoUpload @files={{this.files}} />`);
+    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
 
     const photo = await getImageBlob();
 

@@ -59,7 +59,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
     );
 
     this.fileAdded = (file) => file.upload('/folder/1/file');
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
       {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile}} />
@@ -153,7 +153,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         this.fileAdded = (file) => {
           return file.upload('/upload-file');
         };
-        await render(hbs`
+        await render<LocalTestContext>(hbs`
           {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
             <label>
               <input type="file" {{queue.selectFile}} />
@@ -195,7 +195,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
         this.fileAdded = (file) => {
           return file.upload('/upload-file');
         };
-        await render(hbs`
+        await render<LocalTestContext>(hbs`
           {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
             <label>
               <input type="file" {{queue.selectFile}} />

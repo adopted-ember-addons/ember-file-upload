@@ -21,7 +21,7 @@ module('Integration | Service | file queue', function (hooks) {
     );
     existingQueue.add(existingQueueFile);
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
       <div id="files">
         {{#each this.subject.files as |file|}}
           {{file.name}}

@@ -12,7 +12,7 @@ import { later } from '@ember/runloop';
 import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 
 interface LocalContext extends MirageTestContext {
-  filter: (file: UploadFile) => void;
+  filter: (file: File, files: File[], index: number) => boolean;
   filesSelected: (files: UploadFile[]) => void;
   fileAdded: (file: UploadFile) => void;
   fileRemoved: (file: UploadFile) => void;
@@ -27,9 +27,12 @@ module('Integration | Helper | file-queue', function (hooks) {
   setupMirage(hooks);
 
   test('filter is triggered when selecting files', async function (this: LocalContext, assert) {
-    this.filter = (file) => assert.step(`filter: ${file.name}`);
+    this.filter = (file) => {
+      assert.step(`filter: ${file.name}`);
+      return true;
+    }
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile filter=this.filter}} hidden>
@@ -49,7 +52,7 @@ module('Integration | Helper | file-queue', function (hooks) {
         `files selected: ${files.map((file) => file.name).join(', ')}`
       );
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile onFilesSelected=this.filesSelected}} hidden>
@@ -70,7 +73,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   });
 
   test('falls back to default name', async function (this: LocalContext, assert) {
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue) as |queue|}}
         <output>{{queue.name}}</output>
       {{/let}}
@@ -80,7 +83,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   });
 
   test('can be parametrized by name', async function (this: LocalContext, assert) {
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue name="line-up") as |queue|}}
         <output>{{queue.name}}</output>
       {{/let}}
@@ -93,7 +96,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.fileAdded = (file) => assert.step(`file added: ${file.name}`);
     this.fileRemoved = (file) => assert.step(`file removed: ${file.name}`);
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue onFileAdded=this.fileAdded onFileRemoved=this.fileRemoved) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>
@@ -147,7 +150,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       );
     };
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue onFileAdded=this.upload onUploadStarted=this.uploadStarted) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile}}>
@@ -183,7 +186,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(response.status, 201, 'response status present');
     };
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue onFileAdded=this.upload onUploadSucceeded=this.uploadSucceeded) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile}}>
@@ -224,7 +227,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(response.status, 500, 'response status present');
     };
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue onFileAdded=this.upload onUploadFailed=this.uploadFailed) as |queue|}}
         <label>
           <input type="file" {{queue.selectFile}}>
@@ -247,7 +250,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       }, 100);
     };
 
-    await render(hbs`
+    await render<LocalContext>(hbs`
       {{#let (file-queue onFileAdded=this.fileAdded) as |queue|}}
         {{#each queue.files as |file|}}
           <span data-test-file>{{file.name}}</span>
