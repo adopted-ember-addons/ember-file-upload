@@ -57,7 +57,7 @@ module('Integration | queue listeners', function (hooks) {
       assert.step(`second component: ${file?.name}`);
     };
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
       {{#if this.state.firstComponent}}
         <label>
           <input type="file" {{this.queue.selectFile onFilesSelected=this.firstOnFilesSelected}} />
@@ -83,7 +83,7 @@ module('Integration | queue listeners', function (hooks) {
       assert.step(`second component: ${file?.name}`);
     };
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
       {{#if this.state.firstComponent}}
         {{#let (file-queue onFileAdded=this.firstOnFileAdd) as |queue|}}
           <label>

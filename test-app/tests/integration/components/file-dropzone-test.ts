@@ -12,7 +12,7 @@ import type { FileQueueService, UploadFile } from 'ember-file-upload';
 
 interface LocalTestContext extends TestContext {
   queue: Queue;
-  filter: (file: UploadFile) => void;
+  filter: (file: File, files: File[], index: number) => boolean;
   onDragEnter: (files: File[]) => void;
   onDragLeave: (files: File[]) => void;
   onDrop: (files: UploadFile[]) => void;
@@ -31,7 +31,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('onDragEnter is called when a file is dragged over', async function (this: LocalTestContext, assert) {
     this.onDragEnter = () => assert.step('onDragEnter');
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -46,7 +46,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('filter and onDrop', async function (this: LocalTestContext, assert) {
     this.filter = (file) => file.name.includes('.txt');
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -68,7 +68,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('dropping a file calls onDrop', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -83,7 +83,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('onDragLeave is called when a file is dragged out', async function (this: LocalTestContext, assert) {
     this.onDragLeave = () => assert.step('onDragLeave');
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -97,11 +97,12 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('yielded properties', async function (this: LocalTestContext, assert) {
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         {{#let (file-queue name='test') as |helperQueue|}}
           <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
             <div class="supported">{{dropzone.supported}}</div>
             <div class="active">{{dropzone.active}}</div>
+            {{! @glint-ignore: https://github.com/typed-ember/glint/discussions/611 }}
             <div class="queue-name">{{queue.name}}</div>
           </FileDropzone>
         {{/let}}
@@ -115,7 +116,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('dropping multiple files calls onDrop with both files', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -134,7 +135,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('multiple=true dropping multiple files calls onDrop with both files', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -154,7 +155,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('multiple=false dropping multiple files calls onDrop with one file', async function (this: LocalTestContext, assert) {
     this.onDrop = (files) => files.forEach((file) => assert.step(file.name));
 
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
         <FileDropzone
           class="test-dropzone"
           @queue={{this.queue}}
@@ -175,7 +176,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('regression: drop events from other DOM nodes are not prevented', async function (this: LocalTestContext, assert) {
     const documentDragListener = () =>
       assert.step('documentDragListener called');
-    await render(hbs`
+    await render<LocalTestContext>(hbs`
       <FileDropzone @queue={{this.queue}} />
 
       <div class="independent-drag-target"></div>

@@ -6,6 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
+import { type Asset } from 'test-app/components/demo-upload';
 
 function getImageBlob(): Promise<Blob | null> {
   return new Promise((resolve) => {
@@ -15,7 +16,7 @@ function getImageBlob(): Promise<Blob | null> {
 }
 
 interface LocalTestContext extends MirageTestContext {
-  files: TrackedArray;
+  files: TrackedArray<Asset>;
 }
 
 module('Integration | upload', function (hooks) {
@@ -24,7 +25,7 @@ module('Integration | upload', function (hooks) {
 
   test('upload works for File', async function (this: LocalTestContext, assert) {
     this.files = new TrackedArray([]);
-    await render(hbs`<DemoUpload @files={{this.files}} />`);
+    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
 
     const data = await getImageBlob();
 
@@ -47,7 +48,7 @@ module('Integration | upload', function (hooks) {
 
   test('upload works for Blob', async function (this: LocalTestContext, assert) {
     this.files = new TrackedArray([]);
-    await render(hbs`<DemoUpload @files={{this.files}} />`);
+    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
 
     const photo = await getImageBlob();
 
