@@ -6,6 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
+import { type Asset } from 'test-app/components/demo-upload';
 
 function getImageBlob(): Promise<Blob | null> {
   return new Promise((resolve) => {
@@ -15,7 +16,7 @@ function getImageBlob(): Promise<Blob | null> {
 }
 
 interface LocalTestContext extends MirageTestContext {
-  files: TrackedArray;
+  files: TrackedArray<Asset>;
 }
 
 module('Integration | upload', function (hooks) {
