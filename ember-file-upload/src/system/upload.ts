@@ -1,9 +1,9 @@
 import { assert } from '@ember/debug';
-import HTTPRequest from './http-request';
+import HTTPRequest from './http-request.ts';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
-import type { UploadFile } from '../upload-file';
-import { FileState, UploadOptions } from '../interfaces';
+import type { UploadFile } from '../upload-file.ts';
+import { FileState, UploadOptions } from '../interfaces.ts';
 
 function clone(object: object | undefined) {
   return object ? { ...object } : {};

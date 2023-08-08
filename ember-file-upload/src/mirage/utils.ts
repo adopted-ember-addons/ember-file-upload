@@ -1,5 +1,5 @@
 import RSVP from 'rsvp';
-import UploadFileReader from '../system/upload-file-reader';
+import UploadFileReader from '../system/upload-file-reader.ts';
 import { assert } from '@ember/debug';
 
 interface AdditionalMetadata {

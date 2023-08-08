@@ -1,4 +1,4 @@
-import { FileUploadDragEvent } from '../interfaces';
+import { FileUploadDragEvent } from '../interfaces.ts';
 
 const getDataSupport = {};
 

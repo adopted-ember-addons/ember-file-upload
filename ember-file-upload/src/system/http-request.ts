@@ -1,6 +1,6 @@
 import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
-import { HTTPRequestOptions } from '../interfaces';
+import { HTTPRequestOptions } from '../interfaces.ts';
 
 function parseHeaders(headerString: string) {
   return headerString

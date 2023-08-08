@@ -5,7 +5,7 @@ import type {
   QueuedDragEvent,
   DragListenerHandlers,
   FileUploadDragEvent,
-} from '../interfaces';
+} from '../interfaces.ts';
 import { action } from '@ember/object';
 
 export default class DragListener {

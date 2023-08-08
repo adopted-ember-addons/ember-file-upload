@@ -1,6 +1,6 @@
 import Modifier, { ArgsFor, NamedArgs } from 'ember-modifier';
-import { DragListenerModifierSignature } from '../interfaces';
-import DragListener from './drag-listener';
+import { DragListenerModifierSignature } from '../interfaces.ts';
+import DragListener from './drag-listener.ts';
 import { registerDestructor } from '@ember/destroyable';
 import type Owner from '@ember/owner';
 

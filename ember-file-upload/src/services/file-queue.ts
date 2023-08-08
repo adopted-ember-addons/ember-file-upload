@@ -1,9 +1,9 @@
 import { assert } from '@ember/debug';
 import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
-import { Queue } from '../queue';
-import type { UploadFile } from '../upload-file';
-import { QueueName } from '../interfaces';
+import { Queue } from '../queue.ts';
+import type { UploadFile } from '../upload-file.ts';
+import { QueueName } from '../interfaces.ts';
 import { TrackedMap } from 'tracked-built-ins';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');

@@ -5,5 +5,9 @@
   ],
   "glint": {
     "environment": "ember-loose"
+  },
+  "compilerOptions": {
+    "declarationDir": "declarations",
+    "allowImportingTsExtensions": true
   }
 }

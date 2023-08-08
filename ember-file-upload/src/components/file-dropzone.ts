@@ -1,18 +1,18 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
-import DataTransferWrapper from '../system/data-transfer-wrapper';
+import DataTransferWrapper from '../system/data-transfer-wrapper.ts';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { UploadFile } from '../upload-file';
-import type FileQueueService from '../services/file-queue';
-import { DEFAULT_QUEUE } from '../services/file-queue';
+import { UploadFile } from '../upload-file.ts';
+import type FileQueueService from '../services/file-queue.ts';
+import { DEFAULT_QUEUE } from '../services/file-queue.ts';
 import {
-  FileUploadDragEvent,
+  type FileUploadDragEvent,
+  type FileDropzoneSignature,
   FileSource,
-  FileDropzoneSignature,
-} from '../interfaces';
-import DragListenerModifier from '../system/drag-listener-modifier';
+} from '../interfaces.ts';
+import DragListenerModifier from '../system/drag-listener-modifier.ts';
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
