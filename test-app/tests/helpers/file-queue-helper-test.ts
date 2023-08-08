@@ -75,6 +75,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('falls back to default name', async function (this: LocalContext, assert) {
     await render<LocalContext>(hbs`
       {{#let (file-queue) as |queue|}}
+        {{! @glint-ignore: https://github.com/typed-ember/glint/discussions/611 }}
         <output>{{queue.name}}</output>
       {{/let}}
     `);
@@ -85,6 +86,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('can be parametrized by name', async function (this: LocalContext, assert) {
     await render<LocalContext>(hbs`
       {{#let (file-queue name="line-up") as |queue|}}
+        {{! @glint-ignore: https://github.com/typed-ember/glint/discussions/611 }}
         <output>{{queue.name}}</output>
       {{/let}}
     `);
