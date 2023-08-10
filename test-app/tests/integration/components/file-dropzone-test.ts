@@ -102,8 +102,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
           <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
             <div class="supported">{{dropzone.supported}}</div>
             <div class="active">{{dropzone.active}}</div>
-            {{! @glint-ignore: https://github.com/typed-ember/glint/discussions/611 }}
-            <div class="queue-name">{{queue.name}}</div>
+            <div class="queue-name">{{to-string queue.name}}</div>
           </FileDropzone>
         {{/let}}
       `);
