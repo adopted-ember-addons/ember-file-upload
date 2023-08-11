@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled, TestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { UploadFile, FileSource, FileQueueService } from 'ember-file-upload';
+import { UploadFile, FileSource } from 'ember-file-upload';
+import type FileQueueService from 'ember-file-upload/services/file-queue';
 
 interface LocalTestContext extends TestContext {
   subject: FileQueueService;

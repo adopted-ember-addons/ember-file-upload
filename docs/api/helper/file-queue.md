@@ -22,6 +22,12 @@ If a name is not provided, the default queue will be used.
 {{/let}}
 ```
 
+## Import parth
+
+```js
+import fileQueue from 'ember-file-upload/helpers/file-queue';
+```
+
 # Helper API
 
 ## Arguments

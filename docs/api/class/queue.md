@@ -8,6 +8,8 @@ The Queue is a collection of files that are being manipulated by the user.
 
 Queues are designed to persist the state of uploads when a user navigates around your application.
 
+## Import parth
+
 ```js
 import { Queue } from 'ember-file-upload';
 ```
@@ -30,11 +32,11 @@ Upload failures can happen due to a timeout or a server response. If you choose 
 
 ## Fields
 
-| Field       | Description                                                                                                   | Type           |
-| ----------- | ------------------------------------------------------------------------------------------------------------- | -------------- |
-| `fileQueue` | The FileQueue service.                                                                                        | `FileQueue`    |
-| `name`      | The unique identifier of the queue.                                                                           | `string`       |
-| `files`     | The list of files in the queue. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]` |
+| Field       | Description                                                                                                   | Type               |
+| ----------- | ------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `fileQueue` | The FileQueue service.                                                                                        | `FileQueue`        |
+| `name`      | The unique identifier of the queue.                                                                           | `string \| symbol` |
+| `files`     | The list of files in the queue. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]`     |
 
 ## Methods
 

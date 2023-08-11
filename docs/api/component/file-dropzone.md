@@ -26,6 +26,12 @@ drag and drop.
 </FileDropzone>
 ```
 
+## Import parth
+
+```js
+import FileDropzone from 'ember-file-upload/components/file-dropzone';
+```
+
 # Component API
 
 ## Arguments
