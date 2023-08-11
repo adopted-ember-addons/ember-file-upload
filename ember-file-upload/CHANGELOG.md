@@ -1,5 +1,25 @@
 
 
+
+## v8.2.0 (2023-08-11)
+
+#### :rocket: Enhancement
+* [#964](https://github.com/adopted-ember-addons/ember-file-upload/pull/964) Add Glint types to addon ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#972](https://github.com/adopted-ember-addons/ember-file-upload/pull/972) Document Glint type support ([@gilest](https://github.com/gilest))
+* [#968](https://github.com/adopted-ember-addons/ember-file-upload/pull/968) Fix docs website peer dependency resolution ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#971](https://github.com/adopted-ember-addons/ember-file-upload/pull/971) Cast queue name to string when rendering it in test-app ([@gilest](https://github.com/gilest))
+* [#970](https://github.com/adopted-ember-addons/ember-file-upload/pull/970) Drop pnpm overrides which are no longer required ([@gilest](https://github.com/gilest))
+* [#969](https://github.com/adopted-ember-addons/ember-file-upload/pull/969) Use Glint types in test-app ([@gilest](https://github.com/gilest))
+* [#966](https://github.com/adopted-ember-addons/ember-file-upload/pull/966) Sync with @embroider/addon-blueprint ([@gilest](https://github.com/gilest))
+* [#961](https://github.com/adopted-ember-addons/ember-file-upload/pull/961) Use stable types from `ember-source` ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v8.1.1 (2023-07-22)
 
 #### :bug: Bug Fix
