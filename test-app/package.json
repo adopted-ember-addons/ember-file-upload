@@ -69,7 +69,7 @@
     "eslint-plugin-ember": "^11.5.0",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-qunit": "^7.3.4",
+    "eslint-plugin-qunit": "^8.0.0",
     "fake-xml-http-request": "^2.1.2",
     "loader.js": "^4.7.0",
     "miragejs": "^0.1.43",
