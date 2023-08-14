@@ -71,7 +71,7 @@
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
     "rehype-highlight": "^4.1.0",
-    "remark-autolink-headings": "^6.0.1",
+    "remark-autolink-headings": "^7.0.0",
     "remark-code-titles": "^0.1.2",
     "stylelint": "^15.4.0",
     "stylelint-config-prettier": "^9.0.5",
