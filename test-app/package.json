@@ -59,7 +59,7 @@
     "ember-modifier": "^4.1.0",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^7.0.0",
-    "ember-resolver": "^10.0.0",
+    "ember-resolver": "^11.0.0",
     "ember-source": "~5.2.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^5.7.2",
