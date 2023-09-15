@@ -68,7 +68,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-ember": "^11.5.0",
     "eslint-plugin-n": "^16.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-qunit": "^8.0.0",
     "fake-xml-http-request": "^2.1.2",
     "loader.js": "^4.7.0",
