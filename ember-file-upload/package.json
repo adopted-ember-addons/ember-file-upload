@@ -85,7 +85,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
-    "release-it": "^15.0.0",
+    "release-it": "^16.0.0",
     "release-it-lerna-changelog": "^5.0.0",
     "rollup": "^3.0.0",
     "tracked-built-ins": "^3.0.0",
