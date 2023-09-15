@@ -471,8 +471,8 @@ importers:
         specifier: ^33.0.0
         version: 33.0.0(stylelint@15.9.0)
       stylelint-prettier:
-        specifier: ^3.0.0
-        version: 3.0.0(prettier@3.0.3)(stylelint@15.9.0)
+        specifier: ^4.0.2
+        version: registry.npmjs.org/stylelint-prettier@4.0.2(prettier@3.0.3)(stylelint@15.9.0)
       tracked-built-ins:
         specifier: ^3.1.1
         version: 3.1.1
@@ -20579,6 +20579,21 @@ packages:
       loader-utils: registry.npmjs.org/loader-utils@2.0.4
       schema-utils: registry.npmjs.org/schema-utils@3.3.0
       webpack: 5.88.1
+    dev: true
+
+  registry.npmjs.org/stylelint-prettier@4.0.2(prettier@3.0.3)(stylelint@15.9.0):
+    resolution: {integrity: sha512-EoHnR2PiaWgpGtoI4VW7AzneMfwmwQsNwQ+3/E2k/a+ju5yO6rfPfop4vzPQKcJN4ZM1YbspEOPu88D8538sbg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/stylelint-prettier/-/stylelint-prettier-4.0.2.tgz}
+    id: registry.npmjs.org/stylelint-prettier/4.0.2
+    name: stylelint-prettier
+    version: 4.0.2
+    engines: {node: ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      prettier: '>=3.0.0'
+      stylelint: '>=15.8.0'
+    dependencies:
+      prettier: registry.npmjs.org/prettier@3.0.3
+      prettier-linter-helpers: registry.npmjs.org/prettier-linter-helpers@1.0.0
+      stylelint: 15.9.0
     dev: true
 
   registry.npmjs.org/supports-color@5.5.0:
