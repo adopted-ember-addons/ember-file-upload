@@ -84,7 +84,7 @@
     "eslint-plugin-ember": "^11.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.3.2",
+    "prettier": "^3.0.0",
     "release-it": "^15.0.0",
     "release-it-lerna-changelog": "^5.0.0",
     "rollup": "^3.0.0",
