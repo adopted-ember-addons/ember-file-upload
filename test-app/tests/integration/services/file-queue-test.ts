@@ -18,7 +18,7 @@ module('Integration | Service | file queue', function (hooks) {
     const existingQueue = this.subject.create('existing-queue');
     const existingQueueFile = new UploadFile(
       new File([], 'existing-queue-file.txt'),
-      FileSource.Browse
+      FileSource.Browse,
     );
     existingQueue.add(existingQueueFile);
 
@@ -37,7 +37,7 @@ module('Integration | Service | file queue', function (hooks) {
     const newQueue = this.subject.create('new-queue');
     const newQueueFile = new UploadFile(
       new File([], 'new-queue-file.txt'),
-      FileSource.Browse
+      FileSource.Browse,
     );
     newQueue.add(newQueueFile);
 

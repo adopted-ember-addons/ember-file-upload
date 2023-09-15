@@ -18,7 +18,7 @@ export default function (config) {
             url,
             type: type.split('/')[0],
           });
-        })
+        }),
       );
 
       this.passthrough('*');

@@ -53,7 +53,7 @@ export function extractFormData(formData: FormData) {
 const pipelines = {
   async gif(file: File): Promise<AdditionalMetadata> {
     const buffer = (await new UploadFileReader().readAsArrayBuffer(
-      file
+      file,
     )) as ArrayBuffer;
     const data = new Uint8Array(buffer);
     let duration = 0;
@@ -105,7 +105,7 @@ const pipelines = {
     const videoEl = document.createElement('video');
     return new RSVP.Promise(function (resolve: (result: VideoResult) => void) {
       videoEl.addEventListener('loadeddata', () =>
-        resolve({ hasAdditionalMetadata: true, video: videoEl })
+        resolve({ hasAdditionalMetadata: true, video: videoEl }),
       );
       videoEl.onerror = () => resolve({ hasAdditionalMetadata: false });
       videoEl.src = metadata.url;
@@ -129,7 +129,7 @@ const pipelines = {
     const audioEl = document.createElement('audio');
     return new RSVP.Promise(function (resolve: (result: AudioResult) => void) {
       audioEl.addEventListener('loadeddata', () =>
-        resolve({ hasAdditionalMetadata: true, audio: audioEl })
+        resolve({ hasAdditionalMetadata: true, audio: audioEl }),
       );
       audioEl.onerror = () => resolve({ hasAdditionalMetadata: false });
       audioEl.src = metadata.url;
@@ -183,7 +183,7 @@ export async function extractFileMetadata(file: File) {
   // Collapse state of `hasAdditionalMetadata` from multiple pipelines
   // Should be `true` if at least one pipeline succeeded
   metadata.hasAdditionalMetadata = additionalMetadata.some(
-    (data) => data.hasAdditionalMetadata
+    (data) => data.hasAdditionalMetadata,
   );
 
   return metadata;

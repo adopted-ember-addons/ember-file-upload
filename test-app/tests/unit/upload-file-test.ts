@@ -27,13 +27,13 @@ module('Unit | UploadFile', function (hooks) {
             hasAdditionalMetadata: false,
             extension: undefined,
           },
-          'Successfully uploaded the file'
+          'Successfully uploaded the file',
         );
-      })
+      }),
     );
 
     const file = UploadFile.fromBlob(
-      new Blob(['My Test File'], { type: 'text' })
+      new Blob(['My Test File'], { type: 'text' }),
     );
 
     await file.upload('/image');
@@ -44,7 +44,7 @@ module('Unit | UploadFile', function (hooks) {
     this.server.post('/image', function () {});
 
     const file = UploadFile.fromBlob(
-      new Blob(['My Test File'], { type: 'text' })
+      new Blob(['My Test File'], { type: 'text' }),
     );
 
     const options = {

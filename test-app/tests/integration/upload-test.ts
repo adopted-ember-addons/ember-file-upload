@@ -42,7 +42,7 @@ module('Integration | upload', function (hooks) {
     assert.strictEqual(
       findAll('.demo-uploaded-files-list img').length,
       1,
-      'Photo is displayed in the UI'
+      'Photo is displayed in the UI',
     );
   });
 
@@ -64,7 +64,7 @@ module('Integration | upload', function (hooks) {
     assert.strictEqual(
       findAll('.demo-uploaded-files-list img').length,
       1,
-      'Photo is displayed in the UI'
+      'Photo is displayed in the UI',
     );
   });
 });

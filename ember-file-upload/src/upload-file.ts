@@ -177,7 +177,7 @@ export class UploadFile {
 
         this.queue?.uploadStarted(this);
         return request.send(form);
-      }
+      },
     );
   }
 

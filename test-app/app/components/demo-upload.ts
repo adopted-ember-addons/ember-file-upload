@@ -18,7 +18,7 @@ export class Asset {
   @tracked preview?: string;
   @tracked type?: string;
 
-  constructor({ filename, file }: { filename: string, file: UploadFile }) {
+  constructor({ filename, file }: { filename: string; file: UploadFile }) {
     this.filename = filename;
     this.file = file;
   }

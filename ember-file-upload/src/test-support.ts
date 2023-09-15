@@ -35,11 +35,11 @@ export async function selectFiles(
   const input = target instanceof HTMLElement ? target : find(target);
   assert(
     `Target '${target}' is not an input element.`,
-    input && input.tagName === 'INPUT'
+    input && input.tagName === 'INPUT',
   );
   assert(
     'All files must be instances of File/Blob type',
-    files.every((file) => file instanceof Blob)
+    files.every((file) => file instanceof Blob),
   );
 
   return triggerEvent(input, 'change', { files });
@@ -81,7 +81,7 @@ export async function dragAndDrop(
   assert(`Target '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
-    files.every((file) => file instanceof Blob)
+    files.every((file) => file instanceof Blob),
   );
 
   const dataTransfer = { files };
@@ -127,7 +127,7 @@ export async function dragEnter(
   assert(`Target '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
-    files.every((file) => file instanceof Blob)
+    files.every((file) => file instanceof Blob),
   );
 
   const dataTransfer = { files };
@@ -171,7 +171,7 @@ export async function dragLeave(
   assert(`Target '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
-    files.every((file) => file instanceof Blob)
+    files.every((file) => file instanceof Blob),
   );
 
   const dataTransfer = { files };

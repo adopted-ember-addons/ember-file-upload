@@ -102,7 +102,7 @@ export default class UploadFileReader {
 
   get cancellablePromise() {
     const { promise, resolve, reject } = RSVP.defer(
-      `ember-file-upload: ${this.label}`
+      `ember-file-upload: ${this.label}`,
     );
 
     const cancellable = promise.then(
@@ -112,7 +112,7 @@ export default class UploadFileReader {
       () => {
         return RSVP.reject(this.reader.error);
       },
-      `ember-file-upload: Unpack ${this.label}`
+      `ember-file-upload: Unpack ${this.label}`,
     );
 
     let abort: RSVP.Deferred<string> | undefined;

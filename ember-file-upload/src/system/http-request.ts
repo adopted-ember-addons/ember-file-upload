@@ -46,7 +46,7 @@ export default class HTTPRequest {
 
   constructor(options: HTTPRequestOptions = {}) {
     const { resolve, reject, promise } = RSVP.defer(
-      `ember-file-upload: ${options.label}`
+      `ember-file-upload: ${options.label}`,
     );
     this.resolve = resolve;
     this.reject = reject;
@@ -133,7 +133,7 @@ export default class HTTPRequest {
     url: string | URL,
     _async: boolean,
     usename?: string,
-    password?: string
+    password?: string,
   ) {
     this.request.open(method, url, true, usename, password);
   }

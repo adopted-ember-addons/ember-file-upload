@@ -24,7 +24,7 @@ module('Integration | queue listeners', function (hooks) {
 
   const setupState = function (this: LocalTestContext) {
     const fileQueueService = this.owner.lookup(
-      'service:file-queue'
+      'service:file-queue',
     ) as FileQueueService;
 
     this.state = new State();
@@ -33,7 +33,7 @@ module('Integration | queue listeners', function (hooks) {
 
   const assertOnlyRenderedComponentCallbacks = async function (
     this: LocalTestContext,
-    assert: Assert
+    assert: Assert,
   ) {
     await selectFiles('input[type=file]', new File([], 'first.txt'));
     this.state.firstComponent = false;
