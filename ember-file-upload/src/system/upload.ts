@@ -12,7 +12,7 @@ function clone(object: object | undefined) {
 function normalizeOptions(
   file: UploadFile,
   url: string | object | undefined,
-  options?: UploadOptions
+  options?: UploadOptions,
 ) {
   if (typeof url === 'object') {
     options = url;
@@ -56,11 +56,11 @@ export function upload(
   file: UploadFile,
   url: string | object,
   opts: UploadOptions | undefined,
-  uploadFn: (request: HTTPRequest, options: UploadOptions) => Promise<Response>
+  uploadFn: (request: HTTPRequest, options: UploadOptions) => Promise<Response>,
 ) {
   if (['queued', 'failed', 'timed_out', 'aborted'].indexOf(file.state) === -1) {
     assert(
-      `The file ${file.id} is in the state "${file.state}" and cannot be requeued.`
+      `The file ${file.id} is in the state "${file.state}" and cannot be requeued.`,
     );
   }
 
@@ -118,6 +118,6 @@ export function upload(
         file.queue?.uploadFailed(file, response);
         return RSVP.reject(response);
       })
-      .finally(() => file.queue?.flush())
+      .finally(() => file.queue?.flush()),
   );
 }

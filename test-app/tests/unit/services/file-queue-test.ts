@@ -14,7 +14,7 @@ module('Unit | Service | file-queue', function (hooks) {
 
   test('the size of the queue is the aggregate of all queues', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
-      'service:file-queue'
+      'service:file-queue',
     ) as FileQueueService;
     const queue1 = fileQueueService.create('queue1');
     const queue2 = fileQueueService.create('queue2');
@@ -54,7 +54,7 @@ module('Unit | Service | file-queue', function (hooks) {
 
   test('the uploaded size of the queue is the aggregate of all queues', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
-      'service:file-queue'
+      'service:file-queue',
     ) as FileQueueService;
     const queue1 = fileQueueService.create('queue1');
 
@@ -100,7 +100,7 @@ module('Unit | Service | file-queue', function (hooks) {
 
   test('the queue is emptied when all files are completed and flush is called', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
-      'service:file-queue'
+      'service:file-queue',
     ) as FileQueueService;
     const queue = fileQueueService.create('queue');
 

@@ -39,7 +39,7 @@ export default class FileQueueHelper
 
   compute(
     _positional: FileQueueSignature['Args']['Positional'],
-    named: FileQueueSignature['Args']['Named']
+    named: FileQueueSignature['Args']['Named'],
   ) {
     this.named = named;
     const queue = this.fileQueue.findOrCreate(named.name ?? DEFAULT_QUEUE);

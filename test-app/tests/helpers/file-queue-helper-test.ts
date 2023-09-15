@@ -30,7 +30,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.filter = (file) => {
       assert.step(`filter: ${file.name}`);
       return true;
-    }
+    };
 
     await render<LocalContext>(hbs`
       {{#let (file-queue) as |queue|}}
@@ -49,7 +49,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('files selected is triggered when selecting files', async function (this: LocalContext, assert) {
     this.filesSelected = (files) =>
       assert.step(
-        `files selected: ${files.map((file) => file.name).join(', ')}`
+        `files selected: ${files.map((file) => file.name).join(', ')}`,
       );
 
     await render<LocalContext>(hbs`
@@ -135,7 +135,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.server.post(
       '/upload-file',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      uploadHandler(() => {})
+      uploadHandler(() => {}),
     );
 
     this.upload = (file) => file.upload('/upload-file');
@@ -146,7 +146,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(
         file.state,
         FileState.Uploading,
-        'file state is uploading'
+        'file state is uploading',
       );
     };
 
@@ -170,7 +170,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     this.server.post(
       '/upload-file',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      uploadHandler(() => {})
+      uploadHandler(() => {}),
     );
 
     this.upload = (file) => file.upload('/upload-file');
@@ -181,7 +181,7 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(
         file.state,
         FileState.Uploaded,
-        'file state is uploaded'
+        'file state is uploaded',
       );
       assert.strictEqual(response.status, 201, 'response status present');
     };
@@ -215,7 +215,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     this.server.post(
       '/upload-file',
-      uploadHandler(() => new MirageResponse(500))
+      uploadHandler(() => new MirageResponse(500)),
     );
 
     this.upload = (file) => file.upload('/upload-file');

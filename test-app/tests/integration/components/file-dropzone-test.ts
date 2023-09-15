@@ -23,7 +23,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
   hooks.beforeEach(function (this: LocalTestContext) {
     const fileQueueService = this.owner.lookup(
-      'service:file-queue'
+      'service:file-queue',
     ) as FileQueueService;
     this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
   });
@@ -59,7 +59,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
       '.test-dropzone',
       new File([], 'dingus.txt'),
       new File([], 'dangus.wmv'),
-      new File([], 'dongus.txt')
+      new File([], 'dongus.txt'),
     );
 
     assert.verifySteps(['dingus.txt', 'dongus.txt']);
@@ -125,7 +125,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     await dragAndDrop(
       '.test-dropzone',
       new File([], 'dingus.txt'),
-      new File([], 'dingus.png')
+      new File([], 'dingus.png'),
     );
 
     assert.verifySteps(['dingus.txt', 'dingus.png']);
@@ -145,7 +145,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     await dragAndDrop(
       '.test-dropzone',
       new File([], 'dingus.txt'),
-      new File([], 'dingus.png')
+      new File([], 'dingus.png'),
     );
 
     assert.verifySteps(['dingus.txt', 'dingus.png']);
@@ -165,7 +165,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
     await dragAndDrop(
       '.test-dropzone',
       new File([], 'dingus.txt'),
-      new File([], 'dingus.png')
+      new File([], 'dingus.png'),
     );
 
     assert.verifySteps(['dingus.txt']);
@@ -186,7 +186,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
     assert.verifySteps(
       ['documentDragListener called'],
-      'event reached documentDragListener'
+      'event reached documentDragListener',
     );
   });
 });

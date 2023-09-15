@@ -48,7 +48,7 @@ module('Unit | HttpRequest', function (hooks) {
 
     assert.strictEqual(
       this.request.requestHeaders['Content-Type'],
-      'application/json'
+      'application/json',
     );
   });
 
@@ -63,7 +63,7 @@ module('Unit | HttpRequest', function (hooks) {
         assert.deepEqual(
           Array.from(response.headers.entries()),
           [['content-type', 'text/plain']],
-          'headers match'
+          'headers match',
         );
         assert.strictEqual(response.status, 200, 'status is 200');
         return response.text();
@@ -92,7 +92,7 @@ module('Unit | HttpRequest', function (hooks) {
         assert.deepEqual(
           Array.from(response.headers.entries()),
           [['content-type', 'text/html']],
-          'headers match'
+          'headers match',
         );
         return response.text();
       })
@@ -107,7 +107,7 @@ module('Unit | HttpRequest', function (hooks) {
     this.respond(
       200,
       { 'Content-Type': 'text/html' },
-      '<html><body>ok</body></html>'
+      '<html><body>ok</body></html>',
     );
 
     return promise;
@@ -127,7 +127,7 @@ module('Unit | HttpRequest', function (hooks) {
         assert.deepEqual(
           Array.from(response.headers.entries()),
           [['content-type', 'text/xml']],
-          'headers match'
+          'headers match',
         );
         return response.text();
       })
@@ -161,7 +161,7 @@ module('Unit | HttpRequest', function (hooks) {
           assert.deepEqual(
             Array.from(response.headers.entries()),
             [['content-type', contentType]],
-            'headers match'
+            'headers match',
           );
           assert.strictEqual(response.status, 200, 'status is 200');
           return response.json();
@@ -170,7 +170,7 @@ module('Unit | HttpRequest', function (hooks) {
           assert.deepEqual(
             responseJson,
             { name: 'rfc.md', size: 1024 },
-            'json response matches'
+            'json response matches',
           );
         });
 
@@ -184,7 +184,7 @@ module('Unit | HttpRequest', function (hooks) {
         JSON.stringify({
           name: 'rfc.md',
           size: 1024,
-        })
+        }),
       );
 
       return promise;
@@ -209,7 +209,7 @@ module('Unit | HttpRequest', function (hooks) {
     assert.strictEqual(
       typeof promise.cancel,
       'function',
-      'returned promise should have a cancel() method'
+      'returned promise should have a cancel() method',
     );
 
     let promise2 = promise
@@ -220,7 +220,7 @@ module('Unit | HttpRequest', function (hooks) {
     assert.strictEqual(
       typeof promise2.cancel,
       'function',
-      'chained promise should have a cancel() method'
+      'chained promise should have a cancel() method',
     );
   });
 

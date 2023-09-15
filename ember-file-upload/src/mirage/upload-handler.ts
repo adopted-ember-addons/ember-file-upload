@@ -26,12 +26,12 @@ interface FakeRequest {
 
 export function uploadHandler(
   fn: (this: void, db: unknown, request: FakeRequest) => void,
-  options = { network: null, timeout: null }
+  options = { network: null, timeout: null },
 ) {
   if (
     macroCondition(
       dependencySatisfies('miragejs', '*') &&
-        dependencySatisfies('ember-cli-mirage', '*')
+        dependencySatisfies('ember-cli-mirage', '*'),
     )
   ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,7 +59,7 @@ export function uploadHandler(
                 lengthComputable: true,
                 total,
                 loaded: Math.min(loaded, total),
-              })
+              }),
             );
 
             const metadata = await extractFileMetadata(file.value);
@@ -79,7 +79,7 @@ export function uploadHandler(
                 lengthComputable: true,
                 total,
                 loaded,
-              })
+              }),
             );
 
             loaded += speed / 20;
@@ -91,7 +91,7 @@ export function uploadHandler(
     };
   } else {
     throw new Error(
-      'You must add ember-cli-mirage and miragejs to your app to use this helper.'
+      'You must add ember-cli-mirage and miragejs to your app to use this helper.',
     );
   }
 }

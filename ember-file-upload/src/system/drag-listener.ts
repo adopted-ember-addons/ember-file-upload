@@ -75,7 +75,7 @@ export default class DragListener {
       if (listener) {
         assert(
           `Cannot add multiple listeners for the same element ${this._dropzone}, ${listener.element}`,
-          this._dropzone !== listener.element
+          this._dropzone !== listener.element,
         );
 
         if (listener.element.contains(this._dropzone)) {
@@ -89,7 +89,7 @@ export default class DragListener {
 
   removeEventListeners() {
     this._listeners = this._listeners.filter(
-      (listener) => listener.element !== this._dropzone
+      (listener) => listener.element !== this._dropzone,
     );
     if (this._listeners.length === 0) {
       this.endListening();
@@ -193,7 +193,7 @@ export default class DragListener {
   scheduleEvent(
     eventName: QueuedDragEvent['eventName'],
     listener: QueuedDragEvent['listener'],
-    event: QueuedDragEvent['event']
+    event: QueuedDragEvent['event'],
   ) {
     const isDuplicate = this._events.find((queuedEvent) => {
       return (

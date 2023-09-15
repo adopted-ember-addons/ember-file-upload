@@ -245,6 +245,6 @@ export class Queue {
       };
     },
     // used to opt-in to lazy argument handling, which is the default for ember-modifier@^4
-    { eager: false }
+    { eager: false },
   );
 }

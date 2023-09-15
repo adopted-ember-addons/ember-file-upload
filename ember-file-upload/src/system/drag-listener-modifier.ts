@@ -26,7 +26,7 @@ export default class DragListenerModifier extends Modifier<DragListenerModifierS
       dragleave,
       dragover,
       drop,
-    }: NamedArgs<DragListenerModifierSignature>
+    }: NamedArgs<DragListenerModifierSignature>,
   ) {
     this.listener = new DragListener(dropzone);
 

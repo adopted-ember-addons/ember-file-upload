@@ -35,14 +35,14 @@ module('Integration | Component | mirage-handler', function (hooks) {
           // @ts-ignore
           typeof request.params,
           'object',
-          'params property on request is an object'
+          'params property on request is an object',
         );
         assert.strictEqual(
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           request.params.id,
           '1',
-          'value of dynamic segment is present on params object'
+          'value of dynamic segment is present on params object',
         );
         assert.deepEqual(request.requestBody, {
           'Content-Type': 'text/plain',
@@ -55,7 +55,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
             url: 'data:text/plain;base64,c29tZS1kYXRh',
           },
         });
-      })
+      }),
     );
 
     this.fileAdded = (file) => file.upload('/folder/1/file');
@@ -138,16 +138,16 @@ module('Integration | Component | mirage-handler', function (hooks) {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               request.requestBody.file.hasAdditionalMetadata,
-              'has additional metadata'
+              'has additional metadata',
             );
             assert.propContains(
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               request.requestBody.file,
               scenario.additionalMetadata,
-              'additional metadata extracted'
+              'additional metadata extracted',
             );
-          })
+          }),
         );
 
         this.fileAdded = (file) => {
@@ -187,9 +187,9 @@ module('Integration | Component | mirage-handler', function (hooks) {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               request.requestBody.file.hasAdditionalMetadata,
-              'does not have additional metadata'
-            )
-          )
+              'does not have additional metadata',
+            ),
+          ),
         );
 
         this.fileAdded = (file) => {

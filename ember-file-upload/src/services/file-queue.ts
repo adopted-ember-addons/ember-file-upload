@@ -45,9 +45,9 @@ export default class FileQueueService extends Service {
   create(name: QueueName): Queue {
     assert(
       `Queue names are required to be unique. "${String(
-        name
+        name,
       )}" has already been reserved.`,
-      !this.#queues.has(name)
+      !this.#queues.has(name),
     );
 
     const queue = new Queue({ name, fileQueue: this });
