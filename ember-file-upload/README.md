@@ -11,6 +11,7 @@ Uploads can be managed through queues and continue in the background, even after
 ## Compatibility
 
 * Ember.js 3.25 or above
+* TypeScript 5.0 or above
 * ember-auto-import 2.0 or above
 * Ember CLI v2.13 or above
 * Node.js v16 or above
