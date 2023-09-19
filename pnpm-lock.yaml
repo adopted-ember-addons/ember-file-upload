@@ -396,8 +396,8 @@ importers:
         specifier: workspace:*
         version: file:ember-file-upload(@ember/test-helpers@3.2.0)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.1.0)(ember-cli-mirage@2.4.0)(ember-modifier@4.1.0)(miragejs@0.1.47)(tracked-built-ins@3.2.0)(webpack@5.88.2)
       ember-intl:
-        specifier: ^5.7.2
-        version: 5.7.2
+        specifier: ^6.0.0
+        version: 6.1.0(@babel/core@7.22.20)(webpack@5.88.2)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.22.20)
@@ -2075,43 +2075,70 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@formatjs/ecma402-abstract@1.11.4:
-    resolution: {integrity: sha512-EBikYFp2JCdIfGEb5G9dyCkTGDmC57KSHhRQOC3aYxoPWVZvfWCDjZwkGYHN7Lis/fmuWl906bnNTJifDQ3sXw==}
+  /@formatjs/ecma402-abstract@1.17.2:
+    resolution: {integrity: sha512-k2mTh0m+IV1HRdU0xXM617tSQTi53tVR2muvYOsBeYcUgEAyxV1FOC7Qj279th3fBVQ+Dj6muvNJZcHSPNdbKg==}
     dependencies:
-      '@formatjs/intl-localematcher': 0.2.25
+      '@formatjs/intl-localematcher': 0.4.2
       tslib: 2.6.2
     dev: true
 
-  /@formatjs/ecma402-abstract@1.6.4:
-    resolution: {integrity: sha512-ukFjGD9dLsxcD9D5AEshJqQElPQeUAlTALT/lzIV6OcYojyuU81gw/uXDUOrs6XW79jtOJwQDkLqHbCJBJMOTw==}
-    dependencies:
-      tslib: 2.6.2
-    dev: true
-
-  /@formatjs/fast-memoize@1.2.1:
-    resolution: {integrity: sha512-Rg0e76nomkz3vF9IPlKeV+Qynok0r7YZjL6syLz4/urSg0IbjPZCB/iYUMNsYA643gh4mgrX3T7KEIFIxJBQeg==}
+  /@formatjs/fast-memoize@2.2.0:
+    resolution: {integrity: sha512-hnk/nY8FyrL5YxwP9e4r9dqeM6cAbo8PeU9UjyXojZMNvVad2Z06FAVHyR3Ecw6fza+0GH7vdJgiKIVXTMbSBA==}
     dependencies:
       tslib: 2.6.2
     dev: true
 
-  /@formatjs/icu-messageformat-parser@2.1.0:
-    resolution: {integrity: sha512-Qxv/lmCN6hKpBSss2uQ8IROVnta2r9jd3ymUEIjm2UyIkUCHVcbUVRGL/KS/wv7876edvsPe+hjHVJ4z8YuVaw==}
+  /@formatjs/icu-messageformat-parser@2.6.2:
+    resolution: {integrity: sha512-nF/Iww7sc5h+1MBCDRm68qpHTCG4xvGzYs/x9HFcDETSGScaJ1Fcadk5U/NXjXeCtzD+DhN4BAwKFVclHfKMdA==}
     dependencies:
-      '@formatjs/ecma402-abstract': 1.11.4
-      '@formatjs/icu-skeleton-parser': 1.3.6
+      '@formatjs/ecma402-abstract': 1.17.2
+      '@formatjs/icu-skeleton-parser': 1.6.2
       tslib: 2.6.2
     dev: true
 
-  /@formatjs/icu-skeleton-parser@1.3.6:
-    resolution: {integrity: sha512-I96mOxvml/YLrwU2Txnd4klA7V8fRhb6JG/4hm3VMNmeJo1F03IpV2L3wWt7EweqNLES59SZ4d6hVOPCSf80Bg==}
+  /@formatjs/icu-skeleton-parser@1.6.2:
+    resolution: {integrity: sha512-VtB9Slo4ZL6QgtDFJ8Injvscf0xiDd4bIV93SOJTBjUF4xe2nAWOoSjLEtqIG+hlIs1sNrVKAaFo3nuTI4r5ZA==}
     dependencies:
-      '@formatjs/ecma402-abstract': 1.11.4
+      '@formatjs/ecma402-abstract': 1.17.2
       tslib: 2.6.2
     dev: true
 
-  /@formatjs/intl-localematcher@0.2.25:
-    resolution: {integrity: sha512-YmLcX70BxoSopLFdLr1Ds99NdlTI2oWoLbaUW2M406lxOIPzE1KQhRz2fPUkq34xVZQaihCoU29h0KK7An3bhA==}
+  /@formatjs/intl-displaynames@6.5.2:
+    resolution: {integrity: sha512-uC2VBlz+WydGTDDpJwMTQuPH3CUpTricr91WH1QMfz5oEHg2sB7mUERcZONE/lu8MOe1jREIx4vBciZEVTqkmA==}
     dependencies:
+      '@formatjs/ecma402-abstract': 1.17.2
+      '@formatjs/intl-localematcher': 0.4.2
+      tslib: 2.6.2
+    dev: true
+
+  /@formatjs/intl-listformat@7.4.2:
+    resolution: {integrity: sha512-+6bSVudEQkf12Hh7kuKt8Xv/MyFlqdwA4V4NLnTZW8uYdF9RxlOELDD0rPaOc2++TMKIzI5o6XXwHPvpL6VrPA==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.17.2
+      '@formatjs/intl-localematcher': 0.4.2
+      tslib: 2.6.2
+    dev: true
+
+  /@formatjs/intl-localematcher@0.4.2:
+    resolution: {integrity: sha512-BGdtJFmaNJy5An/Zan4OId/yR9Ih1OojFjcduX/xOvq798OgWSyDtd6Qd5jqJXwJs1ipe4Fxu9+cshic5Ox2tA==}
+    dependencies:
+      tslib: 2.6.2
+    dev: true
+
+  /@formatjs/intl@2.9.3:
+    resolution: {integrity: sha512-hclPdyCF1zk2XmhgdXfl5Sd30QEdRBnIijH7Vc1AWz2K0/saVRrxuL3UYn+m3xEyfOa4yDbTWVbmXDL0XEzlsQ==}
+    peerDependencies:
+      typescript: ^4.7 || 5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.17.2
+      '@formatjs/fast-memoize': 2.2.0
+      '@formatjs/icu-messageformat-parser': 2.6.2
+      '@formatjs/intl-displaynames': 6.5.2
+      '@formatjs/intl-listformat': 7.4.2
+      intl-messageformat: 10.5.3
       tslib: 2.6.2
     dev: true
 
@@ -5355,8 +5382,8 @@ packages:
       isobject: 3.0.1
       static-extend: 0.1.2
 
-  /cldr-core@36.0.0:
-    resolution: {integrity: sha512-QLnAjt20rZe38c8h8OJ9jPND+O4o5O8Nw0TK/P3KpNn1cmOhMu0rk6Kc3ap96c5OStQ9gAngs9+Be2sum26NOw==}
+  /cldr-core@43.1.0:
+    resolution: {integrity: sha512-8Q/Zh/eCzV4SxggzZhPnw5WDWH9OnhbPfwzthfG8uXsCn7F5UeBCiAOTxsstxuxtXPKlvPJqqMSQjiYcqJPJsA==}
     dev: true
 
   /clean-base-url@1.0.0:
@@ -7188,15 +7215,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /ember-intl@5.7.2:
-    resolution: {integrity: sha512-gs17uY1ywzMaUpx1gxfBkFQYRTWTSa/zbkL13MVtffG9aBLP+998MibytZOUxIipMtLCm4sr/g6/1aaKRr9/+g==}
-    engines: {node: '>= 10.*'}
+  /ember-intl@6.1.0(@babel/core@7.22.20)(webpack@5.88.2):
+    resolution: {integrity: sha512-aLxRwjlk3KmQ40YMjeu/OJ1iAdXbtGGuBHimCrtiPZmwj41cV++VZENv+wF9inK0IdMWeIyKNklQraNmpwTixg==}
+    engines: {node: 16.* || >= 18}
     peerDependencies:
-      typescript: ^4.0.0
+      typescript: ^4.8.0 || ^5.0.0
     peerDependenciesMeta:
       typescript:
         optional: true
     dependencies:
+      '@formatjs/icu-messageformat-parser': 2.6.2
+      '@formatjs/intl': 2.9.3
       broccoli-caching-writer: 3.0.3
       broccoli-funnel: 3.0.8
       broccoli-merge-files: 0.8.0
@@ -7204,27 +7233,27 @@ packages:
       broccoli-source: 3.0.1
       broccoli-stew: 3.0.0
       calculate-cache-key-for-tree: 2.0.0
-      cldr-core: 36.0.0
-      ember-auto-import: 1.12.2
-      ember-cli-babel: 7.26.11
-      ember-cli-typescript: 4.2.1
+      cldr-core: 43.1.0
+      ember-auto-import: 2.6.3(@glint/template@1.1.0)(webpack@5.88.2)
+      ember-cli-babel: 8.0.0(@babel/core@7.22.20)
+      ember-cli-typescript: 5.2.1
+      eventemitter3: 5.0.1
       extend: 3.0.2
       fast-memoize: 2.5.2
       has-unicode: 2.0.1
-      intl-messageformat: 9.13.0
-      intl-messageformat-parser: 6.4.4
-      js-yaml: 3.14.1
+      intl-messageformat: 10.5.3
+      js-yaml: 4.1.0
       json-stable-stringify: 1.0.2
       locale-emoji: 0.3.0
       lodash.castarray: 4.4.0
       lodash.last: 3.0.0
       lodash.omit: 4.5.0
-      mkdirp: 1.0.4
       silent-error: 1.1.1
     transitivePeerDependencies:
+      - '@babel/core'
+      - '@glint/template'
       - supports-color
-      - webpack-cli
-      - webpack-command
+      - webpack
     dev: true
 
   /ember-load-initializers@2.1.2(@babel/core@7.22.20):
@@ -8016,6 +8045,10 @@ packages:
 
   /eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+    dev: true
+
+  /eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
     dev: true
 
   /events-to-array@1.1.2:
@@ -9767,20 +9800,12 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /intl-messageformat-parser@6.4.4:
-    resolution: {integrity: sha512-7AaFKNZEfzLQR6+jivOuz9e7yA8ka5KrmLebgY4QHTRLf8r64dp3LjnW98LkBWjdk8GK0sawD2dHDqW++A/pXA==}
-    deprecated: We've written a new parser that's 6x faster and is backwards compatible. Please use @formatjs/icu-messageformat-parser
+  /intl-messageformat@10.5.3:
+    resolution: {integrity: sha512-TzKn1uhJBMyuKTO4zUX47SU+d66fu1W9tVzIiZrQ6hBqQQeYscBMIzKL/qEXnFbJrH9uU5VV3+T5fWib4SIcKA==}
     dependencies:
-      '@formatjs/ecma402-abstract': 1.6.4
-      tslib: 2.6.2
-    dev: true
-
-  /intl-messageformat@9.13.0:
-    resolution: {integrity: sha512-7sGC7QnSQGa5LZP7bXLDhVDtQOeKGeBFGHF2Y8LVBwYZoQZCgWeKoPGTa5GMG8g/TzDgeXuYJQis7Ggiw2xTOw==}
-    dependencies:
-      '@formatjs/ecma402-abstract': 1.11.4
-      '@formatjs/fast-memoize': 1.2.1
-      '@formatjs/icu-messageformat-parser': 2.1.0
+      '@formatjs/ecma402-abstract': 1.17.2
+      '@formatjs/fast-memoize': 2.2.0
+      '@formatjs/icu-messageformat-parser': 2.6.2
       tslib: 2.6.2
     dev: true
 
