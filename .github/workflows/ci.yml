@@ -18,17 +18,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm --filter ember-file-upload lint
@@ -43,17 +35,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
 
       - name: Test
         run: pnpm --filter test-app test:ember --launch chrome
@@ -76,17 +60,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
 
       - name: 'Change TS to ${{ matrix.typescript-scenario }}'
         run: 'pnpm add --save-dev ${{ matrix.typescript-scenario}}'
@@ -108,17 +84,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: rm pnpm-lock.yaml && pnpm install
+          args: --no-lockfile
 
       - name: Test
         run: pnpm --filter test-app test:ember --launch chrome
@@ -148,17 +117,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
 
       - name: Test
         env:
