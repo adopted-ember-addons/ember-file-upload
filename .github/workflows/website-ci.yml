@@ -18,17 +18,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v3
+      - uses: wyvox/action-setup-pnpm@v3
         with:
           node-version: '${{ env.NODE_VERSION }}'
-          cache: 'pnpm'
-
-      - name: 'Install dependencies'
-        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm --filter website lint
