@@ -75,7 +75,7 @@
     "miragejs": "^0.1.43",
     "prettier": "^3.0.3",
     "qunit": "^2.19.4",
-    "qunit-dom": "^2.0.0",
+    "qunit-dom": "^3.0.0",
     "stylelint": "^15.4.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^34.0.0",
