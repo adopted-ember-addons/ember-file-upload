@@ -6,13 +6,13 @@ import { selectFiles } from 'ember-file-upload/test-support';
 import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
 import { type Asset } from 'test-app/components/demo-upload';
-import { getOwner } from '@ember/owner';
 import type Owner from '@ember/owner';
 import getImageBlob from 'test-app/tests/helpers/get-image-blob';
 
 interface LocalTestContext extends MirageTestContext {
   files: TrackedArray<Asset>;
   uploadSucceeded: () => void;
+  owner: Owner;
 }
 
 class FileTracker {
@@ -32,7 +32,7 @@ module.skip('Integration | progress', function (hooks) {
 
   test('regression: uploading files in sequence', async function (this: LocalTestContext, assert) {
     this.files = new TrackedArray([]);
-    const queue = (getOwner(this) as Owner)
+    const queue = this.owner
       .lookup('service:file-queue')
       .findOrCreate('photos');
 
