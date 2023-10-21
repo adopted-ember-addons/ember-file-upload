@@ -82,15 +82,20 @@ export default class HTTPRequest {
       aborted.resolve();
     });
 
-    this.request.onloadstart =
-      this.request.onprogress =
-      this.request.onloadend =
-        bind(this, function (evt) {
-          this.onprogress?.(evt);
-        });
+    this.request.onloadstart = bind(this, function (evt) {
+      this.onprogress?.(evt);
+    });
+    this.request.onprogress = bind(this, function (evt) {
+      this.onprogress?.(evt);
+    });
+    this.request.onloadend = bind(this, function (evt) {
+      this.onprogress?.(evt);
+    });
 
     if (this.request.upload) {
+      this.request.upload.onloadstart = this.request.onprogress;
       this.request.upload.onprogress = this.request.onprogress;
+      this.request.upload.onloadend = this.request.onprogress;
     }
 
     this.request.onload = bind(this, function () {

@@ -20,7 +20,9 @@ const NETWORK = {
 interface FakeRequest {
   requestBody: FormData | object; // Replaced with an object by this handler
   upload: {
+    onloadstart: (event: ProgressEvent<EventTarget>) => void;
     onprogress: (event: ProgressEvent<EventTarget>) => void;
+    onloadend: (event: ProgressEvent<EventTarget>) => void;
   };
 }
 
@@ -50,14 +52,26 @@ export function uploadHandler(
       return new RSVP.Promise((resolve) => {
         const start = new Date().getTime();
 
+        request.upload.onloadstart(
+          new ProgressEvent('loadstart', {
+            lengthComputable: true,
+            total,
+            loaded: Math.min(loaded, total),
+          }),
+        );
+
         const upload = async () => {
           const timedOut =
             options.timeout && new Date().getTime() - start > options.timeout;
           if (timedOut || loaded >= total) {
-            request.upload.onprogress(
-              new ProgressEvent('progress', {
+            request.upload.onloadend(
+              new ProgressEvent('loadend', {
                 lengthComputable: true,
-                total,
+                // For the loadend event the `total` value may be sourced from the `Content-Length` response header of the upload endpoint.
+                // In which case it may represent the size of the response rather than the number of uploaded bytes.
+                // So we set it to an arbitrary value to make sure this doesn't influence file upload and queue progress stats.
+                // See: https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent/total
+                total: 300,
                 loaded: Math.min(loaded, total),
               }),
             );
