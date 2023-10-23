@@ -87,13 +87,29 @@ export function upload(
     request.timeout = options.timeout;
   }
 
-  request.onprogress = function (evt) {
+  request.onloadstart = function (evt) {
     if (!evt) return;
     if (!evt.lengthComputable || evt.total === 0) return;
 
     file.loaded = evt.loaded;
     file.size = evt.total;
-    file.progress = (evt.loaded / evt.total) * 100;
+    file.progress = (file.loaded / file.size) * 100;
+  };
+
+  request.onprogress = function (evt) {
+    if (!evt) return;
+    if (!evt.lengthComputable || evt.total === 0) return;
+
+    file.loaded = evt.loaded;
+    file.progress = (file.loaded / file.size) * 100;
+  };
+
+  request.onloadend = function (evt) {
+    if (!evt) return;
+    if (!evt.lengthComputable || evt.total === 0) return;
+
+    file.loaded = file.size;
+    file.progress = (file.loaded / file.size) * 100;
   };
 
   request.ontimeout = () => {

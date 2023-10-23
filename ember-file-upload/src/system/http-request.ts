@@ -31,7 +31,13 @@ function parseResponse(request: XMLHttpRequest): Response {
 export default class HTTPRequest {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
+  onloadstart: (event?: ProgressEvent<EventTarget>) => void | undefined;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   onprogress: (event?: ProgressEvent<EventTarget>) => void | undefined;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  onloadend: (event?: ProgressEvent<EventTarget>) => void | undefined;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   ontimeout: (event?: ProgressEvent<EventTarget>) => void | undefined;
@@ -83,19 +89,19 @@ export default class HTTPRequest {
     });
 
     this.request.onloadstart = bind(this, function (evt) {
-      this.onprogress?.(evt);
+      this.onloadstart?.(evt);
     });
     this.request.onprogress = bind(this, function (evt) {
       this.onprogress?.(evt);
     });
     this.request.onloadend = bind(this, function (evt) {
-      this.onprogress?.(evt);
+      this.onloadend?.(evt);
     });
 
     if (this.request.upload) {
-      this.request.upload.onloadstart = this.request.onprogress;
+      this.request.upload.onloadstart = this.request.onloadstart;
       this.request.upload.onprogress = this.request.onprogress;
-      this.request.upload.onloadend = this.request.onprogress;
+      this.request.upload.onloadend = this.request.onloadend;
     }
 
     this.request.onload = bind(this, function () {

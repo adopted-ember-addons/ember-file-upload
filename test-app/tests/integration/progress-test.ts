@@ -26,7 +26,7 @@ class FileTracker {
   });
 }
 
-module.skip('Integration | progress', function (hooks) {
+module('Integration | progress', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
