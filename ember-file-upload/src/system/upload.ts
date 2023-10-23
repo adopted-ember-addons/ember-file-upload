@@ -100,7 +100,7 @@ export function upload(
     if (!evt) return;
     if (!evt.lengthComputable || evt.total === 0) return;
 
-    file.loaded = evt.loaded;
+    file.loaded = Math.max(evt.loaded, file.loaded);
     file.progress = (file.loaded / file.size) * 100;
   };
 
