@@ -1,6 +1,24 @@
 
 
 
+
+## v8.2.1 (2023-10-23)
+
+#### :bug: Bug Fix
+* [#1002](https://github.com/adopted-ember-addons/ember-file-upload/pull/1002) Correct `loaded` & `progress` values when file is uploaded ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1005](https://github.com/adopted-ember-addons/ember-file-upload/pull/1005) Regression coverage for incorrect `loaded` & `progress` stats ([@gilest](https://github.com/gilest))
+* [#998](https://github.com/adopted-ember-addons/ember-file-upload/pull/998) Use `wyvox/action-setup-pnpm` ([@gilest](https://github.com/gilest))
+* [#996](https://github.com/adopted-ember-addons/ember-file-upload/pull/996) Add CI matrix to type-check TypeScript versions ([@gilest](https://github.com/gilest))
+* [#992](https://github.com/adopted-ember-addons/ember-file-upload/pull/992) Chore: Replace deprecated  `release-it-lerna-changelog` ([@gilest](https://github.com/gilest))
+* [#991](https://github.com/adopted-ember-addons/ember-file-upload/pull/991) Bump ember cli to 4.12.2 ([@gilest](https://github.com/gilest))
+* [#984](https://github.com/adopted-ember-addons/ember-file-upload/pull/984) Upgrade prettier to v3 ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.2.0 (2023-08-11)
 
 #### :rocket: Enhancement
