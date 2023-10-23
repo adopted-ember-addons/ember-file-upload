@@ -31,7 +31,13 @@ function parseResponse(request: XMLHttpRequest): Response {
 export default class HTTPRequest {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
+  onloadstart: (event?: ProgressEvent<EventTarget>) => void | undefined;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   onprogress: (event?: ProgressEvent<EventTarget>) => void | undefined;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  onloadend: (event?: ProgressEvent<EventTarget>) => void | undefined;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   ontimeout: (event?: ProgressEvent<EventTarget>) => void | undefined;
