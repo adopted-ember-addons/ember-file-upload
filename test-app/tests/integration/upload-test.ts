@@ -7,13 +7,7 @@ import { selectFiles } from 'ember-file-upload/test-support';
 import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
 import { type Asset } from 'test-app/components/demo-upload';
-
-function getImageBlob(): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    const canvas = document.createElement('canvas');
-    canvas.toBlob(resolve, 'image/png');
-  });
-}
+import getImageBlob from 'test-app/tests/helpers/get-image-blob';
 
 interface LocalTestContext extends MirageTestContext {
   files: TrackedArray<Asset>;

@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import { enqueueTask } from 'ember-concurrency';
 import { UploadFile } from 'ember-file-upload';
 import { type TrackedArray } from 'tracked-built-ins';
 
@@ -8,6 +8,7 @@ export interface DemoUploadSignature {
   Element: HTMLDivElement;
   Args: {
     files: TrackedArray<Asset>;
+    onUploadSucceeded?: () => void;
   };
   Blocks: Record<string, never>;
 }
@@ -33,8 +34,7 @@ export class Asset {
 }
 
 export default class DemoUpload extends Component<DemoUploadSignature> {
-  @action
-  async uploadProof(file: UploadFile) {
+  uploadProof = enqueueTask(async (file: UploadFile) => {
     const asset = new Asset({
       filename: file.name,
       file,
@@ -57,5 +57,5 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
       type,
       file: null,
     });
-  }
+  });
 }

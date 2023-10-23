@@ -1,4 +1,4 @@
-{{#let (file-queue name="photos" onFileAdded=this.uploadProof) as |queue|}}
+{{#let (file-queue name="photos" onFileAdded=(perform this.uploadProof) onUploadSucceeded=@onUploadSucceeded) as |queue|}}
   <div class="docs-my-8 text-center">
     <FileDropzone @queue={{queue}} class="demo-dropzone" as |dropzone|>
       <div class="dropzone-upload-area upload {{if dropzone.active "active"}}">
