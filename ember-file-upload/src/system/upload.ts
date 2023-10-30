@@ -3,7 +3,7 @@ import HTTPRequest from './http-request.ts';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
 import type { UploadFile } from '../upload-file.ts';
-import { FileState, UploadOptions } from '../interfaces.ts';
+import { FileState, type UploadOptions } from '../interfaces.ts';
 
 function clone(object: object | undefined) {
   return object ? { ...object } : {};
