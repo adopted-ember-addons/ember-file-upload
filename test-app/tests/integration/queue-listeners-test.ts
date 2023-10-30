@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext, render, settled } from '@ember/test-helpers';
+import { type TestContext, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import { tracked } from '@glimmer/tracking';

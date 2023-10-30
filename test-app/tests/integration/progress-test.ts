@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import { type MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
 import { type Asset } from 'test-app/components/demo-upload';
 import type Owner from '@ember/owner';

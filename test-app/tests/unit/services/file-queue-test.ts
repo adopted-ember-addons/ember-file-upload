@@ -6,7 +6,7 @@ import {
   FileState,
   UploadFile,
 } from 'ember-file-upload';
-import { TestContext } from '@ember/test-helpers';
+import { type TestContext } from '@ember/test-helpers';
 import { png } from 'test-app/tests/utils/file-data';
 
 module('Unit | Service | file-queue', function (hooks) {
