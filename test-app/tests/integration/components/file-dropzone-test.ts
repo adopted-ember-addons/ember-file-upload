@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent, TestContext } from '@ember/test-helpers';
+import { render, triggerEvent, type TestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import {
   dragAndDrop,

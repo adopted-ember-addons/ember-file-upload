@@ -9,7 +9,7 @@ import { selectFiles } from 'ember-file-upload/test-support';
 import { uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
 
-import { MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import { type MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
 
 interface LocalContext extends MirageTestContext {
   filter: (file: File, files: File[], index: number) => boolean;
