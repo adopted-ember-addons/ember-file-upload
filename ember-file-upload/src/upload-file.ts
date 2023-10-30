@@ -7,7 +7,7 @@ import UploadFileReader from './system/upload-file-reader.ts';
 import type { Queue } from './queue.ts';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
-import { FileSource, FileState, UploadOptions } from './interfaces.ts';
+import { FileSource, FileState, type UploadOptions } from './interfaces.ts';
 
 /**
  * Files provide a uniform interface for interacting

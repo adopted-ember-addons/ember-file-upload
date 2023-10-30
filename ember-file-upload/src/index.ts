@@ -16,7 +16,7 @@ export {
   FileSource,
   FileState,
   // Interfaces
-  QueueName,
+  type QueueName,
   // Constants
   DEFAULT_QUEUE,
 };

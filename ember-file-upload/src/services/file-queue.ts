@@ -3,7 +3,7 @@ import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
 import { Queue } from '../queue.ts';
 import type { UploadFile } from '../upload-file.ts';
-import { QueueName } from '../interfaces.ts';
+import type { QueueName } from '../interfaces.ts';
 import { TrackedMap } from 'tracked-built-ins';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
