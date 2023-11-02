@@ -8,7 +8,7 @@ The Queue is a collection of files that are being manipulated by the user.
 
 Queues are designed to persist the state of uploads when a user navigates around your application.
 
-## Import parth
+## Import path
 
 ```js
 import { Queue } from 'ember-file-upload';
