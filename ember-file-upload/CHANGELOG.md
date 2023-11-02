@@ -2,6 +2,23 @@
 
 
 
+
+## v8.3.0 (2023-11-02)
+
+#### :rocket: Enhancement
+* [#1009](https://github.com/adopted-ember-addons/ember-file-upload/pull/1009) Ensure type imports and exports are explicit ([@gilest](https://github.com/gilest))
+
+#### :bug: Bug Fix
+* [#1007](https://github.com/adopted-ember-addons/ember-file-upload/pull/1007) Incorrect file loaded reporting ([@mkszepp](https://github.com/mkszepp))
+
+#### :memo: Documentation
+* [#1012](https://github.com/adopted-ember-addons/ember-file-upload/pull/1012) Fix typo parth -> path ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 3
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.2.1 (2023-10-23)
 
 #### :bug: Bug Fix
