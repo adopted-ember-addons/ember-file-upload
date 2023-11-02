@@ -6,7 +6,7 @@ category: class
 
 The `UploadFile` class provides a uniform interface for interacting with data that can be uploaded or read.
 
-## Import parth
+## Import path
 
 ```js
 import { UploadFile } from 'ember-file-upload';
