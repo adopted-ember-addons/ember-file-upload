@@ -100,7 +100,15 @@ export function upload(
     if (!evt) return;
     if (!evt.lengthComputable || evt.total === 0) return;
 
-    file.loaded = evt.loaded;
+    // When the progress is completed there is possible that we get the `Content-Length` response header of the upload endpoint as loaded / total.
+    // There is possible that `Content-Length` is lower or higher than the already loaded bytes.
+    // if there is lower, we want to keep the higher loaded value, otherwise the progress percentage will be decreased
+    // When the evt.loaded is higher than the start file.size, we use the file.size, otherwise it can occur that progress for the file is higher than 100%
+    let loaded = evt.loaded;
+    if (loaded > file.size) {
+      loaded = file.size;
+    }
+    file.loaded = Math.max(loaded, file.loaded);
     file.progress = (file.loaded / file.size) * 100;
   };
 
