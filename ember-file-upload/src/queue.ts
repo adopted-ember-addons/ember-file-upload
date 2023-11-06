@@ -71,6 +71,17 @@ export class Queue {
   }
 
   /**
+   * The current time in ms it is taking to upload 1 byte.
+   *
+   * @defaultValue 0
+   */
+  get rate(): number {
+    return this.files.reduce((acc, { rate }) => {
+      return acc + rate;
+    }, 0);
+  }
+
+  /**
    * The total size of all files currently being uploaded in bytes.
    *
    * @defaultValue 0

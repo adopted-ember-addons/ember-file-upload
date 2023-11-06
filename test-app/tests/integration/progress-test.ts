@@ -3,7 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { type MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import {
+  type MirageTestContext,
+  setupMirage,
+} from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
 import { type Asset } from 'test-app/components/demo-upload';
 import type Owner from '@ember/owner';
@@ -66,6 +69,8 @@ module('Integration | progress', function (hooks) {
       selectFiles('#upload-photo', file, file, file);
     }
 
+    assert.strictEqual(queue.rate, 0, 'rate should be 0 before uploads begin');
+
     await firstFile.promise;
 
     assert.strictEqual(
@@ -73,6 +78,7 @@ module('Integration | progress', function (hooks) {
       33,
       'first file uploaded - queue progress 33%',
     );
+    assert.true(queue.rate > 0, 'rate should be > 0 when uploading');
     assert.strictEqual(
       queue.files.length,
       3,
@@ -86,6 +92,7 @@ module('Integration | progress', function (hooks) {
       66,
       'second file uploaded - queue progress 66%',
     );
+    assert.true(queue.rate > 0, 'rate should be > 0 when uploading');
     assert.strictEqual(
       queue.files.length,
       3,
@@ -98,6 +105,11 @@ module('Integration | progress', function (hooks) {
       queue.progress,
       0,
       'third file uploaded - progress is back to 0% since the queue has been flushed',
+    );
+    assert.strictEqual(
+      queue.rate,
+      0,
+      'rate should be 0 after all uploads finish',
     );
     assert.strictEqual(
       queue.files.length,

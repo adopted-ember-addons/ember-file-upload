@@ -49,6 +49,7 @@ In addition to the file list, the queue tracks properties that indicate the prog
 | queue.size  | `number` – Total size of all files currently being uploaded in bytes. |
 | queue.loaded  | `number` – Number of bytes that have been uploaded to the server. |
 | queue.progress  | `number` – Current progress of all uploads, as a percentage in the range of 0 to 100. |
+| queue.rate  | `number` – Current time in ms it is taking to upload 1 byte. |
 
 ```hbs
 {{#if queue.files.length}}
