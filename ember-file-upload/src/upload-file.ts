@@ -51,6 +51,19 @@ export class UploadFile {
     this.#name = value;
   }
 
+  /** The current speed in ms that it takes to upload one byte */
+  get rate() {
+    const updatedTime = new Date().getTime();
+    const timeElapsedSinceLastUpdate =
+      updatedTime - this.timestampWhenProgressLastUpdated;
+
+    const bytesTransferredSinceLastUpdate =
+      this.loaded - this.bytesWhenProgressLastUpdated;
+
+    // Divide by elapsed time to get bytes per millisecond
+    return bytesTransferredSinceLastUpdate / timeElapsedSinceLastUpdate;
+  }
+
   #size = 0;
 
   /** The size of the file in bytes. */
@@ -78,6 +91,11 @@ export class UploadFile {
   get extension(): string {
     return this.type.split('/').slice(-1)[0] ?? '';
   }
+
+  /**
+   * Tracks the number of bytes that had been uploaded when progress values last changed.
+   */
+  @tracked bytesWhenProgressLastUpdated = 0;
 
   /** The number of bytes that have been uploaded to the server */
   @tracked loaded = 0;
@@ -137,6 +155,12 @@ export class UploadFile {
   //   @readonly
   //  */
   // source?: FileSource;
+
+  /**
+   * The timestamp of when the progress last updated in milliseconds. Used to calculate the time
+   * that has elapsed.
+   */
+  @tracked timestampWhenProgressLastUpdated = 0;
 
   /**
    * Upload file with `application/octet-stream` content type.

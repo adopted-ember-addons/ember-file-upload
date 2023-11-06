@@ -1,4 +1,5 @@
 import { assert } from '@ember/debug';
+import { next } from '@ember/runloop';
 import HTTPRequest from './http-request.ts';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
@@ -65,6 +66,8 @@ export function onloadstart(
   // The correct should be returned while progress
   file.size = Math.max(file.size, event.total);
   file.progress = (file.loaded / file.size) * 100;
+  file.bytesWhenProgressLastUpdated = event.loaded;
+  file.timestampWhenProgressLastUpdated = new Date().getTime();
 }
 
 export function onprogress(
@@ -88,6 +91,13 @@ export function onprogress(
   }
   file.loaded = Math.max(loaded, file.loaded);
   file.progress = (file.loaded / file.size) * 100;
+
+  const updatedTime = new Date().getTime();
+
+  next(() => {
+    file.bytesWhenProgressLastUpdated = file.loaded;
+    file.timestampWhenProgressLastUpdated = updatedTime;
+  });
 }
 
 export function onloadend(
@@ -100,6 +110,8 @@ export function onloadend(
   file.loaded = file.size;
   file.progress = (file.loaded / file.size) * 100;
   file.isUploadComplete = true;
+  file.bytesWhenProgressLastUpdated = 0;
+  file.timestampWhenProgressLastUpdated = 0;
 }
 
 export function upload(
@@ -142,10 +154,14 @@ export function upload(
   request.onloadend = (event) => onloadend(file, event);
 
   request.ontimeout = () => {
+    file.bytesWhenProgressLastUpdated = 0;
+    file.timestampWhenProgressLastUpdated = 0;
     file.state = FileState.TimedOut;
     file.queue?.flush();
   };
   request.onabort = () => {
+    file.bytesWhenProgressLastUpdated = 0;
+    file.timestampWhenProgressLastUpdated = 0;
     file.state = FileState.Aborted;
     file.queue?.flush();
   };
