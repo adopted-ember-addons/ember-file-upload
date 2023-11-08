@@ -92,13 +92,20 @@ export function upload(
     if (!evt.lengthComputable || evt.total === 0) return;
 
     file.loaded = evt.loaded;
-    file.size = evt.total;
+    // It occurs that the evt.total is not always correct.
+    // For this reason we should hold the max file size.
+    // The correct should be returned while progress
+    file.size = Math.max(file.size, evt.total);
     file.progress = (file.loaded / file.size) * 100;
   };
 
   request.onprogress = function (evt) {
     if (!evt) return;
-    if (!evt.lengthComputable || evt.total === 0) return;
+    // We need to check also for isUploadComplete, because the browsers brings sometimes the onprogress after onloadend event
+    if (!evt.lengthComputable || evt.total === 0 || file.isUploadComplete)
+      return;
+
+    file.size = evt.total;
 
     // When the progress is completed there is possible that we get the `Content-Length` response header of the upload endpoint as loaded / total.
     // There is possible that `Content-Length` is lower or higher than the already loaded bytes.
@@ -118,6 +125,7 @@ export function upload(
 
     file.loaded = file.size;
     file.progress = (file.loaded / file.size) * 100;
+    file.isUploadComplete = true;
   };
 
   request.ontimeout = () => {
