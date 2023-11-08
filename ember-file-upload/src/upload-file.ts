@@ -87,7 +87,7 @@ export class UploadFile {
    * range of 0 to 100.
    */
   @tracked progress = 0;
-  
+
   /**
    * When upload has finished this property will be set to true
    */
