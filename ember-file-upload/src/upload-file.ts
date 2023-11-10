@@ -89,6 +89,11 @@ export class UploadFile {
   @tracked progress = 0;
 
   /**
+   * When upload has finished this property will be set to true
+   */
+  @tracked isUploadComplete = false;
+
+  /**
    * The current state that the file is in.
    */
   @tracked state: FileState = FileState.Queued;
