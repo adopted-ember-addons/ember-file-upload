@@ -3,6 +3,19 @@
 
 
 
+
+## v8.3.1 (2023-11-10)
+
+#### :bug: Bug Fix
+* [#1016](https://github.com/adopted-ember-addons/ember-file-upload/pull/1016) Upload progress incorrect in Google Chrome ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1017](https://github.com/adopted-ember-addons/ember-file-upload/pull/1017) Replay progress events in unit tests ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.3.0 (2023-11-02)
 
 #### :rocket: Enhancement
