@@ -52,6 +52,56 @@ function normalizeOptions(
   return options;
 }
 
+export function onloadstart(
+  file: UploadFile,
+  event?: ProgressEvent<EventTarget>,
+) {
+  if (!event) return;
+  if (!event.lengthComputable || event.total === 0) return;
+
+  file.loaded = event.loaded;
+  // It occurs that the event.total is not always correct.
+  // For this reason we should hold the max file size.
+  // The correct should be returned while progress
+  file.size = Math.max(file.size, event.total);
+  file.progress = (file.loaded / file.size) * 100;
+}
+
+export function onprogress(
+  file: UploadFile,
+  event?: ProgressEvent<EventTarget>,
+) {
+  if (!event) return;
+  // We need to check also for isUploadComplete, because the browsers brings sometimes the onprogress after onloadend event
+  if (!event.lengthComputable || event.total === 0 || file.isUploadComplete)
+    return;
+
+  file.size = event.total;
+
+  // When the progress is completed there is possible that we get the `Content-Length` response header of the upload endpoint as loaded / total.
+  // There is possible that `Content-Length` is lower or higher than the already loaded bytes.
+  // if there is lower, we want to keep the higher loaded value, otherwise the progress percentage will be decreased
+  // When the event.loaded is higher than the start file.size, we use the file.size, otherwise it can occur that progress for the file is higher than 100%
+  let loaded = event.loaded;
+  if (loaded > file.size) {
+    loaded = file.size;
+  }
+  file.loaded = Math.max(loaded, file.loaded);
+  file.progress = (file.loaded / file.size) * 100;
+}
+
+export function onloadend(
+  file: UploadFile,
+  event?: ProgressEvent<EventTarget>,
+) {
+  if (!event) return;
+  if (!event.lengthComputable || event.total === 0) return;
+
+  file.loaded = file.size;
+  file.progress = (file.loaded / file.size) * 100;
+  file.isUploadComplete = true;
+}
+
 export function upload(
   file: UploadFile,
   url: string | object,
@@ -87,46 +137,9 @@ export function upload(
     request.timeout = options.timeout;
   }
 
-  request.onloadstart = function (evt) {
-    if (!evt) return;
-    if (!evt.lengthComputable || evt.total === 0) return;
-
-    file.loaded = evt.loaded;
-    // It occurs that the evt.total is not always correct.
-    // For this reason we should hold the max file size.
-    // The correct should be returned while progress
-    file.size = Math.max(file.size, evt.total);
-    file.progress = (file.loaded / file.size) * 100;
-  };
-
-  request.onprogress = function (evt) {
-    if (!evt) return;
-    // We need to check also for isUploadComplete, because the browsers brings sometimes the onprogress after onloadend event
-    if (!evt.lengthComputable || evt.total === 0 || file.isUploadComplete)
-      return;
-
-    file.size = evt.total;
-
-    // When the progress is completed there is possible that we get the `Content-Length` response header of the upload endpoint as loaded / total.
-    // There is possible that `Content-Length` is lower or higher than the already loaded bytes.
-    // if there is lower, we want to keep the higher loaded value, otherwise the progress percentage will be decreased
-    // When the evt.loaded is higher than the start file.size, we use the file.size, otherwise it can occur that progress for the file is higher than 100%
-    let loaded = evt.loaded;
-    if (loaded > file.size) {
-      loaded = file.size;
-    }
-    file.loaded = Math.max(loaded, file.loaded);
-    file.progress = (file.loaded / file.size) * 100;
-  };
-
-  request.onloadend = function (evt) {
-    if (!evt) return;
-    if (!evt.lengthComputable || evt.total === 0) return;
-
-    file.loaded = file.size;
-    file.progress = (file.loaded / file.size) * 100;
-    file.isUploadComplete = true;
-  };
+  request.onloadstart = (event) => onloadstart(file, event);
+  request.onprogress = (event) => onprogress(file, event);
+  request.onloadend = (event) => onloadend(file, event);
 
   request.ontimeout = () => {
     file.state = FileState.TimedOut;
