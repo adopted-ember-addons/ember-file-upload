@@ -63,99 +63,7 @@ const replayEvents = (
 module('Unit | upload progress', function (hooks) {
   setupTest(hooks);
 
-  test('Original (from issue #1002)', function (this: TestContext, assert) {
-    const uploadFile = new UploadFile(
-      new File(png, 'test-filename.png'),
-      FileSource.Browse,
-    );
-
-    const steps = [
-      {
-        assertProgressBefore: 0,
-        event: new ProgressEvent('progress', {
-          lengthComputable: true,
-          loaded: 248723,
-          total: 248723,
-        }),
-        assertProgressAfter: 100,
-      },
-      {
-        assertProgressBefore: 100,
-        event: new ProgressEvent('loadend', {
-          lengthComputable: true,
-          loaded: 248723,
-          total: 248723,
-        }),
-        assertProgressAfter: 100,
-      },
-      {
-        assertProgressBefore: 100,
-        event: new ProgressEvent('progress', {
-          lengthComputable: true,
-          loaded: 390,
-          total: 390,
-        }),
-        assertProgressAfter: 100,
-      },
-      {
-        assertProgressBefore: 100,
-        event: new ProgressEvent('loadend', {
-          lengthComputable: true,
-          loaded: 390,
-          total: 390,
-        }),
-        assertProgressAfter: 100,
-      },
-    ];
-
-    replayEvents(assert, uploadFile, steps);
-  });
-
-  test('Chrome (from issue #1002)', function (this: TestContext, assert) {
-    const uploadFile = new UploadFile(
-      new File(png, 'test-filename.png'),
-      FileSource.Browse,
-    );
-
-    const steps = [
-      {
-        assertProgressBefore: 0,
-        event: new ProgressEvent('loadstart', {
-          lengthComputable: true,
-          loaded: 0,
-          total: 0,
-        }),
-      },
-      {
-        event: new ProgressEvent('loadstart', {
-          lengthComputable: true,
-          loaded: 0,
-          total: 712,
-        }),
-      },
-      {
-        assertProgressBefore: 0,
-        event: new ProgressEvent('progress', {
-          lengthComputable: true,
-          loaded: 16384,
-          total: 618122,
-        }),
-        assertProgressAfter: 2.6506094266180464,
-      },
-      {
-        event: new ProgressEvent('progress', {
-          lengthComputable: true,
-          loaded: 32768,
-          total: 618122,
-        }),
-        assertProgressAfter: 5.301218853236093,
-      },
-    ];
-
-    replayEvents(assert, uploadFile, steps);
-  });
-
-  test('Firefox (from issue #1002)', function (this: TestContext, assert) {
+  test('nominal progress (recorded from Firefox in issue #1002)', function (this: TestContext, assert) {
     const uploadFile = new UploadFile(
       new File(png, 'test-filename.png'),
       FileSource.Browse,
@@ -198,5 +106,164 @@ module('Unit | upload progress', function (hooks) {
     ];
 
     replayEvents(assert, uploadFile, steps);
+
+    assert.strictEqual(
+      uploadFile.size,
+      618220,
+      'upload filesize is set from handlers',
+    );
+  });
+
+  test('regression: content length of final `progress` and `loadend` is less than file size (Issue #1002)', function (this: TestContext, assert) {
+    const uploadFile = new UploadFile(
+      new File(png, 'test-filename.png'),
+      FileSource.Browse,
+    );
+
+    const steps = [
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('progress', {
+          lengthComputable: true,
+          loaded: 248723,
+          total: 248723,
+        }),
+        assertProgressAfter: 100,
+      },
+      {
+        assertProgressBefore: 100,
+        event: new ProgressEvent('loadend', {
+          lengthComputable: true,
+          loaded: 248723,
+          total: 248723,
+        }),
+        assertProgressAfter: 100,
+      },
+      {
+        assertProgressBefore: 100,
+        event: new ProgressEvent('progress', {
+          lengthComputable: true,
+          loaded: 390,
+          total: 390,
+        }),
+        assertProgressAfter: 100,
+      },
+      {
+        assertProgressBefore: 100,
+        event: new ProgressEvent('loadend', {
+          lengthComputable: true,
+          loaded: 390,
+          total: 390,
+        }),
+        assertProgressAfter: 100,
+      },
+    ];
+
+    replayEvents(assert, uploadFile, steps);
+
+    assert.strictEqual(
+      uploadFile.size,
+      248723,
+      'upload filesize is set from handlers',
+    );
+  });
+
+  test('regression: incorrect `total` in second `loadstart` event (recorded from Google Chrome in issue #1002)', function (this: TestContext, assert) {
+    const uploadFile = new UploadFile(
+      new File(png, 'test-filename.png'),
+      FileSource.Browse,
+    );
+
+    const steps = [
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('loadstart', {
+          lengthComputable: true,
+          loaded: 0,
+          total: 0,
+        }),
+      },
+      {
+        event: new ProgressEvent('loadstart', {
+          lengthComputable: true,
+          loaded: 0,
+          total: 712,
+        }),
+      },
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('progress', {
+          lengthComputable: true,
+          loaded: 16384,
+          total: 618122,
+        }),
+        assertProgressAfter: 2.6506094266180464,
+      },
+      {
+        event: new ProgressEvent('progress', {
+          lengthComputable: true,
+          loaded: 32768,
+          total: 618122,
+        }),
+        assertProgressAfter: 5.301218853236093,
+      },
+    ];
+
+    replayEvents(assert, uploadFile, steps);
+
+    assert.strictEqual(
+      uploadFile.size,
+      618122,
+      'upload filesize is set from handlers',
+    );
+  });
+
+  test('final response has `Content-Length: 0` (loadend with total: 0)', function (this: TestContext, assert) {
+    const uploadFile = new UploadFile(
+      new File(png, 'test-filename.png'),
+      FileSource.Browse,
+    );
+
+    const steps = [
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('loadstart', {
+          lengthComputable: true,
+          loaded: 0,
+          total: 0,
+        }),
+      },
+      {
+        event: new ProgressEvent('loadstart', {
+          lengthComputable: true,
+          loaded: 0,
+          total: 618220,
+        }),
+      },
+      {
+        event: new ProgressEvent('progress', {
+          lengthComputable: true,
+          loaded: 618220,
+          total: 618220,
+        }),
+        assertProgressAfter: 100,
+      },
+      {
+        event: new ProgressEvent('loadend', {
+          lengthComputable: true,
+          loaded: 0,
+          total: 0,
+        }),
+        assertProgressAfter: 100,
+      },
+    ];
+
+    replayEvents(assert, uploadFile, steps);
+
+    assert.strictEqual(
+      uploadFile.size,
+      618220,
+      'upload filesize is set from handlers',
+    );
   });
 });
