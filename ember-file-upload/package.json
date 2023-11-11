@@ -78,7 +78,7 @@
     "concurrently": "^8.0.1",
     "ember-cli-htmlbars": "^6.1.1",
     "ember-modifier": "^3.2.7",
-    "ember-source": "~5.3.0",
+    "ember-source": "~5.4.0",
     "ember-template-lint": "^5.0.0",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
