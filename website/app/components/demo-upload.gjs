@@ -104,6 +104,27 @@ export default class DemoUploadComponent extends Component {
     });
   }
 
+  estimatedTimeRemaining = (loaded, rate, size) => {
+    const bytesLoaded = loaded ?? 0;
+    const fileSize = size ?? 0;
+
+    if (bytesLoaded) {
+      const seconds = (fileSize - bytesLoaded) / (rate || 1);
+
+      const date = new Date(seconds * 1000);
+      const days = Math.floor(seconds / 86400);
+
+      const daysRem = days > 0 ? `${days}d ` : '';
+      const hoursRem = String(date.getUTCHours()).padStart(2, '0');
+      const minutesRem = String(date.getUTCMinutes()).padStart(2, '0');
+      const secondsRem = String(date.getUTCSeconds()).padStart(2, '0');
+
+      return `${daysRem}${hoursRem}:${minutesRem}:${secondsRem}`;
+    }
+
+    return '?';
+  };
+
   <template>
     <OptionsForm
       @uploadOptions={{this.uploadOptions}}
@@ -126,7 +147,8 @@ export default class DemoUploadComponent extends Component {
         {{else if queue.files.length}}
           Uploading
           {{queue.files.length}}
-          files. ({{queue.progress}}%)
+          files. ({{queue.progress}}%) Estimated time remaining:
+          {{this.estimatedTimeRemaining queue.loaded queue.rate queue.size}}
         {{else if dropzone.supported}}
           Or drag and drop files here to upload them
         {{/if}}
@@ -146,6 +168,9 @@ export default class DemoUploadComponent extends Component {
               <th width='33%'>
                 Progress
               </th>
+              <th width='25%'>
+                Rate
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -153,6 +178,7 @@ export default class DemoUploadComponent extends Component {
               <td>{{localeNumber queue.loaded}} bytes</td>
               <td>{{localeNumber queue.size}} bytes</td>
               <td>{{queue.progress}}%</td>
+              <td>{{localeNumber queue.rate}} bytes/ms</td>
             </tr>
           </tbody>
         </table>
@@ -180,6 +206,9 @@ export default class DemoUploadComponent extends Component {
               State
             </th>
             <th>
+              Rate
+            </th>
+            <th>
               Progress
             </th>
           </tr>
@@ -192,7 +221,8 @@ export default class DemoUploadComponent extends Component {
               <td>{{localeNumber file.size}} bytes</td>
               <td>{{file.source}}</td>
               <td>{{file.state}}</td>
-              <td>{{round file.progress}}</td>
+              <td>{{localeNumber file.rate}} bytes/ms</td>
+              <td>{{round file.progress}}%</td>
             </tr>
           {{/each}}
         </tbody>
