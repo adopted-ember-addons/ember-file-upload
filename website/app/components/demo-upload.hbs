@@ -9,6 +9,7 @@
       Drop to upload
     {{else if queue.files.length}}
       Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+      Estimated time remaining: {{this.estimatedTimeRemaining queue.loaded queue.rate queue.size}}
     {{else if dropzone.supported}}
       Or drag and drop files here to upload them
     {{/if}}
