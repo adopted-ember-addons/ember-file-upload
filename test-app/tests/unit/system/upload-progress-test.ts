@@ -73,6 +73,14 @@ module('Unit | upload progress', function (hooks) {
       {
         assertProgressBefore: 0,
         event: new ProgressEvent('loadstart', {
+          lengthComputable: false,
+          loaded: 0,
+          total: 0,
+        }),
+      },
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('loadstart', {
           lengthComputable: true,
           loaded: 0,
           total: 0,
@@ -178,6 +186,14 @@ module('Unit | upload progress', function (hooks) {
       {
         assertProgressBefore: 0,
         event: new ProgressEvent('loadstart', {
+          lengthComputable: false,
+          loaded: 0,
+          total: 0,
+        }),
+      },
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('loadstart', {
           lengthComputable: true,
           loaded: 0,
           total: 0,
@@ -225,6 +241,14 @@ module('Unit | upload progress', function (hooks) {
     );
 
     const steps = [
+      {
+        assertProgressBefore: 0,
+        event: new ProgressEvent('loadstart', {
+          lengthComputable: false,
+          loaded: 0,
+          total: 0,
+        }),
+      },
       {
         assertProgressBefore: 0,
         event: new ProgressEvent('loadstart', {
