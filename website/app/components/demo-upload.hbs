@@ -1,22 +1,63 @@
-{{#let (file-queue name='demo' onFileAdded=this.addToQueue) as |queue|}}
+<form aria-label="Simulate upload speed">
+  <label>
+    Simulate upload speed:
+    <select name="uploadRate" {{on "change" this.setUploadRate}}>
+      {{#each-in this.UPLOAD_RATES as |name rate|}}
+        <option value={{rate}} selected={{this.eq this.uploadRate rate}}>
+          {{name}}
+        </option>
+      {{/each-in}}
+    </select>
+  </label>
+</form>
+
+{{#let (file-queue name="demo" onFileAdded=this.addToQueue) as |queue|}}
   <FileDropzone @queue={{queue}} class="demo-upload__dropzone" as |dropzone|>
-    <form>
-    <label>
-      <input type='file' {{queue.selectFile}} />
-    </label>
-  </form>
+    <form aria-label="File upload">
+      <label>
+        <input type="file" {{queue.selectFile}} />
+      </label>
+    </form>
     {{#if dropzone.active}}
       Drop to upload
     {{else if queue.files.length}}
-      Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+      Uploading
+      {{queue.files.length}}
+      files. ({{queue.progress}}%)
     {{else if dropzone.supported}}
       Or drag and drop files here to upload them
     {{/if}}
   </FileDropzone>
+
+  <div>
+    <h3>Queue</h3>
+    <table>
+      <thead>
+        <tr>
+          <th width="33%">
+            Loaded
+          </th>
+          <th width="33%">
+            Size
+          </th>
+          <th width="33%">
+            Progress
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{this.localeNumber queue.loaded}} bytes</td>
+          <td>{{this.localeNumber queue.size}} bytes</td>
+          <td>{{queue.progress}}%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 {{/let}}
 
 <div>
-  <h3>Uploaded Files</h3>
+  <h3>Files</h3>
   <table>
     <thead>
       <tr>
@@ -41,14 +82,14 @@
       </tr>
     </thead>
     <tbody>
-      {{#each this.uploadedFiles as |file|}}
+      {{#each this.files as |file|}}
         <tr>
           <td>{{file.name}}</td>
           <td>{{file.type}}</td>
-          <td>{{file.size}}</td>
+          <td>{{this.localeNumber file.size}} bytes</td>
           <td>{{file.source}}</td>
           <td>{{file.state}}</td>
-          <td>{{file.progress}}</td>
+          <td>{{this.round file.progress}}</td>
         </tr>
       {{/each}}
     </tbody>
