@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { next } from '@ember/runloop';
 import HTTPRequest from './http-request.ts';
 import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
@@ -53,6 +52,27 @@ function normalizeOptions(
   return options;
 }
 
+function updateRate(file: UploadFile) {
+  // If there's a previous recording, we can calculate a rate from that
+  if (file.timestampWhenProgressLastUpdated) {
+    const updatedTime = new Date().getTime();
+    const timeElapsedSinceLastUpdate =
+      updatedTime - file.timestampWhenProgressLastUpdated;
+
+    const bytesTransferredSinceLastUpdate =
+      file.loaded - file.bytesWhenProgressLastUpdated;
+
+    // Divide by elapsed time to get bytes per millisecond
+    const rate = bytesTransferredSinceLastUpdate / timeElapsedSinceLastUpdate;
+
+    file.rates = [...file.rates, rate];
+  }
+
+  // Finally set current state to be picked up by next invocation
+  file.bytesWhenProgressLastUpdated = file.loaded;
+  file.timestampWhenProgressLastUpdated = new Date().getTime();
+}
+
 export function onloadstart(
   file: UploadFile,
   event?: ProgressEvent<EventTarget>,
@@ -66,8 +86,8 @@ export function onloadstart(
   // The correct should be returned while progress
   file.size = Math.max(file.size, event.total);
   file.progress = (file.loaded / file.size) * 100;
-  file.bytesWhenProgressLastUpdated = event.loaded;
-  file.timestampWhenProgressLastUpdated = new Date().getTime();
+
+  updateRate(file);
 }
 
 export function onprogress(
@@ -92,12 +112,7 @@ export function onprogress(
   file.loaded = Math.max(loaded, file.loaded);
   file.progress = (file.loaded / file.size) * 100;
 
-  const updatedTime = new Date().getTime();
-
-  next(() => {
-    file.bytesWhenProgressLastUpdated = file.loaded;
-    file.timestampWhenProgressLastUpdated = updatedTime;
-  });
+  updateRate(file);
 }
 
 export function onloadend(
