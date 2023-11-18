@@ -22,12 +22,11 @@ const RATES = {
 const DEFAULT_RATE = RATES['Fast 3G - 0.675 Mbps'];
 
 // HTTP
-const DEFAULT_URL = 'https://api.bytescale.com/v1/files/basic';
+const DEFAULT_URL = 'https://m6v5v.wiremockapi.cloud/files';
 const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD'];
 const DEFAULT_METHOD = 'POST';
 const DEFAULT_HEADERS = {
-  Authorization: 'Basic YXBpa2V5OmZyZWU',
-  'Content-Type': 'application/x-www-form-urlencoded',
+  Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
 };
 
 export const DEFAULT_OPTIONS = {
