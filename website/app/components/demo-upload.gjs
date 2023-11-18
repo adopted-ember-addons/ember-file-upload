@@ -7,59 +7,54 @@ import { FileState } from 'ember-file-upload';
 import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { onloadstart, onprogress, onloadend } from 'ember-file-upload/internal';
-import { on } from '@ember/modifier';
+import OptionsForm, { UPLOAD_TYPES, DEFAULT_OPTIONS } from './options-form';
 
-// Values in kilobits per second (kbps)
-const UPLOAD_RATES = {
-  'Disconnected - 0 Mbps': 0,
-  'Very slow - 0.1 Mbps': 100,
-  'Slow 3G - 0.4 Mbps': 400,
-  'Fast 3G - 0.675 Mbps': 675,
-  'ADSL - 1.5 Mbps': 1_500,
-  '4G/LTE - 50 Mbps': 50_000,
-  'Fast Fibre - 100 Mbps': 100_000,
-};
-
-const STEP_INTERVAL = 100; // Progress events every 100ms
-const STEPS_PER_SECOND = 1_000 / STEP_INTERVAL;
+// Simulated progress events every 100ms
+const SIMULATED_TICK_INTERVAL = 100;
+const SIMULATED_TICKS_PER_SECOND = 1_000 / SIMULATED_TICK_INTERVAL;
 const BYTES_PER_KILOBYTE = 1_024;
 const BITS_PER_BYTE = 8;
 
 const round = (number) => Math.round(number);
 const localeNumber = (number) => number.toLocaleString('en-GB');
-const eq = (a, b) => a === b;
 
 export default class DemoUploadComponent extends Component {
   @service fileQueue;
 
+  @tracked uploadOptions = DEFAULT_OPTIONS;
   @tracked files = [];
-  @tracked uploadRate = UPLOAD_RATES['Fast 3G - 0.675 Mbps'];
 
   get queue() {
     return this.fileQueue.find('demo');
   }
 
-  get bytesPerStep() {
+  get simulatedBytesPerStep() {
     const kilobytesPerSecond =
       // Convert to kilobytes
-      (this.uploadRate / BITS_PER_BYTE) *
+      (this.uploadOptions.rate / BITS_PER_BYTE) *
       // and then to bytes
       BYTES_PER_KILOBYTE;
-    return kilobytesPerSecond / STEPS_PER_SECOND;
+    return kilobytesPerSecond / SIMULATED_TICKS_PER_SECOND;
   }
 
   @action
-  setUploadRate(event) {
-    this.uploadRate = parseInt(event.target.value, 10);
+  setUploadOptions(options) {
+    this.uploadOptions = options;
   }
 
   @action
   addToQueue(file) {
-    file.queue = this.queue;
-    file.state = FileState.Queued;
     this.files = [file, ...this.files];
 
-    this.simulateUpload.perform(file);
+    switch (this.uploadOptions.type) {
+      case UPLOAD_TYPES.simulated:
+        file.queue = this.queue;
+        this.simulateUpload.perform(file);
+        break;
+      case UPLOAD_TYPES.http:
+        this.httpUpload.perform(file);
+        break;
+    }
   }
 
   @task({ enqueue: true })
@@ -76,13 +71,13 @@ export default class DemoUploadComponent extends Component {
     );
 
     while (file.progress < 100) {
-      yield timeout(STEP_INTERVAL);
+      yield timeout(SIMULATED_TICK_INTERVAL);
 
       onprogress(
         file,
         new ProgressEvent('progress', {
           lengthComputable: true,
-          loaded: file.loaded + this.bytesPerStep,
+          loaded: file.loaded + this.simulatedBytesPerStep,
           total: file.size,
         }),
       );
@@ -101,19 +96,19 @@ export default class DemoUploadComponent extends Component {
     file.queue.flush();
   }
 
+  @task({ enqueue: true })
+  *httpUpload(file) {
+    yield file.upload(this.uploadOptions.url, {
+      method: this.uploadOptions.method,
+      headers: this.uploadOptions.headers,
+    });
+  }
+
   <template>
-    <form aria-label='Simulate upload speed'>
-      <label>
-        Simulate upload speed:
-        <select name='uploadRate' {{on 'change' this.setUploadRate}}>
-          {{#each-in UPLOAD_RATES as |name rate|}}
-            <option value={{rate}} selected={{eq this.uploadRate rate}}>
-              {{name}}
-            </option>
-          {{/each-in}}
-        </select>
-      </label>
-    </form>
+    <OptionsForm
+      @uploadOptions={{this.uploadOptions}}
+      @onUpdate={{this.setUploadOptions}}
+    />
 
     {{#let (fileQueue name='demo' onFileAdded=this.addToQueue) as |queue|}}
       <FileDropzone
