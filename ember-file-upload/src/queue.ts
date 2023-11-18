@@ -76,9 +76,11 @@ export class Queue {
    * @defaultValue 0
    */
   get rate(): number {
-    return this.files.reduce((acc, { rate }) => {
-      return acc + rate;
-    }, 0);
+    return this.files
+      .filter((file) => file.state === FileState.Uploading)
+      .reduce((acc, { rate }) => {
+        return acc + rate;
+      }, 0);
   }
 
   /**
