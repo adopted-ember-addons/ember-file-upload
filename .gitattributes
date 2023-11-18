@@ -1,0 +1,2 @@
+*.gjs linguist-language=js linguist-detectable
+*.gts linguist-language=ts linguist-detectable
