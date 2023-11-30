@@ -53,10 +53,11 @@ function normalizeOptions(
 }
 
 function updateRate(file: UploadFile) {
+  const updatedTime = new Date().getTime();
+
   // If there's a previous recording, we can calculate a rate from that
   if (file.timestampWhenProgressLastUpdated) {
-    const updatedTime = new Date().getTime();
-    const timeElapsedSinceLastUpdate =
+        const timeElapsedSinceLastUpdate =
       updatedTime - file.timestampWhenProgressLastUpdated;
 
     const bytesTransferredSinceLastUpdate =
@@ -70,7 +71,7 @@ function updateRate(file: UploadFile) {
 
   // Finally set current state to be picked up by next invocation
   file.bytesWhenProgressLastUpdated = file.loaded;
-  file.timestampWhenProgressLastUpdated = new Date().getTime();
+  file.timestampWhenProgressLastUpdated = updatedTime;
 }
 
 export function onloadstart(
