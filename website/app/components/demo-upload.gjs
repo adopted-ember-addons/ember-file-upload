@@ -8,6 +8,7 @@ import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { onloadstart, onprogress, onloadend } from 'ember-file-upload/internal';
 import OptionsForm, { UPLOAD_TYPES, DEFAULT_OPTIONS } from './options-form';
+import { intervalToDuration, formatDuration } from 'date-fns'
 
 // Simulated progress events every 100ms
 const SIMULATED_TICK_INTERVAL = 100;
@@ -104,25 +105,14 @@ export default class DemoUploadComponent extends Component {
     });
   }
 
-  estimatedTimeRemaining = (loaded, rate, size) => {
-    const bytesLoaded = loaded ?? 0;
-    const fileSize = size ?? 0;
+  estimatedTimeRemaining = ({ loaded, rate, size }) => {
+    if (!loaded || !rate || !size) return;
 
-    if (bytesLoaded) {
-      const seconds = (fileSize - bytesLoaded) / (rate || 1);
+    const remainingBytes = size - loaded;
+    const remainingMs = remainingBytes / rate;
+    const duration = intervalToDuration({ start: 0, end: remainingMs });
 
-      const date = new Date(seconds * 1000);
-      const days = Math.floor(seconds / 86400);
-
-      const daysRem = days > 0 ? `${days}d ` : '';
-      const hoursRem = String(date.getUTCHours()).padStart(2, '0');
-      const minutesRem = String(date.getUTCMinutes()).padStart(2, '0');
-      const secondsRem = String(date.getUTCSeconds()).padStart(2, '0');
-
-      return `${daysRem}${hoursRem}:${minutesRem}:${secondsRem}`;
-    }
-
-    return '?';
+    return formatDuration(duration) || 'Less than a second';
   };
 
   <template>
@@ -145,10 +135,10 @@ export default class DemoUploadComponent extends Component {
         {{#if dropzone.active}}
           Drop to upload
         {{else if queue.files.length}}
-          Uploading
-          {{queue.files.length}}
-          files. ({{queue.progress}}%) Estimated time remaining:
-          {{this.estimatedTimeRemaining queue.loaded queue.rate queue.size}}
+          Uploading {{queue.files.length}}
+          files. ({{queue.progress}}%)<br />
+          Estimated time remaining:
+          {{this.estimatedTimeRemaining queue}}
         {{else if dropzone.supported}}
           Or drag and drop files here to upload them
         {{/if}}
