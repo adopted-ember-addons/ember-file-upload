@@ -89,7 +89,7 @@
     "release-it": "^17.0.0",
     "rollup": "^3.0.0",
     "tracked-built-ins": "^3.0.0",
-    "typescript": "^5.0.0",
+    "typescript": "^5.3.0",
     "webpack": "^5.74.0"
   },
   "peerDependencies": {
