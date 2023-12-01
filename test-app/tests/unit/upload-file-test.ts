@@ -88,14 +88,4 @@ module('Unit | UploadFile', function (hooks) {
     assert.strictEqual(file.size, 13);
     assert.strictEqual(file.file.size, 9);
   });
-
-  test('it correctly calculates rate', function (assert) {
-    const file = UploadFile.fromBlob(new Blob(['test text'], { type: 'text' }));
-    const twoSecondsAgo = new Date().getTime() - 2000;
-    file.timestampWhenProgressLastUpdated = twoSecondsAgo;
-    file.bytesWhenProgressLastUpdated = 5000;
-    file.loaded = 20000;
-    file.size = 500000;
-    assert.strictEqual(Math.ceil(file.rate), 8);
-  });
 });

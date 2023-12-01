@@ -57,7 +57,7 @@ function updateRate(file: UploadFile) {
 
   // If there's a previous recording, we can calculate a rate from that
   if (file.timestampWhenProgressLastUpdated) {
-        const timeElapsedSinceLastUpdate =
+    const timeElapsedSinceLastUpdate =
       updatedTime - file.timestampWhenProgressLastUpdated;
 
     const bytesTransferredSinceLastUpdate =

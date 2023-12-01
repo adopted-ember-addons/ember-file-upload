@@ -8,6 +8,7 @@ import type { Queue } from './queue.ts';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { FileSource, FileState, type UploadOptions } from './interfaces.ts';
+import { estimatedRate } from './system/rate.ts';
 
 /**
  * Files provide a uniform interface for interacting
@@ -53,9 +54,7 @@ export class UploadFile {
 
   /** The current speed in ms that it takes to upload one byte */
   get rate() {
-    if (!this.rates.length) return 0;
-
-    return this.rates.reduce((a, b) => a + b, 0) / this.rates.length;
+    return estimatedRate(this.rates);
   }
 
   #size = 0;
