@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   '@glimmer/validator': ^0.84.3
 
@@ -17,11 +13,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0
       '@embroider/addon-shim':
-        specifier: ^1.5.0
+        specifier: ^1.8.7
         version: 1.8.7
-      '@embroider/macros':
-        specifier: ^1.0.0
-        version: 1.13.3(@glint/template@1.2.1)
       ember-auto-import:
         specifier: ^2.0.0
         version: 2.7.0(@glint/template@1.2.1)(webpack@5.89.0)
@@ -59,6 +52,9 @@ importers:
       '@embroider/addon-dev':
         specifier: ^4.0.0
         version: 4.1.2(@glint/template@1.2.1)(rollup@3.29.4)
+      '@embroider/macros':
+        specifier: ^1.0.0
+        version: 1.13.3(@glint/template@1.2.1)
       '@glimmer/component':
         specifier: ^1.0.4
         version: 1.1.2(@babel/core@7.23.3)
@@ -403,7 +399,7 @@ importers:
         version: 8.1.2
       ember-file-upload:
         specifier: workspace:*
-        version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0)
+        version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@embroider/macros@1.13.3)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(ember-modifier@4.1.0)(tracked-built-ins@3.3.0)(webpack@5.89.0)
       ember-intl:
         specifier: ^6.0.0
         version: 6.2.2(@babel/core@7.23.3)(webpack@5.89.0)
@@ -1741,7 +1737,7 @@ packages:
     dev: true
 
   /@colors/colors@1.5.0:
-    resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==, tarball: https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz}
+    resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
     requiresBuild: true
     dev: true
@@ -3279,6 +3275,7 @@ packages:
 
   /abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
+    deprecated: Use your platform's native atob() and btoa() methods instead
     dev: true
 
   /abbrev@1.1.1:
@@ -6857,7 +6854,7 @@ packages:
     dev: true
 
   /encoding@0.1.13:
-    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==, tarball: https://registry.npmjs.org/encoding/-/encoding-0.1.13.tgz}
+    resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
     requiresBuild: true
     dependencies:
       iconv-lite: 0.6.3
@@ -8109,7 +8106,7 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
   /fsevents@2.3.3:
-    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==, tarball: https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz}
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -13951,7 +13948,7 @@ packages:
     resolution: {integrity: sha512-GQ90TcKpIH4XxYTI2F98yEQYZgjNMOGPpOgdjIBhaLaWji5HPWlRnZ4AeA1hfBxtY7bCGDJsqDDHk/KaHOl5bA==}
 
   /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==, tarball: https://registry.npmjs.org/typescript/-/typescript-5.3.2.tgz}
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
@@ -13961,7 +13958,7 @@ packages:
     dev: true
 
   /uglify-js@3.17.4:
-    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.17.4.tgz}
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
@@ -14775,13 +14772,15 @@ packages:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
     dev: true
 
-  file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0):
+  file:ember-file-upload(@ember/test-helpers@3.2.1)(@embroider/macros@1.13.3)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(ember-modifier@4.1.0)(tracked-built-ins@3.3.0)(webpack@5.89.0):
     resolution: {directory: ember-file-upload, type: directory}
     id: file:ember-file-upload
     name: ember-file-upload
+    version: 8.3.1
     engines: {node: 16.* || >= 18}
     peerDependencies:
       '@ember/test-helpers': ^2.9.3 || ^3.0.3
+      '@embroider/macros': ^1.0.0
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
       ember-cli-mirage: '*'
@@ -14789,6 +14788,46 @@ packages:
       miragejs: '*'
       tracked-built-ins: ^3.1.1
     peerDependenciesMeta:
+      '@embroider/macros':
+        optional: true
+      ember-cli-mirage:
+        optional: true
+      miragejs:
+        optional: true
+    dependencies:
+      '@ember/test-helpers': 3.2.1(@glint/template@1.2.1)(ember-source@5.4.0)(webpack@5.89.0)
+      '@ember/test-waiters': 3.1.0
+      '@embroider/addon-shim': 1.8.7
+      '@embroider/macros': 1.13.3(@glint/template@1.2.1)
+      '@glimmer/component': 1.1.2(@babel/core@7.23.3)
+      '@glimmer/tracking': 1.1.2
+      ember-auto-import: 2.7.0(@glint/template@1.2.1)(webpack@5.89.0)
+      ember-modifier: 4.1.0(ember-source@5.4.0)
+      tracked-built-ins: 3.3.0
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+      - webpack
+    dev: true
+
+  file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0):
+    resolution: {directory: ember-file-upload, type: directory}
+    id: file:ember-file-upload
+    name: ember-file-upload
+    version: 8.3.1
+    engines: {node: 16.* || >= 18}
+    peerDependencies:
+      '@ember/test-helpers': ^2.9.3 || ^3.0.3
+      '@embroider/macros': ^1.0.0
+      '@glimmer/component': ^1.1.2
+      '@glimmer/tracking': ^1.1.2
+      ember-cli-mirage: '*'
+      ember-modifier: ^3.2.7 || ^4.1.0
+      miragejs: '*'
+      tracked-built-ins: ^3.1.1
+    peerDependenciesMeta:
+      '@embroider/macros':
+        optional: true
       ember-cli-mirage:
         optional: true
       miragejs:
@@ -14810,3 +14849,7 @@ packages:
       - supports-color
       - webpack
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
