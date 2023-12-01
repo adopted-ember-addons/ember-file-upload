@@ -149,13 +149,13 @@ export default class DemoUploadComponent extends Component {
         <table>
           <thead>
             <tr>
-              <th width='33%'>
+              <th width='25%'>
                 Loaded
               </th>
-              <th width='33%'>
+              <th width='25%'>
                 Size
               </th>
-              <th width='33%'>
+              <th width='25%'>
                 Progress
               </th>
               <th width='25%'>
