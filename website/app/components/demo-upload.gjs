@@ -8,7 +8,7 @@ import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { onloadstart, onprogress, onloadend } from 'ember-file-upload/internal';
 import OptionsForm, { UPLOAD_TYPES, DEFAULT_OPTIONS } from './options-form';
-import { intervalToDuration, formatDuration } from 'date-fns'
+import { intervalToDuration, formatDuration } from 'date-fns';
 
 // Simulated progress events every 100ms
 const SIMULATED_TICK_INTERVAL = 100;
