@@ -126,8 +126,6 @@ export function onloadend(
   file.loaded = file.size;
   file.progress = (file.loaded / file.size) * 100;
   file.isUploadComplete = true;
-  file.bytesWhenProgressLastUpdated = 0;
-  file.timestampWhenProgressLastUpdated = 0;
 }
 
 export function upload(
@@ -170,14 +168,10 @@ export function upload(
   request.onloadend = (event) => onloadend(file, event);
 
   request.ontimeout = () => {
-    file.bytesWhenProgressLastUpdated = 0;
-    file.timestampWhenProgressLastUpdated = 0;
     file.state = FileState.TimedOut;
     file.queue?.flush();
   };
   request.onabort = () => {
-    file.bytesWhenProgressLastUpdated = 0;
-    file.timestampWhenProgressLastUpdated = 0;
     file.state = FileState.Aborted;
     file.queue?.flush();
   };
