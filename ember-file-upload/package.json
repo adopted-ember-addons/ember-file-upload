@@ -69,7 +69,6 @@
     "@glint/core": "^1.0.2",
     "@glint/environment-ember-loose": "^1.0.2",
     "@glint/template": "^1.0.2",
-    "@release-it-plugins/lerna-changelog": "^6.0.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@tsconfig/ember": "^3.0.0",
     "@types/rsvp": "^4.0.4",
@@ -86,7 +85,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
-    "release-it": "^17.0.0",
     "rollup": "^3.0.0",
     "tracked-built-ins": "^3.0.0",
     "typescript": "^5.3.0",
@@ -149,20 +147,6 @@
       "*": [
         "declarations/*"
       ]
-    }
-  },
-  "release-it": {
-    "plugins": {
-      "@release-it-plugins/lerna-changelog": {
-        "infile": "CHANGELOG.md"
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
     }
   }
 }
