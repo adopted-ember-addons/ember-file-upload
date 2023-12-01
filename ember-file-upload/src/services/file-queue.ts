@@ -3,7 +3,7 @@ import Service from '@ember/service';
 import { registerDestructor } from '@ember/destroyable';
 import { Queue } from '../queue.ts';
 import type { UploadFile } from '../upload-file.ts';
-import type { QueueName } from '../interfaces.ts';
+import { FileState, type QueueName } from '../interfaces.ts';
 import { TrackedMap } from 'tracked-built-ins';
 
 export const DEFAULT_QUEUE = Symbol('DEFAULT_QUEUE');
@@ -86,6 +86,19 @@ export default class FileQueueService extends Service {
     return [...this.queues.values()].reduce((acc: UploadFile[], queue) => {
       return [...acc, ...queue.files];
     }, []);
+  }
+
+  /**
+   * The current time in ms it is taking to upload 1 byte.
+   *
+   * @defaultValue 0
+   */
+  get rate(): number {
+    return this.files
+      .filter((file) => file.state === FileState.Uploading)
+      .reduce((acc, { rate }) => {
+        return acc + rate;
+      }, 0);
   }
 
   /**

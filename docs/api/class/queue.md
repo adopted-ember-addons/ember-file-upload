@@ -37,6 +37,10 @@ Upload failures can happen due to a timeout or a server response. If you choose 
 | `fileQueue` | The FileQueue service.                                                                                        | `FileQueue`        |
 | `name`      | The unique identifier of the queue.                                                                           | `string \| symbol` |
 | `files`     | The list of files in the queue. This automatically gets flushed when all the files in the queue have settled. | `UploadFile[]`     |
+| `size`      | Total size of all files currently being uploaded in bytes.                                                    | `number`           |
+| `loaded`    | Number of bytes that have been uploaded to the server.                                                        | `number`           |
+| `progress`  | Current progress of all uploads, as a percentage in the range of 0 to 100.                                    | `number`           |
+| `rate`      | Current time in ms it is taking to upload 1 byte.                                                             | `number`           |
 
 ## Methods
 

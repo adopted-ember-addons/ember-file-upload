@@ -52,6 +52,28 @@ function normalizeOptions(
   return options;
 }
 
+function updateRate(file: UploadFile) {
+  const updatedTime = new Date().getTime();
+
+  // If there's a previous recording, we can calculate a rate from that
+  if (file.timestampWhenProgressLastUpdated) {
+    const timeElapsedSinceLastUpdate =
+      updatedTime - file.timestampWhenProgressLastUpdated;
+
+    const bytesTransferredSinceLastUpdate =
+      file.loaded - file.bytesWhenProgressLastUpdated;
+
+    // Divide by elapsed time to get bytes per millisecond
+    const rate = bytesTransferredSinceLastUpdate / timeElapsedSinceLastUpdate;
+
+    file.rates = [...file.rates, rate];
+  }
+
+  // Finally set current state to be picked up by next invocation
+  file.bytesWhenProgressLastUpdated = file.loaded;
+  file.timestampWhenProgressLastUpdated = updatedTime;
+}
+
 export function onloadstart(
   file: UploadFile,
   event?: ProgressEvent<EventTarget>,
@@ -65,6 +87,8 @@ export function onloadstart(
   // The correct should be returned while progress
   file.size = Math.max(file.size, event.total);
   file.progress = (file.loaded / file.size) * 100;
+
+  updateRate(file);
 }
 
 export function onprogress(
@@ -88,6 +112,8 @@ export function onprogress(
   }
   file.loaded = Math.max(loaded, file.loaded);
   file.progress = (file.loaded / file.size) * 100;
+
+  updateRate(file);
 }
 
 export function onloadend(

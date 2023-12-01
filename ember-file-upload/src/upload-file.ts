@@ -8,6 +8,7 @@ import type { Queue } from './queue.ts';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { FileSource, FileState, type UploadOptions } from './interfaces.ts';
+import { estimatedRate } from './system/rate.ts';
 
 /**
  * Files provide a uniform interface for interacting
@@ -51,6 +52,11 @@ export class UploadFile {
     this.#name = value;
   }
 
+  /** The current speed in ms that it takes to upload one byte */
+  get rate() {
+    return estimatedRate(this.rates);
+  }
+
   #size = 0;
 
   /** The size of the file in bytes. */
@@ -78,6 +84,11 @@ export class UploadFile {
   get extension(): string {
     return this.type.split('/').slice(-1)[0] ?? '';
   }
+
+  /**
+   * Tracks the number of bytes that had been uploaded when progress values last changed.
+   */
+  bytesWhenProgressLastUpdated = 0;
 
   /** The number of bytes that have been uploaded to the server */
   @tracked loaded = 0;
@@ -137,6 +148,14 @@ export class UploadFile {
   //   @readonly
   //  */
   // source?: FileSource;
+
+  /**
+   * The timestamp of when the progress last updated in milliseconds. Used to calculate the time
+   * that has elapsed.
+   */
+  timestampWhenProgressLastUpdated = 0;
+
+  @tracked rates: number[] = [];
 
   /**
    * Upload file with `application/octet-stream` content type.

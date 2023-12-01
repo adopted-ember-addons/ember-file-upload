@@ -8,6 +8,7 @@ import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { onloadstart, onprogress, onloadend } from 'ember-file-upload/internal';
 import OptionsForm, { UPLOAD_TYPES, DEFAULT_OPTIONS } from './options-form';
+import { intervalToDuration, formatDuration } from 'date-fns';
 
 // Simulated progress events every 100ms
 const SIMULATED_TICK_INTERVAL = 100;
@@ -104,6 +105,16 @@ export default class DemoUploadComponent extends Component {
     });
   }
 
+  estimatedTimeRemaining = ({ loaded, rate, size }) => {
+    if (!loaded || !rate || !size) return;
+
+    const remainingBytes = size - loaded;
+    const remainingMs = remainingBytes / rate;
+    const duration = intervalToDuration({ start: 0, end: remainingMs });
+
+    return formatDuration(duration) || 'Less than a second';
+  };
+
   <template>
     <OptionsForm
       @uploadOptions={{this.uploadOptions}}
@@ -124,9 +135,10 @@ export default class DemoUploadComponent extends Component {
         {{#if dropzone.active}}
           Drop to upload
         {{else if queue.files.length}}
-          Uploading
-          {{queue.files.length}}
-          files. ({{queue.progress}}%)
+          Uploading {{queue.files.length}}
+          files. ({{queue.progress}}%)<br />
+          Estimated time remaining:
+          {{this.estimatedTimeRemaining queue}}
         {{else if dropzone.supported}}
           Or drag and drop files here to upload them
         {{/if}}
@@ -137,14 +149,17 @@ export default class DemoUploadComponent extends Component {
         <table>
           <thead>
             <tr>
-              <th width='33%'>
+              <th width='25%'>
                 Loaded
               </th>
-              <th width='33%'>
+              <th width='25%'>
                 Size
               </th>
-              <th width='33%'>
+              <th width='25%'>
                 Progress
+              </th>
+              <th width='25%'>
+                Rate
               </th>
             </tr>
           </thead>
@@ -153,6 +168,7 @@ export default class DemoUploadComponent extends Component {
               <td>{{localeNumber queue.loaded}} bytes</td>
               <td>{{localeNumber queue.size}} bytes</td>
               <td>{{queue.progress}}%</td>
+              <td>{{localeNumber queue.rate}} bytes/ms</td>
             </tr>
           </tbody>
         </table>
@@ -180,6 +196,9 @@ export default class DemoUploadComponent extends Component {
               State
             </th>
             <th>
+              Rate
+            </th>
+            <th>
               Progress
             </th>
           </tr>
@@ -192,7 +211,8 @@ export default class DemoUploadComponent extends Component {
               <td>{{localeNumber file.size}} bytes</td>
               <td>{{file.source}}</td>
               <td>{{file.state}}</td>
-              <td>{{round file.progress}}</td>
+              <td>{{localeNumber file.rate}} bytes/ms</td>
+              <td>{{round file.progress}}%</td>
             </tr>
           {{/each}}
         </tbody>

@@ -81,6 +81,7 @@ An object which may be passed as an optional second argument to `upload()` and `
 | `extension` | Returns the appropriate file extension of the file according to the type.                                                   | `string` |
 | `loaded`    | The number of bytes that have been uploaded to the server.                                                                  | `number` |
 | `progress`  | The current progress of the upload, as a percentage in the range of 0 to 100.                                               | `number` |
+| `rate`      | Current time in ms it is taking to upload 1 byte.                                                                           | `number` |
 | `state`     | The current state that the file is in.                                                                                      | `string` |
 | `source`    | The source of the file. This is useful for applications that want to gather analytics about how users upload their content. | `string` |
 

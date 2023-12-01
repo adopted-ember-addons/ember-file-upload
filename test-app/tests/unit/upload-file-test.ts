@@ -3,7 +3,10 @@ import { setupTest } from 'ember-qunit';
 import { uploadHandler } from 'ember-file-upload';
 import { UploadFile, FileSource } from 'ember-file-upload';
 
-import { type MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import {
+  type MirageTestContext,
+  setupMirage,
+} from 'ember-cli-mirage/test-support';
 
 module('Unit | UploadFile', function (hooks) {
   setupTest(hooks);
