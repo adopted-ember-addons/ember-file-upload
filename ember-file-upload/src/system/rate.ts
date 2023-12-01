@@ -15,6 +15,7 @@ export function estimatedRate(allRates: number[]): number {
   const rates = allRates.slice(CALCULATE_FROM_LAST * -1).reverse();
   const weights = generateWeights(rates.length);
 
+  // Multiply each rate by its respective weight for a weighted average
   return rates.reduce((acc, rate, index) => {
     const weight = weights[index] as number;
     return acc + rate * weight;
@@ -22,13 +23,13 @@ export function estimatedRate(allRates: number[]): number {
 }
 
 export function generateWeights(totalRates: number): number[] {
-  const proportions: number[] = [];
-
-  Array.from({ length: totalRates }).forEach((_, index) => {
-    proportions.push(proportionForPosition(index + 1));
+  // Generate an array the same length as totalRates filled with proportioanl weights
+  const proportions = Array.from({ length: totalRates }).map((_, index) => {
+    return proportionForPosition(index + 1);
   });
 
   const proportionTotal = proportions.reduce((acc, value) => acc + value, 0);
+  // Convert proportional weights to real weights by division
   const realWeights = proportions.map(
     (proportion) => proportion / proportionTotal,
   );
@@ -38,9 +39,7 @@ export function generateWeights(totalRates: number): number[] {
 
 export function proportionForPosition(position: number) {
   for (const { threshold, proportion } of THRESHOLDS) {
-    if (position <= threshold) {
-      return proportion;
-    }
+    if (position <= threshold) return proportion;
   }
   return DEFAULT_PROPORTION;
 }
