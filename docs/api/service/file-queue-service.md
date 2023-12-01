@@ -29,6 +29,7 @@ import FileQueueService from 'ember-file-upload/services/file-queue';
 | `size`     | The total size of all files currently being uploaded in bytes.                 | `number` |
 | `loaded`   | The number of bytes that have been uploaded to the server.                     | `number` |
 | `progress` | The current progress of all uploads, as a percentage in the range of 0 to 100. | `number` |
+| `rate`     | Current time in ms it is taking to upload 1 byte.                              | `number` |
 
 ## Methods
 
