@@ -26,11 +26,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0
       '@embroider/addon-shim':
-        specifier: ^1.5.0
+        specifier: ^1.8.7
         version: 1.8.7
-      '@embroider/macros':
-        specifier: ^1.0.0
-        version: 1.13.3(@glint/template@1.2.1)
       ember-auto-import:
         specifier: ^2.0.0
         version: 2.7.0(@glint/template@1.2.1)(webpack@5.89.0)
@@ -68,6 +65,9 @@ importers:
       '@embroider/addon-dev':
         specifier: ^4.0.0
         version: 4.1.2(@glint/template@1.2.1)(rollup@3.29.4)
+      '@embroider/macros':
+        specifier: ^1.0.0
+        version: 1.13.3(@glint/template@1.2.1)
       '@glimmer/component':
         specifier: ^1.0.4
         version: 1.1.2(@babel/core@7.23.3)
@@ -409,7 +409,7 @@ importers:
         version: 8.1.2
       ember-file-upload:
         specifier: workspace:*
-        version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0)
+        version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@embroider/macros@1.13.3)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(ember-modifier@4.1.0)(tracked-built-ins@3.3.0)(webpack@5.89.0)
       ember-intl:
         specifier: ^6.0.0
         version: 6.2.2(@babel/core@7.23.3)(webpack@5.89.0)
@@ -3317,6 +3317,7 @@ packages:
 
   /abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
+    deprecated: Use your platform's native atob() and btoa() methods instead
     dev: true
 
   /abbrev@1.1.1:
@@ -14890,6 +14891,44 @@ packages:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
     dev: true
 
+  file:ember-file-upload(@ember/test-helpers@3.2.1)(@embroider/macros@1.13.3)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(ember-modifier@4.1.0)(tracked-built-ins@3.3.0)(webpack@5.89.0):
+    resolution: {directory: ember-file-upload, type: directory}
+    id: file:ember-file-upload
+    name: ember-file-upload
+    version: 8.3.1
+    engines: {node: 16.* || >= 18}
+    peerDependencies:
+      '@ember/test-helpers': ^2.9.3 || ^3.0.3
+      '@embroider/macros': ^1.0.0
+      '@glimmer/component': ^1.1.2
+      '@glimmer/tracking': ^1.1.2
+      ember-cli-mirage: '*'
+      ember-modifier: ^3.2.7 || ^4.1.0
+      miragejs: '*'
+      tracked-built-ins: ^3.1.1
+    peerDependenciesMeta:
+      '@embroider/macros':
+        optional: true
+      ember-cli-mirage:
+        optional: true
+      miragejs:
+        optional: true
+    dependencies:
+      '@ember/test-helpers': 3.2.1(@glint/template@1.2.1)(ember-source@5.4.0)(webpack@5.89.0)
+      '@ember/test-waiters': 3.1.0
+      '@embroider/addon-shim': 1.8.7
+      '@embroider/macros': 1.13.3(@glint/template@1.2.1)
+      '@glimmer/component': 1.1.2(@babel/core@7.23.3)
+      '@glimmer/tracking': 1.1.2
+      ember-auto-import: 2.7.0(@glint/template@1.2.1)(webpack@5.89.0)
+      ember-modifier: 4.1.0(ember-source@5.4.0)
+      tracked-built-ins: 3.3.0
+    transitivePeerDependencies:
+      - '@glint/template'
+      - supports-color
+      - webpack
+    dev: true
+
   file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0):
     resolution: {directory: ember-file-upload, type: directory}
     id: file:ember-file-upload
@@ -14898,6 +14937,7 @@ packages:
     engines: {node: 16.* || >= 18}
     peerDependencies:
       '@ember/test-helpers': ^2.9.3 || ^3.0.3
+      '@embroider/macros': ^1.0.0
       '@glimmer/component': ^1.1.2
       '@glimmer/tracking': ^1.1.2
       ember-cli-mirage: '*'
@@ -14905,6 +14945,8 @@ packages:
       miragejs: '*'
       tracked-built-ins: ^3.1.1
     peerDependenciesMeta:
+      '@embroider/macros':
+        optional: true
       ember-cli-mirage:
         optional: true
       miragejs:
