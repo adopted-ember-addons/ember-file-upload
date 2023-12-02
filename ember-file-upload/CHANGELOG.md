@@ -4,6 +4,27 @@
 
 
 
+
+## v8.4.0 (2023-12-02)
+
+#### :rocket: Enhancement
+* [#1029](https://github.com/adopted-ember-addons/ember-file-upload/pull/1029) Calculate upload rate ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#1024](https://github.com/adopted-ember-addons/ember-file-upload/pull/1024) Website demo – support HTTP uploads ([@gilest](https://github.com/gilest))
+* [#1023](https://github.com/adopted-ember-addons/ember-file-upload/pull/1023) Use `<template>` tag on docs website ([@gilest](https://github.com/gilest))
+* [#1022](https://github.com/adopted-ember-addons/ember-file-upload/pull/1022) Adjustable upload speed and queue metrics on demo page ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#1031](https://github.com/adopted-ember-addons/ember-file-upload/pull/1031) Move release-it to the root, add root scripts ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* [#1021](https://github.com/adopted-ember-addons/ember-file-upload/pull/1021) Add `lengthComputable: false` event to progress unit tests ([@mkszepp](https://github.com/mkszepp))
+* [#1018](https://github.com/adopted-ember-addons/ember-file-upload/pull/1018) Upgrade ember-cli to 5.4 ([@gilest](https://github.com/gilest))
+
+#### Committers: 3
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- [@mkszepp](https://github.com/mkszepp)
+
 ## v8.3.1 (2023-11-10)
 
 #### :bug: Bug Fix
