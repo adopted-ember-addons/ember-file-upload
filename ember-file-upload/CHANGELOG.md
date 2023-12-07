@@ -5,6 +5,15 @@
 
 
 
+
+## v8.4.1 (2023-12-07)
+
+#### :house: Internal
+* [#1036](https://github.com/adopted-ember-addons/ember-file-upload/pull/1036) Prepare running twice ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v8.4.0 (2023-12-02)
 
 #### :rocket: Enhancement
