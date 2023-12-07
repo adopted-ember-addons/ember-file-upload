@@ -2,7 +2,6 @@
   "private": true,
   "scripts": {
     "ember-try-one": "pnpm -F test-app ember-try-one",
-    "prepare": "pnpm -F ember-file-upload prepare",
     "release": "pnpm prepare && pnpm -F ember-file-upload release",
     "start": "npm-run-all --parallel start:*",
     "start:addon": "pnpm -F ember-file-upload start",
