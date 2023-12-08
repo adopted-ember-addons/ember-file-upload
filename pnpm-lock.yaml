@@ -241,7 +241,7 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2
       ember-file-upload:
-        specifier: 8.4.0
+        specifier: workspace:*
         version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0)
       ember-load-initializers:
         specifier: ^2.1.2
@@ -412,7 +412,7 @@ importers:
         specifier: ^8.1.2
         version: 8.1.2
       ember-file-upload:
-        specifier: 8.4.0
+        specifier: workspace:*
         version: file:ember-file-upload(@ember/test-helpers@3.2.1)(@glimmer/component@1.1.2)(@glimmer/tracking@1.1.2)(@glint/template@1.2.1)(ember-cli-mirage@3.0.2)(ember-modifier@4.1.0)(miragejs@0.1.48)(tracked-built-ins@3.3.0)(webpack@5.89.0)
       ember-intl:
         specifier: ^6.0.0
