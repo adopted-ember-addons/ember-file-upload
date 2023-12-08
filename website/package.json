@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "8.4.1",
+  "version": "0.0.0",
   "private": true,
   "description": "Small description for website goes here",
   "repository": "",
@@ -52,7 +52,7 @@
     "ember-cli-terser": "^4.0.2",
     "ember-concurrency": "^3.0.0",
     "ember-fetch": "^8.1.2",
-    "ember-file-upload": "8.4.1",
+    "ember-file-upload": "workspace:*",
     "ember-intl": "^6.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",

@@ -25,7 +25,7 @@
   "release-it": {
     "plugins": {
       "@release-it-plugins/workspaces": {
-        "publish": false
+        "workspaces": ["ember-file-upload"]
       },
       "@release-it-plugins/lerna-changelog": {
         "infile": "CHANGELOG.md",
