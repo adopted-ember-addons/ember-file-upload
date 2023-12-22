@@ -2451,6 +2451,31 @@ packages:
       ember-template-imports: 3.4.2
     dev: true
 
+  /@glint/environment-ember-template-imports@1.2.1(@glint/environment-ember-loose@1.2.1)(@glint/template@1.2.1)(ember-template-imports@3.4.2):
+    resolution: {integrity: sha512-yTuF8oQyvVKmU3fCuYtg8Gf02VghQYI36x5/eob6yaMx2M+p3MFO+E6X7ANz/1bYRXphEPTWQMgdDjM4C6Ql4A==, tarball: https://registry.npmjs.org/@glint/environment-ember-template-imports/-/environment-ember-template-imports-1.2.1.tgz}
+    peerDependencies:
+      '@glint/environment-ember-loose': ^1.2.1
+      '@glint/template': ^1.2.1
+      '@types/ember__component': ^4.0.10
+      '@types/ember__helper': ^4.0.1
+      '@types/ember__modifier': ^4.0.3
+      '@types/ember__routing': ^4.0.12
+      ember-template-imports: ^3.0.0
+    peerDependenciesMeta:
+      '@types/ember__component':
+        optional: true
+      '@types/ember__helper':
+        optional: true
+      '@types/ember__modifier':
+        optional: true
+      '@types/ember__routing':
+        optional: true
+    dependencies:
+      '@glint/environment-ember-loose': 1.2.1(@glimmer/component@1.1.2)(@glint/template@1.2.1)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.1.0)
+      '@glint/template': 1.2.1
+      ember-template-imports: 3.4.2
+    dev: true
+
   /@glint/template@1.2.1:
     resolution: {integrity: sha512-rlYy/93fAhYjXmTchWcwCpPFMfrqBYEskzbDYawS2oz4DVwtf4fOITLKB0QddQMI7WUCjgXAiIGZqcNa/R4YeQ==}
 
