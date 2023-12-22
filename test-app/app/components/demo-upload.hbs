@@ -1,7 +1,14 @@
-{{#let (file-queue name="photos" onFileAdded=(perform this.uploadProof) onUploadSucceeded=@onUploadSucceeded) as |queue|}}
+{{#let
+  (file-queue
+    name="photos"
+    onFileAdded=(perform this.uploadProof)
+    onUploadSucceeded=@onUploadSucceeded
+  )
+  as |queue|
+}}
   <div class="docs-my-8 text-center">
     <FileDropzone @queue={{queue}} class="demo-dropzone" as |dropzone|>
-      <div class="dropzone-upload-area upload {{if dropzone.active "active"}}">
+      <div class="dropzone-upload-area upload {{if dropzone.active 'active'}}">
         {{#if dropzone.supported}}
           <div class="emoji mb-16">
             {{#if dropzone.active}}
@@ -26,12 +33,14 @@
               accept="image/*,video/*,audio/*"
               multiple
               {{queue.selectFile}}
-            >
+            />
           </label>
         </p>
 
         {{#if queue.files.length}}
-          Uploading {{queue.files.length}} files. ({{queue.progress}}%)
+          Uploading
+          {{queue.files.length}}
+          files. ({{queue.progress}}%)
         {{/if}}
       </div>
     </FileDropzone>
@@ -44,9 +53,15 @@
             {{#if file.file}}
               <div class="mb-4">{{file.file.progress}}%</div>
             {{else if file.isImage}}
-              <img src={{file.preview}} alt={{file.filename}}>
+              <img src={{file.preview}} alt={{file.filename}} />
             {{else if file.isVideo}}
-              <video src={{file.preview}} alt={{file.filename}} muted loop autoplay>
+              <video
+                src={{file.preview}}
+                alt={{file.filename}}
+                muted
+                loop
+                autoplay
+              >
               </video>
             {{/if}}
             <span class="caption">{{file.filename}}</span>
