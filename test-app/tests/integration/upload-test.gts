@@ -2,27 +2,22 @@ import { module, test } from 'qunit';
 import { findAll } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import {
   type MirageTestContext,
   setupMirage,
 } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
-import { type Asset } from 'test-app/components/demo-upload';
+import DemoUpload, { type Asset } from 'test-app/components/demo-upload';
 import getImageBlob from 'test-app/tests/helpers/get-image-blob';
-
-interface LocalTestContext extends MirageTestContext {
-  files: TrackedArray<Asset>;
-}
 
 module('Integration | upload', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('upload works for File', async function (this: LocalTestContext, assert) {
-    this.files = new TrackedArray([]);
-    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
+  test('upload works for File', async function (this: MirageTestContext, assert) {
+    const files: Asset[] = new TrackedArray([]);
+    await render(<template><DemoUpload @files={{files}} /></template>);
 
     const data = await getImageBlob();
 
@@ -43,9 +38,9 @@ module('Integration | upload', function (hooks) {
     );
   });
 
-  test('upload works for Blob', async function (this: LocalTestContext, assert) {
-    this.files = new TrackedArray([]);
-    await render<LocalTestContext>(hbs`<DemoUpload @files={{this.files}} />`);
+  test('upload works for Blob', async function (this: MirageTestContext, assert) {
+    const files: Asset[] = new TrackedArray([]);
+    await render(<template><DemoUpload @files={{files}} /></template>);
 
     const photo = await getImageBlob();
 
