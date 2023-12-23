@@ -8,7 +8,7 @@ import {
   setupMirage,
 } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
-import DemoUpload, { type Asset } from 'test-app/components/demo-upload';
+import DemoUpload from 'test-app/components/demo-upload';
 import getImageBlob from 'test-app/tests/helpers/get-image-blob';
 
 module('Integration | upload', function (hooks) {
@@ -16,7 +16,7 @@ module('Integration | upload', function (hooks) {
   setupMirage(hooks);
 
   test('upload works for File', async function (this: MirageTestContext, assert) {
-    const files: Asset[] = new TrackedArray([]);
+    const files = new TrackedArray([]);
     await render(<template><DemoUpload @files={{files}} /></template>);
 
     const data = await getImageBlob();
@@ -39,7 +39,7 @@ module('Integration | upload', function (hooks) {
   });
 
   test('upload works for Blob', async function (this: MirageTestContext, assert) {
-    const files: Asset[] = new TrackedArray([]);
+    const files = new TrackedArray([]);
     await render(<template><DemoUpload @files={{files}} /></template>);
 
     const photo = await getImageBlob();
