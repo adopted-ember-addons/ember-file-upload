@@ -10,15 +10,11 @@ Uploads can be managed through queues and continue in the background, even after
 
 ## Compatibility
 
-* Ember.js 3.25 or above
+* Ember.js 3.28 or above
 * TypeScript 5.0 or above
 * ember-auto-import 2.0 or above
-* Ember CLI v2.13 or above
-* Node.js v16 or above
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
 * Strict Content Security Policy (CSP) except for mirage route handlers, which require `data:` protocol to be included in `image-src` and `media-src` directives.
-
-For Ember.js < 3.25 use 4.x which is documented by [Legacy docs](https://adopted-ember-addons.github.io/ember-file-upload/docs/).
 
 ## Upgrading
 

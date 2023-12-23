@@ -203,16 +203,6 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('will be notified when an upload fails', async function (this: LocalContext, assert) {
     assert.expect(5);
 
-    // Required for Ember 3.25 run only
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (window.Ember) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      window.Ember.onerror = function () {};
-    }
-
     this.server.post(
       '/upload-file',
       uploadHandler(() => new MirageResponse(500)),
