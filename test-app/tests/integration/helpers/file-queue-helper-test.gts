@@ -199,7 +199,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.verifySteps(['upload succeeded']);
   });
 
-  test('will be notified when an upload fails', async function (this: LocalContext, assert) {
+  test('will be notified when an upload fails', async function (this: MirageTestContext, assert) {
     this.server.post(
       '/upload-file',
       uploadHandler(() => new MirageResponse(500)),

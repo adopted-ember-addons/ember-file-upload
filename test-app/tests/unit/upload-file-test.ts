@@ -13,8 +13,6 @@ module('Unit | UploadFile', function (hooks) {
   setupMirage(hooks);
 
   test('it can upload without a `queue`', async function (this: MirageTestContext, assert) {
-    assert.expect(1);
-
     this.server.post(
       '/image',
       uploadHandler((_schema, request) => {

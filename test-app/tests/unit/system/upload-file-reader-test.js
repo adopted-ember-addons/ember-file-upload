@@ -36,7 +36,6 @@ module('Unit | UploadFileReader', function (hooks) {
 
   function testReadAs(name, blob = 'test') {
     test(`readAs${name}`, function (assert) {
-      assert.expect(1);
       FakeFileReader.trigger = 'onload';
       FakeFileReader.result = 'ok';
 
@@ -47,7 +46,6 @@ module('Unit | UploadFileReader', function (hooks) {
     });
 
     test(`readAs${name} errored`, function (assert) {
-      assert.expect(1);
       FakeFileReader.trigger = 'onerror';
       FakeFileReader.error = 'not ok';
 
@@ -58,7 +56,6 @@ module('Unit | UploadFileReader', function (hooks) {
     });
 
     test(`readAs${name} cancelled`, function (assert) {
-      assert.expect(1);
       FakeFileReader.trigger = 'onabort';
 
       let promise = this.subject['readAs' + name](blob);

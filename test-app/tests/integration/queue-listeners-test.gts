@@ -71,7 +71,7 @@ module('Integration | queue listeners', function (hooks) {
   });
 
   test('attaches and detaches onFileAdd from queue', async function (this: TestContext, assert) {
-    const { state, queue } = setupState.bind(this)();
+    const { state } = setupState.bind(this)();
 
     const firstOnFileAdd = (file: UploadFile) => {
       assert.step(`first component: ${file?.name}`);
