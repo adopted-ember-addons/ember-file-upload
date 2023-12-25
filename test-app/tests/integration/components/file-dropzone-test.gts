@@ -13,10 +13,6 @@ import fileQueue from 'ember-file-upload/helpers/file-queue';
 
 interface LocalTestContext extends TestContext {
   queue: Queue;
-  // filter: (file: File, files: File[], index: number) => boolean;
-  // onDragEnter: (files: File[]) => void;
-  // onDragLeave: (files: File[]) => void;
-  // onDrop: (files: UploadFile[]) => void;
 }
 
 module('Integration | Component | FileDropzone', function (hooks) {
@@ -103,7 +99,6 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('yielded properties', async function (this: LocalTestContext, assert) {
-    const queue = this.queue;
     await render(<template>
       {{#let (fileQueue name='test') as |helperQueue|}}
         <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
