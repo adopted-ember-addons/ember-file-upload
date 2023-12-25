@@ -1,20 +1,17 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { selectFiles } from 'ember-file-upload/test-support';
 import {
   type MirageTestContext,
   setupMirage,
 } from 'ember-cli-mirage/test-support';
 import { TrackedArray } from 'tracked-built-ins';
-import { type Asset } from 'test-app/components/demo-upload';
 import type Owner from '@ember/owner';
 import getImageBlob from 'test-app/tests/helpers/get-image-blob';
+import DemoUpload from 'test-app/components/demo-upload';
 
 interface LocalTestContext extends MirageTestContext {
-  files: TrackedArray<Asset>;
-  uploadSucceeded: () => void;
   owner: Owner;
 }
 
@@ -34,7 +31,7 @@ module('Integration | progress', function (hooks) {
   setupMirage(hooks);
 
   test('regression: uploading files in sequence', async function (this: LocalTestContext, assert) {
-    this.files = new TrackedArray([]);
+    const files = new TrackedArray([]);
     const queue = this.owner
       .lookup('service:file-queue')
       .findOrCreate('photos');
@@ -44,7 +41,7 @@ module('Integration | progress', function (hooks) {
       new FileTracker(),
       new FileTracker(),
     ];
-    this.uploadSucceeded = () => {
+    const uploadSucceeded = () => {
       for (const file of [firstFile, secondFile, thirdFile]) {
         if (file.isCompleted) continue;
 
@@ -53,12 +50,9 @@ module('Integration | progress', function (hooks) {
       }
     };
 
-    await render<LocalTestContext>(
-      hbs`<DemoUpload
-        @files={{this.files}}
-        @onUploadSucceeded={{this.uploadSucceeded}}
-      />`,
-    );
+    await render(<template>
+      <DemoUpload @files={{files}} @onUploadSucceeded={{uploadSucceeded}} />
+    </template>);
 
     const data = await getImageBlob();
 

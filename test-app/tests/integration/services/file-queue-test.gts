@@ -1,40 +1,34 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled, type TestContext } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { UploadFile, FileSource } from 'ember-file-upload';
-import type FileQueueService from 'ember-file-upload/services/file-queue';
-
-interface LocalTestContext extends TestContext {
-  subject: FileQueueService;
-}
 
 module('Integration | Service | file queue', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('files is reactive', async function (this: LocalTestContext, assert) {
-    this.subject = this.owner.lookup('service:file-queue') as FileQueueService;
+  test('files is reactive', async function (this: TestContext, assert) {
+    const subject = this.owner.lookup('service:file-queue');
 
-    const existingQueue = this.subject.create('existing-queue');
+    const existingQueue = subject.create('existing-queue');
     const existingQueueFile = new UploadFile(
       new File([], 'existing-queue-file.txt'),
       FileSource.Browse,
     );
     existingQueue.add(existingQueueFile);
 
-    await render<LocalTestContext>(hbs`
-      <div id="files">
-        {{#each this.subject.files as |file|}}
+    await render(<template>
+      <div id='files'>
+        {{#each subject.files as |file|}}
           {{file.name}}
         {{/each}}
       </div>
-    `);
+    </template>);
 
     assert
       .dom('#files')
       .containsText('existing-queue-file.txt', 'renders existing queue file');
 
-    const newQueue = this.subject.create('new-queue');
+    const newQueue = subject.create('new-queue');
     const newQueueFile = new UploadFile(
       new File([], 'new-queue-file.txt'),
       FileSource.Browse,

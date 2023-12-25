@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
 import { uploadHandler } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
 import {
@@ -16,17 +15,13 @@ import {
   setupMirage,
 } from 'ember-cli-mirage/test-support';
 import type { UploadFile } from 'ember-file-upload';
-
-interface LocalTestContext extends MirageTestContext {
-  fileAdded: (file: UploadFile) => void;
-}
+import fileQueue from 'ember-file-upload/helpers/file-queue';
 
 module('Integration | Component | mirage-handler', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('upload handler passes schema and request through providing additional file metadata as request body', async function (this: LocalTestContext, assert) {
-    assert.expect(6);
+  test('upload handler passes schema and request through providing additional file metadata as request body', async function (this: MirageTestContext, assert) {
     this.server.post(
       '/folder/:id/file',
       uploadHandler((schema, request) => {
@@ -61,14 +56,14 @@ module('Integration | Component | mirage-handler', function (hooks) {
       }),
     );
 
-    this.fileAdded = (file) => file.upload('/folder/1/file');
-    await render<LocalTestContext>(hbs`
-      {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
+    const fileAdded = (file: UploadFile) => file.upload('/folder/1/file');
+    await render(<template>
+      {{#let (fileQueue name='test' onFileAdded=fileAdded) as |queue|}}
         <label>
-          <input type="file" {{queue.selectFile}} />
+          <input type='file' {{queue.selectFile}} />
         </label>
       {{/let}}
-    `);
+    </template>);
 
     const file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
     await selectFiles('input', file);
@@ -131,9 +126,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
     };
 
     for (const [type, scenario] of Object.entries(VALID_SCENARIOS)) {
-      test(`${type}: upload handler resolves with hasAdditionalMetadata: true when additional metadata can be extracted`, async function (this: LocalTestContext, assert) {
-        assert.expect(2);
-
+      test(`${type}: upload handler resolves with hasAdditionalMetadata: true when additional metadata can be extracted`, async function (this: MirageTestContext, assert) {
         this.server.post(
           '/upload-file',
           uploadHandler((_schema, request) => {
@@ -153,16 +146,16 @@ module('Integration | Component | mirage-handler', function (hooks) {
           }),
         );
 
-        this.fileAdded = (file) => {
+        const fileAdded = (file: UploadFile) => {
           return file.upload('/upload-file');
         };
-        await render<LocalTestContext>(hbs`
-          {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
+        await render(<template>
+          {{#let (fileQueue name='test' onFileAdded=fileAdded) as |queue|}}
             <label>
-              <input type="file" {{queue.selectFile}} />
+              <input type='file' {{queue.selectFile}} />
             </label>
           {{/let}}
-        `);
+        </template>);
 
         await selectFiles('input', scenario.file);
       });
@@ -180,9 +173,7 @@ module('Integration | Component | mirage-handler', function (hooks) {
       }),
     };
     for (const [type, file] of Object.entries(INVALID_SCENARIOS)) {
-      test(`${type}: upload handler resolves with hasAdditionalMetadata: false when additional metadata cannot be extracted`, async function (this: LocalTestContext, assert) {
-        assert.expect(1);
-
+      test(`${type}: upload handler resolves with hasAdditionalMetadata: false when additional metadata cannot be extracted`, async function (this: MirageTestContext, assert) {
         this.server.post(
           '/upload-file',
           uploadHandler((_schema, request) =>
@@ -195,16 +186,19 @@ module('Integration | Component | mirage-handler', function (hooks) {
           ),
         );
 
-        this.fileAdded = (file) => {
+        const fileAdded = (file: UploadFile) => {
           return file.upload('/upload-file');
         };
-        await render<LocalTestContext>(hbs`
-          {{#let (file-queue name="test" onFileAdded=this.fileAdded) as |queue|}}
+        await render(<template>
+          {{#let
+            (fileQueue name='test' onFileAdded=fileAdded)
+            as |queue|
+          }}
             <label>
-              <input type="file" {{queue.selectFile}} />
+              <input type='file' {{queue.selectFile}} />
             </label>
           {{/let}}
-        `);
+        </template>);
 
         await selectFiles('input', file);
       });

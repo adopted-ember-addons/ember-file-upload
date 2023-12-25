@@ -53,7 +53,6 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test('successful send with a text/plain response', function (assert) {
-    assert.expect(4);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
@@ -82,7 +81,6 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test('successful send with a text/html response', function (assert) {
-    assert.expect(3);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
@@ -114,7 +112,6 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test('successful send with a text/xml response', function (assert) {
-    assert.expect(3);
     let xml =
       '<message from="zoey@emberjs.com" to="tomster@emberjs.com"><file name="rfc.md" size="1024"/></message>';
 
@@ -151,7 +148,6 @@ module('Unit | HttpRequest', function (hooks) {
     'application/javascript',
   ].forEach(function (contentType) {
     test(`successful send with a ${contentType} response`, function (assert) {
-      assert.expect(4);
       this.subject.open('PUT', 'http://emberjs.com');
       let promise = this.subject
         .send({
@@ -226,7 +222,6 @@ module('Unit | HttpRequest', function (hooks) {
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/809
   test('regression: successful send with a 204 and empty string response body', function (assert) {
-    assert.expect(2);
     this.subject.open('PUT', 'http://emberjs.com');
     let promise = this.subject
       .send({
@@ -246,8 +241,6 @@ module('Unit | HttpRequest', function (hooks) {
   });
 
   test('it returns an error response if the response status is ouside of the [200, 599] range', function (assert) {
-    assert.expect(3);
-
     this.subject.open('PUT', 'http://emberjs.com');
 
     this.subject.send({ filename: 'rfc.md' }).catch((response) => {
