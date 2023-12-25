@@ -11,7 +11,10 @@ import {
   ogg,
   png,
 } from 'test-app/tests/utils/file-data';
-import { type MirageTestContext, setupMirage } from 'ember-cli-mirage/test-support';
+import {
+  type MirageTestContext,
+  setupMirage,
+} from 'ember-cli-mirage/test-support';
 import type { UploadFile } from 'ember-file-upload';
 
 interface LocalTestContext extends MirageTestContext {
