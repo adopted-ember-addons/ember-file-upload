@@ -124,6 +124,7 @@ export default class DemoUploadComponent extends Component {
     {{#let (fileQueue name='demo' onFileAdded=this.addToQueue) as |queue|}}
       <FileDropzone
         @queue={{queue}}
+        @allowFolderDrop={{true}}
         class='demo-upload__dropzone'
         as |dropzone|
       >

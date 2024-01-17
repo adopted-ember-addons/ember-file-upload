@@ -66,4 +66,37 @@ module('Unit | DataTransferWrapper', function (hooks) {
     };
     assert.strictEqual(this.subject.filesOrItems.length, 2);
   });
+
+  test('directory dropped', async function (assert) {
+    const transfer = {
+      items: [
+        folderItem('directory-name', [
+          new File([], 'fileName.txt'),
+          new File([], 'otherFileName.txt'),
+        ]),
+      ],
+    };
+    this.subject.dataTransfer = transfer;
+    assert.strictEqual((await this.subject.getFilesAndDirectories()).length, 3);
+  });
+
+  const folderItem = (folderName, filesInDirectory) => ({
+    webkitGetAsEntry: () => ({
+      isDirectory: true,
+      createReader: () => ({
+        readEntries: (callback) => {
+          const entryFiles = filesInDirectory.map((file) => {
+            return {
+              isFile: true,
+              file: (callback) => {
+                callback(file);
+              },
+            };
+          });
+          callback(entryFiles);
+        },
+      }),
+    }),
+    getAsFile: () => new File([], folderName, { type: '' }),
+  });
 });

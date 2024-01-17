@@ -71,7 +71,7 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
       as |queue|
     }}
       <div class='docs-my-8 text-center'>
-        <FileDropzone @queue={{queue}} class='demo-dropzone' as |dropzone|>
+        <FileDropzone @queue={{queue}} @allowFolderDrop={{true}} class='demo-dropzone' as |dropzone|>
           <div
             class='dropzone-upload-area upload {{if dropzone.active "active"}}'
           >
