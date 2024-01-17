@@ -65,6 +65,10 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
     return this.args.multiple ?? true;
   }
 
+  get allowFolderDrop() {
+    return this.args.allowFolderDrop ?? false;
+  }
+
   get files(): File[] {
     const files = this.dataTransferWrapper?.files ?? [];
     if (this.multiple) return files;
@@ -134,7 +138,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
   }
 
   @action
-  didDrop(event: FileUploadDragEvent) {
+  async didDrop(event: FileUploadDragEvent) {
     if (this.dataTransferWrapper) {
       this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
@@ -219,9 +223,15 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
     // }
 
     if (this.dataTransferWrapper) {
-      const addedFiles = this.addFiles(this.files);
-      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
+      let files;
+      if (this.allowFolderDrop) {
+        files = await this.dataTransferWrapper.getFilesAndDirectories();
+      } else {
+        files = this.files;
+      }
 
+      const addedFiles = this.addFiles(files);
+      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
       this.active = false;
       this.dataTransferWrapper = undefined;
     }

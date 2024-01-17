@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent, type TestContext } from '@ember/test-helpers';
 import {
   dragAndDrop,
+  dragAndDropDirectory,
   dragEnter,
   dragLeave,
 } from 'ember-file-upload/test-support';
@@ -177,6 +178,28 @@ module('Integration | Component | FileDropzone', function (hooks) {
     );
 
     assert.verifySteps(['dingus.txt']);
+  });
+
+  test('allowFolderDrop=true allows dropping a directory and reads out the content', async function (this: LocalTestContext, assert) {
+    const queue = this.queue;
+    const onDrop = (files: UploadFile[]) => {
+      files.forEach((file) => assert.step(file.name));
+    };
+
+    await render(<template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @allowFolderDrop={{true}}
+          @onDrop={{onDrop}} />
+      </template>);
+
+    await dragAndDropDirectory('.test-dropzone', 'directory-name', [
+      new File([], 'dingus.txt'),
+      new File([], 'dingus.png'),
+    ]);
+
+    assert.verifySteps(['directory-name', 'dingus.txt', 'dingus.png']);
   });
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
