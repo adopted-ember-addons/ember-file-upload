@@ -6,6 +6,23 @@
 
 
 
+
+## v9.0.0 (2024-01-19)
+
+#### :boom: Breaking Change
+* [#1050](https://github.com/adopted-ember-addons/ember-file-upload/pull/1050) Drop support for Ember 3.25 ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#1059](https://github.com/adopted-ember-addons/ember-file-upload/pull/1059) Document historic v5 removal – dragging images from other browser windows and `@allowUploadsFromWebsites` ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#1049](https://github.com/adopted-ember-addons/ember-file-upload/pull/1049) Migrate all tests to "strict mode" ([@gilest](https://github.com/gilest))
+* [#1048](https://github.com/adopted-ember-addons/ember-file-upload/pull/1048) Setup `ember-template-imports` in test app ([@gilest](https://github.com/gilest))
+* [#1039](https://github.com/adopted-ember-addons/ember-file-upload/pull/1039) Improve release config ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v8.4.1 (2023-12-07)
 
 #### :house: Internal
