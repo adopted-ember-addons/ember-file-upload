@@ -134,6 +134,7 @@ This technique is not necessarily endorsed, but it may be replicated with the fo
 
 - `@accept` has been removed in favour of [Custom validation](file-validation.md#custom-validation).
 - `@disabled` has been removed. Disable uploads in your application code.
+- `@allowUploadsFromWebsites` has been removed. Dragging images from other browser windows is no longer supported.
 - `@name` has been deprecated in favour of passing a queue directly via `@queue`.
 - `@onFileAdd` has been deprecated. Use `onFileAdded` with `{{file-queue}}` helper or `@onDrop`.
 - HTML attributes are be applied to the Dropzone element.
