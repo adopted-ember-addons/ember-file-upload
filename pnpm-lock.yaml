@@ -379,8 +379,8 @@ importers:
         specifier: ^8.2.2
         version: 8.2.2
       date-fns:
-        specifier: ^2.30.0
-        version: 2.30.0
+        specifier: ^3.0.0
+        version: 3.0.0
       ember-auto-import:
         specifier: ^2.6.3
         version: 2.7.2(@glint/template@1.2.2)(webpack@5.89.0)
@@ -5607,6 +5607,10 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.23.7
+    dev: true
+
+  /date-fns@3.0.0:
+    resolution: {integrity: sha512-xjDz3rNN9jp+Lh3P/4MeY4E5HkaRnEnrJCcrdRZnKdn42gJlIe6hwrrwVXePRwVR2kh1UcMnz00erYBnHF8PFA==}
     dev: true
 
   /date-time@2.1.0:
