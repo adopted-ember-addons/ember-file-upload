@@ -349,8 +349,8 @@ importers:
         specifier: ^7.23.2
         version: 7.23.7(@babel/core@7.23.7)
       '@docfy/ember':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.8.0
+        version: 0.8.0(@babel/core@7.23.7)
       '@ember/optional-features':
         specifier: ^2.0.0
         version: 2.0.0
@@ -1799,8 +1799,8 @@ packages:
       postcss-selector-parser: 6.0.15
     dev: true
 
-  /@docfy/core@0.7.0:
-    resolution: {integrity: sha512-7FRhToPy+jsVlq/8ESmfjcF6Y+AoAjht6fTBLUSxNGzXt3FsPLK6XkfZitfubyZLs/BNhO9l2NYNnKsmLTMciw==}
+  /@docfy/core@0.8.0:
+    resolution: {integrity: sha512-QQ3qLzXVJIOiULe8ebccX8RvtftDYl0DItYRe1R5qF7Q0JInF+JkX2XcTe6sy14i1sZXDvim+JnlpsKdjDC+Gg==}
     engines: {node: '>= 12.*'}
     dependencies:
       debug: 4.3.4
@@ -1827,11 +1827,11 @@ packages:
       - supports-color
     dev: true
 
-  /@docfy/ember@0.7.0:
-    resolution: {integrity: sha512-tnDsaKmGxjhRuWtpgH0AY9DTdL4M4fxPPVCGGnb4oQIpDYodfzhER7YjRiFZ2KLUMJ8rsNiuBMUxPeFwV9W7HA==}
+  /@docfy/ember@0.8.0(@babel/core@7.23.7):
+    resolution: {integrity: sha512-Wcvx/UAFOrhjNiYNEnd92ICU12UEMl8QItiQCj8zytBFbxZ9Ta/+vz/xNMbAohbuQ0k/YGfAivCdAOQWxDwgqg==}
     engines: {node: '>= 12'}
     dependencies:
-      '@docfy/core': 0.7.0
+      '@docfy/core': 0.8.0
       broccoli-bridge: 1.0.0
       broccoli-file-creator: 2.1.1
       broccoli-funnel: 3.0.8
@@ -1841,7 +1841,7 @@ packages:
       broccoli-source: 3.0.1
       calculate-cache-key-for-tree: 2.0.0
       debug: 4.3.4
-      ember-cli-babel: 7.26.11
+      ember-cli-babel: 8.2.0(@babel/core@7.23.7)
       ember-cli-htmlbars: 6.3.0
       ember-cli-typescript: 4.2.1
       ember-get-config: 1.1.0
@@ -1851,6 +1851,7 @@ packages:
       unist-util-find: 1.0.4
       unist-util-visit: 2.0.3
     transitivePeerDependencies:
+      - '@babel/core'
       - '@glint/template'
       - supports-color
     dev: true
