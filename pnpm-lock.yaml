@@ -268,8 +268,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       ember-template-imports:
-        specifier: ^3.0.0
-        version: 3.4.2
+        specifier: ^4.0.0
+        version: 4.0.0
       ember-template-lint:
         specifier: ^5.11.2
         version: 5.13.0
