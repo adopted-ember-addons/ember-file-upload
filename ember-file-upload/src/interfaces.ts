@@ -121,7 +121,7 @@ export interface FileDropzoneSignature {
 
     /**
      *
-     * Wether users can drop folders into the dropzone
+     * Whether users can drop folders into the dropzone
      *
      * @defaulValue false
      * */
