@@ -2,6 +2,10 @@ import type { FileUploadDragEvent } from '../interfaces.ts';
 
 const getDataSupport = {};
 
+interface FutureProofDataTransferItem extends DataTransferItem {
+  getAsEntry?: () => FileSystemDirectoryEntry;
+}
+
 export default class DataTransferWrapper {
   dataTransfer?: DataTransfer;
   itemDetails?: FileUploadDragEvent['itemDetails'];
@@ -58,9 +62,21 @@ export default class DataTransferWrapper {
       });
     };
 
+    const getEntry = (
+      item: FutureProofDataTransferItem,
+    ): FileSystemDirectoryEntry => {
+      // In the future this method name might change, so already implementing it like this if needed
+      // https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
+      if (typeof item.getAsEntry === 'function') {
+        return item.getAsEntry();
+      }
+
+      return item.webkitGetAsEntry() as FileSystemDirectoryEntry;
+    };
+
     const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
       new Promise((resolve) => {
-        (item.webkitGetAsEntry() as FileSystemDirectoryEntry)
+        getEntry(item)
           ?.createReader()
           ?.readEntries(async (entries: FileSystemEntry[]) => {
             const readFiles: File[] = await Promise.all(
@@ -75,7 +91,7 @@ export default class DataTransferWrapper {
     const readDataTransferItem = async (
       item: DataTransferItem,
     ): Promise<File[]> => {
-      if (item.webkitGetAsEntry()?.isDirectory) {
+      if (getEntry(item)?.isDirectory) {
         const directoryFile = item.getAsFile() as File;
         const filesInDirectory: File[] = await readAllFilesInDirectory(item);
         return [directoryFile, ...filesInDirectory];
