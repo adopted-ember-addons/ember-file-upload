@@ -35,7 +35,7 @@
     "@embroider/macros": "^1.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "@picocss/pico": "^1.4.3",
+    "@picocss/pico": "^2.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.2",
     "date-fns": "^3.0.0",

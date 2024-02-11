@@ -370,8 +370,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
       '@picocss/pico':
-        specifier: ^1.4.3
-        version: 1.5.11
+        specifier: ^2.0.0
+        version: 2.0.0
       broccoli-asset-rev:
         specifier: ^3.0.0
         version: 3.0.0
@@ -2704,8 +2704,9 @@ packages:
       '@octokit/openapi-types': 19.1.0
     dev: true
 
-  /@picocss/pico@1.5.11:
-    resolution: {integrity: sha512-cDaFiSyNPtuSTwSQt/05xsw8+g2ek4/S58tgh9Nc7miJCCdUrY9PAyl4OPWRJtYgJDdEvkUA9GuGj0J4nDP4Cw==}
+  /@picocss/pico@2.0.0:
+    resolution: {integrity: sha512-LYg6xfmP3tBeciIiAzH3PF6bM8oPJTl2idDKHuot1RQdc9v2MZsaiF3B6jW9MIPuTFPlzelwnuuYZSp28MU10w==}
+    engines: {node: '>=18.19.0'}
     dev: true
 
   /@pkgjs/parseargs@0.11.0:
