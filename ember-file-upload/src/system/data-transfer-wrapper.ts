@@ -1,10 +1,62 @@
 import type { FileUploadDragEvent } from '../interfaces.ts';
 
+interface FutureProofDataTransferItem extends DataTransferItem {
+  getAsEntry?: () => FileSystemDirectoryEntry | null;
+}
+
 const getDataSupport = {};
 
-interface FutureProofDataTransferItem extends DataTransferItem {
-  getAsEntry?: () => FileSystemDirectoryEntry;
-}
+const readEntry = (entry: FileSystemEntry): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    if (entry.isFile) {
+      (entry as FileSystemFileEntry).file((fileEntry: File) => {
+        resolve(fileEntry);
+      });
+    } else {
+      reject('Directory contains nested directories');
+    }
+  });
+};
+
+const getEntry = (
+  item: FutureProofDataTransferItem,
+): FileSystemDirectoryEntry => {
+  // In the future this method name might change, so already implementing it like this if needed
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
+  return (
+    item.getAsEntry?.() ?? (item.webkitGetAsEntry() as FileSystemDirectoryEntry)
+  );
+};
+
+const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
+  new Promise((resolve, reject) => {
+    const entry = getEntry(item);
+    if (!entry) {
+      reject('Could not read directory');
+    }
+
+    entry?.createReader()?.readEntries(async (entries: FileSystemEntry[]) => {
+      const readFiles: File[] = await Promise.all(entries.map(readEntry)).catch(
+        (err) => {
+          throw err;
+        },
+      );
+      resolve(readFiles.filter(Boolean) as File[]);
+    });
+  });
+
+const readDataTransferItem = async (
+  item: DataTransferItem,
+): Promise<File[]> => {
+  if (getEntry(item)?.isDirectory) {
+    const directoryFile = item.getAsFile() as File;
+    const filesInDirectory: File[] = await readAllFilesInDirectory(item);
+    return [directoryFile, ...filesInDirectory];
+  } else {
+    const fileItem = item.getAsFile() as File;
+    return [fileItem];
+  }
+};
 
 export default class DataTransferWrapper {
   dataTransfer?: DataTransfer;
@@ -48,59 +100,6 @@ export default class DataTransferWrapper {
   }
 
   async getFilesAndDirectories() {
-    const files: File[] = [];
-
-    const readEntry = async (entry: FileSystemEntry): Promise<File> => {
-      return new Promise((resolve, reject) => {
-        if (entry.isFile) {
-          (entry as FileSystemFileEntry).file((fileEntry: File) => {
-            resolve(fileEntry);
-          });
-        } else {
-          reject('Directory contains nested directories');
-        }
-      });
-    };
-
-    const getEntry = (
-      item: FutureProofDataTransferItem,
-    ): FileSystemDirectoryEntry => {
-      // In the future this method name might change, so already implementing it like this if needed
-      // https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
-      if (typeof item.getAsEntry === 'function') {
-        return item.getAsEntry();
-      }
-
-      return item.webkitGetAsEntry() as FileSystemDirectoryEntry;
-    };
-
-    const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
-      new Promise((resolve) => {
-        getEntry(item)
-          ?.createReader()
-          ?.readEntries(async (entries: FileSystemEntry[]) => {
-            const readFiles: File[] = await Promise.all(
-              entries.map(readEntry),
-            ).catch((err) => {
-              throw err;
-            });
-            resolve(readFiles.filter((file) => file !== undefined) as File[]);
-          });
-      });
-
-    const readDataTransferItem = async (
-      item: DataTransferItem,
-    ): Promise<File[]> => {
-      if (getEntry(item)?.isDirectory) {
-        const directoryFile = item.getAsFile() as File;
-        const filesInDirectory: File[] = await readAllFilesInDirectory(item);
-        return [directoryFile, ...filesInDirectory];
-      } else {
-        const fileItem = item.getAsFile() as File;
-        return [fileItem];
-      }
-    };
-
     if (this.dataTransfer?.items) {
       const allFilesInDataTransferItems: File[][] = await Promise.all(
         Array.from(this.dataTransfer?.items).map(readDataTransferItem),
@@ -113,13 +112,11 @@ export default class DataTransferWrapper {
         [],
       );
 
-      files.push(...flattenedFileArray);
+      return flattenedFileArray;
     } else {
       const droppedFiles: File[] = Array.from(this.dataTransfer?.files ?? []);
-      files.push(...droppedFiles);
+      return droppedFiles;
     }
-
-    return files;
   }
 
   get files() {

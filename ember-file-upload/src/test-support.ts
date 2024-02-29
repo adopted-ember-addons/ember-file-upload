@@ -97,12 +97,12 @@ interface FileSystemEntryStub {
 }
 
 export async function dragAndDropDirectory(
-  selector: string,
+  target: string | HTMLElement,
   folderName: string,
   filesInDirectory: (File | Blob)[],
   ...singleFiles: (File | Blob)[]
 ) {
-  const dropzone = find(selector);
+  const dropzone = target instanceof HTMLElement ? target : find(target);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
     'All files must be instances of File/Blob type',
