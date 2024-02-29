@@ -6,14 +6,14 @@ interface FutureProofDataTransferItem extends DataTransferItem {
 
 const getDataSupport = {};
 
+// this will read a filesystementry into a File object, but ignore the entry if it is a directory
 const readEntry = (entry: FileSystemEntry): Promise<File> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
+    console.log('read entry', entry);
     if (entry.isFile) {
       (entry as FileSystemFileEntry).file((fileEntry: File) => {
         resolve(fileEntry);
       });
-    } else {
-      reject('Directory contains nested directories');
     }
   });
 };
@@ -28,6 +28,7 @@ const getEntry = (
   );
 };
 
+// this will read all the files directly in the given directory, but ignore any nested directory entries and the files therein.
 const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
   new Promise((resolve, reject) => {
     const entry = getEntry(item);
@@ -49,9 +50,7 @@ const readDataTransferItem = async (
   item: DataTransferItem,
 ): Promise<File[]> => {
   if (getEntry(item)?.isDirectory) {
-    const directoryFile = item.getAsFile() as File;
-    const filesInDirectory: File[] = await readAllFilesInDirectory(item);
-    return [directoryFile, ...filesInDirectory];
+    return readAllFilesInDirectory(item);
   } else {
     const fileItem = item.getAsFile() as File;
     return [fileItem];

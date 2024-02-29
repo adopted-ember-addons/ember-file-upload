@@ -98,9 +98,8 @@ interface FileSystemEntryStub {
 
 export async function dragAndDropDirectory(
   target: string | HTMLElement,
-  folderName: string,
   filesInDirectory: (File | Blob)[],
-  ...singleFiles: (File | Blob)[]
+  singleFiles: (File | Blob)[],
 ) {
   const dropzone = target instanceof HTMLElement ? target : find(target);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
@@ -126,7 +125,6 @@ export async function dragAndDropDirectory(
         },
       }),
     }),
-    getAsFile: () => new File([], folderName, { type: '' }),
   };
 
   const singleFileItem = (singleFile: File | Blob) => ({

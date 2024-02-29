@@ -77,7 +77,7 @@ module('Unit | DataTransferWrapper', function (hooks) {
       ],
     };
     this.subject.dataTransfer = transfer;
-    assert.strictEqual((await this.subject.getFilesAndDirectories()).length, 3);
+    assert.strictEqual((await this.subject.getFilesAndDirectories()).length, 2);
   });
 
   const folderItem = (folderName, filesInDirectory) => ({

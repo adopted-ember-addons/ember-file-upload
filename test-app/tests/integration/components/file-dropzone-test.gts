@@ -194,12 +194,13 @@ module('Integration | Component | FileDropzone', function (hooks) {
           @onDrop={{onDrop}} />
       </template>);
 
-    await dragAndDropDirectory('.test-dropzone', 'directory-name', [
-      new File([], 'dingus.txt'),
-      new File([], 'dingus.png'),
-    ]);
+    await dragAndDropDirectory(
+      '.test-dropzone',
+      [new File([], 'dingus.txt'), new File([], 'dingus.png')],
+      [new File([], 'dongus.text')],
+    );
 
-    assert.verifySteps(['directory-name', 'dingus.txt', 'dingus.png']);
+    assert.verifySteps(['dingus.txt', 'dingus.png', 'dongus.text']);
   });
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
