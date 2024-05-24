@@ -9,7 +9,6 @@ const getDataSupport = {};
 // this will read a filesystementry into a File object, but ignore the entry if it is a directory
 const readEntry = (entry: FileSystemEntry): Promise<File> => {
   return new Promise((resolve) => {
-    console.log('read entry', entry);
     if (entry.isFile) {
       (entry as FileSystemFileEntry).file((fileEntry: File) => {
         resolve(fileEntry);
