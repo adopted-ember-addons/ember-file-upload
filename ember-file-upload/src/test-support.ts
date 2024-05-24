@@ -98,19 +98,32 @@ interface FileSystemEntryStub {
 
 export async function dragAndDropDirectory(
   target: string | HTMLElement,
+  folderName: string,
   filesInDirectory: (File | Blob)[],
-  singleFiles: (File | Blob)[],
+  singleFiles?: (File | Blob)[],
 ) {
   const dropzone = target instanceof HTMLElement ? target : find(target);
   assert(`Selector '${dropzone}' could not be found.`, dropzone);
   assert(
-    'All files must be instances of File/Blob type',
+    'filesInDirectory must be an array',
+    filesInDirectory instanceof Array,
+  );
+  assert(
+    'All files in directory must be instances of File/Blob type',
     filesInDirectory.every((file) => file instanceof Blob),
   );
+  if (singleFiles) {
+    assert('singleFiles must be an array', singleFiles instanceof Array);
+    assert(
+      'All added singleFiles must be instances of File/Blob type',
+      singleFiles.every((file) => file instanceof Blob),
+    );
+  }
 
   const folderItem = {
     webkitGetAsEntry: () => ({
       isDirectory: true,
+      name: folderName,
       createReader: () => ({
         readEntries: (callback: (entries: FileSystemEntryStub[]) => void) => {
           const entryFiles = filesInDirectory.map((file) => {
@@ -135,7 +148,7 @@ export async function dragAndDropDirectory(
   });
 
   const dataTransfer = {
-    items: [folderItem, ...singleFiles.map(singleFileItem)],
+    items: [folderItem, ...(singleFiles || []).map(singleFileItem)],
   };
 
   await triggerEvent(dropzone, 'dragenter', { dataTransfer });

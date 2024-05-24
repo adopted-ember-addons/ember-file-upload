@@ -183,7 +183,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   test('allowFolderDrop=true allows dropping a directory and reads out the content', async function (this: LocalTestContext, assert) {
     const queue = this.queue;
     const onDrop = (files: UploadFile[]) => {
-      files.forEach((file) => assert.step(file.name));
+      files.forEach((file) => assert.step(`${file.folderName ? `${file.folderName}/` :''}${file.name}`));
     };
 
     await render(<template>
@@ -196,11 +196,12 @@ module('Integration | Component | FileDropzone', function (hooks) {
 
     await dragAndDropDirectory(
       '.test-dropzone',
+      'folderName',
       [new File([], 'dingus.txt'), new File([], 'dingus.png')],
       [new File([], 'dongus.text')],
     );
 
-    assert.verifySteps(['dingus.txt', 'dingus.png', 'dongus.text']);
+    assert.verifySteps(['folderName/dingus.txt', 'folderName/dingus.png', 'dongus.text']);
   });
 
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446

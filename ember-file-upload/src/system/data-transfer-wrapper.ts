@@ -4,6 +4,11 @@ interface FutureProofDataTransferItem extends DataTransferItem {
   getAsEntry?: () => FileSystemDirectoryEntry | null;
 }
 
+export interface FileWithDirectory {
+  file: File;
+  folderName?: string;
+}
+
 const getDataSupport = {};
 
 // this will read a filesystementry into a File object, but ignore the entry if it is a directory
@@ -47,12 +52,16 @@ const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
 
 const readDataTransferItem = async (
   item: DataTransferItem,
-): Promise<File[]> => {
-  if (getEntry(item)?.isDirectory) {
-    return readAllFilesInDirectory(item);
+): Promise<FileWithDirectory[]> => {
+  const entry = getEntry(item);
+  if (entry?.isDirectory) {
+    return (await readAllFilesInDirectory(item)).map((file) => ({
+      file,
+      folderName: entry?.name,
+    }));
   } else {
     const fileItem = item.getAsFile() as File;
-    return [fileItem];
+    return [{ file: fileItem }];
   }
 };
 
@@ -97,23 +106,22 @@ export default class DataTransferWrapper {
     return this.files.length ? this.files : this.items;
   }
 
-  async getFilesAndDirectories() {
+  async getFilesAndDirectories(): Promise<FileWithDirectory[]> {
     if (this.dataTransfer?.items) {
-      const allFilesInDataTransferItems: File[][] = await Promise.all(
-        Array.from(this.dataTransfer?.items).map(readDataTransferItem),
-      );
+      const allFilesInDataTransferItems: FileWithDirectory[][] =
+        await Promise.all(
+          Array.from(this.dataTransfer?.items).map(readDataTransferItem),
+        );
 
-      const flattenedFileArray: File[] = allFilesInDataTransferItems.reduce(
-        (flattenedList, fileList) => {
+      const flattenedFileArray: FileWithDirectory[] =
+        allFilesInDataTransferItems.reduce((flattenedList, fileList) => {
           return [...flattenedList, ...fileList];
-        },
-        [],
-      );
+        }, []);
 
       return flattenedFileArray;
     } else {
       const droppedFiles: File[] = Array.from(this.dataTransfer?.files ?? []);
-      return droppedFiles;
+      return droppedFiles.map((file) => ({ file }));
     }
   }
 
