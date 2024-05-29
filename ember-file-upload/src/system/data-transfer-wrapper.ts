@@ -12,12 +12,15 @@ export interface FileWithDirectory {
 const getDataSupport = {};
 
 // this will read a filesystementry into a File object, but ignore the entry if it is a directory
-const readEntry = (entry: FileSystemEntry): Promise<File> => {
+const readEntry = (entry: FileSystemEntry): Promise<File | void> => {
   return new Promise((resolve) => {
     if (entry.isFile) {
       (entry as FileSystemFileEntry).file((fileEntry: File) => {
         resolve(fileEntry);
       });
+    } else {
+      console.warn(`The dropped directory contains a subdirectory ${entry.fullPath}, the contents of this will be skipped.`);
+      resolve();
     }
   });
 };
@@ -41,8 +44,10 @@ const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
     }
 
     entry?.createReader()?.readEntries(async (entries: FileSystemEntry[]) => {
-      const readFiles: File[] = await Promise.all(entries.map(readEntry)).catch(
+      const readFiles: (File | void)[] = await Promise.all(entries.map(readEntry))
+      .catch(
         (err) => {
+          console.error(err)
           throw err;
         },
       );
