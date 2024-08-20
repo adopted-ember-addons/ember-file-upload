@@ -62,9 +62,17 @@ module('Unit | DataTransferWrapper', function (hooks) {
           name: 'zoey.png',
           type: 'image/png',
         },
+        {
+          name: 'tomster.jpg',
+          type: 'image/jpeg',
+        },
+        {
+          name: 'zoey.png',
+          type: 'image/png',
+        },
       ],
     };
-    assert.strictEqual(this.subject.filesOrItems.length, 2);
+    assert.strictEqual(this.subject.filesOrItems.length, 4);
   });
 
   test('directory dropped', async function (assert) {
@@ -85,7 +93,8 @@ module('Unit | DataTransferWrapper', function (hooks) {
       isDirectory: true,
       createReader: () => ({
         readEntries: (callback) => {
-          const entryFiles = filesInDirectory.map((file) => {
+          const readingFiles = filesInDirectory.splice(0, 2)
+          const entryFiles = readingFiles.map((file) => {
             return {
               isFile: true,
               file: (callback) => {

@@ -126,7 +126,8 @@ export async function dragAndDropDirectory(
       name: folderName,
       createReader: () => ({
         readEntries: (callback: (entries: FileSystemEntryStub[]) => void) => {
-          const entryFiles = filesInDirectory.map((file) => {
+          const readingFiles = filesInDirectory.splice(0, 2);
+          const entryFiles = readingFiles.map((file) => {
             return {
               isFile: true,
               file: (callback: (file: File | Blob) => void) => {
