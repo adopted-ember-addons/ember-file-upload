@@ -17,12 +17,14 @@ import { estimatedRate } from './system/rate.ts';
 export class UploadFile {
   file: File;
   #source: FileSource;
+  folderName?: string;
 
   queue?: Queue;
 
-  constructor(file: File, source: FileSource) {
+  constructor(file: File, source: FileSource, folderName?: string) {
     this.file = file;
     this.#source = source;
+    this.folderName = folderName;
   }
 
   /**

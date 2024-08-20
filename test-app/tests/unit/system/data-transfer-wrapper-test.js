@@ -62,8 +62,50 @@ module('Unit | DataTransferWrapper', function (hooks) {
           name: 'zoey.png',
           type: 'image/png',
         },
+        {
+          name: 'tomster.jpg',
+          type: 'image/jpeg',
+        },
+        {
+          name: 'zoey.png',
+          type: 'image/png',
+        },
       ],
     };
-    assert.strictEqual(this.subject.filesOrItems.length, 2);
+    assert.strictEqual(this.subject.filesOrItems.length, 4);
+  });
+
+  test('directory dropped', async function (assert) {
+    const transfer = {
+      items: [
+        folderItem('directory-name', [
+          new File([], 'fileName.txt'),
+          new File([], 'otherFileName.txt'),
+        ]),
+      ],
+    };
+    this.subject.dataTransfer = transfer;
+    assert.strictEqual((await this.subject.getFilesAndDirectories()).length, 2);
+  });
+
+  const folderItem = (folderName, filesInDirectory) => ({
+    webkitGetAsEntry: () => ({
+      isDirectory: true,
+      createReader: () => ({
+        readEntries: (callback) => {
+          const readingFiles = filesInDirectory.splice(0, 2)
+          const entryFiles = readingFiles.map((file) => {
+            return {
+              isFile: true,
+              file: (callback) => {
+                callback(file);
+              },
+            };
+          });
+          callback(entryFiles);
+        },
+      }),
+    }),
+    getAsFile: () => new File([], folderName, { type: '' }),
   });
 });

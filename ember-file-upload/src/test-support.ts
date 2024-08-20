@@ -91,6 +91,72 @@ export async function dragAndDrop(
   return triggerEvent(dropzone, 'drop', { dataTransfer });
 }
 
+interface FileSystemEntryStub {
+  isFile: boolean;
+  file: (callback: (file: File | Blob) => void) => void;
+}
+
+export async function dragAndDropDirectory(
+  target: string | HTMLElement,
+  folderName: string,
+  filesInDirectory: (File | Blob)[],
+  singleFiles?: (File | Blob)[],
+) {
+  const dropzone = target instanceof HTMLElement ? target : find(target);
+  assert(`Selector '${dropzone}' could not be found.`, dropzone);
+  assert(
+    'filesInDirectory must be an array',
+    filesInDirectory instanceof Array,
+  );
+  assert(
+    'All files in directory must be instances of File/Blob type',
+    filesInDirectory.every((file) => file instanceof Blob),
+  );
+  if (singleFiles) {
+    assert('singleFiles must be an array', singleFiles instanceof Array);
+    assert(
+      'All added singleFiles must be instances of File/Blob type',
+      singleFiles.every((file) => file instanceof Blob),
+    );
+  }
+
+  const folderItem = {
+    webkitGetAsEntry: () => ({
+      isDirectory: true,
+      name: folderName,
+      createReader: () => ({
+        readEntries: (callback: (entries: FileSystemEntryStub[]) => void) => {
+          const readingFiles = filesInDirectory.splice(0, 2);
+          const entryFiles = readingFiles.map((file) => {
+            return {
+              isFile: true,
+              file: (callback: (file: File | Blob) => void) => {
+                callback(file);
+              },
+            };
+          });
+          callback(entryFiles);
+        },
+      }),
+    }),
+  };
+
+  const singleFileItem = (singleFile: File | Blob) => ({
+    webkitGetAsEntry: () => ({
+      isDirectory: false,
+    }),
+    getAsFile: () => singleFile,
+  });
+
+  const dataTransfer = {
+    items: [folderItem, ...(singleFiles || []).map(singleFileItem)],
+  };
+
+  await triggerEvent(dropzone, 'dragenter', { dataTransfer });
+  await triggerEvent(dropzone, 'dragover', { dataTransfer });
+  return triggerEvent(dropzone, 'drop', { dataTransfer });
+}
+
 /**
   Triggers a `dragenter` event on a `FileDropzone` with `files`.
 

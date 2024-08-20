@@ -120,6 +120,14 @@ export interface FileDropzoneSignature {
     allowUploadsFromWebsites?: boolean;
 
     /**
+     *
+     * Whether users can drop folders into the dropzone
+     *
+     * @defaulValue false
+     * */
+    allowFolderDrop?: boolean;
+
+    /**
      * This is the type of cursor that should
      * be shown when a drag event happens.
      *

@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
-import DataTransferWrapper from '../system/data-transfer-wrapper.ts';
+import DataTransferWrapper, {
+  type FileWithDirectory,
+} from '../system/data-transfer-wrapper.ts';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { UploadFile } from '../upload-file.ts';
@@ -134,7 +136,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
   }
 
   @action
-  didDrop(event: FileUploadDragEvent) {
+  async didDrop(event: FileUploadDragEvent) {
     if (this.dataTransferWrapper) {
       this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
@@ -219,22 +221,33 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
     // }
 
     if (this.dataTransferWrapper) {
-      const addedFiles = this.addFiles(this.files);
-      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
+      const files: FileWithDirectory[] = this.args.allowFolderDrop
+        ? await this.dataTransferWrapper.getFilesAndDirectories()
+        : this.files.map((file) => ({ file }));
 
+      const addedFiles = this.addFiles(files);
+      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
       this.active = false;
       this.dataTransferWrapper = undefined;
     }
   }
 
-  addFiles(files: File[]) {
+  addFiles(files: FileWithDirectory[]) {
     const addedFiles = [];
     for (const file of files) {
-      if (file instanceof File) {
-        const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
+      if (file.file instanceof File) {
+        const uploadFile = new UploadFile(
+          file.file,
+          FileSource.DragAndDrop,
+          file.folderName,
+        );
         if (
           this.args.filter &&
-          !this.args.filter(file, files, files.indexOf(file))
+          !this.args.filter(
+            file.file,
+            files.map((f) => f.file),
+            files.indexOf(file),
+          )
         ) {
           continue;
         }
