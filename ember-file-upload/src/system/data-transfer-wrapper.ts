@@ -19,7 +19,9 @@ const readEntry = (entry: FileSystemEntry): Promise<File | void> => {
         resolve(fileEntry);
       });
     } else {
-      console.warn(`The dropped directory contains a subdirectory ${entry.fullPath}, the contents of this will be skipped.`);
+      console.warn(
+        `The dropped directory contains a subdirectory ${entry.fullPath}, the contents of this will be skipped.`,
+      );
       resolve();
     }
   });
@@ -43,14 +45,33 @@ const readAllFilesInDirectory = (item: DataTransferItem): Promise<File[]> =>
       reject('Could not read directory');
     }
 
-    entry?.createReader()?.readEntries(async (entries: FileSystemEntry[]) => {
-      const readFiles: (File | void)[] = await Promise.all(entries.map(readEntry))
-      .catch(
-        (err) => {
-          console.error(err)
-          throw err;
-        },
-      );
+    const reader = entry?.createReader();
+    if (!reader) {
+      reject('Could not read directory');
+    }
+    const entries: FileSystemEntry[] = [];
+    const read = () =>
+      new Promise<void>((resolve, reject) => {
+        const readChunk = () => {
+          reader.readEntries((newEntries: FileSystemEntry[]) => {
+            if (newEntries.length > 0) {
+              entries.push(...newEntries);
+              readChunk();
+            } else {
+              resolve();
+            }
+          }, reject);
+        };
+        readChunk();
+      });
+
+    read().then(async () => {
+      const readFiles: (File | void)[] = await Promise.all(
+        entries.map(readEntry),
+      ).catch((err) => {
+        console.error(err);
+        throw err;
+      });
       resolve(readFiles.filter(Boolean) as File[]);
     });
   });
