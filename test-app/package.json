@@ -87,7 +87,7 @@
     "stylelint-prettier": "^5.0.0",
     "tracked-built-ins": "^3.3.0",
     "typescript": "~5.2.0",
-    "webpack": "^5.89.0"
+    "webpack": "^5.94.0"
   },
   "dependenciesMeta": {
     "ember-file-upload": {
