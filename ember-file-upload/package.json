@@ -62,7 +62,7 @@
     "@babel/preset-typescript": "^7.21.5",
     "@babel/runtime": "^7.22.3",
     "@ember/string": "^4.0.0",
-    "@ember/test-helpers": "^3.1.0",
+    "@ember/test-helpers": "^4.0.4",
     "@embroider/addon-dev": "^4.0.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
@@ -91,7 +91,7 @@
     "webpack": "^5.94.0"
   },
   "peerDependencies": {
-    "@ember/test-helpers": "^2.9.3 || ^3.0.3",
+    "@ember/test-helpers": "^2.9.3 || ^3.0.3 || ^4.0.4",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "ember-cli-mirage": "*",
