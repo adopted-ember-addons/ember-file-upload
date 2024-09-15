@@ -7,6 +7,18 @@
 
 
 
+
+## v9.1.0 (2024-09-15)
+
+#### :rocket: Enhancement
+* [#1076](https://github.com/adopted-ember-addons/ember-file-upload/pull/1076) Allow `@ember/test-helpers` v4 as peerDependency ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1068](https://github.com/adopted-ember-addons/ember-file-upload/pull/1068) Remove unnecessary `template-registry.js` export in `rollup.config.mjs` ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v9.0.0 (2024-01-19)
 
 #### :boom: Breaking Change
