@@ -5,7 +5,7 @@ import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import type { UploadFile } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { uploadHandler } from 'ember-file-upload';
+import { type FileQueueService, uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { on } from '@ember/modifier';
@@ -19,6 +19,31 @@ import {
 module('Integration | Helper | file-queue', function (hooks) {
   setupRenderingTest(hooks);
   setupMirage(hooks);
+
+  test('service can be used before helper', async function (assert) {
+    const fileQueueService = this.owner.lookup(
+      'service:file-queue',
+    ) as FileQueueService;
+
+    await render(
+      <template>
+        <ul>
+          {{#each fileQueueService.files as |file|}}
+            <li>
+              {{file.name}}
+            </li>
+          {{/each}}
+        </ul>
+        
+        {{#let (fileQueue) as |queue|}}
+          <label>
+            <input type='file' {{queue.selectFile}} hidden />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
+  });
 
   test('filter is triggered when selecting files', async function (assert) {
     const filter = (file: File) => {
