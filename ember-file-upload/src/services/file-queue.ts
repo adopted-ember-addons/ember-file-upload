@@ -26,6 +26,13 @@ export default class FileQueueService extends Service {
    */
   #queues: Map<QueueName, Queue> = new Map();
 
+  constructor() {
+    super();
+    // Create default queue the first time this service is accessed and instantiated
+    // Helps to avoid backtracking re-render issues
+    this.create(DEFAULT_QUEUE);
+  }
+
   /**
    * Returns a queue with the given name
    *

@@ -5,7 +5,7 @@ import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import type { UploadFile } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { uploadHandler } from 'ember-file-upload';
+import { type FileQueueService, uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { on } from '@ember/modifier';
@@ -273,5 +273,62 @@ module('Integration | Helper | file-queue', function (hooks) {
     // Allow upload to complete
     await settled();
     assert.dom('[data-test-file]').doesNotExist('queue was flushed');
+  });
+
+  // Service before helper issue ref: https://github.com/adopted-ember-addons/ember-file-upload/issues/1085
+  test('service can be used before helper with DEFUALT_QUEUE', async function (assert) {
+    const fileQueueService = this.owner.lookup(
+      'service:file-queue',
+    ) as FileQueueService;
+
+    await render(
+      <template>
+        <ul>
+          {{#each fileQueueService.files as |file|}}
+            <li>
+              {{file.name}}
+            </li>
+          {{/each}}
+        </ul>
+
+        {{#let (fileQueue) as |queue|}}
+          <label>
+            <input type='file' {{queue.selectFile}} hidden />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
+
+    assert.dom('label').exists('regression would throw during rendering');
+  });
+
+  test('service can be used before helper with named queue, provided FileQueueService.create is called first', async function (assert) {
+    const fileQueueService = this.owner.lookup(
+      'service:file-queue',
+    ) as FileQueueService;
+    const customName = 'uploads';
+    fileQueueService.create(customName);
+
+    await render(
+      <template>
+        <ul>
+          {{#each fileQueueService.files as |file|}}
+            <li>
+              {{file.name}}
+            </li>
+          {{/each}}
+        </ul>
+
+        {{#let (fileQueue name=customName) as |queue|}}
+          <label>
+            <input type='file' {{queue.selectFile}} hidden />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
+
+    assert.dom('label').exists('regression would throw during rendering');
   });
 });
