@@ -85,7 +85,7 @@
     "eslint-plugin-n": "^14.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
-    "rollup": "^3.0.0",
+    "rollup": "^3.29.5",
     "tracked-built-ins": "^3.0.0",
     "typescript": "^5.2.0",
     "webpack": "^5.94.0"
