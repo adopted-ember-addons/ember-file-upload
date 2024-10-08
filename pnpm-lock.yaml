@@ -3555,9 +3555,11 @@ packages:
     resolution: {integrity: sha512-uNmv1cPG/4qsac8oIf5txJ2FZ8p88LEpG4P3dNcjsJS98Y8hd0GPMFwVqpnzI78Lz7VYRGQWY4jnE4qm5R3j4g==}
     engines: {node: 12.* || 14.* || >= 16}
 
-  ember-inflector@4.0.2:
-    resolution: {integrity: sha512-+oRstEa52mm0jAFzhr51/xtEWpCEykB3SEBr7vUg8YnXUZJ5hKNBppP938q8Zzr9XfJEbzrtDSGjhKwJCJv6FQ==}
-    engines: {node: 10.* || 12.* || >= 14}
+  ember-inflector@4.0.3:
+    resolution: {integrity: sha512-E+NnmzybMRWn1JyEfDxY7arjOTJLIcGjcXnUxizgjD4TlvO1s3O65blZt+Xq2C2AFSPeqHLC6PXd6XHYM8BxdQ==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      ember-source: ^3.16.0 || ^4.0.0 || ^5.0.0
 
   ember-intl@7.0.6:
     resolution: {integrity: sha512-56RDyd+xlp9Apmy6hKgMEt99PbsL0r9qvm9ogb5nwe5QSRret2f22P3oi9vqGCgs7ZfP23x6EXTp8HX43E4z5g==}
@@ -11673,7 +11675,7 @@ snapshots:
       ember-auto-import: 2.7.2(@glint/template@1.3.0)(webpack@5.94.0)
       ember-cli-babel: 8.2.0(@babel/core@7.25.2)
       ember-get-config: 2.1.1(@glint/template@1.3.0)
-      ember-inflector: 4.0.2
+      ember-inflector: 4.0.3(ember-source@5.11.0(@glimmer/component@1.1.2(@babel/core@7.25.2))(@glint/template@1.3.0)(rsvp@4.8.5)(webpack@5.94.0))
       ember-source: 5.11.0(@glimmer/component@1.1.2(@babel/core@7.25.2))(@glint/template@1.3.0)(rsvp@4.8.5)(webpack@5.94.0)
       miragejs: 0.1.48
     optionalDependencies:
@@ -12059,9 +12061,10 @@ snapshots:
       - '@glint/template'
       - supports-color
 
-  ember-inflector@4.0.2:
+  ember-inflector@4.0.3(ember-source@5.11.0(@glimmer/component@1.1.2(@babel/core@7.25.2))(@glint/template@1.3.0)(rsvp@4.8.5)(webpack@5.94.0)):
     dependencies:
       ember-cli-babel: 7.26.11
+      ember-source: 5.11.0(@glimmer/component@1.1.2(@babel/core@7.25.2))(@glint/template@1.3.0)(rsvp@4.8.5)(webpack@5.94.0)
     transitivePeerDependencies:
       - supports-color
 
