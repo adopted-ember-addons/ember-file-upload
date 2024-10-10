@@ -238,8 +238,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       ember-concurrency:
-        specifier: ^3.0.0
-        version: 3.1.1(@babel/core@7.25.7)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0))
+        specifier: ^4.0.0
+        version: 4.0.2(@babel/core@7.25.7)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0))
       ember-fetch:
         specifier: ^8.1.2
         version: 8.1.2(encoding@0.1.13)
@@ -415,8 +415,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       ember-concurrency:
-        specifier: ^3.0.0
-        version: 3.1.1(@babel/core@7.25.7)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0))
+        specifier: ^4.0.0
+        version: 4.0.2(@babel/core@7.25.7)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0))
       ember-fetch:
         specifier: ^8.1.2
         version: 8.1.2(encoding@0.1.13)
@@ -3170,6 +3170,9 @@ packages:
     resolution: {integrity: sha512-BzRPQuY1ip+qDonAOz42gRm/pg9F768C+npV/4JOsxRC2sq+Rlk+Q4ZCAsOhnIaMrgarILY+RMUIvMmmX1qAEA==}
     engines: {node: '>=4'}
 
+  decorator-transforms@1.2.1:
+    resolution: {integrity: sha512-UUtmyfdlHvYoX3VSG1w5rbvBQ2r5TX1JsE4hmKU9snleFymadA3VACjl6SRfi9YgBCSjBbfQvR1bs9PRW9yBKw==}
+
   decorator-transforms@2.2.2:
     resolution: {integrity: sha512-NHCSJXOUQ29YFli1QzstXWo72EyASpoVx+s0YdkMwswpovf/iAJP580nD1tB0Ph9exvtbfWdVrSAloXrWVo1Xg==}
 
@@ -3452,11 +3455,16 @@ packages:
     resolution: {integrity: sha512-BtkjulweiXo9c3yVWrtexw2dTmBrvavD/xixNC6TKOBdrixUwU+6nuOO9dufDWsMxoid7MvtmDpzc9+mE8PdaA==}
     engines: {node: 10.* || >= 12.*}
 
-  ember-concurrency@3.1.1:
-    resolution: {integrity: sha512-doXFYYfy1C7jez+jDDlfahTp03QdjXeSY/W3Zbnx/q3UNJ9g10Shf2d7M/HvWo/TC22eU+6dPLIpqd/6q4pR+Q==}
+  ember-concurrency@4.0.2:
+    resolution: {integrity: sha512-enmStRE8bHIeF/kPZoDZlzP9YINN7H8l3Myk1sVkqo235ph0Vjee37AGCw44eRq6cBRvcdQmb5K3pkzVY7A6WA==}
     engines: {node: 16.* || >= 18}
     peerDependencies:
+      '@glimmer/tracking': ^1.1.2
+      '@glint/template': '>= 1.0.0'
       ember-source: ^3.28.0 || ^4.0.0 || >=5.0.0
+    peerDependenciesMeta:
+      '@glint/template':
+        optional: true
 
   ember-fetch@8.1.2:
     resolution: {integrity: sha512-TVx24/jrvDIuPL296DV0hBwp7BWLcSMf0I8464KGz01sPytAB+ZAePbc9ooBTJDkKZEGFgatJa4nj3yF1S9Bpw==}
@@ -8954,10 +8962,10 @@ snapshots:
 
   '@glimmer/compiler@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/syntax': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/component@1.1.2(@babel/core@7.25.7)':
@@ -8989,9 +8997,9 @@ snapshots:
   '@glimmer/destroyable@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
 
   '@glimmer/di@0.1.11': {}
 
@@ -9027,18 +9035,18 @@ snapshots:
       '@glimmer/debug': 0.92.4
       '@glimmer/destroyable': 0.92.0
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
-      '@glimmer/vm': 0.92.0
+      '@glimmer/vm': 0.92.3
 
   '@glimmer/node@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/runtime': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@simple-dom/document': 1.4.0
 
   '@glimmer/opcode-compiler@0.92.0':
@@ -9046,27 +9054,27 @@ snapshots:
       '@glimmer/debug': 0.92.4
       '@glimmer/encoder': 0.92.3
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/owner@0.92.0':
     dependencies:
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
 
   '@glimmer/program@0.92.0':
     dependencies:
       '@glimmer/encoder': 0.92.3
       '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/opcode-compiler': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/reference@0.84.3':
@@ -9080,24 +9088,24 @@ snapshots:
   '@glimmer/reference@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
 
   '@glimmer/runtime@0.92.0':
     dependencies:
       '@glimmer/destroyable': 0.92.0
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/owner': 0.92.0
       '@glimmer/program': 0.92.0
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
-      '@glimmer/vm': 0.92.0
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/syntax@0.84.3':
@@ -9109,8 +9117,8 @@ snapshots:
 
   '@glimmer/syntax@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
       '@glimmer/wire-format': 0.92.3
       '@handlebars/parser': 2.0.0
       simple-html-tokenizer: 0.5.11
@@ -9131,7 +9139,7 @@ snapshots:
   '@glimmer/util@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
 
   '@glimmer/util@0.92.3':
     dependencies:
@@ -9153,8 +9161,8 @@ snapshots:
 
   '@glimmer/vm@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
 
   '@glimmer/vm@0.92.3':
     dependencies:
@@ -11132,6 +11140,13 @@ snapshots:
     dependencies:
       mimic-response: 1.0.1
 
+  decorator-transforms@1.2.1(@babel/core@7.25.7):
+    dependencies:
+      '@babel/plugin-syntax-decorators': 7.25.7(@babel/core@7.25.7)
+      babel-import-util: 2.1.1
+    transitivePeerDependencies:
+      - '@babel/core'
+
   decorator-transforms@2.2.2(@babel/core@7.25.7):
     dependencies:
       '@babel/plugin-syntax-decorators': 7.25.7(@babel/core@7.25.7)
@@ -11760,16 +11775,16 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-concurrency@3.1.1(@babel/core@7.25.7)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0)):
+  ember-concurrency@4.0.2(@babel/core@7.25.7)(@glimmer/tracking@1.1.2)(@glint/template@1.4.0)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0)):
     dependencies:
       '@babel/helper-plugin-utils': 7.25.7
       '@babel/types': 7.25.7
+      '@embroider/addon-shim': 1.8.9
       '@glimmer/tracking': 1.1.2
-      ember-cli-babel: 7.26.11
-      ember-cli-babel-plugin-helpers: 1.1.1
-      ember-cli-htmlbars: 6.3.0
-      ember-compatibility-helpers: 1.2.7(@babel/core@7.25.7)
+      decorator-transforms: 1.2.1(@babel/core@7.25.7)
       ember-source: 5.11.1(@glimmer/component@1.1.2(@babel/core@7.25.7))(@glint/template@1.4.0)(rsvp@4.8.5)(webpack@5.95.0)
+    optionalDependencies:
+      '@glint/template': 1.4.0
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
