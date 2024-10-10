@@ -37,7 +37,7 @@
     "@glimmer/tracking": "^1.1.2",
     "@picocss/pico": "^1.4.3",
     "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.0",
     "date-fns": "^3.0.0",
     "ember-auto-import": "^2.6.3",
     "ember-cli": "~5.4.0",
