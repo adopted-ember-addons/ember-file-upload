@@ -27,8 +27,8 @@ importers:
   ember-file-upload:
     dependencies:
       '@ember/test-waiters':
-        specifier: ^3.0.0 || ^4.0.0
-        version: 4.0.0(@glint/template@1.5.2)
+        specifier: ^3.0.0
+        version: 3.1.0
       '@embroider/addon-shim':
         specifier: ^1.5.0
         version: 1.9.0
@@ -1183,9 +1183,6 @@ packages:
   '@ember/test-waiters@3.1.0':
     resolution: {integrity: sha512-bb9h95ktG2wKY9+ja1sdsFBdOms2lB19VWs8wmNpzgHv1NCetonBoV5jHBV4DHt0uS1tg9z66cZqhUVlYs96KQ==}
     engines: {node: 10.* || 12.* || >= 14.*}
-
-  '@ember/test-waiters@4.0.0':
-    resolution: {integrity: sha512-anqtvTCQvQh8VlHcKPJC0Fxz3aMmc7L+mZLOqvoH7+k86TUikZ/CxhytgMvgLk0x53fqOPEL1uykl2C9Ez65OA==}
 
   '@embroider/addon-dev@4.3.1':
     resolution: {integrity: sha512-CNZ4Y69PPIZAAGGoERjvDcrwOwWTuUmnRYu+XnmqKk0opdlu/PTssO9YWyxp8AnvGd2l7iLCjEn5mpLFvifstA==}
@@ -8766,14 +8763,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ember/test-waiters@4.0.0(@glint/template@1.5.2)':
-    dependencies:
-      '@embroider/addon-shim': 1.9.0
-      '@embroider/macros': 1.16.10(@glint/template@1.5.2)
-    transitivePeerDependencies:
-      - '@glint/template'
-      - supports-color
-
   '@embroider/addon-dev@4.3.1(@glint/template@1.5.2)(rollup@3.29.5)':
     dependencies:
       '@embroider/core': 3.5.0(@glint/template@1.5.2)
@@ -11831,7 +11820,7 @@ snapshots:
   ember-file-upload@file:ember-file-upload(ztw3jh6hshbtkynz73fbrcyg6y):
     dependencies:
       '@ember/test-helpers': 4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1))
-      '@ember/test-waiters': 4.0.0(@glint/template@1.5.2)
+      '@ember/test-waiters': 3.1.0
       '@embroider/addon-shim': 1.9.0
       '@embroider/macros': 1.16.10(@glint/template@1.5.2)
       '@glimmer/component': 1.1.2(@babel/core@7.26.7)
