@@ -8,6 +8,21 @@
 
 
 
+
+## v9.2.0 (2025-01-26)
+
+#### :rocket: Enhancement
+* [#1090](https://github.com/adopted-ember-addons/ember-file-upload/pull/1090) Allow `@ember/test-helpers` v5.x, `tracked-built-ins` v4.x & `@glimmer/component` v2.x ([@mkszepp](https://github.com/mkszepp))
+
+#### :house: Internal
+* [#1090](https://github.com/adopted-ember-addons/ember-file-upload/pull/1090) Allow `@ember/test-helpers` v5.x, `tracked-built-ins` v4.x & `@glimmer/component` v2.x ([@mkszepp](https://github.com/mkszepp))
+* [#1089](https://github.com/adopted-ember-addons/ember-file-upload/pull/1089) Regenerate lock file ([@mkszepp](https://github.com/mkszepp))
+* [#1082](https://github.com/adopted-ember-addons/ember-file-upload/pull/1082) Regenerate lockfile for ember-inflector ([@MichalBryxi](https://github.com/MichalBryxi))
+
+#### Committers: 2
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+- Michal Bryxí ([@MichalBryxi](https://github.com/MichalBryxi))
+
 ## v9.1.0 (2024-09-15)
 
 #### :rocket: Enhancement

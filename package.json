@@ -48,6 +48,6 @@
       "@glimmer/validator": "^0.92.0"
     }
   },
-  "version": "9.1.0",
+  "version": "9.2.0",
   "packageManager": "pnpm@9.15.4"
 }
