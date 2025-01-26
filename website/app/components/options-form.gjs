@@ -40,6 +40,8 @@ export const DEFAULT_OPTIONS = {
 };
 
 const eq = (a, b) => a === b;
+const values = Object.values;
+const stringify = JSON.stringify;
 
 export default class OptionsFormComponent extends Component {
   @action
@@ -65,7 +67,7 @@ export default class OptionsFormComponent extends Component {
     <form aria-label='Upload options' {{on 'change' this.setOptions}}>
       <fieldset>
         <legend>Upload type:</legend>
-        {{#each (Object.values UPLOAD_TYPES) as |type|}}
+        {{#each (values UPLOAD_TYPES) as |type|}}
           <div>
             <input
               type='radio'
@@ -108,7 +110,7 @@ export default class OptionsFormComponent extends Component {
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.http}}>
         Headers:
-        <textarea name='headers' rows='5' spellcheck='false'>{{JSON.stringify
+        <textarea name='headers' rows='5' spellcheck='false'>{{stringify
             DEFAULT_HEADERS
             null
             2
