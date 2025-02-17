@@ -9,6 +9,18 @@
 
 
 
+
+## v9.3.0 (2025-02-17)
+
+#### :rocket: Enhancement
+* [#1093](https://github.com/adopted-ember-addons/ember-file-upload/pull/1093) Widen dependency range for `@ember/test-waiters` ([@gilest](https://github.com/gilest))
+
+#### :memo: Documentation
+* [#1091](https://github.com/adopted-ember-addons/ember-file-upload/pull/1091) Re-enable docs website builds ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## v9.2.0 (2025-01-26)
 
 #### :rocket: Enhancement
