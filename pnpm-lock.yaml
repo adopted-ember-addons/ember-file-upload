@@ -490,8 +490,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       remark-autolink-headings:
-        specifier: ^6.0.1
-        version: 6.1.0
+        specifier: ^8.0.0
+        version: 8.0.0
       remark-code-titles:
         specifier: ^0.1.2
         version: 0.1.2
@@ -1715,9 +1715,6 @@ packages:
 
   '@types/glob@8.1.0':
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
-
-  '@types/hast@2.3.10':
-    resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
 
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
@@ -6439,8 +6436,9 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || ^22.0.0}
     hasBin: true
 
-  remark-autolink-headings@6.1.0:
-    resolution: {integrity: sha512-oeMSIfjaNboWPDVKahQAjF8iJ8hsz5aI8KFzAmmBdznir7zBvkgUjYE/BrpWvd02DCf/mSQ1IklznLkl3dVvZQ==}
+  remark-autolink-headings@8.0.0:
+    resolution: {integrity: sha512-vzbpYmQsTLuwlmbnET5UK1sceR6qGRtb1vFBpc4uOZ+9j2vysSBryPDp6Lw2VfjFQTH73bHJJDTNB1LYOFrNpg==}
+    deprecated: 'Deprecated: use `rehype-autolink-headings`'
 
   remark-code-titles@0.1.2:
     resolution: {integrity: sha512-KsHQbaI4FX8Ozxqk7YErxwmBiveUqloKuVqyPG2YPLHojpgomodWgRfG4B+bOtmn/5bfJ8khw4rR0lvgVFl2Uw==}
@@ -8927,10 +8925,10 @@ snapshots:
 
   '@glimmer/compiler@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/syntax': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/component@1.1.2(@babel/core@7.26.7)':
@@ -8962,9 +8960,9 @@ snapshots:
   '@glimmer/destroyable@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
 
   '@glimmer/di@0.1.11': {}
 
@@ -9004,18 +9002,18 @@ snapshots:
       '@glimmer/debug': 0.92.4
       '@glimmer/destroyable': 0.92.0
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
-      '@glimmer/vm': 0.92.0
+      '@glimmer/vm': 0.92.3
 
   '@glimmer/node@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/runtime': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@simple-dom/document': 1.4.0
 
   '@glimmer/opcode-compiler@0.92.0':
@@ -9023,27 +9021,27 @@ snapshots:
       '@glimmer/debug': 0.92.4
       '@glimmer/encoder': 0.92.5
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/owner@0.92.0':
     dependencies:
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
 
   '@glimmer/program@0.92.0':
     dependencies:
       '@glimmer/encoder': 0.92.5
       '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/opcode-compiler': 0.92.0
-      '@glimmer/util': 0.92.0
-      '@glimmer/vm': 0.92.0
+      '@glimmer/util': 0.92.3
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/reference@0.84.3':
@@ -9057,24 +9055,24 @@ snapshots:
   '@glimmer/reference@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
 
   '@glimmer/runtime@0.92.0':
     dependencies:
       '@glimmer/destroyable': 0.92.0
       '@glimmer/env': 0.1.7
-      '@glimmer/global-context': 0.92.0
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/global-context': 0.92.3
+      '@glimmer/interfaces': 0.92.3
       '@glimmer/manager': 0.92.0
       '@glimmer/owner': 0.92.0
       '@glimmer/program': 0.92.0
       '@glimmer/reference': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/util': 0.92.3
       '@glimmer/validator': 0.92.3
-      '@glimmer/vm': 0.92.0
+      '@glimmer/vm': 0.92.3
       '@glimmer/wire-format': 0.92.3
 
   '@glimmer/syntax@0.84.3':
@@ -9086,8 +9084,8 @@ snapshots:
 
   '@glimmer/syntax@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
       '@glimmer/wire-format': 0.92.3
       '@handlebars/parser': 2.0.0
       simple-html-tokenizer: 0.5.11
@@ -9108,7 +9106,7 @@ snapshots:
   '@glimmer/util@0.92.0':
     dependencies:
       '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.92.0
+      '@glimmer/interfaces': 0.92.3
 
   '@glimmer/util@0.92.3':
     dependencies:
@@ -9135,8 +9133,8 @@ snapshots:
 
   '@glimmer/vm@0.92.0':
     dependencies:
-      '@glimmer/interfaces': 0.92.0
-      '@glimmer/util': 0.92.0
+      '@glimmer/interfaces': 0.92.3
+      '@glimmer/util': 0.92.3
 
   '@glimmer/vm@0.92.3':
     dependencies:
@@ -9509,10 +9507,6 @@ snapshots:
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 22.10.10
-
-  '@types/hast@2.3.10':
-    dependencies:
-      '@types/unist': 2.0.11
 
   '@types/http-errors@2.0.4': {}
 
@@ -15544,12 +15538,7 @@ snapshots:
       - supports-color
       - typescript
 
-  remark-autolink-headings@6.1.0:
-    dependencies:
-      '@types/hast': 2.3.10
-      extend: 3.0.2
-      unified: 9.2.2
-      unist-util-visit: 2.0.3
+  remark-autolink-headings@8.0.0: {}
 
   remark-code-titles@0.1.2:
     dependencies:
