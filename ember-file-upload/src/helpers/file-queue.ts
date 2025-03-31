@@ -1,10 +1,12 @@
 import Helper from '@ember/component/helper';
 import { registerDestructor } from '@ember/destroyable';
-import { inject as service } from '@ember/service';
+import * as s from '@ember/service';
 import type { UploadFile } from '../upload-file.ts';
 import type FileQueueService from '../services/file-queue.ts';
 import { DEFAULT_QUEUE } from '../services/file-queue.ts';
 import type { FileQueueSignature, QueueListener } from '../interfaces.ts';
+
+const service = s.service ?? s.inject;
 
 /**
  * `file-queue` helper is one of the core primitives of ember-file-upload.
