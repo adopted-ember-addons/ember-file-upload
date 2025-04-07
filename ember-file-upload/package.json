@@ -1,6 +1,6 @@
 {
   "name": "ember-file-upload",
-  "version": "9.3.0",
+  "version": "9.4.0",
   "description": "An uploader component for Ember apps",
   "keywords": [
     "ember-addon",

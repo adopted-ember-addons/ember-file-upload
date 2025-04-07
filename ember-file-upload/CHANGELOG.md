@@ -10,6 +10,19 @@
 
 
 
+
+## v9.4.0 (2025-04-07)
+
+#### :rocket: Enhancement
+* [#1095](https://github.com/adopted-ember-addons/ember-file-upload/pull/1095) Cleanup `@ember/service` deprecation ([@mkszepp](https://github.com/mkszepp))
+
+#### :bug: Bug Fix
+* [#1094](https://github.com/adopted-ember-addons/ember-file-upload/pull/1094) Create DEFAULT_QUEUE when FileQueueService is created ([@gilest](https://github.com/gilest))
+
+#### Committers: 2
+- Giles Thompson ([@gilest](https://github.com/gilest))
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 ## v9.3.0 (2025-02-17)
 
 #### :rocket: Enhancement
