@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import * as s from '@ember/service';
 import { getOwner } from '@ember/application';
 import DataTransferWrapper from '../system/data-transfer-wrapper.ts';
 import { action } from '@ember/object';
@@ -13,6 +13,8 @@ import {
   FileSource,
 } from '../interfaces.ts';
 import DragListenerModifier from '../system/drag-listener-modifier.ts';
+
+const service = s.service ?? s.inject;
 
 /**
   `FileDropzone` is a component that will allow users to upload files by
