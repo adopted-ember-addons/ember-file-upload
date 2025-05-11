@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-05-11)
+
+* ember-file-upload 9.4.1 (patch)
+
+#### :bug: Bug Fix
+* `ember-file-upload`
+  * [#1098](https://github.com/adopted-ember-addons/ember-file-upload/pull/1098) Remove unneeded peer ([@mkszepp](https://github.com/mkszepp))
+
+#### Committers: 1
+- Markus Sanin ([@mkszepp](https://github.com/mkszepp))
+
 
 
 

@@ -1,0 +1,18 @@
+{
+  "solution": {
+    "ember-file-upload": {
+      "impact": "patch",
+      "oldVersion": "9.4.0",
+      "newVersion": "9.4.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./ember-file-upload/package.json"
+    }
+  },
+  "description": "## Release (2025-05-11)\n\n* ember-file-upload 9.4.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-file-upload`\n  * [#1098](https://github.com/adopted-ember-addons/ember-file-upload/pull/1098) Remove unneeded peer ([@mkszepp](https://github.com/mkszepp))\n\n#### Committers: 1\n- Markus Sanin ([@mkszepp](https://github.com/mkszepp))\n"
+}
