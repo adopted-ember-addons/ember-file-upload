@@ -1,0 +1,22 @@
+{
+  "solution": {
+    "ember-file-upload": {
+      "impact": "patch",
+      "oldVersion": "9.4.0",
+      "newVersion": "9.4.1",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./ember-file-upload/package.json"
+    }
+  },
+  "description": "## Release (2025-05-12)\n\n* ember-file-upload 9.4.1 (patch)\n\n#### :bug: Bug Fix\n* `ember-file-upload`\n  * [#1098](https://github.com/adopted-ember-addons/ember-file-upload/pull/1098) Remove unneeded peer ([@mkszepp](https://github.com/mkszepp))\n\n#### :house: Internal\n* `ember-file-upload`\n  * [#1100](https://github.com/adopted-ember-addons/ember-file-upload/pull/1100) Switch from release-it to release-plan ([@SergeAstapov](https://github.com/SergeAstapov))\n\n#### Committers: 2\n- Markus Sanin ([@mkszepp](https://github.com/mkszepp))\n- Sergey Astapov ([@SergeAstapov](https://github.com/SergeAstapov))\n"
+}
