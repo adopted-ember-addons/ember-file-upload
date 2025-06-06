@@ -30,12 +30,7 @@ export function uploadHandler(
   fn: (this: void, db: unknown, request: FakeRequest) => void,
   options = { network: null, timeout: null },
 ) {
-  if (
-    macroCondition(
-      dependencySatisfies('miragejs', '*') &&
-        dependencySatisfies('ember-cli-mirage', '*'),
-    )
-  ) {
+  if (macroCondition(dependencySatisfies('miragejs', '*'))) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { Response } = importSync('miragejs') as { Response: any };
     return function (db: unknown, request: FakeRequest) {
@@ -104,8 +99,6 @@ export function uploadHandler(
       });
     };
   } else {
-    throw new Error(
-      'You must add ember-cli-mirage and miragejs to your app to use this helper.',
-    );
+    throw new Error('You must add miragejs to your app to use this helper.');
   }
 }
