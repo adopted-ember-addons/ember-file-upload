@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-06-26)
+
+* ember-file-upload 9.5.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-file-upload`
+  * [#1102](https://github.com/adopted-ember-addons/ember-file-upload/pull/1102) Remove reliance on ember-cli-mirage ([@beerinho](https://github.com/beerinho))
+
+#### Committers: 1
+- Daniel Beer ([@beerinho](https://github.com/beerinho))
+
 ## Release (2025-05-12)
 
 * ember-file-upload 9.4.1 (patch)
