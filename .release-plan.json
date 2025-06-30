@@ -1,18 +1,8 @@
 {
   "solution": {
     "ember-file-upload": {
-      "impact": "minor",
-      "oldVersion": "9.4.1",
-      "newVersion": "9.5.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        }
-      ],
-      "pkgJSONPath": "./ember-file-upload/package.json"
+      "oldVersion": "9.5.0"
     }
   },
-  "description": "## Release (2025-06-26)\n\n* ember-file-upload 9.5.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-file-upload`\n  * [#1102](https://github.com/adopted-ember-addons/ember-file-upload/pull/1102) Remove reliance on ember-cli-mirage ([@beerinho](https://github.com/beerinho))\n\n#### Committers: 1\n- Daniel Beer ([@beerinho](https://github.com/beerinho))\n"
+  "description": "\n\n\n\n"
 }

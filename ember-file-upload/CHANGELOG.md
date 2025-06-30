@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2025-06-26)
 
 * ember-file-upload 9.5.0 (minor)
