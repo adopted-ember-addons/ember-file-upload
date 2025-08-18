@@ -15,8 +15,8 @@ importers:
         specifier: ^4.1.5
         version: 4.1.5
       release-plan:
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.17.0
+        version: 0.17.2
 
   ember-file-upload:
     dependencies:
@@ -4251,8 +4251,8 @@ packages:
     resolution: {integrity: sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==}
     engines: {node: '>= 4.0'}
 
-  github-changelog@2.0.0:
-    resolution: {integrity: sha512-JdAwddNCvHkZY/pTMqpoaLEfksaWiTc+beDjBkPEnr7iVlKfu8SeyCT8Sef+KsonRgIj6pl3SiWDPSefWmeicw==}
+  github-changelog@2.1.1:
+    resolution: {integrity: sha512-MRJXYVBJi5EUtIvaMokAIMAOmDwx8EtO2xK2yhK/jSHQBRGVwuhVGYhSCWPSnku8MTtL4mfk2qFNqUhx2ZC98A==}
     engines: {node: 18.* || 20.* || >= 22}
     hasBin: true
 
@@ -6280,8 +6280,8 @@ packages:
   rehype-stringify@8.0.0:
     resolution: {integrity: sha512-VkIs18G0pj2xklyllrPSvdShAV36Ff3yE5PUO9u36f6+2qJFnn22Z5gKwBOwgXviux4UC7K+/j13AnZfPICi/g==}
 
-  release-plan@0.16.0:
-    resolution: {integrity: sha512-S2hrXACiy39LenrdvPAhSY7PcitS4A4fAxlzoPgYyCiS2OU6Ed+cUKvN4h9/uRyZ/B3AMGywZUIPtIhCUIjTng==}
+  release-plan@0.17.2:
+    resolution: {integrity: sha512-LgE/3CU8sFZt28uJR886xvWdw/CL0g5g5YSFTAJUvUy5qdERZdcc1pu317nKpYFs/yEDjiUasLj3rxnXBJf1zA==}
     hasBin: true
 
   remark-autolink-headings@6.1.0:
@@ -12794,7 +12794,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@2.0.0:
+  github-changelog@2.1.1:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       chalk: 4.1.2
@@ -14999,7 +14999,7 @@ snapshots:
     dependencies:
       hast-util-to-html: 7.1.3
 
-  release-plan@0.16.0:
+  release-plan@0.17.2:
     dependencies:
       '@manypkg/get-packages': 2.2.2
       '@npmcli/package-json': 6.1.1
@@ -15009,7 +15009,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 9.5.3
       fs-extra: 11.3.0
-      github-changelog: 2.0.0
+      github-changelog: 2.1.1
       js-yaml: 4.1.0
       latest-version: 9.0.0
       parse-github-repo-url: 1.4.1
