@@ -71,7 +71,7 @@ importers:
         version: 1.1.2
       '@glint/core':
         specifier: ^1.0.2
-        version: 1.5.2(typescript@5.6.3)
+        version: 1.5.2(typescript@5.9.2)
       '@glint/environment-ember-loose':
         specifier: ^1.0.2
         version: 1.5.2(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@3.2.7(@babel/core@7.26.7))
@@ -89,10 +89,10 @@ importers:
         version: 4.0.9
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
-        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)
+        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)
       '@typescript-eslint/parser':
         specifier: ^6.0.0
-        version: 6.21.0(eslint@8.57.1)(typescript@5.6.3)
+        version: 6.21.0(eslint@8.57.1)(typescript@5.9.2)
       concurrently:
         specifier: ^9.0.0
         version: 9.1.2
@@ -133,8 +133,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@babel/core@7.26.7)
       typescript:
-        specifier: ~5.6.0
-        version: 5.6.3
+        specifier: ~5.9.0
+        version: 5.9.2
       webpack:
         specifier: ^5.94.0
         version: 5.97.1
@@ -164,7 +164,7 @@ importers:
         version: 1.1.2
       '@glint/core':
         specifier: ^1.0.2
-        version: 1.5.2(typescript@5.6.3)
+        version: 1.5.2(typescript@5.9.2)
       '@glint/environment-ember-loose':
         specifier: ^1.0.2
         version: 1.5.2(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(ember-cli-htmlbars@6.3.0)(ember-modifier@4.2.0(@babel/core@7.26.7)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1)))
@@ -182,10 +182,10 @@ importers:
         version: 2.19.12
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
-        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)
+        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)
       '@typescript-eslint/parser':
         specifier: ^6.0.0
-        version: 6.21.0(eslint@8.57.1)(typescript@5.6.3)
+        version: 6.21.0(eslint@8.57.1)(typescript@5.9.2)
       babel-plugin-dynamic-import-node:
         specifier: ^2.3.3
         version: 2.3.3
@@ -308,19 +308,19 @@ importers:
         version: 3.4.0
       stylelint:
         specifier: ^16.0.0
-        version: 16.13.2(typescript@5.6.3)
+        version: 16.13.2(typescript@5.9.2)
       stylelint-config-standard:
         specifier: ^36.0.0
-        version: 36.0.1(stylelint@16.13.2(typescript@5.6.3))
+        version: 36.0.1(stylelint@16.13.2(typescript@5.9.2))
       stylelint-prettier:
         specifier: ^5.0.0
-        version: 5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.6.3))
+        version: 5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.9.2))
       tracked-built-ins:
         specifier: ^4.0.0
         version: 4.0.0(@babel/core@7.26.7)
       typescript:
-        specifier: ~5.6.0
-        version: 5.6.3
+        specifier: ~5.9.0
+        version: 5.9.2
       webpack:
         specifier: ^5.94.0
         version: 5.97.1
@@ -416,7 +416,7 @@ importers:
         version: file:ember-file-upload(7pz4mnyuia5qb7ylxvh7tatbsa)
       ember-intl:
         specifier: ^7.0.6
-        version: 7.1.1(@ember/test-helpers@4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1)))(@glint/template@1.5.2)(typescript@5.6.3)(webpack@5.97.1)
+        version: 7.1.1(@ember/test-helpers@4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1)))(@glint/template@1.5.2)(typescript@5.9.2)(webpack@5.97.1)
       ember-load-initializers:
         specifier: ^2.1.2
         version: 2.1.2(@babel/core@7.26.7)
@@ -488,13 +488,13 @@ importers:
         version: 0.1.2
       stylelint:
         specifier: ^16.0.0
-        version: 16.13.2(typescript@5.6.3)
+        version: 16.13.2(typescript@5.9.2)
       stylelint-config-standard:
         specifier: ^36.0.0
-        version: 36.0.1(stylelint@16.13.2(typescript@5.6.3))
+        version: 36.0.1(stylelint@16.13.2(typescript@5.9.2))
       stylelint-prettier:
         specifier: ^5.0.0
-        version: 5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.6.3))
+        version: 5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.9.2))
       tracked-built-ins:
         specifier: ^4.0.0
         version: 4.0.0(@babel/core@7.26.7)
@@ -7081,8 +7081,8 @@ packages:
   typescript-memoize@1.1.1:
     resolution: {integrity: sha512-GQ90TcKpIH4XxYTI2F98yEQYZgjNMOGPpOgdjIBhaLaWji5HPWlRnZ4AeA1hfBxtY7bCGDJsqDDHk/KaHOl5bA==}
 
-  typescript@5.6.3:
-    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+  typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -8583,7 +8583,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@formatjs/intl@3.1.3(typescript@5.6.3)':
+  '@formatjs/intl@3.1.3(typescript@5.9.2)':
     dependencies:
       '@formatjs/ecma402-abstract': 2.3.2
       '@formatjs/fast-memoize': 2.2.6
@@ -8591,7 +8591,7 @@ snapshots:
       intl-messageformat: 10.7.14
       tslib: 2.8.1
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
 
   '@gar/promisify@1.1.3': {}
 
@@ -8823,13 +8823,13 @@ snapshots:
       '@glimmer/interfaces': 0.92.3
       '@glimmer/util': 0.92.3
 
-  '@glint/core@1.5.2(typescript@5.6.3)':
+  '@glint/core@1.5.2(typescript@5.9.2)':
     dependencies:
       '@glimmer/syntax': 0.84.3
       escape-string-regexp: 4.0.0
       semver: 7.6.3
       silent-error: 1.1.1
-      typescript: 5.6.3
+      typescript: 5.9.2
       uuid: 8.3.2
       vscode-languageserver: 8.1.0
       vscode-languageserver-textdocument: 1.0.12
@@ -9268,13 +9268,13 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@typescript-eslint/eslint-plugin@6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)':
+  '@typescript-eslint/eslint-plugin@6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.6.3)
+      '@typescript-eslint/parser': 6.21.0(eslint@8.57.1)(typescript@5.9.2)
       '@typescript-eslint/scope-manager': 6.21.0
-      '@typescript-eslint/type-utils': 6.21.0(eslint@8.57.1)(typescript@5.6.3)
-      '@typescript-eslint/utils': 6.21.0(eslint@8.57.1)(typescript@5.6.3)
+      '@typescript-eslint/type-utils': 6.21.0(eslint@8.57.1)(typescript@5.9.2)
+      '@typescript-eslint/utils': 6.21.0(eslint@8.57.1)(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 6.21.0
       debug: 4.4.0
       eslint: 8.57.1
@@ -9282,22 +9282,22 @@ snapshots:
       ignore: 5.3.2
       natural-compare: 1.4.0
       semver: 7.6.3
-      ts-api-utils: 1.4.3(typescript@5.6.3)
+      ts-api-utils: 1.4.3(typescript@5.9.2)
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.6.3)':
+  '@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/scope-manager': 6.21.0
       '@typescript-eslint/types': 6.21.0
-      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 6.21.0
       debug: 4.4.0
       eslint: 8.57.1
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -9306,21 +9306,21 @@ snapshots:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
 
-  '@typescript-eslint/type-utils@6.21.0(eslint@8.57.1)(typescript@5.6.3)':
+  '@typescript-eslint/type-utils@6.21.0(eslint@8.57.1)(typescript@5.9.2)':
     dependencies:
-      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.6.3)
-      '@typescript-eslint/utils': 6.21.0(eslint@8.57.1)(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.9.2)
+      '@typescript-eslint/utils': 6.21.0(eslint@8.57.1)(typescript@5.9.2)
       debug: 4.4.0
       eslint: 8.57.1
-      ts-api-utils: 1.4.3(typescript@5.6.3)
+      ts-api-utils: 1.4.3(typescript@5.9.2)
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
   '@typescript-eslint/types@6.21.0': {}
 
-  '@typescript-eslint/typescript-estree@6.21.0(typescript@5.6.3)':
+  '@typescript-eslint/typescript-estree@6.21.0(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
@@ -9329,20 +9329,20 @@ snapshots:
       is-glob: 4.0.3
       minimatch: 9.0.3
       semver: 7.6.3
-      ts-api-utils: 1.4.3(typescript@5.6.3)
+      ts-api-utils: 1.4.3(typescript@5.9.2)
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@6.21.0(eslint@8.57.1)(typescript@5.6.3)':
+  '@typescript-eslint/utils@6.21.0(eslint@8.57.1)(typescript@5.9.2)':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@8.57.1)
       '@types/json-schema': 7.0.15
       '@types/semver': 7.5.8
       '@typescript-eslint/scope-manager': 6.21.0
       '@typescript-eslint/types': 6.21.0
-      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.9.2)
       eslint: 8.57.1
       semver: 7.6.3
     transitivePeerDependencies:
@@ -10667,14 +10667,14 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cosmiconfig@9.0.0(typescript@5.6.3):
+  cosmiconfig@9.0.0(typescript@5.9.2):
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
 
   cross-spawn@6.0.6:
     dependencies:
@@ -11469,11 +11469,11 @@ snapshots:
       - '@babel/core'
       - supports-color
 
-  ember-intl@7.1.1(@ember/test-helpers@4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1)))(@glint/template@1.5.2)(typescript@5.6.3)(webpack@5.97.1):
+  ember-intl@7.1.1(@ember/test-helpers@4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1)))(@glint/template@1.5.2)(typescript@5.9.2)(webpack@5.97.1):
     dependencies:
       '@babel/core': 7.26.7
       '@formatjs/icu-messageformat-parser': 2.11.0
-      '@formatjs/intl': 3.1.3(typescript@5.6.3)
+      '@formatjs/intl': 3.1.3(typescript@5.9.2)
       broccoli-caching-writer: 3.0.3
       broccoli-funnel: 3.0.8
       broccoli-merge-trees: 4.2.0
@@ -11489,7 +11489,7 @@ snapshots:
       json-stable-stringify: 1.2.1
     optionalDependencies:
       '@ember/test-helpers': 4.0.4(@babel/core@7.26.7)(@glint/template@1.5.2)(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1))
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - '@glint/template'
       - supports-color
@@ -15576,22 +15576,22 @@ snapshots:
 
   styled_string@0.0.1: {}
 
-  stylelint-config-recommended@14.0.1(stylelint@16.13.2(typescript@5.6.3)):
+  stylelint-config-recommended@14.0.1(stylelint@16.13.2(typescript@5.9.2)):
     dependencies:
-      stylelint: 16.13.2(typescript@5.6.3)
+      stylelint: 16.13.2(typescript@5.9.2)
 
-  stylelint-config-standard@36.0.1(stylelint@16.13.2(typescript@5.6.3)):
+  stylelint-config-standard@36.0.1(stylelint@16.13.2(typescript@5.9.2)):
     dependencies:
-      stylelint: 16.13.2(typescript@5.6.3)
-      stylelint-config-recommended: 14.0.1(stylelint@16.13.2(typescript@5.6.3))
+      stylelint: 16.13.2(typescript@5.9.2)
+      stylelint-config-recommended: 14.0.1(stylelint@16.13.2(typescript@5.9.2))
 
-  stylelint-prettier@5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.6.3)):
+  stylelint-prettier@5.0.2(prettier@3.4.2)(stylelint@16.13.2(typescript@5.9.2)):
     dependencies:
       prettier: 3.4.2
       prettier-linter-helpers: 1.0.0
-      stylelint: 16.13.2(typescript@5.6.3)
+      stylelint: 16.13.2(typescript@5.9.2)
 
-  stylelint@16.13.2(typescript@5.6.3):
+  stylelint@16.13.2(typescript@5.9.2):
     dependencies:
       '@csstools/css-parser-algorithms': 3.0.4(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
@@ -15600,7 +15600,7 @@ snapshots:
       '@dual-bundle/import-meta-resolve': 4.1.0
       balanced-match: 2.0.0
       colord: 2.9.3
-      cosmiconfig: 9.0.0(typescript@5.6.3)
+      cosmiconfig: 9.0.0(typescript@5.9.2)
       css-functions-list: 3.2.3
       css-tree: 3.1.0
       debug: 4.4.0
@@ -15946,9 +15946,9 @@ snapshots:
 
   trough@1.0.5: {}
 
-  ts-api-utils@1.4.3(typescript@5.6.3):
+  ts-api-utils@1.4.3(typescript@5.9.2):
     dependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
 
   tslib@1.14.1: {}
 
@@ -16008,7 +16008,7 @@ snapshots:
 
   typescript-memoize@1.1.1: {}
 
-  typescript@5.6.3: {}
+  typescript@5.9.2: {}
 
   uc.micro@1.0.6: {}
 
