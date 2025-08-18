@@ -90,6 +90,11 @@ export default ts.config(
       parserOptions: parserOptions.esm.ts,
     },
     extends: [...ts.configs.recommendedTypeChecked, ember.configs.gts],
+    // Only pertains to missing types for ember-cli-mirage handlers
+    rules: {
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+    }
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],

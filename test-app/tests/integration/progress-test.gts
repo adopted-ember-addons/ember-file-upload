@@ -60,7 +60,7 @@ module('Integration | progress', function (hooks) {
       const file = new File([data], 'image.png', { type: 'image/png' });
       // Upload files but don't allow the test runner to wait for settled()
       // so that we can assert partial upload state using FileTracker
-      selectFiles('#upload-photo', file, file, file);
+      void selectFiles('#upload-photo', file, file, file);
     }
 
     await firstFile.promise;

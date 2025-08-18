@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import {
-  type FileQueueService,
   FileSource,
   FileState,
   UploadFile,
@@ -15,7 +14,7 @@ module('Unit | Service | file-queue', function (hooks) {
   test('the size of the queue is the aggregate of all queues', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
     const queue1 = fileQueueService.create('queue1');
     const queue2 = fileQueueService.create('queue2');
     fileQueueService.create('queue3');
@@ -55,7 +54,7 @@ module('Unit | Service | file-queue', function (hooks) {
   test('the uploaded size of the queue is the aggregate of all queues', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
     const queue1 = fileQueueService.create('queue1');
 
     assert.strictEqual(fileQueueService.files.length, 0);
@@ -101,7 +100,7 @@ module('Unit | Service | file-queue', function (hooks) {
   test('the queue is emptied when all files are completed and flush is called', function (this: TestContext, assert) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
     const queue = fileQueueService.create('queue');
 
     const file = new File(png, 'test-filename.jpg');

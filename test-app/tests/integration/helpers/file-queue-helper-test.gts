@@ -5,7 +5,7 @@ import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import type { UploadFile } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { type FileQueueService, uploadHandler } from 'ember-file-upload';
+import { uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { on } from '@ember/modifier';
@@ -231,6 +231,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('files in the queue are autotracked', async function (assert) {
     const fileAdded = (file: UploadFile) => {
       file.state = FileState.Uploading;
+      // eslint-disable-next-line ember/no-runloop
       later(() => {
         file.state = FileState.Uploaded;
         file.queue?.flush();
@@ -251,7 +252,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     </template>);
 
     // Choose file (but don't wait)
-    selectFiles('input[type=file]', new File([], 'first.txt'));
+    void selectFiles('input[type=file]', new File([], 'first.txt'));
 
     // Enqueued file should be visible
     await waitFor('[data-test-file]');
@@ -262,7 +263,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist('queue was flushed');
 
     // Choose file (but don't wait)
-    selectFiles('input[type=file]', new File([], 'second.txt'));
+    void selectFiles('input[type=file]', new File([], 'second.txt'));
 
     // Enqueued file should be visible
     await waitFor('[data-test-file]');
@@ -279,7 +280,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('service can be used before helper with DEFUALT_QUEUE', async function (assert) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
 
     await render(
       <template>
@@ -306,7 +307,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('service can be used before helper with named queue, provided FileQueueService.create is called first', async function (assert) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
     const customName = 'uploads';
     fileQueueService.create(customName);
 

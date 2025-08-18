@@ -7,7 +7,7 @@ import {
   dragLeave,
 } from 'ember-file-upload/test-support';
 import { Queue } from 'ember-file-upload';
-import type { FileQueueService, UploadFile } from 'ember-file-upload';
+import type { UploadFile } from 'ember-file-upload';
 import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 
@@ -21,7 +21,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   hooks.beforeEach(function (this: LocalTestContext) {
     const fileQueueService = this.owner.lookup(
       'service:file-queue',
-    ) as FileQueueService;
+    );
     this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
   });
 
