@@ -1,10 +1,10 @@
-<main class='container'>
+<main class="container">
   <DocfyOutput @fromCurrentURL={{true}} as |page|>
-    {{page-title 'API Reference'}}
+    {{page-title "API Reference"}}
     {{page-title page.title}}
   </DocfyOutput>
 
-  <DocfyOutput @scope='api' as |node|>
+  <DocfyOutput @scope="api" as |node|>
     <aside>
       <nav>
         <ul>
@@ -39,7 +39,7 @@
     </aside>
   </DocfyOutput>
 
-  <div role='document'>
+  <div role="document">
     {{outlet}}
   </div>
 </main>

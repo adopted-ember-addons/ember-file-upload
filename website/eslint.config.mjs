@@ -89,7 +89,7 @@ export default [
       '.stylelintrc.js',
       '.template-lintrc.js',
       'ember-cli-build.js',
-      '.docfy-config.js'
+      '.docfy-config.js',
     ],
     plugins: {
       n,

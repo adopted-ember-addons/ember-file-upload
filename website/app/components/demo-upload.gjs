@@ -121,21 +121,22 @@ export default class DemoUploadComponent extends Component {
       @onUpdate={{this.setUploadOptions}}
     />
 
-    {{#let (fileQueue name='demo' onFileAdded=this.addToQueue) as |queue|}}
+    {{#let (fileQueue name="demo" onFileAdded=this.addToQueue) as |queue|}}
       <FileDropzone
         @queue={{queue}}
-        class='demo-upload__dropzone'
+        class="demo-upload__dropzone"
         as |dropzone|
       >
-        <form aria-label='File upload'>
+        <form aria-label="File upload">
           <label>
-            <input type='file' {{queue.selectFile}} />
+            <input type="file" {{queue.selectFile}} />
           </label>
         </form>
         {{#if dropzone.active}}
           Drop to upload
         {{else if queue.files.length}}
-          Uploading {{queue.files.length}}
+          Uploading
+          {{queue.files.length}}
           files. ({{queue.progress}}%)<br />
           Estimated time remaining:
           {{this.estimatedTimeRemaining queue}}
@@ -149,16 +150,16 @@ export default class DemoUploadComponent extends Component {
         <table>
           <thead>
             <tr>
-              <th width='25%'>
+              <th width="25%">
                 Loaded
               </th>
-              <th width='25%'>
+              <th width="25%">
                 Size
               </th>
-              <th width='25%'>
+              <th width="25%">
                 Progress
               </th>
-              <th width='25%'>
+              <th width="25%">
                 Rate
               </th>
             </tr>

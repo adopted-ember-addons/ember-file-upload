@@ -30,7 +30,7 @@ body > header h1 ~ p {
   font-size: 0.75em;
 }
 
-[role='document'] footer {
+[role="document"] footer {
   display: flex;
   justify-content: space-between;
 }

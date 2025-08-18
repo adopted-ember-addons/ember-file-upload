@@ -64,14 +64,14 @@ export default class OptionsFormComponent extends Component {
   };
 
   <template>
-    <form aria-label='Upload options' {{on 'change' this.setOptions}}>
+    <form aria-label="Upload options" {{on "change" this.setOptions}}>
       <fieldset>
         <legend>Upload type:</legend>
         {{#each (values UPLOAD_TYPES) as |type|}}
           <div>
             <input
-              type='radio'
-              name='type'
+              type="radio"
+              name="type"
               id={{type}}
               value={{type}}
               checked={{eq @uploadOptions.type type}}
@@ -83,7 +83,7 @@ export default class OptionsFormComponent extends Component {
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.simulated}}>
         Simulated speed:
-        <select name='rate'>
+        <select name="rate">
           {{#each-in RATES as |name rate|}}
             <option value={{rate}} selected={{eq @uploadOptions.rate rate}}>
               {{name}}
@@ -94,14 +94,17 @@ export default class OptionsFormComponent extends Component {
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.http}}>
         URL:
-        <input type='text' name='url' value={{DEFAULT_URL}} />
+        <input type="text" name="url" value={{DEFAULT_URL}} />
       </label>
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.http}}>
         Method:
-        <select name='method'>
+        <select name="method">
           {{#each METHODS as |method|}}
-            <option value={{method}} selected={{eq @uploadOptions.method method}}>
+            <option
+              value={{method}}
+              selected={{eq @uploadOptions.method method}}
+            >
               {{method}}
             </option>
           {{/each}}
@@ -110,7 +113,7 @@ export default class OptionsFormComponent extends Component {
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.http}}>
         Headers:
-        <textarea name='headers' rows='5' spellcheck='false'>{{stringify
+        <textarea name="headers" rows="5" spellcheck="false">{{stringify
             DEFAULT_HEADERS
             null
             2
