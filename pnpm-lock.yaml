@@ -199,8 +199,8 @@ importers:
         specifier: ^2.6.3
         version: 2.10.0(@glint/template@1.5.2)(webpack@5.97.1)
       ember-cli:
-        specifier: ~5.4.0
-        version: 5.4.2(handlebars@4.7.8)(underscore@1.13.7)
+        specifier: ~5.12.0
+        version: 5.12.0(handlebars@4.7.8)(underscore@1.13.7)
       ember-cli-app-version:
         specifier: ^6.0.1
         version: 6.0.1(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1))
@@ -212,7 +212,7 @@ importers:
         version: 3.0.0
       ember-cli-dependency-checker:
         specifier: ^3.3.2
-        version: 3.3.3(ember-cli@5.4.2(handlebars@4.7.8)(underscore@1.13.7))
+        version: 3.3.3(ember-cli@5.12.0(handlebars@4.7.8)(underscore@1.13.7))
       ember-cli-htmlbars:
         specifier: ^6.3.0
         version: 6.3.0
@@ -376,8 +376,8 @@ importers:
         specifier: ^2.6.3
         version: 2.10.0(@glint/template@1.5.2)(webpack@5.97.1)
       ember-cli:
-        specifier: ~5.4.0
-        version: 5.4.2(handlebars@4.7.8)(underscore@1.13.7)
+        specifier: ~5.12.0
+        version: 5.12.0(handlebars@4.7.8)(underscore@1.13.7)
       ember-cli-app-version:
         specifier: ^6.0.1
         version: 6.0.1(ember-source@5.11.1(@glimmer/component@1.1.2(@babel/core@7.26.7))(@glint/template@1.5.2)(rsvp@4.8.5)(webpack@5.97.1))
@@ -389,7 +389,7 @@ importers:
         version: 3.0.0
       ember-cli-dependency-checker:
         specifier: ^3.3.2
-        version: 3.3.3(ember-cli@5.4.2(handlebars@4.7.8)(underscore@1.13.7))
+        version: 3.3.3(ember-cli@5.12.0(handlebars@4.7.8)(underscore@1.13.7))
       ember-cli-htmlbars:
         specifier: ^6.3.0
         version: 6.3.0
@@ -3450,8 +3450,8 @@ packages:
     resolution: {integrity: sha512-rk7GY+FmLn/2e22HsZs0Ycrz8HQ1W3Fv+2TFOuEFW9optnDXDgkntPBIl6gact/LHsfBM5RKbM3dHsIIeLgl0Q==}
     engines: {node: 10.* || >= 12.*}
 
-  ember-cli@5.4.2:
-    resolution: {integrity: sha512-EeeiTHo+rtat+YRv01q64Wmo+MRZETcZ7bPKBU14h9gSqSU0bHj57KGKsaQ+av8sOUojwWSqp+GQfOtwuWDgYA==}
+  ember-cli@5.12.0:
+    resolution: {integrity: sha512-48ZOoUZTXsav37RIYY9gyCR35yo64mhzfv5YHtTbsZZwLv/HjvTz27X0CTvkfVQaOWHYDFekxdp9ppaKz84VNA==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -11184,10 +11184,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-dependency-checker@3.3.3(ember-cli@5.4.2(handlebars@4.7.8)(underscore@1.13.7)):
+  ember-cli-dependency-checker@3.3.3(ember-cli@5.12.0(handlebars@4.7.8)(underscore@1.13.7)):
     dependencies:
       chalk: 2.4.2
-      ember-cli: 5.4.2(handlebars@4.7.8)(underscore@1.13.7)
+      ember-cli: 5.12.0(handlebars@4.7.8)(underscore@1.13.7)
       find-yarn-workspace-root: 2.0.0
       is-git-url: 1.0.0
       resolve: 1.22.10
@@ -11402,7 +11402,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli@5.4.2(handlebars@4.7.8)(underscore@1.13.7):
+  ember-cli@5.12.0(handlebars@4.7.8)(underscore@1.13.7):
     dependencies:
       '@pnpm/find-workspace-dir': 6.0.3
       broccoli: 3.5.2
@@ -11426,6 +11426,7 @@ snapshots:
       compression: 1.7.5
       configstore: 5.0.1
       console-ui: 3.1.2
+      content-tag: 2.0.3
       core-object: 3.1.5
       dag-map: 2.0.2
       diff: 5.2.0
