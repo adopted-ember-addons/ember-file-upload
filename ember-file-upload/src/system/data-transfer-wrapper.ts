@@ -26,7 +26,7 @@ export default class DataTransferWrapper {
         // @ts-ignore
         getDataSupport[type] = true;
         return data;
-      } catch (e) {
+      } catch {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         getDataSupport[type] = false;
