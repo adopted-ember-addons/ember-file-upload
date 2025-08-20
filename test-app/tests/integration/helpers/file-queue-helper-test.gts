@@ -5,7 +5,7 @@ import { render, click, settled, waitFor } from '@ember/test-helpers';
 import { DEFAULT_QUEUE, FileState } from 'ember-file-upload';
 import type { UploadFile } from 'ember-file-upload';
 import { selectFiles } from 'ember-file-upload/test-support';
-import { type FileQueueService, uploadHandler } from 'ember-file-upload';
+import { uploadHandler } from 'ember-file-upload';
 import { later } from '@ember/runloop';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 import { on } from '@ember/modifier';
@@ -26,14 +26,16 @@ module('Integration | Helper | file-queue', function (hooks) {
       return true;
     };
 
-    await render(<template>
-      {{#let (fileQueue) as |queue|}}
-        <label>
-          <input type='file' {{queue.selectFile filter=filter}} hidden />
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue) as |queue|}}
+          <label>
+            <input type="file" {{queue.selectFile filter=filter}} hidden />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
@@ -46,18 +48,20 @@ module('Integration | Helper | file-queue', function (hooks) {
         `files selected: ${files.map((file) => file.name).join(', ')}`,
       );
 
-    await render(<template>
-      {{#let (fileQueue) as |queue|}}
-        <label>
-          <input
-            type='file'
-            {{queue.selectFile onFilesSelected=filesSelected}}
-            hidden
-          />
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue) as |queue|}}
+          <label>
+            <input
+              type="file"
+              {{queue.selectFile onFilesSelected=filesSelected}}
+              hidden
+            />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
@@ -71,23 +75,27 @@ module('Integration | Helper | file-queue', function (hooks) {
   });
 
   test('falls back to default name', async function (assert) {
-    await render(<template>
-      {{#let (fileQueue) as |queue|}}
-        {{! @glint-ignore }}
-        <span>{{queue.name}}</span>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue) as |queue|}}
+          {{! @glint-ignore }}
+          <span>{{queue.name}}</span>
+        {{/let}}
+      </template>,
+    );
 
     assert.dom('span').hasText(DEFAULT_QUEUE.toString());
   });
 
   test('can be parametrized by name', async function (assert) {
-    await render(<template>
-      {{#let (fileQueue name='line-up') as |queue|}}
-        {{! @glint-ignore }}
-        <output>{{queue.name}}</output>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue name="line-up") as |queue|}}
+          {{! @glint-ignore }}
+          <output>{{queue.name}}</output>
+        {{/let}}
+      </template>,
+    );
 
     assert.dom('output').hasText('line-up');
   });
@@ -98,30 +106,32 @@ module('Integration | Helper | file-queue', function (hooks) {
     const fileRemoved = (file: UploadFile) =>
       assert.step(`file removed: ${file.name}`);
 
-    await render(<template>
-      {{#let
-        (fileQueue onFileAdded=fileAdded onFileRemoved=fileRemoved)
-        as |queue|
-      }}
-        {{#each queue.files as |file|}}
-          <span data-test-file>
-            {{file.name}}
-          </span>
-          <button
-            type='button'
-            data-test-remove
-            {{on 'click' (fn queue.remove file)}}
-          >
-            x
-          </button>
-        {{/each}}
+    await render(
+      <template>
+        {{#let
+          (fileQueue onFileAdded=fileAdded onFileRemoved=fileRemoved)
+          as |queue|
+        }}
+          {{#each queue.files as |file|}}
+            <span data-test-file>
+              {{file.name}}
+            </span>
+            <button
+              type="button"
+              data-test-remove
+              {{on "click" (fn queue.remove file)}}
+            >
+              x
+            </button>
+          {{/each}}
 
-        <label>
-          <input type='file' {{queue.selectFile}} hidden />
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+          <label>
+            <input type="file" {{queue.selectFile}} hidden />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     assert.dom('[data-test-file]').doesNotExist();
 
@@ -152,14 +162,19 @@ module('Integration | Helper | file-queue', function (hooks) {
       );
     };
 
-    await render(<template>
-      {{#let (fileQueue onFileAdded=upload onUploadStarted=uploadStarted) as |queue|}}
-        <label>
-          <input type="file" {{queue.selectFile}}>
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let
+          (fileQueue onFileAdded=upload onUploadStarted=uploadStarted)
+          as |queue|
+        }}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
@@ -185,14 +200,19 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(response.status, 201, 'response status present');
     };
 
-    await render(<template>
-      {{#let (fileQueue onFileAdded=upload onUploadSucceeded=uploadSucceeded) as |queue|}}
-        <label>
-          <input type="file" {{queue.selectFile}}>
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let
+          (fileQueue onFileAdded=upload onUploadSucceeded=uploadSucceeded)
+          as |queue|
+        }}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
@@ -214,14 +234,19 @@ module('Integration | Helper | file-queue', function (hooks) {
       assert.strictEqual(response.status, 500, 'response status present');
     };
 
-    await render(<template>
-      {{#let (fileQueue onFileAdded=upload onUploadFailed=uploadFailed) as |queue|}}
-        <label>
-          <input type="file" {{queue.selectFile}}>
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let
+          (fileQueue onFileAdded=upload onUploadFailed=uploadFailed)
+          as |queue|
+        }}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
@@ -231,27 +256,30 @@ module('Integration | Helper | file-queue', function (hooks) {
   test('files in the queue are autotracked', async function (assert) {
     const fileAdded = (file: UploadFile) => {
       file.state = FileState.Uploading;
+      // eslint-disable-next-line ember/no-runloop
       later(() => {
         file.state = FileState.Uploaded;
         file.queue?.flush();
       }, 100);
     };
 
-    await render(<template>
-      {{#let (fileQueue onFileAdded=fileAdded) as |queue|}}
-        {{#each queue.files as |file|}}
-          <span data-test-file>{{file.name}}</span>
-        {{/each}}
+    await render(
+      <template>
+        {{#let (fileQueue onFileAdded=fileAdded) as |queue|}}
+          {{#each queue.files as |file|}}
+            <span data-test-file>{{file.name}}</span>
+          {{/each}}
 
-        <label>
-          <input type="file" {{queue.selectFile}}>
-          Select File
-        </label>
-      {{/let}}
-    </template>);
+          <label>
+            <input type="file" {{queue.selectFile}} />
+            Select File
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     // Choose file (but don't wait)
-    selectFiles('input[type=file]', new File([], 'first.txt'));
+    void selectFiles('input[type=file]', new File([], 'first.txt'));
 
     // Enqueued file should be visible
     await waitFor('[data-test-file]');
@@ -262,7 +290,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     assert.dom('[data-test-file]').doesNotExist('queue was flushed');
 
     // Choose file (but don't wait)
-    selectFiles('input[type=file]', new File([], 'second.txt'));
+    void selectFiles('input[type=file]', new File([], 'second.txt'));
 
     // Enqueued file should be visible
     await waitFor('[data-test-file]');
@@ -277,9 +305,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
   // Service before helper issue ref: https://github.com/adopted-ember-addons/ember-file-upload/issues/1085
   test('service can be used before helper with DEFUALT_QUEUE', async function (assert) {
-    const fileQueueService = this.owner.lookup(
-      'service:file-queue',
-    ) as FileQueueService;
+    const fileQueueService = this.owner.lookup('service:file-queue');
 
     await render(
       <template>
@@ -293,7 +319,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
         {{#let (fileQueue) as |queue|}}
           <label>
-            <input type='file' {{queue.selectFile}} hidden />
+            <input type="file" {{queue.selectFile}} hidden />
             Select File
           </label>
         {{/let}}
@@ -304,9 +330,7 @@ module('Integration | Helper | file-queue', function (hooks) {
   });
 
   test('service can be used before helper with named queue, provided FileQueueService.create is called first', async function (assert) {
-    const fileQueueService = this.owner.lookup(
-      'service:file-queue',
-    ) as FileQueueService;
+    const fileQueueService = this.owner.lookup('service:file-queue');
     const customName = 'uploads';
     fileQueueService.create(customName);
 
@@ -322,7 +346,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
         {{#let (fileQueue name=customName) as |queue|}}
           <label>
-            <input type='file' {{queue.selectFile}} hidden />
+            <input type="file" {{queue.selectFile}} hidden />
             Select File
           </label>
         {{/let}}

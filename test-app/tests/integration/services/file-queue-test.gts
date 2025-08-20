@@ -16,13 +16,15 @@ module('Integration | Service | file queue', function (hooks) {
     );
     existingQueue.add(existingQueueFile);
 
-    await render(<template>
-      <div id='files'>
-        {{#each subject.files as |file|}}
-          {{file.name}}
-        {{/each}}
-      </div>
-    </template>);
+    await render(
+      <template>
+        <div id="files">
+          {{#each subject.files as |file|}}
+            {{file.name}}
+          {{/each}}
+        </div>
+      </template>,
+    );
 
     assert
       .dom('#files')

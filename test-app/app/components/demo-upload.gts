@@ -35,6 +35,16 @@ export class Asset {
   }
 }
 
+interface UploadResponse {
+  data: {
+    attributes: {
+      filename: string;
+      url: string;
+      type: string;
+    };
+  };
+}
+
 export default class DemoUpload extends Component<DemoUploadSignature> {
   uploadProof = enqueueTask(async (file: UploadFile) => {
     const asset = new Asset({
@@ -44,14 +54,14 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
 
     this.args.files.push(asset);
 
-    let response;
+    let response: Response;
     try {
       response = await file.upload('/photos/new');
-    } catch (e) {
+    } catch {
       return;
     }
 
-    const json = await response.json();
+    const json = (await response.json()) as UploadResponse;
     const { filename, url, type } = json.data.attributes;
     Object.assign(asset, {
       filename,
@@ -64,19 +74,19 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
   <template>
     {{#let
       (fileQueue
-        name='photos'
+        name="photos"
         onFileAdded=this.uploadProof.perform
         onUploadSucceeded=@onUploadSucceeded
       )
       as |queue|
     }}
-      <div class='docs-my-8 text-center'>
-        <FileDropzone @queue={{queue}} class='demo-dropzone' as |dropzone|>
+      <div class="docs-my-8 text-center">
+        <FileDropzone @queue={{queue}} class="demo-dropzone" as |dropzone|>
           <div
-            class='dropzone-upload-area upload {{if dropzone.active "active"}}'
+            class="dropzone-upload-area upload {{if dropzone.active 'active'}}"
           >
             {{#if dropzone.supported}}
-              <div class='emoji mb-16'>
+              <div class="emoji mb-16">
                 {{#if dropzone.active}}
                   ✨👽✨
                 {{else}}
@@ -91,12 +101,12 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
               {{/if}}
             </p>
             <p>
-              <label for='upload-photo'>
+              <label for="upload-photo">
                 Or choose a file:
                 <input
-                  type='file'
-                  id='upload-photo'
-                  accept='image/*,video/*,audio/*'
+                  type="file"
+                  id="upload-photo"
+                  accept="image/*,video/*,audio/*"
                   multiple
                   {{queue.selectFile}}
                 />
@@ -111,13 +121,13 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
           </div>
         </FileDropzone>
       </div>
-      <div class='my-16'>
-        <ul class='demo-uploaded-files-list'>
+      <div class="my-16">
+        <ul class="demo-uploaded-files-list">
           {{#each @files as |file|}}
             <li>
-              <div class='card text-center'>
+              <div class="card text-center">
                 {{#if file.file}}
-                  <div class='mb-4'>{{file.file.progress}}%</div>
+                  <div class="mb-4">{{file.file.progress}}%</div>
                 {{else if file.isImage}}
                   <img src={{file.preview}} alt={{file.filename}} />
                 {{else if file.isVideo}}
@@ -130,7 +140,7 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
                   >
                   </video>
                 {{/if}}
-                <span class='caption'>{{file.filename}}</span>
+                <span class="caption">{{file.filename}}</span>
               </div>
             </li>
           {{/each}}

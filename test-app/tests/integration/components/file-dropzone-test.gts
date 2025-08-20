@@ -7,7 +7,7 @@ import {
   dragLeave,
 } from 'ember-file-upload/test-support';
 import { Queue } from 'ember-file-upload';
-import type { FileQueueService, UploadFile } from 'ember-file-upload';
+import type { UploadFile } from 'ember-file-upload';
 import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
 
@@ -19,9 +19,7 @@ module('Integration | Component | FileDropzone', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function (this: LocalTestContext) {
-    const fileQueueService = this.owner.lookup(
-      'service:file-queue',
-    ) as FileQueueService;
+    const fileQueueService = this.owner.lookup('service:file-queue');
     this.queue = new Queue({ name: 'test', fileQueue: fileQueueService });
   });
 
@@ -29,13 +27,15 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const onDragEnter = () => assert.step('onDragEnter');
     const queue = this.queue;
 
-    await render(<template>
-      <FileDropzone
-        class='test-dropzone'
-        @queue={{queue}}
-        @onDragEnter={{onDragEnter}}
-      />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @onDragEnter={{onDragEnter}}
+        />
+      </template>,
+    );
 
     await dragEnter('.test-dropzone');
 
@@ -47,14 +47,16 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const filter = (file: File) => file.name.includes('.txt');
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.name));
-    await render(<template>
-      <FileDropzone
-        class='test-dropzone'
-        @queue={{queue}}
-        @filter={{filter}}
-        @onDrop={{onDrop}}
-      />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @filter={{filter}}
+          @onDrop={{onDrop}}
+        />
+      </template>,
+    );
 
     await dragAndDrop(
       '.test-dropzone',
@@ -71,9 +73,15 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.name));
 
-    await render(<template>
-      <FileDropzone class='test-dropzone' @queue={{queue}} @onDrop={{onDrop}} />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @onDrop={{onDrop}}
+        />
+      </template>,
+    );
 
     await dragAndDrop('.test-dropzone', new File([], 'dingus.txt'));
 
@@ -84,13 +92,15 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const queue = this.queue;
     const onDragLeave = () => assert.step('onDragLeave');
 
-    await render(<template>
-      <FileDropzone
-        class='test-dropzone'
-        @queue={{queue}}
-        @onDragLeave={{onDragLeave}}
-      />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @onDragLeave={{onDragLeave}}
+        />
+      </template>,
+    );
 
     await dragEnter('.test-dropzone', new File([], 'dingus.txt'));
     await dragLeave('.test-dropzone', new File([], 'dingus.txt'));
@@ -99,16 +109,18 @@ module('Integration | Component | FileDropzone', function (hooks) {
   });
 
   test('yielded properties', async function (this: LocalTestContext, assert) {
-    await render(<template>
-      {{#let (fileQueue name='test') as |helperQueue|}}
-        <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
-          <div class='supported'>{{dropzone.supported}}</div>
-          <div class='active'>{{dropzone.active}}</div>
-          {{! @glint-ignore }}
-          <div class='queue-name'>{{queue.name}}</div>
-        </FileDropzone>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue name="test") as |helperQueue|}}
+          <FileDropzone @queue={{helperQueue}} as |dropzone queue|>
+            <div class="supported">{{dropzone.supported}}</div>
+            <div class="active">{{dropzone.active}}</div>
+            {{! @glint-ignore }}
+            <div class="queue-name">{{queue.name}}</div>
+          </FileDropzone>
+        {{/let}}
+      </template>,
+    );
 
     assert.dom('.supported').hasText('true');
     assert.dom('.active').hasText('false');
@@ -120,9 +132,15 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.name));
 
-    await render(<template>
-      <FileDropzone class='test-dropzone' @queue={{queue}} @onDrop={{onDrop}} />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @onDrop={{onDrop}}
+        />
+      </template>,
+    );
 
     await dragAndDrop(
       '.test-dropzone',
@@ -138,14 +156,16 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.name));
 
-    await render(<template>
-      <FileDropzone
-        class='test-dropzone'
-        @queue={{queue}}
-        @multiple={{true}}
-        @onDrop={{onDrop}}
-      />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @multiple={{true}}
+          @onDrop={{onDrop}}
+        />
+      </template>,
+    );
 
     await dragAndDrop(
       '.test-dropzone',
@@ -161,14 +181,16 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.name));
 
-    await render(<template>
-      <FileDropzone
-        class='test-dropzone'
-        @queue={{queue}}
-        @multiple={{false}}
-        @onDrop={{onDrop}}
-      />
-    </template>);
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @multiple={{false}}
+          @onDrop={{onDrop}}
+        />
+      </template>,
+    );
 
     await dragAndDrop(
       '.test-dropzone',
@@ -184,14 +206,16 @@ module('Integration | Component | FileDropzone', function (hooks) {
     const queue = this.queue;
     const documentDragListener = () =>
       assert.step('documentDragListener called');
-    await render(<template>
-      <FileDropzone @queue={{queue}} />
+    await render(
+      <template>
+        <FileDropzone @queue={{queue}} />
 
-      <div class='independent-drag-target'></div>
-    </template>);
+        <div class="independent-drag-target"></div>
+      </template>,
+    );
     document.addEventListener('drop', documentDragListener);
-
     await triggerEvent('.independent-drag-target', 'drop');
+    document.removeEventListener('drop', documentDragListener);
 
     assert.verifySteps(
       ['documentDragListener called'],
