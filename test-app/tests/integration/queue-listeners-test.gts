@@ -49,23 +49,25 @@ module('Integration | queue listeners', function (hooks) {
       assert.step(`second component: ${file?.name}`);
     };
 
-    await render(<template>
-      {{#if state.firstComponent}}
-        <label>
-          <input
-            type='file'
-            {{queue.selectFile onFilesSelected=firstOnFilesSelected}}
-          />
-        </label>
-      {{else}}
-        <label>
-          <input
-            type='file'
-            {{queue.selectFile onFilesSelected=secondOnFilesSelected}}
-          />
-        </label>
-      {{/if}}
-    </template>);
+    await render(
+      <template>
+        {{#if state.firstComponent}}
+          <label>
+            <input
+              type="file"
+              {{queue.selectFile onFilesSelected=firstOnFilesSelected}}
+            />
+          </label>
+        {{else}}
+          <label>
+            <input
+              type="file"
+              {{queue.selectFile onFilesSelected=secondOnFilesSelected}}
+            />
+          </label>
+        {{/if}}
+      </template>,
+    );
 
     await assertOnlyRenderedComponentCallbacks(state, assert);
   });
@@ -80,21 +82,23 @@ module('Integration | queue listeners', function (hooks) {
       assert.step(`second component: ${file?.name}`);
     };
 
-    await render(<template>
-      {{#if state.firstComponent}}
-        {{#let (fileQueue onFileAdded=firstOnFileAdd) as |queue|}}
-          <label>
-            <input type="file" {{queue.selectFile}} />
-          </label>
-        {{/let}}
-      {{else}}
-        {{#let (fileQueue onFileAdded=secondOnFileAdd) as |queue|}}
-          <label>
-            <input type="file" {{queue.selectFile}} />
-          </label>
-        {{/let}}
-      {{/if}}
-    </template>);
+    await render(
+      <template>
+        {{#if state.firstComponent}}
+          {{#let (fileQueue onFileAdded=firstOnFileAdd) as |queue|}}
+            <label>
+              <input type="file" {{queue.selectFile}} />
+            </label>
+          {{/let}}
+        {{else}}
+          {{#let (fileQueue onFileAdded=secondOnFileAdd) as |queue|}}
+            <label>
+              <input type="file" {{queue.selectFile}} />
+            </label>
+          {{/let}}
+        {{/if}}
+      </template>,
+    );
 
     await assertOnlyRenderedComponentCallbacks(state, assert);
   });

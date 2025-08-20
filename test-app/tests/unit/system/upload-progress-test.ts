@@ -1,5 +1,3 @@
- 
-
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { FileSource, UploadFile } from 'ember-file-upload';

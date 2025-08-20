@@ -41,7 +41,6 @@ module('Unit | UploadFile', function (hooks) {
   });
 
   test('it does not mutate the provided options', async function (this: MirageTestContext, assert) {
-     
     this.server.post('/image', function () {});
 
     const file = UploadFile.fromBlob(

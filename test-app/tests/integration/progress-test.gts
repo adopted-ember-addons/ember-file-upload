@@ -50,9 +50,11 @@ module('Integration | progress', function (hooks) {
       }
     };
 
-    await render(<template>
-      <DemoUpload @files={{files}} @onUploadSucceeded={{uploadSucceeded}} />
-    </template>);
+    await render(
+      <template>
+        <DemoUpload @files={{files}} @onUploadSucceeded={{uploadSucceeded}} />
+      </template>,
+    );
 
     const data = await getImageBlob();
 

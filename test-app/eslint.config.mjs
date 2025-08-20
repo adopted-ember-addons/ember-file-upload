@@ -94,7 +94,7 @@ export default ts.config(
     rules: {
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
-    }
+    },
   },
   {
     files: ['tests/**/*-test.{js,gjs,ts,gts}'],

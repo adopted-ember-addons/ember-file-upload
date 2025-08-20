@@ -57,13 +57,15 @@ module('Integration | Component | mirage-handler', function (hooks) {
     );
 
     const fileAdded = (file: UploadFile) => file.upload('/folder/1/file');
-    await render(<template>
-      {{#let (fileQueue name='test' onFileAdded=fileAdded) as |queue|}}
-        <label>
-          <input type='file' {{queue.selectFile}} />
-        </label>
-      {{/let}}
-    </template>);
+    await render(
+      <template>
+        {{#let (fileQueue name="test" onFileAdded=fileAdded) as |queue|}}
+          <label>
+            <input type="file" {{queue.selectFile}} />
+          </label>
+        {{/let}}
+      </template>,
+    );
 
     const file = new File(['some-data'], 'text.txt', { type: 'text/plain' });
     await selectFiles('input', file);
@@ -149,13 +151,15 @@ module('Integration | Component | mirage-handler', function (hooks) {
         const fileAdded = (file: UploadFile) => {
           return file.upload('/upload-file');
         };
-        await render(<template>
-          {{#let (fileQueue name='test' onFileAdded=fileAdded) as |queue|}}
-            <label>
-              <input type='file' {{queue.selectFile}} />
-            </label>
-          {{/let}}
-        </template>);
+        await render(
+          <template>
+            {{#let (fileQueue name="test" onFileAdded=fileAdded) as |queue|}}
+              <label>
+                <input type="file" {{queue.selectFile}} />
+              </label>
+            {{/let}}
+          </template>,
+        );
 
         await selectFiles('input', scenario.file);
       });
@@ -189,16 +193,15 @@ module('Integration | Component | mirage-handler', function (hooks) {
         const fileAdded = (file: UploadFile) => {
           return file.upload('/upload-file');
         };
-        await render(<template>
-          {{#let
-            (fileQueue name='test' onFileAdded=fileAdded)
-            as |queue|
-          }}
-            <label>
-              <input type='file' {{queue.selectFile}} />
-            </label>
-          {{/let}}
-        </template>);
+        await render(
+          <template>
+            {{#let (fileQueue name="test" onFileAdded=fileAdded) as |queue|}}
+              <label>
+                <input type="file" {{queue.selectFile}} />
+              </label>
+            {{/let}}
+          </template>,
+        );
 
         await selectFiles('input', file);
       });
