@@ -75,7 +75,7 @@
     "@typescript-eslint/parser": "^8.40.0",
     "concurrently": "^9.0.0",
     "ember-cli-htmlbars": "^6.1.1",
-    "ember-modifier": "^3.2.7",
+    "ember-modifier": "^4.0.0",
     "ember-source": "~6.4.0",
     "ember-template-lint": "^5.0.0",
     "eslint": "^8.42.0",
