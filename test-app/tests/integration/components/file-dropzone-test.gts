@@ -214,8 +214,8 @@ module('Integration | Component | FileDropzone', function (hooks) {
       </template>,
     );
     document.addEventListener('drop', documentDragListener);
-
     await triggerEvent('.independent-drag-target', 'drop');
+    document.removeEventListener('drop', documentDragListener);
 
     assert.verifySteps(
       ['documentDragListener called'],
