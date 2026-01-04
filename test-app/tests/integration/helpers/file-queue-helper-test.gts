@@ -225,7 +225,12 @@ module('Integration | Helper | file-queue', function (hooks) {
       uploadHandler(() => new MirageResponse(500)),
     );
 
-    const upload = (file: UploadFile) => file.upload('/upload-file');
+    const upload = (file: UploadFile) => {
+      file.upload('/upload-file').catch(function(response: Response) {
+        assert.step('upload promise rejected');
+        assert.strictEqual(response.status, 500, 'rejected with response object');
+      })
+    };
 
     const uploadFailed = (file: UploadFile, response: Response) => {
       assert.step('upload failed');
@@ -250,7 +255,7 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
-    assert.verifySteps(['upload failed'], 'onUploadFailed was called');
+    assert.verifySteps(['upload failed', 'upload promise rejected'], 'onUploadFailed was called and the upload promise rejected');
   });
 
   test('files in the queue are autotracked', async function (assert) {
