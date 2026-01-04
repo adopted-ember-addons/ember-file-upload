@@ -4818,8 +4818,8 @@ packages:
   hast-util-whitespace@1.0.4:
     resolution: {integrity: sha512-I5GTdSfhYfAPNztx2xJRQpG8cuDSNt599/7YUn7Gx/WxNMsG+a835k97TDkFgk123cwjfwINaZknkKkphx/f2A==}
 
-  heimdalljs-fs-monitor@1.1.1:
-    resolution: {integrity: sha512-BHB8oOXLRlrIaON0MqJSEjGVPDyqt2Y6gu+w2PaEZjrCxeVtZG7etEZp7M4ZQ80HNvnr66KIQ2lot2qdeG8HgQ==}
+  heimdalljs-fs-monitor@1.1.2:
+    resolution: {integrity: sha512-M7OPf3Tu+ybhAXdiC07O1vUYFyhCgfew4L3vaG2nn4Be05xzNvtBcU6IKMTfHJ9AxWFa3w9rrmiJovkxHhpopw==}
 
   heimdalljs-graph@1.0.0:
     resolution: {integrity: sha512-v2AsTERBss0ukm/Qv4BmXrkwsT5x6M1V5Om6E8NcDQ/ruGkERsfsuLi5T8jx8qWzKMGYlwzAd7c/idymxRaPzA==}
@@ -6583,6 +6583,7 @@ packages:
   raw-body@1.1.7:
     resolution: {integrity: sha512-WmJJU2e9Y6M5UzTOkHaM7xJGAPQD8PNzx3bAd2+uhZAim6wDk6dAZxPVYLF67XhbR4hmKGh33Lpmh4XWrCH5Mg==}
     engines: {node: '>= 0.8.0'}
+    deprecated: No longer maintained. Please upgrade to a stable version.
 
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
@@ -11587,7 +11588,7 @@ snapshots:
   babel-remove-types@1.0.1:
     dependencies:
       '@babel/core': 7.28.3
-      '@babel/plugin-syntax-decorators': 7.25.9(@babel/core@7.28.3)
+      '@babel/plugin-syntax-decorators': 7.27.1(@babel/core@7.28.3)
       '@babel/plugin-transform-typescript': 7.26.7(@babel/core@7.28.3)
       prettier: 2.8.8
     transitivePeerDependencies:
@@ -13083,7 +13084,7 @@ snapshots:
   ember-cli-preprocess-registry@5.0.1:
     dependencies:
       broccoli-funnel: 3.0.8
-      debug: 4.4.0
+      debug: 4.4.1
     transitivePeerDependencies:
       - supports-color
 
@@ -13236,7 +13237,7 @@ snapshots:
       git-repo-info: 2.1.1
       glob: 8.1.0
       heimdalljs: 0.2.6
-      heimdalljs-fs-monitor: 1.1.1
+      heimdalljs-fs-monitor: 1.1.2
       heimdalljs-graph: 1.0.0
       heimdalljs-logger: 0.1.10
       http-proxy: 1.18.1
@@ -13563,8 +13564,8 @@ snapshots:
 
   ember-router-generator@2.0.0:
     dependencies:
-      '@babel/parser': 7.26.7
-      '@babel/traverse': 7.26.7
+      '@babel/parser': 7.28.3
+      '@babel/traverse': 7.28.3
       recast: 0.18.10
     transitivePeerDependencies:
       - supports-color
@@ -13615,7 +13616,7 @@ snapshots:
       inflection: 2.0.1
       route-recognizer: 0.3.4
       router_js: 8.0.6(route-recognizer@0.3.4)(rsvp@4.8.5)
-      semver: 7.6.3
+      semver: 7.7.2
       silent-error: 1.1.1
       simple-html-tokenizer: 0.5.11
     transitivePeerDependencies:
@@ -13662,7 +13663,7 @@ snapshots:
       inflection: 2.0.1
       route-recognizer: 0.3.4
       router_js: 8.0.6(route-recognizer@0.3.4)(rsvp@4.8.5)
-      semver: 7.6.3
+      semver: 7.7.2
       silent-error: 1.1.1
       simple-html-tokenizer: 0.5.11
     transitivePeerDependencies:
@@ -15078,7 +15079,7 @@ snapshots:
 
   hast-util-whitespace@1.0.4: {}
 
-  heimdalljs-fs-monitor@1.1.1:
+  heimdalljs-fs-monitor@1.1.2:
     dependencies:
       callsites: 3.1.0
       clean-stack: 2.2.0
@@ -17106,7 +17107,7 @@ snapshots:
   remove-types@1.0.0:
     dependencies:
       '@babel/core': 7.28.3
-      '@babel/plugin-syntax-decorators': 7.25.9(@babel/core@7.28.3)
+      '@babel/plugin-syntax-decorators': 7.27.1(@babel/core@7.28.3)
       '@babel/plugin-transform-typescript': 7.26.7(@babel/core@7.28.3)
       prettier: 2.8.8
     transitivePeerDependencies:
@@ -18186,7 +18187,7 @@ snapshots:
 
   tree-sync@2.1.0:
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.1
       fs-tree-diff: 2.0.1
       mkdirp: 0.5.6
       quick-temp: 0.1.8
