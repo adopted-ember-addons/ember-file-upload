@@ -1,4 +1,3 @@
-import { bind } from '@ember/runloop';
 import RSVP from 'rsvp';
 import type { HTTPRequestOptions } from '../interfaces.ts';
 
@@ -83,20 +82,20 @@ export default class HTTPRequest {
       newPromise.then = promise.then;
       return newPromise;
     };
-    this.request.onabort = bind(this, function () {
+    this.request.onabort = () => {
       this.onabort?.();
       aborted.resolve();
-    });
+    };
 
-    this.request.onloadstart = bind(this, function (evt) {
+    this.request.onloadstart = (evt) => {
       this.onloadstart?.(evt);
-    });
-    this.request.onprogress = bind(this, function (evt) {
+    };
+    this.request.onprogress = (evt) => {
       this.onprogress?.(evt);
-    });
-    this.request.onloadend = bind(this, function (evt) {
+    };
+    this.request.onloadend = (evt) => {
       this.onloadend?.(evt);
-    });
+    };
 
     if (this.request.upload) {
       this.request.upload.onloadstart = this.request.onloadstart;
@@ -104,18 +103,18 @@ export default class HTTPRequest {
       this.request.upload.onloadend = this.request.onloadend;
     }
 
-    this.request.onload = bind(this, function () {
+    this.request.onload = () => {
       const response = parseResponse(this.request);
       if (Math.floor(response.status / 200) === 1) {
         resolve(response);
       } else {
         reject(response);
       }
-    });
+    };
 
-    this.request.onerror = bind(this, function () {
+    this.request.onerror = () => {
       reject(parseResponse(this.request));
-    });
+    };
 
     Object.defineProperty(this, 'timeout', {
       get() {
@@ -128,10 +127,10 @@ export default class HTTPRequest {
       configurable: false,
     });
 
-    this.request.ontimeout = bind(this, function () {
+    this.request.ontimeout = () => {
       this.ontimeout?.();
       reject(parseResponse(this.request));
-    });
+    };
   }
 
   send(body: Parameters<XMLHttpRequest['send']>[0]) {
