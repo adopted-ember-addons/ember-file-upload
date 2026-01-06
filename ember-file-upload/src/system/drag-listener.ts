@@ -23,7 +23,6 @@ export default class DragListener {
 
   _handlers: DragListenerHandlers = {};
   _handlersAttached = false;
-  _scheduled = false;
 
   constructor(dropzone: Element) {
     this._dropzone = dropzone;
@@ -218,15 +217,9 @@ export default class DragListener {
           queuedEvent.event !== cancelledEvent.event
         );
       });
-      if (this._events.length === 0) {
-        this._scheduled = false;
-      }
     } else if (!isDuplicate) {
       this._events.push({ eventName, listener, event });
-      if (!this._scheduled) {
-        this._scheduled = true;
-        this.sendEvents();
-      }
+      this.sendEvents();
     }
   }
 
@@ -241,7 +234,6 @@ export default class DragListener {
     });
 
     this._events = [];
-    this._scheduled = false;
   }
 
   @action
@@ -250,7 +242,6 @@ export default class DragListener {
 
     this._stack = [];
     this._events = [];
-    this._scheduled = false;
     this._listener = null;
 
     evt.preventDefault();
