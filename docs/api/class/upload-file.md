@@ -91,10 +91,10 @@ An object which may be passed as an optional second argument to `upload()` and `
 | -------------------- | --------------------------------------------------------- | ------------------------------------- | --------------------------------------------- |
 | `upload`             | Upload file to your server.                               | `url: string, options: UploadOptions` | `Promise<Response>`                           |
 | `uploadBinary`       | Upload file with `application/octet-stream` content type. | `url: string, options: UploadOptions` | `Promise<Response>`                           |
-| `readAsArrayBuffer`  | Resolves with Blob as ArrayBuffer.                        |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
-| `readAsDataUrl`      | Resolves with Blob as DataURL.                            |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
-| `readAsBinaryString` | Resolves with Blob as binary string                       |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
-| `readAsText`         | Resolves with Blob as plain text                          |                                       | `RSVP.Promise<string \| ArrayBuffer \| null>` |
+| `readAsArrayBuffer`  | Resolves with Blob as ArrayBuffer.                        |                                       | `Promise<string \| ArrayBuffer \| null>` |
+| `readAsDataUrl`      | Resolves with Blob as DataURL.                            |                                       | `Promise<string \| ArrayBuffer \| null>` |
+| `readAsBinaryString` | Resolves with Blob as binary string                       |                                       | `Promise<string \| ArrayBuffer \| null>` |
+| `readAsText`         | Resolves with Blob as plain text                          |                                       | `Promise<string \| ArrayBuffer \| null>` |
 
 ## Static methods
 
