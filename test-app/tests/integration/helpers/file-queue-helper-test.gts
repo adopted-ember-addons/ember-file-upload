@@ -269,7 +269,7 @@ module('Integration | Helper | file-queue', function (hooks) {
     const fileAdded = (file: UploadFile) => {
       file.state = FileState.Uploading;
       // Using waitForPromise to ensure the tests wait for this operation before continuing
-      waitForPromise(new Promise((resolve) => {
+      waitForPromise(new Promise<void>((resolve) => {
         setTimeout(() => {
           file.state = FileState.Uploaded;
           file.queue?.flush();
