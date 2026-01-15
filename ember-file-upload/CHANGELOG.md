@@ -1,5 +1,24 @@
 # Changelog
 
+## Release (2026-01-15)
+
+* ember-file-upload 9.5.1 (patch)
+
+#### :house: Internal
+* Other
+  * [#1138](https://github.com/adopted-ember-addons/ember-file-upload/pull/1138) Bump addon tracked-built-ins to 4.1.0 ([@gilest](https://github.com/gilest))
+  * [#1128](https://github.com/adopted-ember-addons/ember-file-upload/pull/1128) Avoid global promise rejection in test runs ([@gilest](https://github.com/gilest))
+  * [#1119](https://github.com/adopted-ember-addons/ember-file-upload/pull/1119) Drop all ember-data/warp-drive blueprint packages (not needed) ([@gilest](https://github.com/gilest))
+  * [#1117](https://github.com/adopted-ember-addons/ember-file-upload/pull/1117) chore(deps): bump caniuse/browserslist db ([@gilest](https://github.com/gilest))
+  * [#1109](https://github.com/adopted-ember-addons/ember-file-upload/pull/1109) Bump node to latest LTS in workflows ([@gilest](https://github.com/gilest))
+  * [#1108](https://github.com/adopted-ember-addons/ember-file-upload/pull/1108) Match uploaded bytes reported by Chrome ([@gilest](https://github.com/gilest))
+* `ember-file-upload`
+  * [#1118](https://github.com/adopted-ember-addons/ember-file-upload/pull/1118) Update eslint-plugin-ember  ([@gilest](https://github.com/gilest))
+  * [#1114](https://github.com/adopted-ember-addons/ember-file-upload/pull/1114) Update ember-cli blueprints to 6.4.0 LTS ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## Release (2025-06-26)
 
 * ember-file-upload 9.5.0 (minor)
