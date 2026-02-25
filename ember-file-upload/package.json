@@ -87,7 +87,7 @@
     "rollup": "^4.0.0",
     "tracked-built-ins": "^4.0.0",
     "typescript": "~5.9.0",
-    "webpack": "^5.94.0"
+    "webpack": "^5.104.1"
   },
   "peerDependencies": {
     "@ember/test-helpers": "^2.9.3 || ^3.0.3 || ^4.0.4 || ^5.0.0",

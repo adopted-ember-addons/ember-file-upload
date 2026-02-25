@@ -83,7 +83,7 @@
     "stylelint": "^16.19.1",
     "stylelint-config-standard": "^36.0.1",
     "tracked-built-ins": "^4.0.0",
-    "webpack": "^5.99.7"
+    "webpack": "^5.104.1"
   },
   "dependenciesMeta": {
     "ember-file-upload": {
