@@ -1,4 +1,3 @@
-import RSVP from 'rsvp';
 import UploadFileReader from '../system/upload-file-reader.ts';
 import { assert } from '@ember/debug';
 
@@ -86,8 +85,8 @@ const pipelines = {
     };
   },
 
-  image(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
-    return new RSVP.Promise(function (resolve: (result: ImageResult) => void) {
+  image(_file: File, metadata: FileMetadata): Promise<AdditionalMetadata> {
+    return new Promise(function (resolve: (result: ImageResult) => void) {
       const img = new Image();
       img.onload = () => resolve({ hasAdditionalMetadata: true, img });
       img.onerror = () => resolve({ hasAdditionalMetadata: false });
@@ -101,9 +100,9 @@ const pipelines = {
     });
   },
 
-  video(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
+  video(_file: File, metadata: FileMetadata): Promise<AdditionalMetadata> {
     const videoEl = document.createElement('video');
-    return new RSVP.Promise(function (resolve: (result: VideoResult) => void) {
+    return new Promise(function (resolve: (result: VideoResult) => void) {
       videoEl.addEventListener('loadeddata', () =>
         resolve({ hasAdditionalMetadata: true, video: videoEl }),
       );
@@ -125,9 +124,9 @@ const pipelines = {
       });
   },
 
-  audio(_file: File, metadata: FileMetadata): RSVP.Promise<AdditionalMetadata> {
+  audio(_file: File, metadata: FileMetadata): Promise<AdditionalMetadata> {
     const audioEl = document.createElement('audio');
-    return new RSVP.Promise(function (resolve: (result: AudioResult) => void) {
+    return new Promise(function (resolve: (result: AudioResult) => void) {
       audioEl.addEventListener('loadeddata', () =>
         resolve({ hasAdditionalMetadata: true, audio: audioEl }),
       );
@@ -174,7 +173,7 @@ export async function extractFileMetadata(file: File) {
     metadataPipelines.push(pipelines.audio(file, metadata));
   }
 
-  const additionalMetadata = await RSVP.all(metadataPipelines);
+  const additionalMetadata = await Promise.all(metadataPipelines);
 
   additionalMetadata.forEach(function (data) {
     Object.assign(metadata, data);

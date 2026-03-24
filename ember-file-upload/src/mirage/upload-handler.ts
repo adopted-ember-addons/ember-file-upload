@@ -1,4 +1,3 @@
-import RSVP from 'rsvp';
 import { extractFormData, extractFileMetadata } from './utils.ts';
 import {
   macroCondition,
@@ -44,7 +43,7 @@ export function uploadHandler(
       let loaded = 0;
       const total = file.value.size;
 
-      return new RSVP.Promise((resolve) => {
+      return new Promise((resolve) => {
         const start = new Date().getTime();
 
         request.upload.onloadstart(

@@ -1,6 +1,5 @@
 import { assert } from '@ember/debug';
 import HTTPRequest from './http-request.ts';
-import RSVP from 'rsvp';
 import { waitForPromise } from '@ember/test-waiters';
 import type { UploadFile } from '../upload-file.ts';
 import { FileState, type UploadOptions } from '../interfaces.ts';
@@ -187,7 +186,7 @@ export function upload(
       .catch(function (response) {
         file.state = FileState.Failed;
         file.queue?.uploadFailed(file, response);
-        return RSVP.reject(response);
+        return Promise.reject(response);
       })
       .finally(() => file.queue?.flush()),
   );

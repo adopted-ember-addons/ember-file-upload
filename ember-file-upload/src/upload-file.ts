@@ -6,7 +6,6 @@ import UploadFileReader from './system/upload-file-reader.ts';
 
 import type { Queue } from './queue.ts';
 import { guidFor } from '@ember/object/internals';
-import RSVP from 'rsvp';
 import { FileSource, FileState, type UploadOptions } from './interfaces.ts';
 import { estimatedRate } from './system/rate.ts';
 
@@ -182,7 +181,7 @@ export class UploadFile {
       this,
       url,
       options,
-      (request: HTTPRequest, opts: UploadOptions): RSVP.Promise<Response> => {
+      (request: HTTPRequest, opts: UploadOptions): Promise<Response> => {
         // Build the form
         const form = new FormData();
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
