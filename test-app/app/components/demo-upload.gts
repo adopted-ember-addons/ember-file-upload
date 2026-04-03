@@ -133,7 +133,6 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
                 {{else if file.isVideo}}
                   <video
                     src={{file.preview}}
-                    alt={{file.filename}}
                     muted
                     loop
                     autoplay
