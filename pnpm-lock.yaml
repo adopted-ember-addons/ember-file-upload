@@ -21,7 +21,7 @@ importers:
   ember-file-upload:
     dependencies:
       '@ember/test-waiters':
-        specifier: ^3.0.0 || ^4.0.0
+        specifier: ^4.0.0
         version: 4.1.1(@babel/core@7.29.0)(@glint/template@1.7.7)
       '@embroider/addon-shim':
         specifier: ^1.10.2
