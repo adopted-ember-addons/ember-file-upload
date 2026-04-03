@@ -4,22 +4,22 @@
   "repository": "https://github.com/adopted-ember-addons/ember-file-upload",
   "scripts": {
     "ember-try-one": "pnpm -F test-app ember-try-one",
+    "lint": "pnpm --filter '*' lint",
+    "lint:fix": "pnpm --filter '*' lint:fix",
     "release": "pnpm prepare && pnpm -F ember-file-upload release",
     "start": "npm-run-all --parallel start:*",
     "start:addon": "pnpm -F ember-file-upload start",
     "start:test-app": "pnpm -F test-app start",
-    "lint": "pnpm --filter '*' lint",
-    "lint:fix": "pnpm --filter '*' lint:fix",
     "test": "pnpm prepare && pnpm -F test-app test:ember",
     "test:test-app": "pnpm -F test-app test",
     "test:watch": "npm-run-all --aggregate-output --continue-on-error --parallel test:watch:*",
-    "test:watch:test-app": "pnpm -F test-app test --server",
     "test:watch:addon": "pnpm -F ember-file-upload start",
+    "test:watch:test-app": "pnpm -F test-app test --server",
     "website": "pnpm --filter website start"
   },
   "devDependencies": {
     "npm-run-all2": "^5.0.0",
-    "release-plan": "^0.17.0"
+    "release-plan": "^0.17.4"
   },
   "packageManager": "pnpm@9.15.9",
   "pnpm": {
