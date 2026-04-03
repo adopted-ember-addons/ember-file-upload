@@ -10,7 +10,7 @@ Uploads can be managed through queues and continue in the background, even after
 
 ## Compatibility
 
-* Ember.js 3.28 or above
+* Ember.js 4.4 or above
 * TypeScript 5.0 or above
 * ember-auto-import 2.0 or above
 * Modern browsers. Internet Explorer 11 might work but is not offically supported.
