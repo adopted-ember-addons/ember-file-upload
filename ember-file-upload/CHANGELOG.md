@@ -1,5 +1,19 @@
 # Changelog
 
+## Release (2026-04-03)
+
+* ember-file-upload 10.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-file-upload`
+  * [#1147](https://github.com/adopted-ember-addons/ember-file-upload/pull/1147) Drop support for Ember < 4.4 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#1145](https://github.com/adopted-ember-addons/ember-file-upload/pull/1145) Update release-plan ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2026-03-24)
 
 * ember-file-upload 9.6.0 (minor)
