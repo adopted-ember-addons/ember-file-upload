@@ -74,7 +74,7 @@ importers:
         version: 1.5.2(typescript@5.9.3)
       '@glint/environment-ember-loose':
         specifier: ^1.5.2
-        version: 1.5.2(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-htmlbars@6.3.0)(ember-modifier@3.2.7(@babel/core@7.29.0))
+        version: 1.5.2(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-htmlbars@7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)))(ember-modifier@3.2.7(@babel/core@7.29.0))
       '@glint/template':
         specifier: ^1.7.7
         version: 1.7.7
@@ -97,8 +97,8 @@ importers:
         specifier: ^9.2.1
         version: 9.2.1
       ember-cli-htmlbars:
-        specifier: ^6.3.0
-        version: 6.3.0
+        specifier: ^7.0.0
+        version: 7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       ember-modifier:
         specifier: ^3.2.7
         version: 3.2.7(@babel/core@7.29.0)
@@ -400,8 +400,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1(@babel/core@7.29.0)
       ember-cli-htmlbars:
-        specifier: ^6.3.0
-        version: 6.3.0
+        specifier: ^7.0.0
+        version: 7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       ember-cli-inject-live-reload:
         specifier: ^2.1.0
         version: 2.1.0
@@ -9553,12 +9553,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@glint/environment-ember-loose@1.5.2(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-htmlbars@6.3.0)(ember-modifier@3.2.7(@babel/core@7.29.0))':
+  '@glint/environment-ember-loose@1.5.2(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-htmlbars@7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)))(ember-modifier@3.2.7(@babel/core@7.29.0))':
     dependencies:
       '@glimmer/component': 2.1.1
       '@glint/template': 1.7.7
     optionalDependencies:
-      ember-cli-htmlbars: 6.3.0
+      ember-cli-htmlbars: 7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       ember-modifier: 3.2.7(@babel/core@7.29.0)
 
   '@glint/environment-ember-loose@1.5.2(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-htmlbars@7.0.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)))(ember-modifier@4.3.0(@babel/core@7.29.0))':
