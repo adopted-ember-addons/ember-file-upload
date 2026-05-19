@@ -112,8 +112,8 @@ importers:
         specifier: ^8.57.1
         version: 8.57.1
       eslint-config-prettier:
-        specifier: ^9.1.2
-        version: 9.1.2(eslint@8.57.1)
+        specifier: ^10.0.0
+        version: 10.1.8(eslint@8.57.1)
       eslint-plugin-ember:
         specifier: ^12.7.5
         version: 12.7.5(@babel/core@7.29.0)(@typescript-eslint/parser@8.59.4(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3)
@@ -122,7 +122,7 @@ importers:
         version: 14.0.0(eslint@8.57.1)
       eslint-plugin-prettier:
         specifier: ^5.5.5
-        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@9.1.2(eslint@8.57.1))(eslint@8.57.1)(prettier@3.8.1)
+        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.8.1)
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -277,8 +277,8 @@ importers:
         specifier: ^9.39.4
         version: 9.39.4
       eslint-config-prettier:
-        specifier: ^9.1.2
-        version: 9.1.2(eslint@9.39.4)
+        specifier: ^10.0.0
+        version: 10.1.8(eslint@9.39.4)
       eslint-plugin-ember:
         specifier: ^12.7.5
         version: 12.7.5(@babel/core@7.29.0)(@typescript-eslint/parser@8.59.4(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
@@ -451,8 +451,8 @@ importers:
         specifier: ^9.39.4
         version: 9.39.4
       eslint-config-prettier:
-        specifier: ^9.1.2
-        version: 9.1.2(eslint@9.39.4)
+        specifier: ^10.0.0
+        version: 10.1.8(eslint@9.39.4)
       eslint-plugin-ember:
         specifier: ^12.7.5
         version: 12.7.5(@babel/core@7.29.0)(@typescript-eslint/parser@8.59.4(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
@@ -4026,8 +4026,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-config-prettier@9.1.2:
-    resolution: {integrity: sha512-iI1f+D2ViGn+uvv5HuHVUamg8ll4tN+JRHGc6IJi4TP9Kl976C57fzPXgseXNs8v0iA8aSJpHsTWjDb9QJamGQ==}
+  eslint-config-prettier@10.1.8:
+    resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -13050,11 +13050,11 @@ snapshots:
       eslint: 9.39.4
       semver: 7.7.4
 
-  eslint-config-prettier@9.1.2(eslint@8.57.1):
+  eslint-config-prettier@10.1.8(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
 
-  eslint-config-prettier@9.1.2(eslint@9.39.4):
+  eslint-config-prettier@10.1.8(eslint@9.39.4):
     dependencies:
       eslint: 9.39.4
 
@@ -13137,7 +13137,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@9.1.2(eslint@8.57.1))(eslint@8.57.1)(prettier@3.8.1):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.8.1):
     dependencies:
       eslint: 8.57.1
       prettier: 3.8.1
@@ -13145,7 +13145,7 @@ snapshots:
       synckit: 0.11.12
     optionalDependencies:
       '@types/eslint': 9.6.1
-      eslint-config-prettier: 9.1.2(eslint@8.57.1)
+      eslint-config-prettier: 10.1.8(eslint@8.57.1)
 
   eslint-plugin-qunit@8.2.6(eslint@9.39.4):
     dependencies:
