@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { type Timer, cancel, next } from '@ember/runloop';
 import type {
   DragEventListener,
   QueuedDragEvent,
@@ -24,7 +23,6 @@ export default class DragListener {
 
   _handlers: DragListenerHandlers = {};
   _handlersAttached = false;
-  _scheduled: Timer | null = null;
 
   constructor(dropzone: Element) {
     this._dropzone = dropzone;
@@ -219,17 +217,9 @@ export default class DragListener {
           queuedEvent.event !== cancelledEvent.event
         );
       });
-      if (this._events.length === 0) {
-        if (this._scheduled) {
-          cancel(this._scheduled);
-        }
-        this._scheduled = null;
-      }
     } else if (!isDuplicate) {
       this._events.push({ eventName, listener, event });
-      if (!this._scheduled) {
-        this._scheduled = next(this, this.sendEvents);
-      }
+      this.sendEvents();
     }
   }
 
@@ -244,7 +234,6 @@ export default class DragListener {
     });
 
     this._events = [];
-    this._scheduled = null;
   }
 
   @action
@@ -253,7 +242,6 @@ export default class DragListener {
 
     this._stack = [];
     this._events = [];
-    this._scheduled = null;
     this._listener = null;
 
     evt.preventDefault();

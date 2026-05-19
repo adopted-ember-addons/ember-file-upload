@@ -26,7 +26,6 @@ module.exports = {
       ],
       rules: {
         // Add any custom rules here
-        'ember/no-runloop': 'off',
       },
     },
     // node files
