@@ -226,10 +226,14 @@ module('Integration | Helper | file-queue', function (hooks) {
     );
 
     const upload = (file: UploadFile) => {
-      file.upload('/upload-file').catch(function(response: Response) {
+      file.upload('/upload-file').catch(function (response: Response) {
         assert.step('upload promise rejected');
-        assert.strictEqual(response.status, 500, 'rejected with response object');
-      })
+        assert.strictEqual(
+          response.status,
+          500,
+          'rejected with response object',
+        );
+      });
     };
 
     const uploadFailed = (file: UploadFile, response: Response) => {
@@ -255,7 +259,10 @@ module('Integration | Helper | file-queue', function (hooks) {
 
     await selectFiles('input[type=file]', new File([], 'dingus.txt'));
 
-    assert.verifySteps(['upload failed', 'upload promise rejected'], 'onUploadFailed was called and the upload promise rejected');
+    assert.verifySteps(
+      ['upload failed', 'upload promise rejected'],
+      'onUploadFailed was called and the upload promise rejected',
+    );
   });
 
   test('files in the queue are autotracked', async function (assert) {

@@ -131,12 +131,7 @@ export default class DemoUpload extends Component<DemoUploadSignature> {
                 {{else if file.isImage}}
                   <img src={{file.preview}} alt={{file.filename}} />
                 {{else if file.isVideo}}
-                  <video
-                    src={{file.preview}}
-                    muted
-                    loop
-                    autoplay
-                  >
+                  <video src={{file.preview}} muted loop autoplay>
                   </video>
                 {{/if}}
                 <span class="caption">{{file.filename}}</span>
