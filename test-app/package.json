@@ -44,13 +44,12 @@
     "@glint/environment-ember-template-imports": "^1.5.2",
     "@glint/template": "^1.7.7",
     "@tsconfig/ember": "^3.0.12",
-    "@types/eslint__js": "^9.14.0",
     "@types/qunit": "^2.19.13",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.2.1",
     "ember-auto-import": "^2.13.1",
-    "ember-cli": "~6.4.0",
+    "ember-cli": "~6.7.2",
     "ember-cli-app-version": "^7.0.0",
     "ember-cli-babel": "^8.3.1",
     "ember-cli-clean-css": "^3.0.0",
@@ -62,14 +61,13 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-concurrency": "^3.1.1",
-    "ember-fetch": "^8.1.2",
     "ember-file-upload": "workspace:*",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.3.0",
     "ember-page-title": "^9.0.3",
     "ember-qunit": "^9.0.4",
     "ember-resolver": "^13.2.0",
-    "ember-source": "~6.4.0",
+    "ember-source": "~6.7.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-imports": "^4.4.0",
     "ember-template-lint": "^6.1.0",
@@ -100,7 +98,7 @@
     }
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.11"
   },
   "ember": {
     "edition": "octane"
