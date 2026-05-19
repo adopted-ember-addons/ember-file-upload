@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { enqueueTask, timeout } from 'ember-concurrency';
 import { FileState } from 'ember-file-upload';
 import FileDropzone from 'ember-file-upload/components/file-dropzone';
 import fileQueue from 'ember-file-upload/helpers/file-queue';
@@ -58,8 +58,7 @@ export default class DemoUploadComponent extends Component {
     }
   }
 
-  @task({ enqueue: true })
-  *simulateUpload(file) {
+  simulateUpload = enqueueTask(async (file) => {
     file.state = FileState.Uploading;
 
     onloadstart(
@@ -72,7 +71,7 @@ export default class DemoUploadComponent extends Component {
     );
 
     while (file.progress < 100) {
-      yield timeout(SIMULATED_TICK_INTERVAL);
+      await timeout(SIMULATED_TICK_INTERVAL);
 
       onprogress(
         file,
@@ -95,15 +94,14 @@ export default class DemoUploadComponent extends Component {
 
     file.state = FileState.Uploaded;
     file.queue.flush();
-  }
+  });
 
-  @task({ enqueue: true })
-  *httpUpload(file) {
-    yield file.upload(this.uploadOptions.url, {
+  httpUpload = enqueueTask(async (file) => {
+    await file.upload(this.uploadOptions.url, {
       method: this.uploadOptions.method,
       headers: this.uploadOptions.headers,
     });
-  }
+  });
 
   estimatedTimeRemaining = ({ loaded, rate, size }) => {
     if (!loaded || !rate || !size) return;
