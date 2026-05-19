@@ -415,8 +415,8 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
       ember-concurrency:
-        specifier: ^3.1.1
-        version: 3.1.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
+        specifier: ^5.0.0
+        version: 5.2.0(@babel/core@7.29.0)(@glint/template@1.7.7)
       ember-file-upload:
         specifier: workspace:*
         version: file:ember-file-upload(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glimmer/component@2.1.1)(@glint/template@1.7.7)(ember-cli-mirage@3.0.4(@ember-data/model@5.3.13(39715e1ce7624b4e77b13e2b261bdad6))(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glint/template@1.7.7)(ember-qunit@9.0.4(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glint/template@1.7.7)(qunit@2.25.0))(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))(miragejs@0.1.48)(webpack@5.106.2))(ember-modifier@4.3.0(@babel/core@7.29.0))(miragejs@0.1.48)(tracked-built-ins@4.1.2(@babel/core@7.29.0))
@@ -3771,12 +3771,6 @@ packages:
   ember-compatibility-helpers@1.2.7:
     resolution: {integrity: sha512-BtkjulweiXo9c3yVWrtexw2dTmBrvavD/xixNC6TKOBdrixUwU+6nuOO9dufDWsMxoid7MvtmDpzc9+mE8PdaA==}
     engines: {node: 10.* || >= 12.*}
-
-  ember-concurrency@3.1.1:
-    resolution: {integrity: sha512-doXFYYfy1C7jez+jDDlfahTp03QdjXeSY/W3Zbnx/q3UNJ9g10Shf2d7M/HvWo/TC22eU+6dPLIpqd/6q4pR+Q==}
-    engines: {node: 16.* || >= 18}
-    peerDependencies:
-      ember-source: ^3.28.0 || ^4.0.0 || >=5.0.0
 
   ember-concurrency@5.2.0:
     resolution: {integrity: sha512-NUptPzaxaF2XWqn3VQ5KqiLSRqPFIZhWXH3UkOMhiedmiolxGYjUV96maoHWdd5msxNgQBC0UkZ28m7pV7A0sQ==}
@@ -12553,20 +12547,6 @@ snapshots:
       find-up: 5.0.0
       fs-extra: 9.1.0
       semver: 5.7.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
-
-  ember-concurrency@3.1.1(@babel/core@7.29.0)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)):
-    dependencies:
-      '@babel/helper-plugin-utils': 7.28.6
-      '@babel/types': 7.29.0
-      '@glimmer/tracking': 1.1.2
-      ember-cli-babel: 7.26.11
-      ember-cli-babel-plugin-helpers: 1.1.1
-      ember-cli-htmlbars: 6.3.0
-      ember-compatibility-helpers: 1.2.7(@babel/core@7.29.0)
-      ember-source: 6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
