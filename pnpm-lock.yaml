@@ -349,8 +349,11 @@ importers:
         specifier: ^7.29.0
         version: 7.29.0(@babel/core@7.29.0)
       '@docfy/ember':
-        specifier: ^0.8.5
-        version: 0.8.5(@babel/core@7.29.0)(@glint/template@1.7.7)
+        specifier: ^0.11.0
+        version: 0.11.0(@babel/core@7.29.0)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
+      '@docfy/ember-cli':
+        specifier: ^0.11.0
+        version: 0.11.0(@babel/core@7.29.0)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))(webpack@5.106.2)
       '@ember/optional-features':
         specifier: ^3.0.0
         version: 3.0.0(@types/node@25.5.2)
@@ -1155,13 +1158,18 @@ packages:
     peerDependencies:
       postcss-selector-parser: ^7.0.0
 
-  '@docfy/core@0.8.0':
-    resolution: {integrity: sha512-QQ3qLzXVJIOiULe8ebccX8RvtftDYl0DItYRe1R5qF7Q0JInF+JkX2XcTe6sy14i1sZXDvim+JnlpsKdjDC+Gg==}
+  '@docfy/core@0.11.0':
+    resolution: {integrity: sha512-vv7h1ws7nxM2PO7WIhyGgvbki4ppYSCkh0jzjd0QeGaVpbK75k3C9uwizMcgo/YQgv99hckPRWxW1kPgq5f+4Q==}
     engines: {node: '>= 12.*'}
 
-  '@docfy/ember@0.8.5':
-    resolution: {integrity: sha512-nXjGqJdLoHHa25RsDXxUsEX5AiMniFOgy7Lggod4sDIxheixHavgJIOL7+aZwUFOhUvJl+P+ESAbSaD4RZ8zdw==}
+  '@docfy/ember-cli@0.11.0':
+    resolution: {integrity: sha512-6kDQPUQyB7UZYMSGAHVoz+ILRSFuNvusW2u1q7EkcwO1yC9NqbudKjNDns62VNwGRIN3CkEcv8ID2erHalUdzA==}
     engines: {node: '>= 12'}
+
+  '@docfy/ember@0.11.0':
+    resolution: {integrity: sha512-ogz9AUKRcAi7ho/CI4jQYqLwuITsZ0ttQ6YqFT3e4DQi/d88Q9rGY42p0N2u88NOojor3anyoH4ra07xkt8SBg==}
+    peerDependencies:
+      ember-source: '>= 6.5.0'
 
   '@dual-bundle/import-meta-resolve@4.2.1':
     resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
@@ -3857,10 +3865,6 @@ packages:
   ember-cli-typescript-blueprint-polyfill@0.1.0:
     resolution: {integrity: sha512-g0weUTOnHmPGqVZzkQTl3Nbk9fzEdFkEXydCs5mT1qBjXh8eQ6VlmjjGD5/998UXKuA0pLSCVVMbSp/linLzGA==}
 
-  ember-cli-typescript@4.2.1:
-    resolution: {integrity: sha512-0iKTZ+/wH6UB/VTWKvGuXlmwiE8HSIGcxHamwNhEC5x1mN3z8RfvsFZdQWYUzIWFN2Tek0gmepGRPTwWdBYl/A==}
-    engines: {node: 10.* || >= 12.*}
-
   ember-cli-typescript@5.3.0:
     resolution: {integrity: sha512-gFA+ZwmsvvFwo2Jz/B9GMduEn+fPoGb69qWGP0Tp3+Tu5xypDtIKVSZ5086I3Cr19cLXD4HkrOR3YQvdUKzAkQ==}
     engines: {node: '>= 12.*'}
@@ -3936,10 +3940,6 @@ packages:
         optional: true
       miragejs:
         optional: true
-
-  ember-get-config@1.1.0:
-    resolution: {integrity: sha512-diD+HwwY8QqpEk5DnDYfH7onYwl6NOgr1qv1ENbXih+/iiWYUVS/e0S/PlM7A4gdorD9spn1bnisnTLTf49Wpw==}
-    engines: {node: 12.* || 14.* || >= 16}
 
   ember-get-config@2.1.1:
     resolution: {integrity: sha512-uNmv1cPG/4qsac8oIf5txJ2FZ8p88LEpG4P3dNcjsJS98Y8hd0GPMFwVqpnzI78Lz7VYRGQWY4jnE4qm5R3j4g==}
@@ -9013,7 +9013,7 @@ snapshots:
     dependencies:
       postcss-selector-parser: 7.1.1
 
-  '@docfy/core@0.8.0':
+  '@docfy/core@0.11.0':
     dependencies:
       debug: 4.4.3
       fast-glob: 3.3.3
@@ -9038,9 +9038,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@docfy/ember@0.8.5(@babel/core@7.29.0)(@glint/template@1.7.7)':
+  '@docfy/ember-cli@0.11.0(@babel/core@7.29.0)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))(webpack@5.106.2)':
     dependencies:
-      '@docfy/core': 0.8.0
+      '@docfy/core': 0.11.0
+      '@docfy/ember': 0.11.0(@babel/core@7.29.0)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))
       broccoli-bridge: 1.0.0
       broccoli-file-creator: 2.1.1
       broccoli-funnel: 3.0.8
@@ -9050,15 +9051,27 @@ snapshots:
       broccoli-source: 3.0.1
       calculate-cache-key-for-tree: 2.0.0
       debug: 4.4.3
+      ember-auto-import: 2.13.1(@glint/template@1.7.7)(webpack@5.106.2)
       ember-cli-babel: 8.3.1(@babel/core@7.29.0)
       ember-cli-htmlbars: 6.3.0
-      ember-cli-typescript: 4.2.1
-      ember-get-config: 1.1.0(@babel/core@7.29.0)(@glint/template@1.7.7)
       mdast-util-to-string: 2.0.0
       remark-hbs: 0.4.1
       unist-builder: 2.0.3
       unist-util-find: 1.0.4
       unist-util-visit: 2.0.3
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@glint/template'
+      - ember-source
+      - supports-color
+      - webpack
+
+  '@docfy/ember@0.11.0(@babel/core@7.29.0)(@glint/template@1.7.7)(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))':
+    dependencies:
+      '@embroider/addon-shim': 1.10.2
+      '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
+      decorator-transforms: 2.3.2(@babel/core@7.29.0)
+      ember-source: 6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5)
     transitivePeerDependencies:
       - '@babel/core'
       - '@glint/template'
@@ -12343,21 +12356,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ember-cli-typescript@4.2.1:
-    dependencies:
-      ansi-to-html: 0.6.15
-      broccoli-stew: 3.0.0
-      debug: 4.4.3
-      execa: 4.1.0
-      fs-extra: 9.1.0
-      resolve: 1.22.11
-      rsvp: 4.8.5
-      semver: 7.7.4
-      stagehand: 1.0.1
-      walk-sync: 2.2.0
-    transitivePeerDependencies:
-      - supports-color
-
   ember-cli-typescript@5.3.0:
     dependencies:
       ansi-to-html: 0.6.15
@@ -12763,15 +12761,6 @@ snapshots:
     optionalDependencies:
       ember-cli-mirage: 3.0.4(@ember-data/model@5.3.13(39715e1ce7624b4e77b13e2b261bdad6))(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glint/template@1.7.7)(ember-qunit@9.0.4(@babel/core@7.29.0)(@ember/test-helpers@5.4.1(@babel/core@7.29.0)(@glint/template@1.7.7))(@glint/template@1.7.7)(qunit@2.25.0))(ember-source@6.12.0(@glimmer/component@2.1.1)(rsvp@4.8.5))(miragejs@0.1.48)(webpack@5.106.2)
       miragejs: 0.1.48
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@glint/template'
-      - supports-color
-
-  ember-get-config@1.1.0(@babel/core@7.29.0)(@glint/template@1.7.7):
-    dependencies:
-      '@embroider/macros': 1.20.2(@babel/core@7.29.0)(@glint/template@1.7.7)
-      ember-cli-babel: 7.26.11
     transitivePeerDependencies:
       - '@babel/core'
       - '@glint/template'
