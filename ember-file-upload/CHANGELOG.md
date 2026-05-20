@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2026-05-20)
+
+* ember-file-upload 10.1.0 (minor)
+
+#### :rocket: Enhancement
+* `ember-file-upload`
+  * [#1135](https://github.com/adopted-ember-addons/ember-file-upload/pull/1135) Drop usage of @ember/runloop ([@gilest](https://github.com/gilest))
+
+#### :house: Internal
+* [#1173](https://github.com/adopted-ember-addons/ember-file-upload/pull/1173) Pin ember-cli-htmlbars to 7.0.1 for ember-source v7 support ([@gilest](https://github.com/gilest))
+* [#1170](https://github.com/adopted-ember-addons/ember-file-upload/pull/1170) Update website project blueprint to @ember-tooling/classic-build-app-blueprint ([@gilest](https://github.com/gilest))
+* [#1167](https://github.com/adopted-ember-addons/ember-file-upload/pull/1167) Update docs site to latest docfy version ([@gilest](https://github.com/gilest))
+* [#1157](https://github.com/adopted-ember-addons/ember-file-upload/pull/1157) Add a website test run to the CI matrix ([@gilest](https://github.com/gilest))
+* [#1152](https://github.com/adopted-ember-addons/ember-file-upload/pull/1152) Remove .tool-versions to restore docs site deployment ([@gilest](https://github.com/gilest))
+* [#1151](https://github.com/adopted-ember-addons/ember-file-upload/pull/1151) Update ember-cli project blueprints to `@ember-tooling/classic-build-app-blueprint` ([@gilest](https://github.com/gilest))
+* [#1149](https://github.com/adopted-ember-addons/ember-file-upload/pull/1149) Restore docs site by reverting an incompatible package update ([@gilest](https://github.com/gilest))
+
+#### Committers: 1
+- Giles Thompson ([@gilest](https://github.com/gilest))
+
 ## Release (2026-04-03)
 
 * ember-file-upload 10.0.0 (major)
