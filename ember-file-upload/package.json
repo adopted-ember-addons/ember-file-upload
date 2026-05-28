@@ -86,7 +86,7 @@
     "prettier": "^3.8.1",
     "rollup": "^4.60.1",
     "tracked-built-ins": "^4.1.2",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.0",
     "webpack": "^5.105.4"
   },
   "peerDependencies": {
