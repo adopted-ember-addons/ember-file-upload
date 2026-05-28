@@ -38,7 +38,7 @@
     "@eslint/js": "^9.39.4",
     "@glimmer/component": "^2.1.1",
     "@glimmer/tracking": "^1.1.2",
-    "@picocss/pico": "^1.5.13",
+    "@picocss/pico": "^2.0.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^9.2.1",
     "date-fns": "^4.1.0",
