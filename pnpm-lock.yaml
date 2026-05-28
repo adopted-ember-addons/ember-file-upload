@@ -494,8 +494,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       remark-autolink-headings:
-        specifier: ^6.0.1
-        version: 6.1.0
+        specifier: ^8.0.0
+        version: 8.0.0
       remark-code-titles:
         specifier: ^0.1.2
         version: 0.1.2
@@ -2236,9 +2236,6 @@ packages:
   '@types/glob@9.0.0':
     resolution: {integrity: sha512-00UxlRaIUvYm4R4W9WYkN8/J+kV8fmOQ7okeH6YFtGWFMt3odD45tpG5yA5wnL7HE6lLgjaTW5n14ju2hl2NNA==}
     deprecated: This is a stub types definition. glob provides its own type definitions, so you do not need this installed.
-
-  '@types/hast@2.3.10':
-    resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -6370,8 +6367,9 @@ packages:
     resolution: {integrity: sha512-WzP+O+XRF4AqhTDQK84FovY+TxHyC8J7QWoOwxnrvVjyHns417l1FUldboRhBYua5Pej6Yg/2jH1dEH2MRNHeA==}
     hasBin: true
 
-  remark-autolink-headings@6.1.0:
-    resolution: {integrity: sha512-oeMSIfjaNboWPDVKahQAjF8iJ8hsz5aI8KFzAmmBdznir7zBvkgUjYE/BrpWvd02DCf/mSQ1IklznLkl3dVvZQ==}
+  remark-autolink-headings@8.0.0:
+    resolution: {integrity: sha512-vzbpYmQsTLuwlmbnET5UK1sceR6qGRtb1vFBpc4uOZ+9j2vysSBryPDp6Lw2VfjFQTH73bHJJDTNB1LYOFrNpg==}
+    deprecated: 'Deprecated: use `rehype-autolink-headings`'
 
   remark-code-titles@0.1.2:
     resolution: {integrity: sha512-KsHQbaI4FX8Ozxqk7YErxwmBiveUqloKuVqyPG2YPLHojpgomodWgRfG4B+bOtmn/5bfJ8khw4rR0lvgVFl2Uw==}
@@ -9648,10 +9646,6 @@ snapshots:
   '@types/glob@9.0.0':
     dependencies:
       glob: 13.0.6
-
-  '@types/hast@2.3.10':
-    dependencies:
-      '@types/unist': 2.0.11
 
   '@types/json-schema@7.0.15': {}
 
@@ -14907,12 +14901,7 @@ snapshots:
       - bluebird
       - supports-color
 
-  remark-autolink-headings@6.1.0:
-    dependencies:
-      '@types/hast': 2.3.10
-      extend: 3.0.2
-      unified: 9.2.2
-      unist-util-visit: 2.0.3
+  remark-autolink-headings@8.0.0: {}
 
   remark-code-titles@0.1.2:
     dependencies:
