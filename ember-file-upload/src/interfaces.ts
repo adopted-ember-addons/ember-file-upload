@@ -120,6 +120,20 @@ export interface FileDropzoneSignature {
     allowUploadsFromWebsites?: boolean;
 
     /**
+     * Whether users can drop folders into the dropzone.
+     *
+     * When enabled, dropped directories are traversed recursively and all
+     * contained files are added to the queue. Each resulting `UploadFile`
+     * exposes its location within the dropped directory via `relativePath`.
+     *
+     * Hidden files (e.g. `.DS_Store`) are not filtered out — use `filter`
+     * if your application needs to exclude them.
+     *
+     * @defaultValue false
+     * */
+    allowFolderDrop?: boolean;
+
+    /**
      * This is the type of cursor that should
      * be shown when a drag event happens.
      *

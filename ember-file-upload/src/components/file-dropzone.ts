@@ -2,6 +2,8 @@ import Component from '@glimmer/component';
 import * as s from '@ember/service';
 import { getOwner } from '@ember/application';
 import DataTransferWrapper from '../system/data-transfer-wrapper.ts';
+import type { FileWithPath } from '../system/directory-reader.ts';
+import { waitForPromise } from '@ember/test-waiters';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { UploadFile } from '../upload-file.ts';
@@ -136,7 +138,7 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
   }
 
   @action
-  didDrop(event: FileUploadDragEvent) {
+  async didDrop(event: FileUploadDragEvent) {
     if (this.dataTransferWrapper) {
       this.dataTransferWrapper.dataTransfer = event.dataTransfer;
     }
@@ -221,23 +223,50 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
     // }
 
     if (this.dataTransferWrapper) {
-      const addedFiles = this.addFiles(this.files);
-      this.args.onDrop?.(addedFiles, this.dataTransferWrapper);
+      const dataTransferWrapper = this.dataTransferWrapper;
 
-      this.active = false;
-      this.dataTransferWrapper = undefined;
+      let files: FileWithPath[] = [];
+      try {
+        // `getFilesWithPaths` must be called synchronously within the drop
+        // event dispatch — browsers neuter `DataTransferItem`s once the
+        // handler yields
+        files = this.args.allowFolderDrop
+          ? await waitForPromise(dataTransferWrapper.getFilesWithPaths())
+          : this.files.map((file) => ({ file, relativePath: '' }));
+      } catch (error) {
+        // Never leave the dropzone in a stuck `active` state
+        console.error('ember-file-upload: error reading dropped files', error);
+      } finally {
+        if (!this.isDestroyed) {
+          this.active = false;
+          this.dataTransferWrapper = undefined;
+        }
+      }
+
+      if (this.isDestroyed) {
+        return;
+      }
+
+      if (!this.multiple) {
+        files = files.slice(0, 1);
+      }
+
+      const addedFiles = this.addFiles(files);
+      this.args.onDrop?.(addedFiles, dataTransferWrapper);
     }
   }
 
-  addFiles(files: File[]) {
+  addFiles(files: FileWithPath[]) {
     const addedFiles = [];
-    for (const file of files) {
+    const rawFiles = files.map(({ file }) => file);
+    for (const [index, { file, relativePath }] of files.entries()) {
       if (file instanceof File) {
-        const uploadFile = new UploadFile(file, FileSource.DragAndDrop);
-        if (
-          this.args.filter &&
-          !this.args.filter(file, files, files.indexOf(file))
-        ) {
+        const uploadFile = new UploadFile(
+          file,
+          FileSource.DragAndDrop,
+          relativePath,
+        );
+        if (this.args.filter && !this.args.filter(file, rawFiles, index)) {
           continue;
         }
         this.queue.add(uploadFile);

@@ -12,6 +12,34 @@ module('Unit | UploadFile', function (hooks) {
   setupTest(hooks);
   setupMirage(hooks);
 
+  test('relativePath returns the explicit path when provided', function (assert) {
+    const file = new UploadFile(
+      new File([], 'deck.pdf'),
+      FileSource.DragAndDrop,
+      'reports/q3/deck.pdf',
+    );
+
+    assert.strictEqual(file.relativePath, 'reports/q3/deck.pdf');
+  });
+
+  test('relativePath falls back to webkitRelativePath for directory-picker files', function (assert) {
+    const nativeFile = new File([], 'deck.pdf');
+    // `webkitRelativePath` is read-only and can only be set by the browser
+    // for files selected via an input with the `webkitdirectory` attribute
+    Object.defineProperty(nativeFile, 'webkitRelativePath', {
+      value: 'reports/q3/deck.pdf',
+    });
+    const file = new UploadFile(nativeFile, FileSource.Browse);
+
+    assert.strictEqual(file.relativePath, 'reports/q3/deck.pdf');
+  });
+
+  test('relativePath is empty for plain files', function (assert) {
+    const file = new UploadFile(new File([], 'deck.pdf'), FileSource.Browse);
+
+    assert.strictEqual(file.relativePath, '');
+  });
+
   test('it can upload without a `queue`', async function (this: MirageTestContext, assert) {
     this.server.post(
       '/image',
