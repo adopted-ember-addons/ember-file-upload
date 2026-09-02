@@ -40,7 +40,8 @@ import FileDropzone from 'ember-file-upload/components/file-dropzone';
 | -------------------- | ------------------------------------------------------- | --------- | ------------- |
 | `@queue`      | Queue which files will be added to. | `Queue`  |    |
 | `@cursor`      | Type of cursor that should be shown when a drag event happens. Corresponds to [DataTransfer.dropEffect](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect). | `string`  | `'copy'`    |
-| `@filter`      | Optionally provide this to validate dropped files before adding them to the queue. | `(file: File, files: File[], index: number) => boolean`  |   |
+| `@allowFolderDrop` | Allow users to drop folders. Dropped directories are traversed recursively and every contained file is added to the queue, with its location exposed via `UploadFile.relativePath`. Hidden files (e.g. `.DS_Store`) are not filtered out – use `@filter` for that. | `boolean` | `false` |
+| `@filter`      | Optionally provide this to validate dropped files before adding them to the queue. `relativePath` is the file's path within a dropped directory, or an empty string. | `(file: File, files: File[], index: number, relativePath: string) => boolean`  |   |
 | `@onDragEnter`      | Called when files have entered the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
 | `@onDragLeave`      | Called when files have left the dropzone. | `(files: File[], dataTransfer: DataTransferWrapper) => void`  |   |
 | `@onDrop`           | Called when file have been dropped on the dropzone. | `(files: UploadFile[], dataTransfer: DataTransferWrapper) => void`  |   |

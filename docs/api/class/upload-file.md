@@ -84,6 +84,7 @@ An object which may be passed as an optional second argument to `upload()` and `
 | `rate`      | Current time in ms it is taking to upload 1 byte.                                                                           | `number` |
 | `state`     | The current state that the file is in.                                                                                      | `string` |
 | `source`    | The source of the file. This is useful for applications that want to gather analytics about how users upload their content. | `string` |
+| `relativePath` | Path of the file within the directory it was added from, including the directory name itself, e.g. `reports/q3/deck.pdf`. Populated for folder drops on a `<FileDropzone @allowFolderDrop={{true}}>` and for files chosen via an input with the `webkitdirectory` attribute. Empty string otherwise. | `string` |
 
 ## Methods
 

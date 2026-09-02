@@ -16,12 +16,29 @@ import { estimatedRate } from './system/rate.ts';
 export class UploadFile {
   file: File;
   #source: FileSource;
+  #relativePath?: string;
 
   queue?: Queue;
 
-  constructor(file: File, source: FileSource) {
+  constructor(file: File, source: FileSource, relativePath?: string) {
     this.file = file;
     this.#source = source;
+    this.#relativePath = relativePath;
+  }
+
+  /**
+   * Path of the file relative to the directory it was added from,
+   * including the directory name itself and the file name —
+   * e.g. `reports/q3/deck.pdf`.
+   *
+   * Populated when a directory is dropped on a `FileDropzone` with
+   * `@allowFolderDrop={{true}}`, or when files are selected via an input
+   * with the `webkitdirectory` attribute (via `File.webkitRelativePath`).
+   *
+   * Empty string when the file was not added as part of a directory.
+   */
+  get relativePath(): string {
+    return this.#relativePath || this.file.webkitRelativePath || '';
   }
 
   /**
