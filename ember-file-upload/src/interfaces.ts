@@ -23,7 +23,12 @@ export interface SelectFileSignature {
   Args: {
     Positional: [];
     Named: {
-      filter?: (file: File, files: File[], index: number) => boolean;
+      filter?: (
+        file: File,
+        files: File[],
+        index: number,
+        relativePath: string,
+      ) => boolean;
       onFilesSelected?: (files: UploadFile[]) => void;
     };
   };
@@ -154,7 +159,20 @@ export interface FileDropzoneSignature {
     multiple?: boolean;
 
     // actions
-    filter?: (file: File, files: File[], index: number) => boolean;
+    /**
+     * Optionally provide this to validate dropped files before adding them
+     * to the queue.
+     *
+     * `relativePath` is the file's path within a dropped directory (see
+     * `allowFolderDrop`), or an empty string for files not dropped as part
+     * of a directory.
+     */
+    filter?: (
+      file: File,
+      files: File[],
+      index: number,
+      relativePath: string,
+    ) => boolean;
 
     /**
      * Called when files have entered the dropzone.

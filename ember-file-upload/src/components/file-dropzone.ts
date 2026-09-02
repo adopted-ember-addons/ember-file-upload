@@ -266,7 +266,10 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
           FileSource.DragAndDrop,
           relativePath,
         );
-        if (this.args.filter && !this.args.filter(file, rawFiles, index)) {
+        if (
+          this.args.filter &&
+          !this.args.filter(file, rawFiles, index, relativePath)
+        ) {
           continue;
         }
         this.queue.add(uploadFile);

@@ -8,54 +8,6 @@ Uploads can be managed through queues and continue in the background, even after
 
 [View docs](https://ember-file-upload.pages.dev)
 
-## Folder uploads (fork feature)
-
-> This fork adds folder upload support ahead of upstream. See
-> [adopted-ember-addons/ember-file-upload#1066](https://github.com/adopted-ember-addons/ember-file-upload/pull/1066)
-> for the upstream discussion.
-
-Enable folder drops on a dropzone with `@allowFolderDrop`:
-
-```hbs
-<FileDropzone @queue={{queue}} @allowFolderDrop={{true}} as |dropzone|>
-  ...
-</FileDropzone>
-```
-
-Dropped directories are traversed recursively and every contained file is
-added to the queue. Each `UploadFile` exposes `relativePath` — the file's
-location within the dropped directory, including the directory name itself,
-e.g. `reports/q3/deck.pdf`. For files not dropped as part of a directory,
-`relativePath` is an empty string.
-
-`relativePath` is also populated for files selected via a folder picker
-(`<input type="file" webkitdirectory multiple>`), using the browser's native
-`File.webkitRelativePath`.
-
-Hidden files (e.g. `.DS_Store`) are **not** filtered out by the addon —
-exclude them with `@filter` if your application needs to:
-
-```js
-filter = (file) => !file.name.startsWith('.');
-```
-
-In tests, simulate a folder drop with the `dragAndDropDirectory` helper:
-
-```js
-import { dragAndDropDirectory } from 'ember-file-upload/test-support';
-
-await dragAndDropDirectory('.dropzone', {
-  directories: [
-    {
-      name: 'reports',
-      files: [new File([], 'summary.pdf')],
-      directories: [{ name: 'q3', files: [new File([], 'deck.pdf')] }],
-    },
-  ],
-  files: [new File([], 'loose.txt')], // dropped alongside the directory
-});
-```
-
 ## Compatibility
 
 * Ember.js 4.4 or above

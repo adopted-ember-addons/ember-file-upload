@@ -242,9 +242,14 @@ module('Integration | Component | FileDropzone', function (hooks) {
     ]);
   });
 
-  test('allowFolderDrop=true applies filter to files from directories', async function (this: LocalTestContext, assert) {
+  test('allowFolderDrop=true applies filter to files from directories, passing relative paths', async function (this: LocalTestContext, assert) {
     const queue = this.queue;
-    const filter = (file: File) => !file.name.startsWith('.');
+    const filter = (
+      file: File,
+      _files: File[],
+      _index: number,
+      relativePath: string,
+    ) => !file.name.startsWith('.') && !relativePath.includes('__MACOSX/');
     const onDrop = (files: UploadFile[]) =>
       files.forEach((file) => assert.step(file.relativePath));
 
@@ -265,6 +270,9 @@ module('Integration | Component | FileDropzone', function (hooks) {
         {
           name: 'folder',
           files: [new File([], '.DS_Store'), new File([], 'photo.jpg')],
+          directories: [
+            { name: '__MACOSX', files: [new File([], 'meta.bin')] },
+          ],
         },
       ],
     });
