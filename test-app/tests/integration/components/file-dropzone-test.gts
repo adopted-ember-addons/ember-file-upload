@@ -367,6 +367,93 @@ module('Integration | Component | FileDropzone', function (hooks) {
     assert.verifySteps(['drop:0']);
   });
 
+  test('allowFolderDrop=true does not reset a later drag while a slow folder read is pending', async function (this: LocalTestContext, assert) {
+    const queue = this.queue;
+    const onDrop = (files: UploadFile[]) =>
+      files.forEach((file) => assert.step(file.relativePath || file.name));
+
+    await render(
+      <template>
+        <FileDropzone
+          class="test-dropzone"
+          @queue={{queue}}
+          @allowFolderDrop={{true}}
+          @onDrop={{onDrop}}
+          as |dropzone|
+        >
+          <div class="active">{{dropzone.active}}</div>
+        </FileDropzone>
+      </template>,
+    );
+
+    // A directory whose entries are only delivered once the test says so
+    let deliverEntries = () => {};
+    const slowDirectoryItem = {
+      kind: 'file',
+      getAsFile: () => null,
+      webkitGetAsEntry: () => ({
+        isFile: false,
+        isDirectory: true,
+        name: 'slow',
+        fullPath: '/slow',
+        createReader: () => {
+          let delivered = false;
+          return {
+            readEntries: (callback: (entries: unknown[]) => void) => {
+              if (delivered) {
+                callback([]);
+                return;
+              }
+              delivered = true;
+              deliverEntries = () =>
+                callback([
+                  {
+                    isFile: true,
+                    isDirectory: false,
+                    name: 'a.txt',
+                    fullPath: '/slow/a.txt',
+                    file: (resolve: (file: File) => void) =>
+                      resolve(new File([], 'a.txt')),
+                  },
+                ]);
+            },
+          };
+        },
+      }),
+    };
+    const slowDrop = { types: ['Files'], items: [slowDirectoryItem] };
+    const fastDrop = { types: ['Files'], files: [new File([], 'fast.txt')] };
+    const nextTick = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+    await triggerEvent('.test-dropzone', 'dragenter', { dataTransfer: slowDrop });
+
+    // Start the first drop without waiting for it — the folder read is
+    // pending, so `settled()` (and therefore `triggerEvent`) blocks until
+    // `deliverEntries` is called
+    const firstDrop = triggerEvent('.test-dropzone', 'drop', {
+      dataTransfer: slowDrop,
+    });
+    await nextTick();
+
+    // A second drag enters while the first drop is still being read
+    const secondDragEnter = triggerEvent('.test-dropzone', 'dragenter', {
+      dataTransfer: fastDrop,
+    });
+    await nextTick();
+
+    deliverEntries();
+    await Promise.all([firstDrop, secondDragEnter]);
+
+    assert
+      .dom('.active')
+      .hasText('true', 'second drag stays active after the first drop settles');
+
+    await triggerEvent('.test-dropzone', 'drop', { dataTransfer: fastDrop });
+
+    assert.dom('.active').hasText('false');
+    assert.verifySteps(['slow/a.txt', 'fast.txt']);
+  });
+
   // Check for regression of: https://github.com/adopted-ember-addons/ember-file-upload/issues/446
   test('regression: drop events from other DOM nodes are not prevented', async function (this: LocalTestContext, assert) {
     const queue = this.queue;

@@ -34,6 +34,16 @@ module('Unit | UploadFile', function (hooks) {
     assert.strictEqual(file.relativePath, 'reports/q3/deck.pdf');
   });
 
+  test('relativePath keeps an explicitly empty path over webkitRelativePath', function (assert) {
+    const nativeFile = new File([], 'deck.pdf');
+    Object.defineProperty(nativeFile, 'webkitRelativePath', {
+      value: 'reports/q3/deck.pdf',
+    });
+    const file = new UploadFile(nativeFile, FileSource.DragAndDrop, '');
+
+    assert.strictEqual(file.relativePath, '');
+  });
+
   test('relativePath is empty for plain files', function (assert) {
     const file = new UploadFile(new File([], 'deck.pdf'), FileSource.Browse);
 

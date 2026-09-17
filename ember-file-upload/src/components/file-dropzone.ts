@@ -237,7 +237,12 @@ export default class FileDropzoneComponent extends Component<FileDropzoneSignatu
         // Never leave the dropzone in a stuck `active` state
         console.error('ember-file-upload: error reading dropped files', error);
       } finally {
-        if (!this.isDestroyed) {
+        // A later drag may have replaced the wrapper while the folder read
+        // was pending — only reset state that still belongs to this drop
+        if (
+          !this.isDestroyed &&
+          this.dataTransferWrapper === dataTransferWrapper
+        ) {
           this.active = false;
           this.dataTransferWrapper = undefined;
         }
