@@ -1,4 +1,8 @@
 import type { FileUploadDragEvent } from '../interfaces.ts';
+import {
+  readDataTransferItems,
+  type FileWithPath,
+} from './directory-reader.ts';
 
 const getDataSupport = {};
 
@@ -41,6 +45,24 @@ export default class DataTransferWrapper {
 
   get filesOrItems() {
     return this.files.length ? this.files : this.items;
+  }
+
+  /**
+   * Read all dropped files, recursing into dropped directories.
+   *
+   * Must be called synchronously from the `drop` event handler — browsers
+   * neuter `DataTransferItem`s once the handler yields.
+   */
+  getFilesWithPaths(): Promise<FileWithPath[]> {
+    const items = Array.from(this.dataTransfer?.items ?? []);
+
+    if (items.length) {
+      return readDataTransferItems(items);
+    }
+
+    return Promise.resolve(
+      this.files.map((file) => ({ file, relativePath: '' })),
+    );
   }
 
   get files() {

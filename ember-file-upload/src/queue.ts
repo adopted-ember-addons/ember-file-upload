@@ -224,7 +224,13 @@ export class Queue {
         const selectedFiles: UploadFile[] = [];
 
         for (const file of files) {
-          if (filter && !filter?.(file, files, files.indexOf(file))) {
+          // Populated by the browser for inputs with the `webkitdirectory`
+          // attribute, empty otherwise
+          const relativePath = file.webkitRelativePath ?? '';
+          if (
+            filter &&
+            !filter(file, files, files.indexOf(file), relativePath)
+          ) {
             continue;
           }
 

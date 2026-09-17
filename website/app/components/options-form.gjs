@@ -31,6 +31,7 @@ const DEFAULT_HEADERS = {
 
 export const DEFAULT_OPTIONS = {
   type: UPLOAD_TYPES.simulated,
+  allowFolderDrop: false,
   // Simulated
   rate: DEFAULT_RATE,
   // HTTP
@@ -50,6 +51,7 @@ export default class OptionsFormComponent extends Component {
     const entries = Object.fromEntries(formData.entries());
     const uploadOptions = {
       ...entries,
+      allowFolderDrop: entries.allowFolderDrop === 'on',
       rate: parseInt(entries.rate, 10),
       headers: JSON.parse(entries.headers),
     };
@@ -80,6 +82,15 @@ export default class OptionsFormComponent extends Component {
           </div>
         {{/each}}
       </fieldset>
+
+      <label>
+        <input
+          type="checkbox"
+          name="allowFolderDrop"
+          checked={{@uploadOptions.allowFolderDrop}}
+        />
+        Allow folder drops
+      </label>
 
       <label style={{this.toggleVisibility UPLOAD_TYPES.simulated}}>
         Simulated speed:
