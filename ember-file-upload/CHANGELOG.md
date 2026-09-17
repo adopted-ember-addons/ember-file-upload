@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2026-05-20)
 
 * ember-file-upload 10.1.0 (minor)
