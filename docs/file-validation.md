@@ -26,6 +26,14 @@ See the example below where the same validation callback is used for both file-s
 
 Commonly validated file properties are `type`, `name` and `size`. For more details see the [MDN File reference](https://developer.mozilla.org/en-US/docs/Web/API/File).
 
+The filter receives four arguments: the `File`, all chosen files, the file's index, and its `relativePath` within a dropped or selected directory (an empty string otherwise). Use `relativePath` to exclude whole subdirectories when [folder drops](file-dropzone.md#folder-drops) are enabled:
+
+```js
+validateFile(file, files, index, relativePath) {
+  return !file.name.startsWith('.') && !relativePath.includes('__MACOSX/');
+}
+```
+
 ```hbs
 {{#let (file-queue name="photos") as |queue|}}
   <FileDropzone

@@ -47,6 +47,25 @@ module('Acceptance | drag and drop upload notes', function(hooks) {
 });
 ```
 
+To simulate a user dropping folders onto a `<FileDropzone @allowFolderDrop={{true}}>`, use the `dragAndDropDirectory` helper. Directories may be nested arbitrarily deep, and loose files can be dropped alongside them.
+
+```js
+import { dragAndDropDirectory } from 'ember-file-upload/test-support';
+
+await dragAndDropDirectory('.file-dropzone', {
+  directories: [
+    {
+      name: 'reports',
+      files: [new File([], 'summary.pdf')],
+      directories: [{ name: 'q3', files: [new File([], 'deck.pdf')] }],
+    },
+  ],
+  files: [new File([], 'notes.txt')],
+});
+// Files added to the queue have `relativePath` of
+// 'reports/summary.pdf', 'reports/q3/deck.pdf' and '' (for notes.txt)
+```
+
 ## Mirage `upload` handler
 
 A mirage handler is provided which can realistically simulate file uploads, including progress events.

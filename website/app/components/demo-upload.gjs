@@ -122,6 +122,7 @@ export default class DemoUploadComponent extends Component {
     {{#let (fileQueue name="demo" onFileAdded=this.addToQueue) as |queue|}}
       <FileDropzone
         @queue={{queue}}
+        @allowFolderDrop={{this.uploadOptions.allowFolderDrop}}
         class="demo-upload__dropzone"
         as |dropzone|
       >
@@ -139,7 +140,9 @@ export default class DemoUploadComponent extends Component {
           Estimated time remaining:
           {{this.estimatedTimeRemaining queue}}
         {{else if dropzone.supported}}
-          Or drag and drop files here to upload them
+          Or drag and drop files
+          {{if this.uploadOptions.allowFolderDrop "or folders"}}
+          here to upload them
         {{/if}}
       </FileDropzone>
 
@@ -205,7 +208,7 @@ export default class DemoUploadComponent extends Component {
         <tbody>
           {{#each this.files as |file|}}
             <tr>
-              <td>{{file.name}}</td>
+              <td>{{if file.relativePath file.relativePath file.name}}</td>
               <td>{{file.type}}</td>
               <td>{{localeNumber file.size}} bytes</td>
               <td>{{file.source}}</td>
