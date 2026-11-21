@@ -18,7 +18,7 @@
     "website": "pnpm --filter website start"
   },
   "devDependencies": {
-    "npm-run-all2": "^5.0.2",
+    "npm-run-all2": "^9.0.0",
     "release-plan": "^0.18.0"
   },
   "packageManager": "pnpm@10.33.4",
